@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/splash/splash_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 
-import '../../utils/Prefs.dart';
 import '../../utils/res/AppIcons.dart';
+import '../../utils/res/colors/hex_color.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,65 +31,72 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
       backgroundColor: context.resources.color.background,
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const SizedBox(),
-          Center(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Hero(
-                  tag: "splash",
-                  child: Image.asset(AppIcons.logo, width: Get.width / 2),
+                const SizedBox(),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Hero(
+                        tag: "splash",
+                        child: Image.asset(AppIcons.logo, width: Get.width / 2),
+                      ),
+
+                      SizedBox(height: 10),
+
+                      Image.asset(AppIcons.name, width: Get.width / 2),
+
+                      SizedBox(height: 24),
+
+                      Obx(
+                        () => dataController.isBannersLoading.value
+                            ? ProgressBar()
+                            : SizedBox(),
+                      ),
+                    ],
+                  ),
                 ),
-
-                SizedBox(height: 10),
-
-                Image.asset(AppIcons.name, width: Get.width / 2),
-
-                SizedBox(height: 24),
-
-                Obx(
-                  () => dataController.isBannersLoading.value
-                      ? ProgressBar()
-                      : SizedBox(),
-                ),
+                const SizedBox(),
               ],
             ),
           ),
-          const SizedBox(),
-        ],
+        ),
       ),
     );
   }
 
   Future<void> showSplash() async {
-    if (!Prefs.getFirstRun) {
-      Future.delayed(const Duration(milliseconds: 2000), () async {
-        if (Prefs.getLoggedIn) {
-          // Get.offAllNamed(RouteConstant.dashboardScreen);
-        } else {
-          // Get.offAllNamed(RouteConstant.introScreen);
-        }
-      });
-    }
+    Future.delayed(const Duration(milliseconds: 2000), () async {
+      // if (!Prefs.getOnboardingCompleted) {
+        Get.offAllNamed(RouteConstant.onboardingScreen);
+      // } else if (Prefs.getLoggedIn) {
+      //   // Get.offAllNamed(RouteConstant.dashboardScreen);
+      // } else {
+      //   // Get.offAllNamed(RouteConstant.introScreen);
+      // }
+    });
   }
 
   void changeStatusBarColor() {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        // systemNavigationBarColor:
-        //     Prefs.isDarkMode ? HexColor('#181819') : HexColor('#FFFFFF'),
-        // // navigation bar color
-        // statusBarColor:
-        //     Prefs.isDarkMode ? HexColor('#28282C') : HexColor('#FFFFFF'),
-        // statusBarBrightness:
-        //     !Prefs.isDarkMode ? Brightness.dark : Brightness.light,
-        // statusBarIconBrightness:
-        //     !Prefs.isDarkMode ? Brightness.dark : Brightness.light,
+        systemNavigationBarColor:
+           Get.context!.resources.color.colorPrimary,
+        // navigation bar color
+        statusBarColor:
+           HexColor('#FFFFFF'),
+        statusBarBrightness:
+            Brightness.dark ,
+        statusBarIconBrightness:
+             Brightness.dark,
       ),
     );
   }

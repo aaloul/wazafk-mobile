@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:wazafak_app/screens/splash/splash_screen.dart';
 import 'package:wazafak_app/utils/DismissKeyboard.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
-import 'package:toastification/toastification.dart';
 
 import 'constants/get_pages_constant.dart';
 import 'constants/route_constant.dart';
@@ -23,15 +22,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DismissKeyboard(
-      child: ToastificationWrapper(
-        child: GetMaterialApp(
-          title: 'Wazafak',
-          debugShowCheckedModeBanner: false,
-          locale: Locale(Prefs.getLanguage),
-          getPages: getPages,
-          initialRoute: RouteConstant.splashScreen,
-          home: const SplashScreen(),
-        ),
+      child: GetMaterialApp(
+        title: 'Wazafak',
+        debugShowCheckedModeBanner: false,
+        locale: Locale(Prefs.getLanguage),
+        getPages: getPages,
+        initialRoute: RouteConstant.splashScreen,
+        home: const SplashScreen(),
       ),
     );
   }

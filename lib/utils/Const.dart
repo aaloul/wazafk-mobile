@@ -26,4 +26,5 @@ class Const {
   static const String PHONE = 'PHONE';
   static const String ID = 'ID';
   static const String START_BANNERS = 'START_BANNERS';
+  static const String ONBOARDING_COMPLETED = 'ONBOARDING_COMPLETED';
 }

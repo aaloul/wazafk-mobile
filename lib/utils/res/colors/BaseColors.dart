@@ -12,6 +12,10 @@ abstract class BaseColors {
 
   Color get colorGrey;
 
+  Color get colorGrey2;
+
+  Color get colorGrey3;
+
   Color get colorWhite;
 
   Color get colorGreen;

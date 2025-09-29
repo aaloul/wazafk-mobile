@@ -13,7 +13,7 @@ String bannersResponseToJson(BannersResponse data) =>
 class BannersResponse {
   bool? success;
   String? message;
-  List<Banner>? data;
+  List<BoardingBanner>? data;
 
   BannersResponse({this.success, this.message, this.data});
 
@@ -23,7 +23,7 @@ class BannersResponse {
         message: json["message"],
         data: json["data"] == null
             ? []
-            : List<Banner>.from(json["data"]!.map((x) => Banner.fromJson(x))),
+            : List<BoardingBanner>.from(json["data"]!.map((x) => BoardingBanner.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,7 +35,7 @@ class BannersResponse {
   };
 }
 
-class Banner {
+class BoardingBanner {
   String? hashcode;
   String? title;
   String? description;
@@ -45,7 +45,7 @@ class Banner {
   int? order;
   int? status;
 
-  Banner({
+  BoardingBanner({
     this.hashcode,
     this.title,
     this.description,
@@ -56,7 +56,7 @@ class Banner {
     this.status,
   });
 
-  factory Banner.fromJson(Map<String, dynamic> json) => Banner(
+  factory BoardingBanner.fromJson(Map<String, dynamic> json) => BoardingBanner(
     hashcode: json["hashcode"],
     title: json["title"],
     description: json["description"],

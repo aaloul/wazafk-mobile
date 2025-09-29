@@ -4,8 +4,12 @@ class Endpoints {
 
   static const base_url_prod = 'https://wazafk.lcp.website/api/app/';
 
-  //Authentication
+  //APP
   static const banners = 'banners';
+  static const interestOptions = 'interestOptions';
+
+
+
 }
 
 class Params {

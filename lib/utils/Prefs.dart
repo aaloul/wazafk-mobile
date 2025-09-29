@@ -101,20 +101,24 @@ class Prefs {
   static void setRemoteVersion(String value) =>
       box.write(Const.REMOTE_VERSION, value);
 
-  static List<Banner> get getStartBanners {
-    List<Banner> qs = [];
+  static List<BoardingBanner> get getStartBanners {
+    List<BoardingBanner> qs = [];
 
     qs = (json.decode(box.read(Const.START_BANNERS)) as List)
-        .map((data) => Banner.fromJson(data))
+        .map((data) => BoardingBanner.fromJson(data))
         .toList();
 
     return qs ?? [];
   }
 
-  static void setStartBanners(List<Banner> listNeedToSave) {
+  static void setStartBanners(List<BoardingBanner> listNeedToSave) {
     var json = jsonEncode(listNeedToSave.map((e) => e.toJson()).toList());
     box.write(Const.START_BANNERS, json.toString());
   }
+
+  static bool get getOnboardingCompleted => box.read(Const.ONBOARDING_COMPLETED) ?? false;
+
+  static void setOnboardingCompleted(bool value) => box.write(Const.ONBOARDING_COMPLETED, value);
 
   //
   // static void saveUser(User user) {
