@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wazafak_app/repository/app/banners_repository.dart';
 
-import '../../utils/Prefs.dart';
-import '../../utils/utils.dart';
+import '../../../utils/Prefs.dart';
+import '../../../utils/utils.dart';
 
 class SplashController extends GetxController {
   final BannersRepository _bannersRepository = BannersRepository();

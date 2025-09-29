@@ -8,7 +8,7 @@ import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
-import '../../model/BannersResponse.dart';
+import '../../../model/BannersResponse.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

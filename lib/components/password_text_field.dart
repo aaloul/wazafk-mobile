@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/utils/extentions.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+
 import '../utils/res/AppDimentions.dart';
 import '../utils/res/AppTheme.dart';
 import '../utils/utils.dart';
@@ -101,9 +102,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                   hintText: widget.hint,
                   hintStyle: TextStyle(
                     fontFamily: 'DM Sans Text',
-                    color: Theme.of(
-                      context,
-                    ).textTheme.displaySmall?.color!.withOpacity(.60),
+                    color: context.resources.color.colorGrey2,
                     fontWeight: FontWeight.w400,
                     fontSize: AppThemeValues.textSize16,
                   ),

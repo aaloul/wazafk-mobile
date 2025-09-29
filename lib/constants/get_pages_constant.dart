@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
-import 'package:wazafak_app/screens/onboarding/onboarding_screen.dart';
 
-import '../screens/phone_number/phone_number_screen.dart';
-import '../screens/splash/splash_screen.dart';
-import '../screens/terms/terms_screen.dart';
+import '../screens/auth/change_password/change_password_screen.dart';
+import '../screens/auth/login_password/login_password_screen.dart';
+import '../screens/auth/onboarding/onboarding_screen.dart';
+import '../screens/auth/phone_number/phone_number_screen.dart';
+import '../screens/auth/splash/splash_screen.dart';
+import '../screens/auth/verification/verification_screen.dart';
+import '../screens/common/terms/terms_screen.dart';
 
 List<GetPage> getPages = [
   GetPage(
@@ -26,6 +29,21 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.termsScreen,
     page: () => TermsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.loginPasswordScreen,
+    page: () => LoginPasswordScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.verificationScreen,
+    page: () => VerificationScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.changePasswordScreen,
+    page: () => ChangePasswordScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
-import '../../components/labeled_text_field.dart';
-import '../../components/primary_text.dart';
+import '../../../components/labeled_text_field.dart';
+import '../../../components/primary_text.dart';
 
 class PhoneNumberScreen extends StatelessWidget {
   const PhoneNumberScreen({super.key});
@@ -24,11 +25,10 @@ class PhoneNumberScreen extends StatelessWidget {
                 SizedBox(height: 80),
 
                 Center(
-                  child: Container(
-                    child: Image.asset(
-                      AppIcons.phoneScreenImage,
-                      height: Get.width / 2,
-                    ),
+                  child: Image.asset(
+                    AppIcons.phoneScreenImage,
+                    height: Get.width / 2,
+                    width: Get.width / 1.5,
                   ),
                 ),
 
@@ -64,7 +64,9 @@ class PhoneNumberScreen extends StatelessWidget {
 
                 SizedBox(height: 40),
 
-                PrimaryButton(title: "Continue", onPressed: () {}),
+                PrimaryButton(title: "Continue", onPressed: () {
+                  Get.toNamed(RouteConstant.loginPasswordScreen);
+                }),
                 SizedBox(height: 20),
 
               ],

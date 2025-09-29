@@ -8,4 +8,5 @@ class AppIcons {
   static const String newPasswordScreenImage = '${base}new_password_screen_image.png';
   static const String passwordScreenImage = '${base}password_screen_image.png';
   static const String verifyScreenImage = '${base}verify_screen_image.png';
+  static const String phone = '${base}phone.png';
 }

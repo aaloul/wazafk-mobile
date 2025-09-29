@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
-import 'package:wazafak_app/screens/splash/splash_controller.dart';
-import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/auth/splash/splash_controller.dart';
+import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-import '../../utils/res/AppIcons.dart';
-import '../../utils/res/colors/hex_color.dart';
+import '../../../utils/res/AppIcons.dart';
+import '../../../utils/res/colors/hex_color.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

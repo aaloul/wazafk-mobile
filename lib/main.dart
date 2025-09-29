@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:wazafak_app/screens/splash/splash_screen.dart';
+import 'package:wazafak_app/screens/auth/splash/splash_screen.dart';
 import 'package:wazafak_app/utils/DismissKeyboard.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 

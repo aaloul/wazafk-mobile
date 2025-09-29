@@ -137,7 +137,7 @@ class PrimaryTextField extends StatelessWidget {
                       hintText: hint,
                       hintStyle:TextStyle(
                               fontFamily: 'DM Sans Text',
-                              color: context.resources.color.colorGrey,
+                          color: context.resources.color.colorGrey2,
                               fontWeight: fontWeight ?? FontWeight.w400,
                               fontSize: fontSize ?? AppThemeValues.textSize16)
 
