@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter:*)",
+      "Bash(taskkill:*)",
+      "Bash(sdkmanager:*)",
+      "Bash(echo $ANDROID_HOME)",
+      "Read(//c/**)",
+      "Bash(adb:*)",
+      "Bash(\"C:\\Users\\H\\AppData\\Local\\Android\\sdk\\platform-tools\\adb.exe\" devices)",
+      "Bash(python:*)",
+      "Bash(cat:*)",
+      "Bash(for file in skills_service.dart interest_categories_service.dart faqs_service.dart terms_service.dart privacy_service.dart about_service.dart)",
+      "Bash(do)",
+      "Bash(done)",
+      "Bash(for:*)",
+      "Bash(do sed -i \"s/Future<dynamic>/Future<ApiResponse>/g\" \"$file\")",
+      "Bash(do sed -i 's/Future<dynamic>/Future<ApiResponse>/g' \"$file\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

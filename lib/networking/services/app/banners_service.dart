@@ -8,6 +8,6 @@ class BannersService {
 
   Future<BannersResponse> getBanners(String type) async {
     final response = await _helper.get("${Endpoints.banners}?area=$type");
-    return BannersResponse.fromJson(response);
+    return response;
   }
 }

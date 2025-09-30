@@ -1,5 +1,3 @@
-import 'package:wazafak_app/model/BannersResponse.dart';
-
 import '../../../model/InterestOptionsResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
@@ -9,6 +7,6 @@ class InterestOptionsService {
 
   Future<InterestOptionsResponse> getInterestOptions() async {
     final response = await _helper.get(Endpoints.interestOptions);
-    return InterestOptionsResponse.fromJson(response);
+    return response;
   }
 }
