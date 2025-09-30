@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -83,7 +84,9 @@ class VerificationScreen extends StatelessWidget {
 
                 SizedBox(height: 42),
 
-                PrimaryButton(title: "Verify", onPressed: () {}),
+                PrimaryButton(title: "Verify", onPressed: () {
+                  Get.toNamed(RouteConstant.createAccountScreen);
+                }),
 
                 SizedBox(height: 20),
               ],

@@ -9,4 +9,9 @@ class AppIcons {
   static const String passwordScreenImage = '${base}password_screen_image.png';
   static const String verifyScreenImage = '${base}verify_screen_image.png';
   static const String phone = '${base}phone.png';
+  static const String scan = '${base}scan.png';
+  static const String back = '${base}back.png';
+  static const String calendar = '${base}calendar.png';
+  static const String arrowDown = '${base}arrow_down.png';
+  static const String addImage = '${base}add_image.png';
 }

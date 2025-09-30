@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 InterestOptionsResponse interestOptionsResponseFromJson(String str) => InterestOptionsResponse.fromJson(json.decode(str));
 
 String interestOptionsResponseToJson(InterestOptionsResponse data) => json.encode(data.toJson());
@@ -39,6 +41,7 @@ class InterestOption {
   String? icon;
   int? order;
   int? status;
+  var selected = false.obs;
 
   InterestOption({
     this.hashcode,

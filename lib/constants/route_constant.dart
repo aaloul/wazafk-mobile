@@ -6,4 +6,5 @@ class RouteConstant {
   static const String loginPasswordScreen = '/login_password_screen';
   static const String verificationScreen = '/verification_screen';
   static const String changePasswordScreen = '/change_password_screen';
+  static const String createAccountScreen = '/create_account_screen';
 }
