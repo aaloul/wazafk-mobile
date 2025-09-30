@@ -79,7 +79,9 @@ class CreateAccountStep3 extends StatelessWidget {
 
           SizedBox(height: 16),
 
-          PrimaryButton(title: "Start Your Journey", onPressed: () {}),
+          PrimaryButton(title: "Start Your Journey", onPressed: () {
+            dataController.verifyStep3();
+          }),
 
           SizedBox(height: 20),
         ],

@@ -6,6 +6,7 @@ import '../screens/auth/create_account/create_account_screen.dart';
 import '../screens/auth/login_password/login_password_screen.dart';
 import '../screens/auth/onboarding/onboarding_screen.dart';
 import '../screens/auth/phone_number/phone_number_screen.dart';
+import '../screens/auth/select_portal/select_portal_screen.dart';
 import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
@@ -50,6 +51,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.createAccountScreen,
     page: () => CreateAccountScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.selectPortalScreen,
+    page: () => SelectPortalScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

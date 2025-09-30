@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/colors/hex_color.dart';
+
+import '../../../components/top_header.dart';
+import 'components/portal_item.dart';
 
 class SelectPortalScreen extends StatelessWidget {
   const SelectPortalScreen({super.key});
@@ -10,18 +13,37 @@ class SelectPortalScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.resources.color.background,
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                PrimaryButton(title: "Verify", onPressed: () {}),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TopHeader(title: "Select Portal"),
+            SizedBox(height: 24),
 
-                SizedBox(height: 20),
-              ],
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PortalItem(
+                      title: 'Freelancer Portal',
+                      onClick: () {},
+                      color: HexColor("#E7F3EE"),
+                      border: HexColor("#00AEC81A"),
+                    ),
+                    SizedBox(height: 10),
+
+                    PortalItem(
+                      title: 'Employer Portal',
+                      onClick: () {},
+                      color: HexColor("#D5ECEF"),
+                      border: HexColor("##00AEC81A"),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

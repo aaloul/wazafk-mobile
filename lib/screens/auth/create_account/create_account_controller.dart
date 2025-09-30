@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/InterestOptionsResponse.dart';
 import 'package:wazafak_app/repository/app/interest_options_repository.dart';
 
@@ -58,5 +59,9 @@ class CreateAccountController extends GetxController {
 
   void verifyStep2() {
     index.value = 2;
+  }
+
+  void verifyStep3() {
+    Get.toNamed(RouteConstant.selectPortalScreen);
   }
 }
