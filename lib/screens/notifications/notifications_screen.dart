@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-class ProjectsScreen extends StatelessWidget {
-  const ProjectsScreen({super.key});
+class NotificationsScreen extends StatelessWidget {
+  NotificationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +11,10 @@ class ProjectsScreen extends StatelessWidget {
       backgroundColor: context.resources.color.background,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TopHeader(
-              hasBack: false,
-              title: 'Projects',
-
-            )
+            TopHeader(title: "Notifications"),
+            SizedBox(height: 24),
           ],
         ),
       ),

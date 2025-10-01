@@ -9,8 +9,10 @@ import '../screens/auth/phone_number/phone_number_screen.dart';
 import '../screens/auth/select_portal/select_portal_screen.dart';
 import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
+import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
+import '../screens/notifications/notifications_screen.dart';
 
 List<GetPage> getPages = [
   GetPage(
@@ -62,6 +64,16 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.mainNavigationScreen,
     page: () => MainNavigationScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.notificationsScreen,
+    page: () => NotificationsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.chatScreen,
+    page: () => ChatScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

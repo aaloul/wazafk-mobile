@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import 'components/home_header.dart';
+import 'components/statistics/home_statistics_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,8 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             HomeHeader(),
-
+            SizedBox(height: 16),
+            HomeStatisticsWidget(),
           ],
         ),
       ),

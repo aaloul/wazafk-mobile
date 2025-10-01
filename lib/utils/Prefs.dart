@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:wazafak_app/model/BannersResponse.dart';
 
+import '../model/LoginResponse.dart';
 import '../networking/Endpoints.dart';
 import 'Const.dart';
 
@@ -67,10 +68,6 @@ class Prefs {
 
   static void setToken(String value) => box.write(Const.TOKEN, value);
 
-  static String get getFullName => box.read(Const.FULL_NAME) ?? '';
-
-  static void setFullName(String value) => box.write(Const.FULL_NAME, value);
-
   static String get getFName => box.read(Const.F_NAME) ?? '';
 
   static void setFName(String value) => box.write(Const.F_NAME, value);
@@ -90,6 +87,10 @@ class Prefs {
   static String get getEmail => box.read(Const.EMAIL) ?? '';
 
   static void setEmail(String value) => box.write(Const.EMAIL, value);
+
+  static String get getMobile => box.read(Const.MOBILE) ?? '';
+
+  static void setMobile(String value) => box.write(Const.MOBILE, value);
 
   static String get getAvatar => box.read(Const.AVATAR) ?? '';
 
@@ -147,28 +148,28 @@ class Prefs {
   static void setTermsAndConditionsTitle(String value) =>
       box.write(Const.TERMS_AND_CONDITIONS_TITLE, value);
 
-  //
-  // static void saveUser(User user) {
-  //   setLoggedIn(true);
-  //   setId(user.id.toString());
-  //   setEmail(user.email.toString());
-  //   setFullName(user.fullName.toString());
-  //   setFName(user.firstName.toString());
-  //   setLName(user.lastName.toString());
-  //   setDob(user.dob ?? '');
-  //
-  // }
+  static void saveUser(User user) {
+    setLoggedIn(true);
+    setId(user.hashcode.toString());
+    setEmail(user.email.toString());
+    setMobile(user.mobile.toString());
+    setFName(user.firstName.toString());
+    setLName(user.lastName.toString());
+    setDob(user.dateOfBirth.toString() ?? '');
+    setAvatar(user.image.toString() ?? '');
+    setGender(user.gender.toString() ?? '');
+  }
 
   static void clearUser() {
     setLoggedIn(false);
     setId('');
+    setAvatar('');
     setDob('');
     setEmail('');
-    setFullName('');
     setFName('');
     setLName('');
-    setFullName('');
     setGender('');
     setToken('');
+    setMobile('');
   }
 }

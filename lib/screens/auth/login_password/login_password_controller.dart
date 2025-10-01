@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/repository/account/login_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 
 import '../../../utils/utils.dart';
 
@@ -39,13 +40,9 @@ class LoginPasswordController extends GetxController {
       );
 
       if (response.success ?? false) {
-        constants.showSnackBar(
-          response.message ?? 'Login successful',
-          SnackBarStatus.SUCCESS,
-        );
+        Prefs.saveUser(response.data!);
         Get.toNamed(
-          RouteConstant.verificationScreen,
-          arguments: {'mobile': mobile, 'page': 'login'},
+          RouteConstant.mainNavigationScreen,
         );
       } else {
         constants.showSnackBar(

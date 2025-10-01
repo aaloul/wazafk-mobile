@@ -71,12 +71,12 @@ class SearchWidget extends StatelessWidget {
               children: [
                 Image.asset(
                   AppIcons.search,
-                  width: 22,
+                  width: 20,
                   color: context.resources.color.colorGrey,
                 ),
                 Expanded(
                   child: SizedBox(
-                    height: height ?? 45,
+                    height: height ?? 42,
                     child: TextFormField(
                       textAlignVertical: TextAlignVertical.top,
                       cursorColor: context.resources.color.colorPrimary,

@@ -50,9 +50,8 @@ class LoginPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
 
-                Obx(
-                      () =>
-                      Center(
+
+                Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -66,7 +65,6 @@ class LoginPasswordScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                           ],
-                        ),
                   ),
                 ),
 

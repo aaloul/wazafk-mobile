@@ -13,10 +13,12 @@ class TopHeader extends StatelessWidget {
     this.onBack,
     this.endWidget,
     this.color,
+    this.hasBack,
   });
 
   final String? title;
   final Function? onBack;
+  final bool? hasBack;
   final Widget? endWidget;
   final Color? color;
 
@@ -34,15 +36,16 @@ class TopHeader extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
             left: Utils().isRTL() ? null : 0,
             right: Utils().isRTL() ? 0 : null,
-            child: GestureDetector(
-              onTap: () {
+            child: hasBack ?? true
+                ? GestureDetector(
+                    onTap: () {
                 if (onBack == null) {
                   if (Navigator.canPop(context)) {
                     Navigator.pop(Get.context!);
@@ -59,7 +62,8 @@ class TopHeader extends StatelessWidget {
                   color: color ?? context.resources.color.colorGrey,
                 ),
               ),
-            ),
+                  )
+                : SizedBox(),
           ),
           Center(
             child: PrimaryText(

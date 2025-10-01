@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/search_widget.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -35,7 +37,7 @@ class HomeHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PrimaryText(text: "Mohamad Ezzeddine",
+                    PrimaryText(text: "${Prefs.getFName} ${Prefs.getLName}",
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       textColor: context.resources.color.colorGrey6,),
@@ -52,9 +54,13 @@ class HomeHeader extends StatelessWidget {
                 checked: true, onChange: (b) {
 
               },),
-              Image.asset(AppIcons.notification, width: 24,),
+              GestureDetector(onTap: () {
+                Get.toNamed(RouteConstant.notificationsScreen);
+              }, child: Image.asset(AppIcons.notification, width: 24,)),
               SizedBox(width: 8,),
-              Image.asset(AppIcons.message, width: 24,),
+              GestureDetector(onTap: () {
+                Get.toNamed(RouteConstant.chatScreen);
+              }, child: Image.asset(AppIcons.message, width: 24,)),
             ],
           ),
           SizedBox(height: 16,),

@@ -9,4 +9,6 @@ class RouteConstant {
   static const String createAccountScreen = '/create_account_screen';
   static const String selectPortalScreen = '/select_portal_screen';
   static const String mainNavigationScreen = '/main_navigation_screen';
+  static const String notificationsScreen = '/notifications_screen';
+  static const String chatScreen = '/chat_screen';
 }

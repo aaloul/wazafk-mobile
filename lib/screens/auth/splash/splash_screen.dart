@@ -34,7 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
+            height:
+                MediaQuery.of(context).size.height -
+                MediaQuery.of(context).padding.top -
+                MediaQuery.of(context).padding.bottom,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,12 +78,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> showSplash() async {
     Future.delayed(const Duration(milliseconds: 2000), () async {
-      // if (!Prefs.getOnboardingCompleted) {
+      // if (Prefs.getLoggedIn) {
       Get.offAllNamed(RouteConstant.mainNavigationScreen);
-      // } else if (Prefs.getLoggedIn) {
-      //   // Get.offAllNamed(RouteConstant.dashboardScreen);
       // } else {
-      //   // Get.offAllNamed(RouteConstant.introScreen);
+      //   Get.offAllNamed(RouteConstant.onboardingScreen);
       // }
     });
   }
@@ -88,15 +89,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void changeStatusBarColor() {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        systemNavigationBarColor:
-           Get.context!.resources.color.colorPrimary,
+        systemNavigationBarColor: Get.context!.resources.color.colorPrimary,
         // navigation bar color
-        statusBarColor:
-           HexColor('#FFFFFF'),
-        statusBarBrightness:
-            Brightness.dark ,
-        statusBarIconBrightness:
-             Brightness.dark,
+        statusBarColor: HexColor('#FFFFFF'),
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
       ),
     );
   }

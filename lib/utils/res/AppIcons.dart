@@ -23,4 +23,8 @@ class AppIcons {
   static const String message = '${base}message.png';
   static const String notification = '${base}notification.png';
   static const String placeholder = '${base}placeholder.png';
+  static const String chart = '${base}chart.png';
+  static const String completed = '${base}completed.png';
+  static const String dollar = '${base}dollar.png';
+  static const String time = '${base}time.png';
 }

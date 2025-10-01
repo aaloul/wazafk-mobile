@@ -24,6 +24,8 @@ abstract class BaseColors {
 
   Color get colorGrey7;
 
+  Color get colorGrey8;
+
   Color get colorWhite;
 
   Color get colorGreen;
