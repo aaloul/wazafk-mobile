@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/auth/phone_number/phone_number_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -9,7 +11,9 @@ import '../../../components/labeled_text_field.dart';
 import '../../../components/primary_text.dart';
 
 class PhoneNumberScreen extends StatelessWidget {
-  const PhoneNumberScreen({super.key});
+  PhoneNumberScreen({super.key});
+
+  final PhoneNumberController dataController = Get.put(PhoneNumberController());
 
   @override
   Widget build(BuildContext context) {
@@ -48,25 +52,85 @@ class PhoneNumberScreen extends StatelessWidget {
                   label: 'Phone Number',
                   hint: '',
                   isPassword: false,
+                  controller: dataController.phoneController,
                   isMandatory: true,
                   inputType: TextInputType.phone,
                 ),
                 SizedBox(height: 20),
 
-                PrimaryText(
-                  text:
-                      "Message and date rates may apply. By continuing, you agree to our Terms of Use and Privacy Policy.",
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  textColor: context.resources.color.colorGrey3,
-                  textAlign: TextAlign.start,
+                GestureDetector(
+                  onTap: () {},
+                  child: Text.rich(
+                    TextSpan(
+                        text: "Message and date rates may apply. By continuing, you agree to our ",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: context.resources.color.colorGrey3,
+                        ),
+                        children: [
+                          WidgetSpan(
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  RouteConstant.termsScreen,
+                                  arguments: {'type': 'terms'},
+                                );
+                              },
+                              child: Text(
+                                "Terms of Use",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.resources.color.colorPrimary,
+                                  decoration: TextDecoration.combine([
+                                    TextDecoration.underline,
+                                  ]),
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextSpan(
+                            text: " and ",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: context.resources.color.colorGrey3,
+                            ),
+                          ),
+                          WidgetSpan(
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  RouteConstant.termsScreen,
+                                  arguments: {'type': 'privacy'},
+                                );
+                              },
+                              child: Text(
+                                "Privacy Policy",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.resources.color.colorPrimary,
+                                  decoration: TextDecoration.combine([
+                                    TextDecoration.underline,
+                                  ]),
+                                ),
+                              ),
+                            ),
+                          )
+                        ]),
+                  ),
                 ),
+
 
                 SizedBox(height: 40),
 
-                PrimaryButton(title: "Continue", onPressed: () {
-                  Get.toNamed(RouteConstant.loginPasswordScreen);
-                }),
+                Obx(() =>
+                dataController.isLoading.value ? ProgressBar() : PrimaryButton(
+                    title: "Continue", onPressed: () {
+                  dataController.checkMemberExists();
+                }),),
                 SizedBox(height: 20),
 
               ],

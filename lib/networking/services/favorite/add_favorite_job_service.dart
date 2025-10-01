@@ -8,6 +8,6 @@ class AddFavoriteJobService {
   Future<ApiResponse> addFavoriteJob(String jobHashcode) async {
     final Map<String, dynamic> body = {'job_hashcode': jobHashcode};
     final response = await _helper.post(Endpoints.addFavoriteJob, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

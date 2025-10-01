@@ -6,6 +6,6 @@ class ChatMessagesService {
 
   Future<ApiResponse> getChatMessages(String chatHashcode) async {
     final response = await _helper.get('support/chatMessages/$chatHashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

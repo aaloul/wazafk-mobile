@@ -6,6 +6,6 @@ class PackageDetailService {
 
   Future<ApiResponse> getPackage(String hashcode) async {
     final response = await _helper.get('package/package/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

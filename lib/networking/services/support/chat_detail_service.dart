@@ -6,6 +6,6 @@ class ChatDetailService {
 
   Future<ApiResponse> getChat(String hashcode) async {
     final response = await _helper.get('support/chat/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

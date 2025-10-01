@@ -8,6 +8,6 @@ class AddFavoriteMemberService {
   Future<ApiResponse> addFavoriteMember(String memberHashcode) async {
     final Map<String, dynamic> body = {'member_hashcode': memberHashcode};
     final response = await _helper.post(Endpoints.addFavoriteMember, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

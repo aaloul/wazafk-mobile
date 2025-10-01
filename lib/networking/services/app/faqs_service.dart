@@ -7,6 +7,6 @@ class FaqsService {
 
   Future<ApiResponse> getFaqs() async {
     final response = await _helper.get(Endpoints.faqs);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

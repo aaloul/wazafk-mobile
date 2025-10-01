@@ -23,6 +23,6 @@ class CategoriesService {
     }
 
     final response = await _helper.get(url);
-    return response;
+    return CategoriesResponse.fromJson(response);
   }
 }

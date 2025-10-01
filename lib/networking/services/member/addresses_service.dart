@@ -7,7 +7,7 @@ class AddressesService {
 
   Future<ApiResponse> addAddress(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.addAddress, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> saveAddress(
@@ -16,11 +16,11 @@ class AddressesService {
   ) async {
     data['hashcode'] = hashcode;
     final response = await _helper.post(Endpoints.saveAddress, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getAddresses() async {
     final response = await _helper.get(Endpoints.addresses);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

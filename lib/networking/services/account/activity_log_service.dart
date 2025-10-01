@@ -7,6 +7,6 @@ class ActivityLogService {
 
   Future<ApiResponse> getActivityLog() async {
     final response = await _helper.get(Endpoints.activityLog);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

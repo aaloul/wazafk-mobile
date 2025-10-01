@@ -7,6 +7,6 @@ class GetWalletService {
 
   Future<ApiResponse> getWallet() async {
     final response = await _helper.get(Endpoints.wallet);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

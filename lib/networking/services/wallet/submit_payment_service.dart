@@ -7,6 +7,6 @@ class SubmitPaymentService {
 
   Future<ApiResponse> submitPayment(Map<String, dynamic> paymentData) async {
     final response = await _helper.post(Endpoints.submitPayment, paymentData);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

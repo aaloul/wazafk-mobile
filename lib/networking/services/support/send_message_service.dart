@@ -16,6 +16,6 @@ class SendMessageService {
     };
     if (attachment != null) body['attachment'] = attachment;
     final response = await _helper.post(Endpoints.sendMessage, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

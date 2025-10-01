@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +31,25 @@ class CreateAccountStep1 extends StatelessWidget {
                 children: [
                   SizedBox(height: 8),
 
-                  Image.asset(AppIcons.addImage, width: 100, height: 100),
+                  GestureDetector(
+                    onTap: () {
+                      dataController.showImageSourceDialog();
+                    },
+                    child: Obx(
+                          () =>
+                      dataController.profileImage.value != null
+                          ? ClipOval(
+                        child: Image.file(
+                          File(dataController.profileImage.value!.path),
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                          : Image.asset(
+                          AppIcons.addImage, width: 100, height: 100),
+                    ),
+                  ),
                   SizedBox(height: 8),
                   PrimaryText(
                     text: "Add Profile Image",
@@ -44,6 +64,7 @@ class CreateAccountStep1 extends StatelessWidget {
                     inputType: TextInputType.text,
                     isPassword: false,
                     isMandatory: true,
+                    controller: dataController.firstNameController,
                   ),
                   LabeledTextFiled(
                     label: "Last Name",
@@ -51,6 +72,7 @@ class CreateAccountStep1 extends StatelessWidget {
                     inputType: TextInputType.text,
                     isPassword: false,
                     isMandatory: true,
+                    controller: dataController.lastNameController,
                   ),
                   LabeledTextFiled(
                     label: "Email Address",
@@ -58,6 +80,7 @@ class CreateAccountStep1 extends StatelessWidget {
                     inputType: TextInputType.emailAddress,
                     isPassword: false,
                     isMandatory: true,
+                    controller: dataController.emailController,
                   ),
 
                   Obx(
@@ -95,6 +118,7 @@ class CreateAccountStep1 extends StatelessWidget {
                     inputType: TextInputType.visiblePassword,
                     isPassword: true,
                     isMandatory: true,
+                    controller: dataController.passwordController,
                   ),
                   LabeledTextFiled(
                     label: "Confirm Password",
@@ -102,6 +126,7 @@ class CreateAccountStep1 extends StatelessWidget {
                     inputType: TextInputType.visiblePassword,
                     isPassword: true,
                     isMandatory: true,
+                    controller: dataController.confirmPasswordController,
                   ),
 
                   SizedBox(height: 16),

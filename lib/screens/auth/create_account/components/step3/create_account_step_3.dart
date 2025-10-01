@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../components/primary_button.dart';
@@ -79,9 +80,16 @@ class CreateAccountStep3 extends StatelessWidget {
 
           SizedBox(height: 16),
 
-          PrimaryButton(title: "Start Your Journey", onPressed: () {
-            dataController.verifyStep3();
-          }),
+          Obx(
+            () => dataController.isRegistering.value
+                ? ProgressBar()
+                : PrimaryButton(
+                    title: "Start Your Journey",
+                    onPressed: () {
+                      dataController.verifyStep3();
+                    },
+                  ),
+          ),
 
           SizedBox(height: 20),
         ],

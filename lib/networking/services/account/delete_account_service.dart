@@ -7,6 +7,6 @@ class DeleteAccountService {
 
   Future<ApiResponse> deleteAccount() async {
     final response = await _helper.delete(Endpoints.deleteAccount);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

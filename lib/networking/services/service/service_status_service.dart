@@ -8,6 +8,6 @@ class ServiceStatusService {
   Future<ApiResponse> updateServiceStatus(String hashcode, int status) async {
     final Map<String, dynamic> body = {'hashcode': hashcode, 'status': status};
     final response = await _helper.post(Endpoints.serviceStatus, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

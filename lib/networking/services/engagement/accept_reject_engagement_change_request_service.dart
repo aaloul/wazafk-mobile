@@ -16,6 +16,6 @@ class AcceptRejectEngagementChangeRequestService {
       Endpoints.acceptRejectEngagementChangeRequest,
       body,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

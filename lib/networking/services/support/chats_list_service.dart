@@ -7,6 +7,6 @@ class ChatsListService {
 
   Future<ApiResponse> getChats() async {
     final response = await _helper.get(Endpoints.chats);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

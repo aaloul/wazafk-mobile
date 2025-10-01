@@ -120,6 +120,29 @@ class Prefs {
 
   static void setOnboardingCompleted(bool value) => box.write(Const.ONBOARDING_COMPLETED, value);
 
+  static String get getPrivacyPolicy => box.read(Const.PRIVACY_POLICY) ?? '';
+
+  static void setPrivacyPolicy(String value) =>
+      box.write(Const.PRIVACY_POLICY, value);
+
+  static String get getPrivacyPolicyTitle =>
+      box.read(Const.PRIVACY_POLICY_TITLE) ?? '';
+
+  static void setPrivacyPolicyTitle(String value) =>
+      box.write(Const.PRIVACY_POLICY_TITLE, value);
+
+  static String get getTermsAndConditions =>
+      box.read(Const.TERMS_AND_CONDITIONS) ?? '';
+
+  static void setTermsAndConditions(String value) =>
+      box.write(Const.TERMS_AND_CONDITIONS, value);
+
+  static String get getTermsAndConditionsTitle =>
+      box.read(Const.TERMS_AND_CONDITIONS_TITLE) ?? '';
+
+  static void setTermsAndConditionsTitle(String value) =>
+      box.write(Const.TERMS_AND_CONDITIONS_TITLE, value);
+
   //
   // static void saveUser(User user) {
   //   setLoggedIn(true);

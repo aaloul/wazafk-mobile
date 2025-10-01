@@ -7,7 +7,7 @@ class ServiceService {
 
   Future<ApiResponse> addService(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.addService, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> saveService(
@@ -16,13 +16,13 @@ class ServiceService {
   ) async {
     data['hashcode'] = hashcode;
     final response = await _helper.post(Endpoints.saveService, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> updateServiceStatus(String hashcode, int status) async {
     final Map<String, dynamic> body = {'hashcode': hashcode, 'status': status};
     final response = await _helper.post(Endpoints.serviceStatus, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getServices({Map<String, String>? filters}) async {
@@ -34,11 +34,11 @@ class ServiceService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getService(String hashcode) async {
     final response = await _helper.get('service/service/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

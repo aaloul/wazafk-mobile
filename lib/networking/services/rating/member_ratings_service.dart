@@ -6,6 +6,6 @@ class MemberRatingsService {
 
   Future<ApiResponse> getMemberRatings(String memberHashcode) async {
     final response = await _helper.get('rating/memberRatings/$memberHashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

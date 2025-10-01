@@ -7,6 +7,6 @@ class InterestOptionsService {
 
   Future<InterestOptionsResponse> getInterestOptions() async {
     final response = await _helper.get(Endpoints.interestOptions);
-    return response;
+    return InterestOptionsResponse.fromJson(response);
   }
 }

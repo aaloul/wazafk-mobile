@@ -8,7 +8,7 @@ class PasswordService {
   Future<ApiResponse> forgotPasswordRequest(String mobile) async {
     final Map<String, dynamic> body = {'mobile': mobile};
     final response = await _helper.post(Endpoints.forgotPasswordRequest, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> forgotPasswordConfirm(
@@ -22,7 +22,7 @@ class PasswordService {
       'new_password': newPassword,
     };
     final response = await _helper.post(Endpoints.forgotPasswordConfirm, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> changePassword(
@@ -34,6 +34,6 @@ class PasswordService {
       'new_password': newPassword,
     };
     final response = await _helper.post(Endpoints.changePassword, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

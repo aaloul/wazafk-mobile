@@ -7,7 +7,7 @@ class PackageService {
 
   Future<ApiResponse> addPackage(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.addPackage, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> savePackage(
@@ -16,13 +16,13 @@ class PackageService {
   ) async {
     data['hashcode'] = hashcode;
     final response = await _helper.post(Endpoints.savePackage, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> updatePackageStatus(String hashcode, int status) async {
     final Map<String, dynamic> body = {'hashcode': hashcode, 'status': status};
     final response = await _helper.post(Endpoints.packageStatus, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getPackages({Map<String, String>? filters}) async {
@@ -34,11 +34,11 @@ class PackageService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getPackage(String hashcode) async {
     final response = await _helper.get('package/package/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

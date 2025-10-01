@@ -13,6 +13,6 @@ class AcceptRejectEngagementService {
     final Map<String, dynamic> body = {'hashcode': hashcode, 'accept': accept};
     if (reason != null) body['reason'] = reason;
     final response = await _helper.post(Endpoints.acceptRejectEngagement, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

@@ -7,7 +7,7 @@ class JobService {
 
   Future<ApiResponse> addJob(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.addJob, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> saveJob(
@@ -16,13 +16,13 @@ class JobService {
   ) async {
     data['hashcode'] = hashcode;
     final response = await _helper.post(Endpoints.saveJob, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> updateJobStatus(String hashcode, int status) async {
     final Map<String, dynamic> body = {'hashcode': hashcode, 'status': status};
     final response = await _helper.post(Endpoints.jobStatus, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getJobs({Map<String, String>? filters}) async {
@@ -34,11 +34,11 @@ class JobService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getJob(String hashcode) async {
     final response = await _helper.get('job/job/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

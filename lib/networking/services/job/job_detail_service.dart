@@ -6,6 +6,6 @@ class JobDetailService {
 
   Future<ApiResponse> getJob(String hashcode) async {
     final response = await _helper.get('job/job/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

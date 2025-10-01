@@ -4,14 +4,20 @@ import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wazafak_app/repository/app/banners_repository.dart';
+import 'package:wazafak_app/repository/app/privacy_repository.dart';
+import 'package:wazafak_app/repository/app/terms_repository.dart';
 
 import '../../../utils/Prefs.dart';
 import '../../../utils/utils.dart';
 
 class SplashController extends GetxController {
   final BannersRepository _bannersRepository = BannersRepository();
+  final PrivacyRepository _privacyRepository = PrivacyRepository();
+  final TermsRepository _termsRepository = TermsRepository();
 
   var isBannersLoading = false.obs;
+  var isPrivacyLoading = false.obs;
+  var isTermsLoading = false.obs;
 
   Future<void> getBanners() async {
     isBannersLoading(true);
@@ -31,10 +37,50 @@ class SplashController extends GetxController {
     }
   }
 
+  Future<void> getPrivacyPolicy() async {
+    isPrivacyLoading(true);
+    try {
+      final response = await _privacyRepository.getPrivacyPolicy();
+      if (response.success ?? false) {
+        Prefs.setPrivacyPolicy(response.data?.content ?? '');
+        Prefs.setPrivacyPolicyTitle(response.data?.title ?? '');
+      }
+      isPrivacyLoading(false);
+    } catch (e) {
+      isPrivacyLoading(false);
+
+      constants.showSnackBar(
+        getErrorMessage(e.toString()).toString(),
+        SnackBarStatus.ERROR,
+      );
+    }
+  }
+
+  Future<void> getTermsAndConditions() async {
+    isTermsLoading(true);
+    try {
+      final response = await _termsRepository.getTermsAndConditions();
+      if (response.success ?? false) {
+        Prefs.setTermsAndConditions(response.data?.content ?? '');
+        Prefs.setTermsAndConditionsTitle(response.data?.title ?? '');
+      }
+      isTermsLoading(false);
+    } catch (e) {
+      isTermsLoading(false);
+
+      constants.showSnackBar(
+        getErrorMessage(e.toString()).toString(),
+        SnackBarStatus.ERROR,
+      );
+    }
+  }
+
   @override
   Future<void> onInit() async {
     super.onInit();
     getBanners();
+    getPrivacyPolicy();
+    getTermsAndConditions();
     initPlatformState();
     saveDeviceId();
   }

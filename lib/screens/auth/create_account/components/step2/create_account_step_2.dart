@@ -38,7 +38,10 @@ class CreateAccountStep2 extends StatelessWidget {
                         label: 'Passport',
                         isMandatory: false,
                         isOptional: false,
-                        onClick: () {},
+                        onClick: () {
+                          dataController.pickImageFromCamera('passport');
+                        },
+                        imagePath: dataController.passportImage.value?.path,
                       )
                     : Column(
                         children: [
@@ -46,7 +49,10 @@ class CreateAccountStep2 extends StatelessWidget {
                             label: 'Front ID',
                             isMandatory: false,
                             isOptional: false,
-                            onClick: () {},
+                            onClick: () {
+                              dataController.pickImageFromCamera('front_id');
+                            },
+                            imagePath: dataController.frontIdImage.value?.path,
                           ),
 
                           SizedBox(height: 12),
@@ -55,7 +61,10 @@ class CreateAccountStep2 extends StatelessWidget {
                             label: 'Back ID',
                             isMandatory: false,
                             isOptional: false,
-                            onClick: () {},
+                            onClick: () {
+                              dataController.pickImageFromCamera('back_id');
+                            },
+                            imagePath: dataController.backIdImage.value?.path,
                           ),
                         ],
                       ),

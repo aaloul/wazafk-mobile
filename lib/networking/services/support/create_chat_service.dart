@@ -7,6 +7,6 @@ class CreateChatService {
 
   Future<ApiResponse> createChat(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.createChat, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

@@ -11,6 +11,6 @@ class SubmitDisputeService {
   ) async {
     disputeData['hashcode'] = hashcode;
     final response = await _helper.post(Endpoints.submitDispute, disputeData);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

@@ -27,4 +27,8 @@ class Const {
   static const String ID = 'ID';
   static const String START_BANNERS = 'START_BANNERS';
   static const String ONBOARDING_COMPLETED = 'ONBOARDING_COMPLETED';
+  static const String PRIVACY_POLICY = 'PRIVACY_POLICY';
+  static const String PRIVACY_POLICY_TITLE = 'PRIVACY_POLICY_TITLE';
+  static const String TERMS_AND_CONDITIONS = 'TERMS_AND_CONDITIONS';
+  static const String TERMS_AND_CONDITIONS_TITLE = 'TERMS_AND_CONDITIONS_TITLE';
 }

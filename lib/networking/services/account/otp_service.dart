@@ -8,12 +8,12 @@ class OtpService {
   Future<ApiResponse> sendOTP(String mobile) async {
     final Map<String, dynamic> body = {'mobile': mobile};
     final response = await _helper.post(Endpoints.sendOTP, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> verifyOTP(String mobile, String otp) async {
     final Map<String, dynamic> body = {'mobile': mobile, 'otp': otp};
     final response = await _helper.post(Endpoints.verifyOTP, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

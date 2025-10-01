@@ -7,11 +7,11 @@ class DocumentsService {
 
   Future<ApiResponse> saveDocument(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.saveDocument, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getDocuments() async {
     final response = await _helper.get(Endpoints.documents);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

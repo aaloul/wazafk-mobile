@@ -14,6 +14,6 @@ class MembersService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

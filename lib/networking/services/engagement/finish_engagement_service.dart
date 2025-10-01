@@ -8,6 +8,6 @@ class FinishEngagementService {
   Future<ApiResponse> finishEngagement(String hashcode) async {
     final Map<String, dynamic> body = {'hashcode': hashcode};
     final response = await _helper.post(Endpoints.finishEngagement, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

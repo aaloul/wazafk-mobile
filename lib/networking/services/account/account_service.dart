@@ -8,18 +8,18 @@ class AccountService {
   Future<ApiResponse> login(String mobile, String password) async {
     final Map<String, dynamic> body = {'mobile': mobile, 'password': password};
     final response = await _helper.post(Endpoints.login, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> register(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.register, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> forgotPasswordRequest(String mobile) async {
     final Map<String, dynamic> body = {'mobile': mobile};
     final response = await _helper.post(Endpoints.forgotPasswordRequest, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> forgotPasswordConfirm(
@@ -33,24 +33,24 @@ class AccountService {
       'new_password': newPassword,
     };
     final response = await _helper.post(Endpoints.forgotPasswordConfirm, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> sendOTP(String mobile) async {
     final Map<String, dynamic> body = {'mobile': mobile};
     final response = await _helper.post(Endpoints.sendOTP, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> verifyOTP(String mobile, String otp) async {
     final Map<String, dynamic> body = {'mobile': mobile, 'otp': otp};
     final response = await _helper.post(Endpoints.verifyOTP, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> logout() async {
     final response = await _helper.post(Endpoints.logout, {});
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> changePassword(
@@ -62,13 +62,13 @@ class AccountService {
       'new_password': newPassword,
     };
     final response = await _helper.post(Endpoints.changePassword, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> changeLanguage(String language) async {
     final Map<String, dynamic> body = {'language': language};
     final response = await _helper.post(Endpoints.changeLanguage, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> changeNotificationPreferences(
@@ -78,16 +78,16 @@ class AccountService {
       Endpoints.changeNotificationPreferences,
       preferences,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getActivityLog() async {
     final response = await _helper.get(Endpoints.activityLog);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> deleteAccount() async {
     final response = await _helper.delete(Endpoints.deleteAccount);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

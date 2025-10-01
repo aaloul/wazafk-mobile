@@ -14,6 +14,6 @@ class SubmitEngagementChangeRequestService {
       Endpoints.submitEngagementChangeRequest,
       changes,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

@@ -8,6 +8,6 @@ class LoginService {
   Future<ApiResponse> login(String mobile, String password) async {
     final Map<String, dynamic> body = {'mobile': mobile, 'password': password};
     final response = await _helper.post(Endpoints.login, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

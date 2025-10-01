@@ -7,6 +7,6 @@ class SubmitEngagementService {
 
   Future<ApiResponse> submitEngagement(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.submitEngagement, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

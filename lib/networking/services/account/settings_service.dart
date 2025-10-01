@@ -8,7 +8,7 @@ class SettingsService {
   Future<ApiResponse> changeLanguage(String language) async {
     final Map<String, dynamic> body = {'language': language};
     final response = await _helper.post(Endpoints.changeLanguage, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> changeNotificationPreferences(
@@ -18,6 +18,6 @@ class SettingsService {
       Endpoints.changeNotificationPreferences,
       preferences,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

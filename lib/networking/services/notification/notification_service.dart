@@ -14,17 +14,17 @@ class NotificationService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> markNotificationRead(String hashcode) async {
     final Map<String, dynamic> body = {'hashcode': hashcode};
     final response = await _helper.post(Endpoints.markNotificationRead, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> markAllNotificationsRead() async {
     final response = await _helper.post(Endpoints.markAllNotificationsRead, {});
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

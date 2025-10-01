@@ -7,7 +7,7 @@ class WalletService {
 
   Future<ApiResponse> getWallet() async {
     final response = await _helper.get(Endpoints.wallet);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getWalletTransactions({
@@ -21,12 +21,12 @@ class WalletService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> submitPayment(Map<String, dynamic> paymentData) async {
     final response = await _helper.post(Endpoints.submitPayment, paymentData);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getPayments({Map<String, String>? filters}) async {
@@ -38,7 +38,7 @@ class WalletService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> chargeWalletWithPayment(Map<String, dynamic> data) async {
@@ -46,6 +46,6 @@ class WalletService {
       Endpoints.chargeWalletWithPayment,
       data,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

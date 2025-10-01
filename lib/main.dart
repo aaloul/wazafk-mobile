@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:toastification/toastification.dart';
 import 'package:wazafak_app/screens/auth/splash/splash_screen.dart';
 import 'package:wazafak_app/utils/DismissKeyboard.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
@@ -21,14 +22,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return DismissKeyboard(
-      child: GetMaterialApp(
-        title: 'Wazafak',
-        debugShowCheckedModeBanner: false,
-        locale: Locale(Prefs.getLanguage),
-        getPages: getPages,
-        initialRoute: RouteConstant.splashScreen,
-        home: const SplashScreen(),
+    return ToastificationWrapper(
+      child: DismissKeyboard(
+        child: GetMaterialApp(
+          title: 'Wazafak',
+          debugShowCheckedModeBanner: false,
+          locale: Locale(Prefs.getLanguage),
+          getPages: getPages,
+          initialRoute: RouteConstant.splashScreen,
+          home: const SplashScreen(),
+        ),
       ),
     );
   }

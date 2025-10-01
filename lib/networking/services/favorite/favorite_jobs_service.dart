@@ -7,6 +7,6 @@ class FavoriteJobsService {
 
   Future<ApiResponse> getFavoriteJobs() async {
     final response = await _helper.get(Endpoints.favoriteJobs);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

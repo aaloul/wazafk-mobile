@@ -7,7 +7,7 @@ class EngagementService {
 
   Future<ApiResponse> submitEngagement(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.submitEngagement, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> acceptRejectEngagement(
@@ -18,7 +18,7 @@ class EngagementService {
     final Map<String, dynamic> body = {'hashcode': hashcode, 'accept': accept};
     if (reason != null) body['reason'] = reason;
     final response = await _helper.post(Endpoints.acceptRejectEngagement, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> submitEngagementChangeRequest(
@@ -30,7 +30,7 @@ class EngagementService {
       Endpoints.submitEngagementChangeRequest,
       changes,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> acceptRejectEngagementChangeRequest(
@@ -44,13 +44,13 @@ class EngagementService {
       Endpoints.acceptRejectEngagementChangeRequest,
       body,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> finishEngagement(String hashcode) async {
     final Map<String, dynamic> body = {'hashcode': hashcode};
     final response = await _helper.post(Endpoints.finishEngagement, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> acceptRejectFinishEngagement(
@@ -64,7 +64,7 @@ class EngagementService {
       Endpoints.acceptRejectFinishEngagement,
       body,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> submitDispute(
@@ -73,7 +73,7 @@ class EngagementService {
   ) async {
     disputeData['hashcode'] = hashcode;
     final response = await _helper.post(Endpoints.submitDispute, disputeData);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getEngagements({Map<String, String>? filters}) async {
@@ -85,11 +85,11 @@ class EngagementService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getEngagement(String hashcode) async {
     final response = await _helper.get('engagement/engagement/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

@@ -16,6 +16,6 @@ class AcceptRejectFinishEngagementService {
       Endpoints.acceptRejectFinishEngagement,
       body,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

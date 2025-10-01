@@ -7,6 +7,6 @@ class MarkAllNotificationsReadService {
 
   Future<ApiResponse> markAllNotificationsRead() async {
     final response = await _helper.post(Endpoints.markAllNotificationsRead, {});
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

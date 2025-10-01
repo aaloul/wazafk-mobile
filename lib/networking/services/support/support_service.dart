@@ -7,22 +7,22 @@ class SupportService {
 
   Future<ApiResponse> getChatCategories() async {
     final response = await _helper.get(Endpoints.chatCategories);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> createChat(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.createChat, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getChats() async {
     final response = await _helper.get(Endpoints.chats);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getChat(String hashcode) async {
     final response = await _helper.get('support/chat/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> sendMessage(
@@ -36,11 +36,11 @@ class SupportService {
     };
     if (attachment != null) body['attachment'] = attachment;
     final response = await _helper.post(Endpoints.sendMessage, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getChatMessages(String chatHashcode) async {
     final response = await _helper.get('support/chatMessages/$chatHashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

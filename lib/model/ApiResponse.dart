@@ -10,14 +10,14 @@ ApiResponse apiResponseFromJson(String str) =>
 String apiResponseToJson(ApiResponse data) => json.encode(data.toJson());
 
 class ApiResponse {
-  bool? result;
+  bool? success;
   String? message;
   List<dynamic>? errors;
 
-  ApiResponse({this.result, this.message, this.errors});
+  ApiResponse({this.success, this.message, this.errors});
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) => ApiResponse(
-    result: json["result"],
+    success: json["success"],
     message: json["message"],
     errors: json["errors"] == null
         ? []
@@ -25,7 +25,7 @@ class ApiResponse {
   );
 
   Map<String, dynamic> toJson() => {
-    "result": result,
+    "success": success,
     "message": message,
     "errors": errors == null ? [] : List<dynamic>.from(errors!.map((x) => x)),
   };

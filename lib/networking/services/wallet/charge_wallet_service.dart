@@ -10,6 +10,6 @@ class ChargeWalletService {
       Endpoints.chargeWalletWithPayment,
       data,
     );
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

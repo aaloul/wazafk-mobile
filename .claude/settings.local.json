@@ -15,7 +15,9 @@
       "Bash(done)",
       "Bash(for:*)",
       "Bash(do sed -i \"s/Future<dynamic>/Future<ApiResponse>/g\" \"$file\")",
-      "Bash(do sed -i 's/Future<dynamic>/Future<ApiResponse>/g' \"$file\")"
+      "Bash(do sed -i 's/Future<dynamic>/Future<ApiResponse>/g' \"$file\")",
+      "Bash(do sed -i 's/return response;/return TermsResponse.fromJson(response);/g' \"$file\")",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

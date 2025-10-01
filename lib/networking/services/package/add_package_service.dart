@@ -7,6 +7,6 @@ class AddPackageService {
 
   Future<ApiResponse> addPackage(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.addPackage, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

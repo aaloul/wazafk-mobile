@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
-import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/screens/auth/verification/verification_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -9,7 +10,10 @@ import '../../../components/primary_text.dart';
 import 'components/verification_pin_widget.dart';
 
 class VerificationScreen extends StatelessWidget {
-  const VerificationScreen({super.key});
+  VerificationScreen({super.key});
+
+  final VerificationController dataController = Get.put(
+      VerificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +59,9 @@ class VerificationScreen extends StatelessWidget {
                 SizedBox(height: 32),
 
                 VerificationPinWidget(
-                  onPinChange: (String pin, bool completed) {},
+                  onPinChange: (String pin, bool completed) {
+                    dataController.otp.value = pin;
+                  },
                 ),
 
                 SizedBox(height: 24),
@@ -64,29 +70,51 @@ class VerificationScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     PrimaryText(
-                      text: "Didn’t Receive OTP?",
+                      text: "Didn't Receive OTP?",
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       textColor: context.resources.color.colorGrey3,
                       textAlign: TextAlign.start,
                     ),
                     SizedBox(width: 2),
-                    PrimaryText(
-                      text: "Resend Code",
-                      fontSize: 14,
-                      isUnderLined: true,
-                      fontWeight: FontWeight.w500,
-                      textColor: context.resources.color.colorPrimary,
-                      textAlign: TextAlign.start,
+                    GestureDetector(
+                      onTap: () {
+                        dataController.resendOTP();
+                      },
+                      child: Obx(
+                            () =>
+                        dataController.isResending.value
+                            ? SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                            : PrimaryText(
+                          text: "Resend Code",
+                          fontSize: 14,
+                          isUnderLined: true,
+                          fontWeight: FontWeight.w500,
+                          textColor: context.resources.color.colorPrimary,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
                     ),
                   ],
                 ),
 
                 SizedBox(height: 42),
 
-                PrimaryButton(title: "Verify", onPressed: () {
-                  Get.toNamed(RouteConstant.createAccountScreen);
-                }),
+                Obx(
+                      () =>
+                  dataController.isLoading.value
+                      ? ProgressBar()
+                      : PrimaryButton(
+                    title: "Verify",
+                    onPressed: () {
+                      dataController.verifyOTP();
+                    },
+                  ),
+                ),
 
                 SizedBox(height: 20),
               ],

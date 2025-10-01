@@ -1,6 +1,6 @@
+import '../../../model/ApiResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
-import '../../../model/ApiResponse.dart';
 
 class SaveJobService {
   final ApiBaseHelper _helper = ApiBaseHelper();
@@ -11,6 +11,6 @@ class SaveJobService {
   ) async {
     data['hashcode'] = hashcode;
     final response = await _helper.post(Endpoints.saveJob, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

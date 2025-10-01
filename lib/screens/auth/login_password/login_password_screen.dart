@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/auth/login_password/login_password_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -9,7 +11,10 @@ import '../../../components/labeled_text_field.dart';
 import '../../../components/primary_text.dart';
 
 class LoginPasswordScreen extends StatelessWidget {
-  const LoginPasswordScreen({super.key});
+  LoginPasswordScreen({super.key});
+
+  final LoginPasswordController dataController = Get.put(
+      LoginPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +50,23 @@ class LoginPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
 
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(AppIcons.phone, width: 12),
-                      SizedBox(width: 4),
-                      PrimaryText(
-                        text: "00961 71 459 028",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        textColor: context.resources.color.colorGrey,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                Obx(
+                      () =>
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(AppIcons.phone, width: 12),
+                            SizedBox(width: 4),
+                            PrimaryText(
+                              text: dataController.mobile,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              textColor: context.resources.color.colorGrey,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
                   ),
                 ),
 
@@ -69,7 +77,8 @@ class LoginPasswordScreen extends StatelessWidget {
                   hint: '',
                   isPassword: true,
                   isMandatory: true,
-                  inputType: TextInputType.phone,
+                  inputType: TextInputType.visiblePassword,
+                  controller: dataController.passwordController,
                 ),
                 SizedBox(height: 16),
 
@@ -85,7 +94,10 @@ class LoginPasswordScreen extends StatelessWidget {
                     SizedBox(width: 2),
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed(RouteConstant.changePasswordScreen);
+                        Get.toNamed(
+                          RouteConstant.changePasswordScreen,
+                          arguments: {'mobile': dataController.mobile},
+                        );
                       },
                       child: PrimaryText(
                         text: "Rest My Password",
@@ -101,18 +113,25 @@ class LoginPasswordScreen extends StatelessWidget {
 
                 SizedBox(height: 42),
 
-                PrimaryButton(
-                  title: "Login",
-                  onPressed: () {
-                    Get.toNamed(RouteConstant.verificationScreen);
-                  },
+                Obx(
+                      () =>
+                  dataController.isLoading.value
+                      ? ProgressBar()
+                      : PrimaryButton(
+                    title: "Login",
+                    onPressed: () {
+                      dataController.login();
+                    },
+                  ),
                 ),
 
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.back();
+                      },
                       child: PrimaryText(
                         text: 'Back',
                         fontSize: 14,

@@ -8,11 +8,11 @@ class InterestsService {
   Future<ApiResponse> saveInterests(List<String> interests) async {
     final Map<String, dynamic> body = {'interests': interests};
     final response = await _helper.post(Endpoints.saveInterests, body);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 
   Future<ApiResponse> getInterests() async {
     final response = await _helper.get(Endpoints.interests);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

@@ -1,6 +1,6 @@
+import '../../../model/ApiResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
-import '../../../model/ApiResponse.dart';
 
 class RateMemberService {
   final ApiBaseHelper _helper = ApiBaseHelper();
@@ -11,6 +11,6 @@ class RateMemberService {
   ) async {
     ratingData['member_hashcode'] = memberHashcode;
     final response = await _helper.post(Endpoints.rateMember, ratingData);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

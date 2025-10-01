@@ -7,6 +7,6 @@ class PrivacyService {
 
   Future<TermsResponse> getPrivacyPolicy() async {
     final response = await _helper.get(Endpoints.privacyPolicy);
-    return response;
+    return TermsResponse.fromJson(response);
   }
 }

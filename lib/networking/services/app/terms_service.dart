@@ -8,6 +8,6 @@ class TermsService {
 
   Future<TermsResponse> getTermsAndConditions() async {
     final response = await _helper.get(Endpoints.termsAndConditions);
-    return response;
+    return TermsResponse.fromJson(response);
   }
 }

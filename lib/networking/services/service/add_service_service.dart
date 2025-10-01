@@ -7,6 +7,6 @@ class AddServiceService {
 
   Future<ApiResponse> addService(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.addService, data);
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }

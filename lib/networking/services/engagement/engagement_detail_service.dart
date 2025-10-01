@@ -6,6 +6,6 @@ class EngagementDetailService {
 
   Future<ApiResponse> getEngagement(String hashcode) async {
     final response = await _helper.get('engagement/engagement/$hashcode');
-    return response;
+    return ApiResponse.fromJson(response);
   }
 }
