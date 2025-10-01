@@ -10,6 +10,7 @@ import '../screens/auth/select_portal/select_portal_screen.dart';
 import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
+import '../screens/main/main_navigation_screen.dart';
 
 List<GetPage> getPages = [
   GetPage(
@@ -56,6 +57,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.selectPortalScreen,
     page: () => SelectPortalScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.mainNavigationScreen,
+    page: () => MainNavigationScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

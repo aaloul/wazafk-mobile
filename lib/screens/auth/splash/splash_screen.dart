@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> showSplash() async {
     Future.delayed(const Duration(milliseconds: 2000), () async {
       // if (!Prefs.getOnboardingCompleted) {
-        Get.offAllNamed(RouteConstant.onboardingScreen);
+      Get.offAllNamed(RouteConstant.mainNavigationScreen);
       // } else if (Prefs.getLoggedIn) {
       //   // Get.offAllNamed(RouteConstant.dashboardScreen);
       // } else {

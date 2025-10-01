@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
@@ -27,7 +29,9 @@ class SelectPortalScreen extends StatelessWidget {
                   children: [
                     PortalItem(
                       title: 'Freelancer Portal',
-                      onClick: () {},
+                      onClick: () {
+                        Get.offAllNamed(RouteConstant.mainNavigationScreen);
+                      },
                       color: HexColor("#E7F3EE"),
                       border: HexColor("#00AEC81A"),
                     ),
@@ -35,7 +39,9 @@ class SelectPortalScreen extends StatelessWidget {
 
                     PortalItem(
                       title: 'Employer Portal',
-                      onClick: () {},
+                      onClick: () {
+                        Get.offAllNamed(RouteConstant.mainNavigationScreen);
+                      },
                       color: HexColor("#D5ECEF"),
                       border: HexColor("##00AEC81A"),
                     ),

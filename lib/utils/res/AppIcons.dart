@@ -14,4 +14,9 @@ class AppIcons {
   static const String calendar = '${base}calendar.png';
   static const String arrowDown = '${base}arrow_down.png';
   static const String addImage = '${base}add_image.png';
+  static const String activity = '${base}activity.png';
+  static const String home = '${base}home.png';
+  static const String profile = '${base}profile.png';
+  static const String projects = '${base}projects.png';
+  static const String search = '${base}search.png';
 }

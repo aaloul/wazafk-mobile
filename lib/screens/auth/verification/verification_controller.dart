@@ -39,8 +39,8 @@ class VerificationController extends GetxController {
 
         // Navigate based on the page
         if (page == 'login') {
-          // Navigate to home or dashboard after login
-          Get.offAllNamed(RouteConstant.selectPortalScreen);
+          // Navigate to main navigation after login
+          Get.offAllNamed(RouteConstant.mainNavigationScreen);
         } else {
           // Navigate to create account after registration OTP
           Get.toNamed(RouteConstant.createAccountScreen);
