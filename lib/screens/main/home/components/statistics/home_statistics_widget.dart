@@ -102,7 +102,6 @@ class StatisticsItem extends StatelessWidget {
                     icon,
                     height: 24,
                     width: 24,
-                    fit: BoxFit.fitHeight,
                   ),
                 if (textIcon != null)
                   PrimaryText(

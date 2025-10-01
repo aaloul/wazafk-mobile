@@ -9,6 +9,24 @@ class RouteConstant {
   static const String createAccountScreen = '/create_account_screen';
   static const String selectPortalScreen = '/select_portal_screen';
   static const String mainNavigationScreen = '/main_navigation_screen';
-  static const String notificationsScreen = '/notifications_screen';
   static const String chatScreen = '/chat_screen';
+
+  // Profile screens
+  static const String personalInformationScreen =
+      '/personal_information_screen';
+  static const String myDocumentsScreen = '/my_documents_screen';
+  static const String myAddressesScreen = '/my_addresses_screen';
+  static const String profileNotificationsScreen =
+      '/profile_notifications_screen';
+  static const String loginSecurityScreen = '/login_security_screen';
+  static const String paymentsEarningsScreen = '/payments_earnings_screen';
+  static const String privacySharingScreen = '/privacy_sharing_screen';
+  static const String changeLanguageScreen = '/change_language_screen';
+  static const String wayOfPaymentScreen = '/way_of_payment_screen';
+  static const String workingDaysScreen = '/working_days_screen';
+  static const String aboutUsScreen = '/about_us_screen';
+  static const String helpCenterScreen = '/help_center_screen';
+  static const String giveFeedbackScreen = '/give_feedback_screen';
+  static const String servicesScreen = '/services_screen';
+  static const String packsScreen = '/packs_screen';
 }

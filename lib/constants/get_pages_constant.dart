@@ -12,7 +12,21 @@ import '../screens/auth/verification/verification_screen.dart';
 import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
-import '../screens/notifications/notifications_screen.dart';
+import '../screens/main/profile/about_us/about_us_screen.dart';
+import '../screens/main/profile/change_language/change_language_screen.dart';
+import '../screens/main/profile/give_feedback/give_feedback_screen.dart';
+import '../screens/main/profile/help_center/help_center_screen.dart';
+import '../screens/main/profile/login_security/login_security_screen.dart';
+import '../screens/main/profile/my_addresses/my_addresses_screen.dart';
+import '../screens/main/profile/my_documents/my_documents_screen.dart';
+import '../screens/main/profile/notifications/notifications_screen.dart';
+import '../screens/main/profile/packs/packs_screen.dart';
+import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
+import '../screens/main/profile/personal_information/personal_information_screen.dart';
+import '../screens/main/profile/privacy_sharing/privacy_sharing_screen.dart';
+import '../screens/main/profile/services/services_screen.dart';
+import '../screens/main/profile/way_of_payment/way_of_payment_screen.dart';
+import '../screens/main/profile/working_days/working_days_screen.dart';
 
 List<GetPage> getPages = [
   GetPage(
@@ -66,14 +80,87 @@ List<GetPage> getPages = [
     page: () => MainNavigationScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
+
   GetPage(
-    name: RouteConstant.notificationsScreen,
+    name: RouteConstant.chatScreen,
+    page: () => ChatScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+
+  // Profile screens
+  GetPage(
+    name: RouteConstant.personalInformationScreen,
+    page: () => PersonalInformationScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.myDocumentsScreen,
+    page: () => MyDocumentsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.myAddressesScreen,
+    page: () => MyAddressesScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.profileNotificationsScreen,
     page: () => NotificationsScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
-    name: RouteConstant.chatScreen,
-    page: () => ChatScreen(),
+    name: RouteConstant.loginSecurityScreen,
+    page: () => LoginSecurityScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.paymentsEarningsScreen,
+    page: () => PaymentsEarningsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.privacySharingScreen,
+    page: () => PrivacySharingScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.changeLanguageScreen,
+    page: () => ChangeLanguageScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.wayOfPaymentScreen,
+    page: () => WayOfPaymentScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.workingDaysScreen,
+    page: () => WorkingDaysScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.aboutUsScreen,
+    page: () => AboutUsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.helpCenterScreen,
+    page: () => HelpCenterScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.giveFeedbackScreen,
+    page: () => GiveFeedbackScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.servicesScreen,
+    page: () => ServicesScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.packsScreen,
+    page: () => PacksScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

@@ -27,4 +27,25 @@ class AppIcons {
   static const String completed = '${base}completed.png';
   static const String dollar = '${base}dollar.png';
   static const String time = '${base}time.png';
+  static const String wallet = '${base}wallet.png';
+  static const String file = '${base}file.png';
+  static const String arrowRight2 = '${base}arrow_righrt2.png';
+  static const String menuAbout = '${base}menu_about.png';
+  static const String menuAddresses = '${base}menu_addresses.png';
+  static const String menuDelete = '${base}menu_delete.png';
+  static const String menuDocuments = '${base}menu_documents.png';
+  static const String menuEarnings = '${base}menu_earnings.png';
+  static const String menuFeedback = '${base}menu_feedback.png';
+  static const String menuHelp = '${base}menu_help.png';
+  static const String menuLanguage = '${base}menu_language.png';
+  static const String menuLogout = '${base}menu_logout.png';
+  static const String menuNotifications = '${base}menu_notifications.png';
+  static const String menuPayment = '${base}menu_payment.png';
+  static const String menuPersonalInfo = '${base}menu_personal_info.png';
+  static const String menuPrivacy = '${base}menu_privacy.png';
+  static const String menuSecurity = '${base}menu_security.png';
+  static const String menuShare = '${base}menu_share.png';
+  static const String menuWorkingDays = '${base}menu_working_days.png';
+  static const String services = '${base}services.png';
+  static const String packs = '${base}packs.png';
 }
