@@ -127,7 +127,7 @@ class ProfileController extends GetxController {
         Get.toNamed(RouteConstant.workingDaysScreen);
         break;
       case 10: // Share App
-        shareApp();
+        Get.toNamed(RouteConstant.shareAppScreen);
         break;
       case 11: // About Us
         Get.toNamed(RouteConstant.aboutUsScreen);

@@ -25,6 +25,7 @@ import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart'
 import '../screens/main/profile/personal_information/personal_information_screen.dart';
 import '../screens/main/profile/privacy_sharing/privacy_sharing_screen.dart';
 import '../screens/main/profile/services/services_screen.dart';
+import '../screens/main/profile/share_app/share_app_screen.dart';
 import '../screens/main/profile/way_of_payment/way_of_payment_screen.dart';
 import '../screens/main/profile/working_days/working_days_screen.dart';
 
@@ -161,6 +162,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.packsScreen,
     page: () => PacksScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.shareAppScreen,
+    page: () => ShareAppScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];
