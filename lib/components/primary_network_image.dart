@@ -62,7 +62,7 @@ class PrimaryNetworkImage extends StatelessWidget {
               borderRadius: BorderRadius.circular(errorBorderRadius ?? 6),
               child: errorWidget ??
                   Image.asset(
-                    AppIcons.logo,
+                    AppIcons.placeholder,
                     height: height ?? double.infinity,
                     width: width ?? double.infinity,
                     fit: BoxFit.cover,

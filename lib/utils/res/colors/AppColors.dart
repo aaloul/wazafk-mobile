@@ -34,6 +34,12 @@ class AppColors implements BaseColors {
   Color get colorGrey5 => HexColor('#9A9A9A');
 
   @override
+  Color get colorGrey6 => HexColor('#D9D9D9');
+
+  @override
+  Color get colorGrey7 => HexColor('#8C8C8C');
+
+  @override
   Color get colorRed => HexColor('#C73A3A');
 
   @override

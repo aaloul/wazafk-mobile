@@ -19,4 +19,8 @@ class AppIcons {
   static const String profile = '${base}profile.png';
   static const String projects = '${base}projects.png';
   static const String search = '${base}search.png';
+  static const String filter = '${base}filter.png';
+  static const String message = '${base}message.png';
+  static const String notification = '${base}notification.png';
+  static const String placeholder = '${base}placeholder.png';
 }

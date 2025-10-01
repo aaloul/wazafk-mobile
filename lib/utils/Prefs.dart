@@ -91,6 +91,10 @@ class Prefs {
 
   static void setEmail(String value) => box.write(Const.EMAIL, value);
 
+  static String get getAvatar => box.read(Const.AVATAR) ?? '';
+
+  static void setAvatar(String value) => box.write(Const.AVATAR, value);
+
   static String get getEnvUrl => box.read(Const.ENV_URL) ?? Endpoints.base_url;
 
   static void setEnvUrl(String value) => box.write(Const.ENV_URL, value);

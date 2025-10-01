@@ -22,6 +22,7 @@ class Const {
   static const String L_NAME = 'L_NAME';
   static const String DOB = 'DOB';
   static const String EMAIL = 'EMAIL';
+  static const String AVATAR = 'AVATAR';
   static const String GENDER = 'GENDER';
   static const String PHONE = 'PHONE';
   static const String ID = 'ID';
