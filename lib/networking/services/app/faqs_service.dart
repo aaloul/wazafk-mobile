@@ -1,12 +1,12 @@
-import '../../../model/ApiResponse.dart';
+import '../../../model/FAQSResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
 class FaqsService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> getFaqs() async {
+  Future<FaqsResponse> getFaqs() async {
     final response = await _helper.get(Endpoints.faqs);
-    return ApiResponse.fromJson(response);
+    return FaqsResponse.fromJson(response);
   }
 }

@@ -1,11 +1,10 @@
-import 'package:wazafak_app/model/ApiResponse.dart';
-
+import '../../model/FAQSResponse.dart';
 import '../../networking/services/app/faqs_service.dart';
 
 class FaqsRepository {
   final _provider = FaqsService();
 
-  Future<ApiResponse> getFaqs() async {
+  Future<FaqsResponse> getFaqs() async {
     return _provider.getFaqs();
   }
 }

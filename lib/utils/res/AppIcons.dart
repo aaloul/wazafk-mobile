@@ -63,4 +63,5 @@ class AppIcons {
   static const String shareIntro = '${base}share_intro.png';
   static const String shareVerification = '${base}share_verification.png';
   static const String whatsapp = '${base}whatsapp.png';
+  static const String star = '${base}star.png';
 }
