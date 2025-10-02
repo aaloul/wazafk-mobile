@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
 
 import '../screens/auth/change_password/change_password_screen.dart';
 import '../screens/auth/create_account/create_account_screen.dart';
@@ -13,13 +14,13 @@ import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
+import '../screens/main/profile/add_address/add_address_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
 import '../screens/main/profile/give_feedback/give_feedback_screen.dart';
 import '../screens/main/profile/help_center/help_center_screen.dart';
 import '../screens/main/profile/login_security/login_security_screen.dart';
 import '../screens/main/profile/my_addresses/my_addresses_screen.dart';
 import '../screens/main/profile/my_documents/my_documents_screen.dart';
-import '../screens/main/profile/notifications/notifications_screen.dart';
 import '../screens/main/profile/packs/packs_screen.dart';
 import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
 import '../screens/main/profile/personal_information/personal_information_screen.dart';
@@ -106,7 +107,7 @@ List<GetPage> getPages = [
   ),
   GetPage(
     name: RouteConstant.profileNotificationsScreen,
-    page: () => NotificationsScreen(),
+    page: () => NotificationSettingsScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
@@ -167,6 +168,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.shareAppScreen,
     page: () => ShareAppScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.addAddressScreen,
+    page: () => AddAddressScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

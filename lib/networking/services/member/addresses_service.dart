@@ -1,3 +1,5 @@
+import 'package:wazafak_app/model/AddressesResponse.dart';
+
 import '../../../model/ApiResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
@@ -19,8 +21,14 @@ class AddressesService {
     return ApiResponse.fromJson(response);
   }
 
-  Future<ApiResponse> getAddresses() async {
+  Future<AddressesResponse> getAddresses() async {
     final response = await _helper.get(Endpoints.addresses);
+    return AddressesResponse.fromJson(response);
+  }
+
+  Future<ApiResponse> deleteAddress(String hashcode) async {
+    final data = {'hashcode': hashcode};
+    final response = await _helper.post(Endpoints.deleteAddress, data);
     return ApiResponse.fromJson(response);
   }
 }

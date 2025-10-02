@@ -48,4 +48,7 @@ class AppIcons {
   static const String menuWorkingDays = '${base}menu_working_days.png';
   static const String services = '${base}services.png';
   static const String packs = '${base}packs.png';
+  static const String document = '${base}document.png';
+  static const String edit = '${base}edit.png';
+  static const String delete = '${base}delete.png';
 }

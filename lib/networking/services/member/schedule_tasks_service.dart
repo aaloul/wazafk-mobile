@@ -1,3 +1,5 @@
+import 'package:wazafak_app/model/scheduleTasksResponse.dart';
+
 import '../../../model/ApiResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
@@ -23,8 +25,8 @@ class ScheduleTasksService {
     return ApiResponse.fromJson(response);
   }
 
-  Future<ApiResponse> getScheduleTasks() async {
+  Future<ScheduleTasksResponse> getScheduleTasks() async {
     final response = await _helper.get(Endpoints.scheduleTasks);
-    return ApiResponse.fromJson(response);
+    return ScheduleTasksResponse.fromJson(response);
   }
 }

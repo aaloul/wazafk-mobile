@@ -1,7 +1,11 @@
+import 'package:get/get.dart';
+
 class SettingsModel {
   late int id;
   late String title;
   late String icon;
+
+  var checked = true.obs;
 
   SettingsModel({required this.id, required this.title, required this.icon});
 }

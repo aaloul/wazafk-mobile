@@ -1,4 +1,5 @@
 import '../../../model/ApiResponse.dart';
+import '../../../model/MemberSkillsResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
@@ -17,8 +18,8 @@ class MemberSkillsService {
     return ApiResponse.fromJson(response);
   }
 
-  Future<ApiResponse> getSkills() async {
+  Future<MemberSkillsResponse> getSkills() async {
     final response = await _helper.get(Endpoints.memberSkills);
-    return ApiResponse.fromJson(response);
+    return MemberSkillsResponse.fromJson(response);
   }
 }

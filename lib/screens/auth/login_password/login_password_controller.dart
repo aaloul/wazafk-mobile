@@ -40,6 +40,7 @@ class LoginPasswordController extends GetxController {
       );
 
       if (response.success ?? false) {
+        Prefs.setToken(response.data!.token.toString());
         Prefs.saveUser(response.data!);
         Get.toNamed(
           RouteConstant.mainNavigationScreen,

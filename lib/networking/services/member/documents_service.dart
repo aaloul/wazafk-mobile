@@ -1,3 +1,5 @@
+import 'package:wazafak_app/model/DocumentsResponse.dart';
+
 import '../../../model/ApiResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
@@ -10,8 +12,8 @@ class DocumentsService {
     return ApiResponse.fromJson(response);
   }
 
-  Future<ApiResponse> getDocuments() async {
+  Future<DocumentsResponse> getDocuments() async {
     final response = await _helper.get(Endpoints.documents);
-    return ApiResponse.fromJson(response);
+    return DocumentsResponse.fromJson(response);
   }
 }

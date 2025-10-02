@@ -1,10 +1,11 @@
 import '../../model/ApiResponse.dart';
+import '../../model/LoginResponse.dart';
 import '../../networking/services/member/profile_service.dart';
 
 class ProfileRepository {
   final _provider = ProfileService();
 
-  Future<ApiResponse> getProfile(String hashcode) async {
+  Future<LoginResponse> getProfile(String hashcode) async {
     return _provider.getProfile(hashcode);
   }
 

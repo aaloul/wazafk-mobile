@@ -1,4 +1,5 @@
 import '../../model/ApiResponse.dart';
+import '../../model/DocumentsResponse.dart';
 import '../../networking/services/member/documents_service.dart';
 
 class DocumentsRepository {
@@ -8,7 +9,7 @@ class DocumentsRepository {
     return _provider.saveDocument(data);
   }
 
-  Future<ApiResponse> getDocuments() async {
+  Future<DocumentsResponse> getDocuments() async {
     return _provider.getDocuments();
   }
 }

@@ -1,5 +1,6 @@
-import '../../networking/services/member/schedule_tasks_service.dart';
 import '../../model/ApiResponse.dart';
+import '../../model/scheduleTasksResponse.dart';
+import '../../networking/services/member/schedule_tasks_service.dart';
 
 class ScheduleTasksRepository {
   final _provider = ScheduleTasksService();
@@ -19,7 +20,7 @@ class ScheduleTasksRepository {
     return _provider.deleteScheduleTask(hashcode);
   }
 
-  Future<ApiResponse> getScheduleTasks() async {
+  Future<ScheduleTasksResponse> getScheduleTasks() async {
     return _provider.getScheduleTasks();
   }
 }

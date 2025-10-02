@@ -31,6 +31,7 @@ class LoginResponse {
 
 class User {
   String? hashcode;
+  String? token;
   String? code;
   String? firstName;
   String? lastName;
@@ -59,6 +60,7 @@ class User {
 
   User({
     this.hashcode,
+    this.token,
     this.code,
     this.firstName,
     this.lastName,
@@ -88,6 +90,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     hashcode: json["hashcode"],
+    token: json["token"],
     code: json["code"],
     firstName: json["first_name"],
     lastName: json["last_name"],
@@ -119,6 +122,7 @@ class User {
 
   Map<String, dynamic> toJson() => {
     "hashcode": hashcode,
+    "token": token,
     "code": code,
     "first_name": firstName,
     "last_name": lastName,

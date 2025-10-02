@@ -30,4 +30,5 @@ class RouteConstant {
   static const String servicesScreen = '/services_screen';
   static const String packsScreen = '/packs_screen';
   static const String shareAppScreen = '/share_app_screen';
+  static const String addAddressScreen = '/add_address_screen';
 }

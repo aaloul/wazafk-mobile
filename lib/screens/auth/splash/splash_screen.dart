@@ -6,6 +6,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/auth/splash/splash_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../../../utils/Prefs.dart';
 import '../../../utils/res/AppIcons.dart';
 import '../../../utils/res/colors/hex_color.dart';
 
@@ -78,11 +79,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> showSplash() async {
     Future.delayed(const Duration(milliseconds: 2000), () async {
-      // if (Prefs.getLoggedIn) {
-      Get.offAllNamed(RouteConstant.mainNavigationScreen);
-      // } else {
-      //   Get.offAllNamed(RouteConstant.onboardingScreen);
-      // }
+      if (Prefs.getLoggedIn) {
+        Get.offAllNamed(RouteConstant.mainNavigationScreen);
+      } else {
+        Get.offAllNamed(RouteConstant.onboardingScreen);
+      }
     });
   }
 

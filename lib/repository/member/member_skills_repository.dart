@@ -1,4 +1,5 @@
 import '../../model/ApiResponse.dart';
+import '../../model/MemberSkillsResponse.dart';
 import '../../networking/services/member/skills_service.dart';
 
 class MemberSkillsRepository {
@@ -12,7 +13,7 @@ class MemberSkillsRepository {
     return _provider.removeSkill(skillHashcode);
   }
 
-  Future<ApiResponse> getSkills() async {
+  Future<MemberSkillsResponse> getSkills() async {
     return _provider.getSkills();
   }
 }

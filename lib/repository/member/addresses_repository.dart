@@ -1,3 +1,4 @@
+import '../../model/AddressesResponse.dart';
 import '../../model/ApiResponse.dart';
 import '../../networking/services/member/addresses_service.dart';
 
@@ -15,7 +16,11 @@ class AddressesRepository {
     return _provider.saveAddress(hashcode, data);
   }
 
-  Future<ApiResponse> getAddresses() async {
+  Future<AddressesResponse> getAddresses() async {
     return _provider.getAddresses();
+  }
+
+  Future<ApiResponse> deleteAddress(String hashcode) async {
+    return _provider.deleteAddress(hashcode);
   }
 }
