@@ -4,10 +4,12 @@ class SettingsModel {
   late int id;
   late String title;
   late String icon;
+  late String? desc;
 
   var checked = true.obs;
 
-  SettingsModel({required this.id, required this.title, required this.icon});
+  SettingsModel(
+      {required this.id, required this.title, required this.icon, this.desc});
 }
 
 class SettingsGroup {

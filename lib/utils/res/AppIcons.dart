@@ -57,4 +57,10 @@ class AppIcons {
   static const String whereLoggedIn = '${base}where_loggedin.png';
   static const String radioOn = '${base}radio_on.png';
   static const String radioOff = '${base}radio_off.png';
+  static const String email = '${base}email.png';
+  static const String shareDownload = '${base}share_download.png';
+  static const String shareHired = '${base}share_hired.png';
+  static const String shareIntro = '${base}share_intro.png';
+  static const String shareVerification = '${base}share_verification.png';
+  static const String whatsapp = '${base}whatsapp.png';
 }
