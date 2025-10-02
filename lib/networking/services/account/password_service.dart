@@ -13,12 +13,12 @@ class PasswordService {
 
   Future<ApiResponse> forgotPasswordConfirm(
     String mobile,
-    String otp,
+    String resetToken,
     String newPassword,
   ) async {
     final Map<String, dynamic> body = {
       'mobile': mobile,
-      'otp': otp,
+      'reset_token': resetToken,
       'new_password': newPassword,
     };
     final response = await _helper.post(Endpoints.forgotPasswordConfirm, body);

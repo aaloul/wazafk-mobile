@@ -82,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (Prefs.getLoggedIn) {
         Get.offAllNamed(RouteConstant.mainNavigationScreen);
       } else {
-        Get.offAllNamed(RouteConstant.onboardingScreen);
+        Get.offAllNamed(RouteConstant.phoneNumberScreen);
       }
     });
   }

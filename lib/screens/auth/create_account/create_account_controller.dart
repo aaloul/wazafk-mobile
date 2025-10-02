@@ -65,9 +65,12 @@ class CreateAccountController extends GetxController {
     }
   }
 
+  String mobile = '96176673535';
+
   @override
   Future<void> onInit() async {
     super.onInit();
+    mobile = Get.arguments["mobile"];
     getInterestOptions();
     selectedGender.value = genders.first;
   }
@@ -189,6 +192,7 @@ class CreateAccountController extends GetxController {
       Map<String, dynamic> data = {
         'first_name': firstNameController.text,
         'last_name': lastNameController.text,
+        'mobile': mobile,
         'email': emailController.text,
         'password': passwordController.text,
         'password_confirmation': confirmPasswordController.text,
@@ -201,7 +205,7 @@ class CreateAccountController extends GetxController {
       if (profileImage.value != null) {
         final base64Image = await convertImageToBase64(profileImage.value!);
         if (base64Image != null) {
-          data['profile_image'] = base64Image;
+          data['image'] = base64Image;
         }
       }
 

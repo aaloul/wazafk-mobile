@@ -29,7 +29,7 @@ class VerificationController extends GetxController {
 
     isLoading(true);
     try {
-      final response = await _otpRepository.verifyOTP(mobile, otp.value);
+      final response = await _otpRepository.verifyOTP("SMS", otp.value);
 
       if (response.success ?? false) {
         constants.showSnackBar(
@@ -40,7 +40,7 @@ class VerificationController extends GetxController {
         // Navigate based on the page
         if (page == 'login') {
           // Navigate to main navigation after login
-          Get.offAllNamed(RouteConstant.mainNavigationScreen);
+          Get.offAllNamed(RouteConstant.createAccountScreen);
         } else {
           // Navigate to create account after registration OTP
           Get.toNamed(RouteConstant.createAccountScreen);
@@ -64,7 +64,7 @@ class VerificationController extends GetxController {
   Future<void> resendOTP() async {
     isResending(true);
     try {
-      final response = await _otpRepository.sendOTP(mobile);
+      final response = await _otpRepository.sendOTP("SMS");
 
       if (response.success ?? false) {
         constants.showSnackBar(

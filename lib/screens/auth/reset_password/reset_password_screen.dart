@@ -51,15 +51,6 @@ class ResetPasswordScreen extends StatelessWidget {
                 SizedBox(height: 32),
 
                 LabeledTextFiled(
-                  label: 'OTP',
-                  hint: 'Enter OTP',
-                  isPassword: false,
-                  isMandatory: true,
-                  inputType: TextInputType.number,
-                  controller: dataController.otpController,
-                ),
-
-                LabeledTextFiled(
                   label: 'New Password',
                   hint: 'New Password',
                   isPassword: true,
@@ -77,36 +68,9 @@ class ResetPasswordScreen extends StatelessWidget {
                   controller: dataController.confirmPasswordController,
                 ),
 
-                SizedBox(height: 24),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    PrimaryText(
-                      text: "Didn't Receive OTP?",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      textColor: context.resources.color.colorGrey3,
-                      textAlign: TextAlign.start,
-                    ),
-                    SizedBox(width: 2),
-                    GestureDetector(
-                      onTap: () {
-                        dataController.requestPasswordReset();
-                      },
-                      child: PrimaryText(
-                        text: "Resend Code",
-                        fontSize: 14,
-                        isUnderLined: true,
-                        fontWeight: FontWeight.w500,
-                        textColor: context.resources.color.colorPrimary,
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 42),
+                SizedBox(
+                    height: 32),
 
                 Obx(
                       () =>

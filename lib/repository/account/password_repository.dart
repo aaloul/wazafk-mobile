@@ -10,10 +10,10 @@ class PasswordRepository {
 
   Future<ApiResponse> forgotPasswordConfirm(
     String mobile,
-    String otp,
+    String resetToken,
     String newPassword,
   ) async {
-    return _provider.forgotPasswordConfirm(mobile, otp, newPassword);
+    return _provider.forgotPasswordConfirm(mobile, resetToken, newPassword);
   }
 
   Future<ApiResponse> changePassword(

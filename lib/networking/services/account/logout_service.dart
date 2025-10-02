@@ -6,7 +6,7 @@ class LogoutService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<ApiResponse> logout() async {
-    final response = await _helper.post(Endpoints.logout, {});
+    final response = await _helper.get(Endpoints.logout);
     return ApiResponse.fromJson(response);
   }
 }

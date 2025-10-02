@@ -10,7 +10,6 @@ class ResetPasswordController extends GetxController {
 
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  final otpController = TextEditingController();
 
   var isLoading = false.obs;
 
@@ -30,7 +29,6 @@ class ResetPasswordController extends GetxController {
   void onClose() {
     newPasswordController.dispose();
     confirmPasswordController.dispose();
-    otpController.dispose();
     super.onClose();
   }
 
@@ -40,7 +38,7 @@ class ResetPasswordController extends GetxController {
       return;
     }
 
-    isLoading(true);
+    // isLoading(true);
     try {
       final response = await _passwordRepository.forgotPasswordRequest(mobile);
 
@@ -55,9 +53,9 @@ class ResetPasswordController extends GetxController {
           SnackBarStatus.ERROR,
         );
       }
-      isLoading(false);
+      // isLoading(false);
     } catch (e) {
-      isLoading(false);
+      // isLoading(false);
       constants.showSnackBar(
         getErrorMessage(e.toString()).toString(),
         SnackBarStatus.ERROR,
@@ -66,11 +64,6 @@ class ResetPasswordController extends GetxController {
   }
 
   Future<void> confirmPasswordReset() async {
-    if (otpController.text.isEmpty) {
-      constants.showSnackBar('OTP is required', SnackBarStatus.ERROR);
-      return;
-    }
-
     if (newPasswordController.text.isEmpty) {
       constants.showSnackBar('New password is required', SnackBarStatus.ERROR);
       return;
@@ -93,7 +86,7 @@ class ResetPasswordController extends GetxController {
     try {
       final response = await _passwordRepository.forgotPasswordConfirm(
         mobile,
-        otpController.text,
+        "123456",
         newPasswordController.text,
       );
 
