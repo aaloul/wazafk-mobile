@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
 
-import '../screens/auth/change_password/change_password_screen.dart';
 import '../screens/auth/create_account/create_account_screen.dart';
 import '../screens/auth/login_password/login_password_screen.dart';
 import '../screens/auth/onboarding/onboarding_screen.dart';
 import '../screens/auth/phone_number/phone_number_screen.dart';
+import '../screens/auth/reset_password/reset_password_screen.dart';
 import '../screens/auth/select_portal/select_portal_screen.dart';
 import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
@@ -18,7 +18,11 @@ import '../screens/main/profile/add_address/add_address_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
 import '../screens/main/profile/give_feedback/give_feedback_screen.dart';
 import '../screens/main/profile/help_center/help_center_screen.dart';
+import '../screens/main/profile/login_security/change_password/change_password_screen.dart';
+import '../screens/main/profile/login_security/login_alerts/login_alerts_screen.dart';
 import '../screens/main/profile/login_security/login_security_screen.dart';
+import '../screens/main/profile/login_security/saved_login/saved_login_screen.dart';
+import '../screens/main/profile/login_security/where_logged_in/where_logged_in_screen.dart';
 import '../screens/main/profile/my_addresses/my_addresses_screen.dart';
 import '../screens/main/profile/my_documents/my_documents_screen.dart';
 import '../screens/main/profile/packs/packs_screen.dart';
@@ -65,6 +69,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.changePasswordScreen,
     page: () => ChangePasswordScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.resetPasswordScreen,
+    page: () => ResetPasswordScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
@@ -173,6 +182,21 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.addAddressScreen,
     page: () => AddAddressScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.savedLoginScreen,
+    page: () => SavedLoginScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.whereLoggedInScreen,
+    page: () => WhereLoggedInScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.loginAlertsScreen,
+    page: () => LoginAlertsScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

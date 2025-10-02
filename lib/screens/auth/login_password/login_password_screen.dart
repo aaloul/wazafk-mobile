@@ -93,7 +93,7 @@ class LoginPasswordScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(
-                          RouteConstant.changePasswordScreen,
+                          RouteConstant.resetPasswordScreen,
                           arguments: {'mobile': dataController.mobile},
                         );
                       },

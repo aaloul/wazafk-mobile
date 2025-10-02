@@ -51,4 +51,8 @@ class AppIcons {
   static const String document = '${base}document.png';
   static const String edit = '${base}edit.png';
   static const String delete = '${base}delete.png';
+  static const String changePassword = '${base}change_password.png';
+  static const String loginAlerts = '${base}login_alerts.png';
+  static const String savedLogins = '${base}saved_logins.png';
+  static const String whereLoggedIn = '${base}where_loggedin.png';
 }

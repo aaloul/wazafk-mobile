@@ -30,7 +30,7 @@ class PasswordService {
     String newPassword,
   ) async {
     final Map<String, dynamic> body = {
-      'old_password': oldPassword,
+      'current_password': oldPassword,
       'new_password': newPassword,
     };
     final response = await _helper.post(Endpoints.changePassword, body);

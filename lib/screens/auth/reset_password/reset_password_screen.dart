@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
-import 'package:wazafak_app/screens/auth/change_password/change_password_controller.dart';
+import 'package:wazafak_app/screens/auth/reset_password/reset_password_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../../../components/labeled_text_field.dart';
 import '../../../components/primary_text.dart';
 
-class ChangePasswordScreen extends StatelessWidget {
-  ChangePasswordScreen({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  ResetPasswordScreen({super.key});
 
-  final ChangePasswordController dataController = Get.put(
-      ChangePasswordController());
+  final ResetPasswordController dataController = Get.put(
+      ResetPasswordController());
 
   @override
   Widget build(BuildContext context) {

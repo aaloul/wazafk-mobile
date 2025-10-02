@@ -5,7 +5,7 @@ import 'package:wazafak_app/repository/account/password_repository.dart';
 
 import '../../../utils/utils.dart';
 
-class ChangePasswordController extends GetxController {
+class ResetPasswordController extends GetxController {
   final PasswordRepository _passwordRepository = PasswordRepository();
 
   final newPasswordController = TextEditingController();
