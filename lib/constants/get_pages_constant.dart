@@ -14,7 +14,6 @@ import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
-import '../screens/main/profile/add_address/add_address_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
 import '../screens/main/profile/give_feedback/give_feedback_screen.dart';
 import '../screens/main/profile/help_center/help_center_screen.dart';
@@ -23,6 +22,7 @@ import '../screens/main/profile/login_security/login_alerts/login_alerts_screen.
 import '../screens/main/profile/login_security/login_security_screen.dart';
 import '../screens/main/profile/login_security/saved_login/saved_login_screen.dart';
 import '../screens/main/profile/login_security/where_logged_in/where_logged_in_screen.dart';
+import '../screens/main/profile/my_addresses/add_address/add_address_screen.dart';
 import '../screens/main/profile/my_addresses/my_addresses_screen.dart';
 import '../screens/main/profile/my_documents/my_documents_screen.dart';
 import '../screens/main/profile/packs/packs_screen.dart';

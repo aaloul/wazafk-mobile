@@ -55,4 +55,6 @@ class AppIcons {
   static const String loginAlerts = '${base}login_alerts.png';
   static const String savedLogins = '${base}saved_logins.png';
   static const String whereLoggedIn = '${base}where_loggedin.png';
+  static const String radioOn = '${base}radio_on.png';
+  static const String radioOff = '${base}radio_off.png';
 }
