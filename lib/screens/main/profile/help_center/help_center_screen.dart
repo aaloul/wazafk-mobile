@@ -18,9 +18,21 @@ class HelpCenterScreen extends StatelessWidget {
       backgroundColor: context.resources.color.background,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TopHeader(hasBack: true, title: 'Help Center'),
-            SizedBox(height: 16),
+            SizedBox(height: 20),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              child: PrimaryText(
+                text: "How Can We help You?",
+                fontSize: 16,
+                fontWeight: FontWeight.w900,
+                textColor: context.resources.color.colorGrey,
+              ),
+            ),
+            SizedBox(height: 8),
+
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
@@ -28,9 +40,7 @@ class HelpCenterScreen extends StatelessWidget {
                 }
 
                 if (controller.faqs.isEmpty) {
-                  return Center(
-                    child: Text('No FAQs available'),
-                  );
+                  return Center(child: Text('No FAQs available'));
                 }
 
                 return ListView.separated(
@@ -40,75 +50,72 @@ class HelpCenterScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final faq = controller.faqs[index];
 
-                    return Obx(
-                          () {
-                        final isExpanded = controller.expandedIndex.value ==
-                            index;
+                    return Obx(() {
+                      final isExpanded =
+                          controller.expandedIndex.value == index;
 
-                        return GestureDetector(
-                          onTap: () => controller.toggleExpand(index),
-                          child: Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: context.resources.color.colorWhite,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: context.resources.color.colorGrey9,
-                                width: 0.5,
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: PrimaryText(
-                                        text: faq.question ?? '',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w900,
-                                        textColor:
-                                        context.resources.color.colorGrey,
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    AnimatedRotation(
-                                      turns: isExpanded ? 0.5 : 0,
-                                      duration: Duration(milliseconds: 200),
-                                      child: Icon(
-                                        Icons.keyboard_arrow_down,
-                                        color: context.resources.color
-                                            .colorGrey8,
-                                        size: 24,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                if (isExpanded) ...[
-                                  SizedBox(height: 10),
-
-                                  Divider(
-                                    height: 1,
-                                    color: context.resources.color.colorGrey9,
-                                    thickness: 0.5,
-                                  ),
-
-                                  SizedBox(height: 10),
-                                  PrimaryText(
-                                    text: faq.answer ?? '',
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    textColor: context.resources.color
-                                        .colorGrey10,
-                                    height: 1.5,
-                                  ),
-                                ],
-                              ],
+                      return GestureDetector(
+                        onTap: () => controller.toggleExpand(index),
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: context.resources.color.colorWhite,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: context.resources.color.colorGrey9,
+                              width: 0.5,
                             ),
                           ),
-                        );
-                      },
-                    );
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: PrimaryText(
+                                      text: faq.question ?? '',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w900,
+                                      textColor:
+                                          context.resources.color.colorGrey,
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  AnimatedRotation(
+                                    turns: isExpanded ? 0.5 : 0,
+                                    duration: Duration(milliseconds: 200),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: context.resources.color.colorGrey8,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (isExpanded) ...[
+                                SizedBox(height: 10),
+
+                                Divider(
+                                  height: 1,
+                                  color: context.resources.color.colorGrey9,
+                                  thickness: 0.5,
+                                ),
+
+                                SizedBox(height: 10),
+                                PrimaryText(
+                                  text: faq.answer ?? '',
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  textColor:
+                                      context.resources.color.colorGrey10,
+                                  height: 1.5,
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      );
+                    });
                   },
                 );
               }),
