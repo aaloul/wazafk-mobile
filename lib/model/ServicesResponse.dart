@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 import 'SkillsResponse.dart';
 
 ServicesResponse servicesResponseFromJson(String str) =>
@@ -75,6 +77,8 @@ class Service {
   List<Skill>? skills;
   List<Area>? areas;
   List<Availability>? availability;
+
+  var checked = false.obs;
 
   Service({
     this.hashcode,

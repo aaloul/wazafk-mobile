@@ -1,11 +1,12 @@
-import '../../../model/ApiResponse.dart';
+import 'package:wazafak_app/model/PackagesResponse.dart';
+
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
 class PackagesListService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> getPackages({Map<String, String>? filters}) async {
+  Future<PackagesResponse> getPackages({Map<String, String>? filters}) async {
     String url = Endpoints.packages;
     if (filters != null && filters.isNotEmpty) {
       final params = filters.entries
@@ -14,6 +15,6 @@ class PackagesListService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return ApiResponse.fromJson(response);
+    return PackagesResponse.fromJson(response);
   }
 }

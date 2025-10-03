@@ -1,12 +1,13 @@
-import '../../../model/ApiResponse.dart';
+import 'package:wazafak_app/model/WalletResponse.dart';
+
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
 class GetWalletService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> getWallet() async {
+  Future<WalletResponse> getWallet() async {
     final response = await _helper.get(Endpoints.wallet);
-    return ApiResponse.fromJson(response);
+    return WalletResponse.fromJson(response);
   }
 }

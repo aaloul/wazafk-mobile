@@ -29,6 +29,7 @@ import '../screens/main/profile/packs/packs_screen.dart';
 import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
 import '../screens/main/profile/personal_information/personal_information_screen.dart';
 import '../screens/main/profile/privacy_sharing/privacy_sharing_screen.dart';
+import '../screens/main/profile/services/add_service/add_service_screen.dart';
 import '../screens/main/profile/services/services_screen.dart';
 import '../screens/main/profile/share_app/invite_friends/invite_friends_screen.dart';
 import '../screens/main/profile/share_app/share_app_screen.dart';
@@ -168,6 +169,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.servicesScreen,
     page: () => ServicesScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.addServiceScreen,
+    page: () => AddServiceScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(

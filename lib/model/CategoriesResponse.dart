@@ -64,6 +64,11 @@ class Category {
   bool? hasSubCategories;
   int? status;
 
+  @override
+  String toString() {
+    return name.toString();
+  }
+
   Category({
     this.hashcode,
     this.code,

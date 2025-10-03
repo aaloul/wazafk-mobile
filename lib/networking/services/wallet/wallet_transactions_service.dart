@@ -1,11 +1,12 @@
-import '../../../model/ApiResponse.dart';
+import 'package:wazafak_app/model/WalletTransactionsResponse.dart';
+
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
 class WalletTransactionsService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> getWalletTransactions({
+  Future<WalletTransactionsResponse> getWalletTransactions({
     Map<String, String>? filters,
   }) async {
     String url = Endpoints.walletTransactions;
@@ -16,6 +17,6 @@ class WalletTransactionsService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return ApiResponse.fromJson(response);
+    return WalletTransactionsResponse.fromJson(response);
   }
 }

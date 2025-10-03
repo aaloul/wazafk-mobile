@@ -1,11 +1,11 @@
-import '../../../model/ApiResponse.dart';
+import '../../../model/ServicesResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
 class ServicesListService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> getServices({Map<String, String>? filters}) async {
+  Future<ServicesResponse> getServices({Map<String, String>? filters}) async {
     String url = Endpoints.services;
     if (filters != null && filters.isNotEmpty) {
       final params = filters.entries
@@ -14,6 +14,6 @@ class ServicesListService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return ApiResponse.fromJson(response);
+    return ServicesResponse.fromJson(response);
   }
 }
