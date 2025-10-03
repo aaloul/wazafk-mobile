@@ -1,30 +1,52 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
+import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
+import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
+import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class HomeController extends GetxController {
   final _categoriesRepository = CategoriesRepository();
   final _jobsRepository = JobsListRepository();
+  final _skillsRepository = SkillsRepository();
+  final _addressesRepository = AddressesRepository();
 
   var isLoadingCategories = false.obs;
   var isLoadingJobs = false.obs;
+  var isLoadingSkills = false.obs;
+  var isLoadingAddresses = false.obs;
   var categories = <Category>[].obs;
   var jobs = <Job>[].obs;
+  var skills = <Skill>[].obs;
+  var addresses = <Address>[].obs;
 
   @override
   void onInit() {
     super.onInit();
     loadCategoriesFromPrefs();
+    loadSkillsFromPrefs();
+    loadAddressesFromPrefs();
     fetchCategories();
     fetchJobs();
+    fetchSkills();
+    fetchAddresses();
   }
 
   void loadCategoriesFromPrefs() {
     categories.value = Prefs.getCategories;
+  }
+
+  void loadSkillsFromPrefs() {
+    skills.value = Prefs.getSkills;
+  }
+
+  void loadAddressesFromPrefs() {
+    addresses.value = Prefs.getAddresses;
   }
 
   Future<void> fetchCategories() async {
@@ -72,6 +94,53 @@ class HomeController extends GetxController {
       print('Error loading jobs: $e');
     } finally {
       isLoadingJobs.value = false;
+    }
+  }
+
+  Future<void> fetchSkills() async {
+    try {
+      isLoadingSkills.value = true;
+
+      final response = await _skillsRepository.getSkills();
+
+      if (response.success == true && response.data?.list != null) {
+        skills.value = response.data!.list!;
+        Prefs.setSkills(response.data!.list!);
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load skills',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar('Error loading skills: $e', SnackBarStatus.ERROR);
+      print('Error loading skills: $e');
+    } finally {
+      isLoadingSkills.value = false;
+    }
+  }
+
+  Future<void> fetchAddresses() async {
+    try {
+      isLoadingAddresses.value = true;
+
+      final response = await _addressesRepository.getAddresses();
+
+      if (response.success == true && response.data != null) {
+        addresses.value = response.data!;
+        Prefs.setAddresses(response.data!);
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load addresses',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+          'Error loading addresses: $e', SnackBarStatus.ERROR);
+      print('Error loading addresses: $e');
+    } finally {
+      isLoadingAddresses.value = false;
     }
   }
 

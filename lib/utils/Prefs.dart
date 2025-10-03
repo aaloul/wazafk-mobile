@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:get_storage/get_storage.dart';
+import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/BannersResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
+import 'package:wazafak_app/model/SkillsResponse.dart';
 
 import '../model/LoginResponse.dart';
 import '../networking/Endpoints.dart';
@@ -164,6 +166,40 @@ class Prefs {
   static void setCategories(List<Category> listNeedToSave) {
     var jsonData = jsonEncode(listNeedToSave.map((e) => e.toJson()).toList());
     box.write(Const.CATEGORIES, jsonData.toString());
+  }
+
+  static List<Skill> get getSkills {
+    final data = box.read(Const.SKILLS);
+    if (data == null || data.isEmpty) return [];
+
+    List<Skill> skills = [];
+    skills = (json.decode(data) as List)
+        .map((data) => Skill.fromJson(data))
+        .toList();
+
+    return skills;
+  }
+
+  static void setSkills(List<Skill> listNeedToSave) {
+    var jsonData = jsonEncode(listNeedToSave.map((e) => e.toJson()).toList());
+    box.write(Const.SKILLS, jsonData.toString());
+  }
+
+  static List<Address> get getAddresses {
+    final data = box.read(Const.ADDRESSES);
+    if (data == null || data.isEmpty) return [];
+
+    List<Address> addresses = [];
+    addresses = (json.decode(data) as List)
+        .map((data) => Address.fromJson(data))
+        .toList();
+
+    return addresses;
+  }
+
+  static void setAddresses(List<Address> listNeedToSave) {
+    var jsonData = jsonEncode(listNeedToSave.map((e) => e.toJson()).toList());
+    box.write(Const.ADDRESSES, jsonData.toString());
   }
 
   static void saveUser(User user) {

@@ -70,7 +70,7 @@ class MultilineLabeledTextField extends StatelessWidget {
                   ),
               ],
             ),
-          if (label.isNotEmpty) const SizedBox(height: 5),
+          if (label.isNotEmpty) const SizedBox(height: 8),
           Container(
             height: height ?? AppDimensions.textFieldHeight,
             width: double.infinity,

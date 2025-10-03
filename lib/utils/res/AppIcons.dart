@@ -68,4 +68,5 @@ class AppIcons {
   static const String userCircle = '${base}user_circle.png';
   static const String banomark = '${base}banomark.png';
   static const String star2 = '${base}star2.png';
+  static const String upload = '${base}upload.png';
 }

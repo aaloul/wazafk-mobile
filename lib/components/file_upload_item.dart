@@ -7,8 +7,8 @@ import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../../../../../components/primary_text.dart';
 
-class IdentityUploadItem extends StatelessWidget {
-  const IdentityUploadItem({
+class FileUploadItem extends StatelessWidget {
+  const FileUploadItem({
     super.key,
     required this.label,
     required this.onClick,
@@ -35,7 +35,7 @@ class IdentityUploadItem extends StatelessWidget {
               text: label,
               textColor: context.resources.color.colorGrey3,
               fontWeight: FontWeight.w500,
-              fontSize: 15,
+              fontSize: 14,
             ),
             const SizedBox(width: 1),
             if (isMandatory)
@@ -63,7 +63,7 @@ class IdentityUploadItem extends StatelessWidget {
           onTap: () => onClick(),
           child: SizedBox(
             width: double.infinity,
-            height: 170,
+            height: 80,
             child: DottedBorder(
               options: RoundedRectDottedBorderOptions(
                 color: context.resources.color.colorGrey2,
@@ -84,18 +84,10 @@ class IdentityUploadItem extends StatelessWidget {
                         ),
                       )
                     : Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(AppIcons.scan, width: 42),
-                            SizedBox(height: 6),
-                            PrimaryText(
-                              text: "Tap to Scan",
-                              fontWeight: FontWeight.w500,
-                              textColor: context.resources.color.colorGrey3,
-                            ),
-                          ],
+                        child: Image.asset(
+                          AppIcons.upload,
+                          width: 32,
+                          height: 32,
                         ),
                       ),
               ),

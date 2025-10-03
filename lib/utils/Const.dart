@@ -34,4 +34,6 @@ class Const {
   static const String TERMS_AND_CONDITIONS = 'TERMS_AND_CONDITIONS';
   static const String TERMS_AND_CONDITIONS_TITLE = 'TERMS_AND_CONDITIONS_TITLE';
   static const String CATEGORIES = 'CATEGORIES';
+  static const String SKILLS = 'SKILLS';
+  static const String ADDRESSES = 'ADDRESSES';
 }
