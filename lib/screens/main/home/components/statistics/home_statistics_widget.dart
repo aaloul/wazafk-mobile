@@ -97,12 +97,7 @@ class StatisticsItem extends StatelessWidget {
                   ),
                 ),
 
-                if (textIcon == null)
-                  Image.asset(
-                    icon,
-                    height: 24,
-                    width: 24,
-                  ),
+                if (textIcon == null) Image.asset(icon, height: 24, width: 24),
                 if (textIcon != null)
                   PrimaryText(
                     text: "\$",

@@ -33,4 +33,5 @@ class Const {
   static const String PRIVACY_POLICY_TITLE = 'PRIVACY_POLICY_TITLE';
   static const String TERMS_AND_CONDITIONS = 'TERMS_AND_CONDITIONS';
   static const String TERMS_AND_CONDITIONS_TITLE = 'TERMS_AND_CONDITIONS_TITLE';
+  static const String CATEGORIES = 'CATEGORIES';
 }

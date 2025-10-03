@@ -31,56 +31,60 @@ class HomeHeader extends StatelessWidget {
                   height: 40,
                 ),
               ),
-              SizedBox(width: 10,),
+              SizedBox(width: 10),
 
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PrimaryText(text: "${Prefs.getFName} ${Prefs.getLName}",
+                    PrimaryText(
+                      text: "${Prefs.getFName} ${Prefs.getLName}",
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      textColor: context.resources.color.colorGrey6,),
-                    PrimaryText(text: "UX/UI Designer",
+                      textColor: context.resources.color.colorGrey6,
+                    ),
+                    PrimaryText(
+                      text: "UX/UI Designer",
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      textColor: context.resources.color.colorWhite,),
+                      textColor: context.resources.color.colorWhite,
+                    ),
                   ],
                 ),
               ),
 
-              PrimarySwitch(
-                scale: .7,
-                checked: true, onChange: (b) {
-
-              },),
-              GestureDetector(onTap: () {
-                Get.toNamed(RouteConstant.profileNotificationsScreen);
-              }, child: Image.asset(AppIcons.notification, width: 24,)),
-              SizedBox(width: 8,),
-              GestureDetector(onTap: () {
-                Get.toNamed(RouteConstant.chatScreen);
-              }, child: Image.asset(AppIcons.message, width: 24,)),
+              PrimarySwitch(scale: .7, checked: true, onChange: (b) {}),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(RouteConstant.profileNotificationsScreen);
+                },
+                child: Image.asset(AppIcons.notification, width: 24),
+              ),
+              SizedBox(width: 8),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(RouteConstant.chatScreen);
+                },
+                child: Image.asset(AppIcons.message, width: 24),
+              ),
             ],
           ),
-          SizedBox(height: 16,),
+          SizedBox(height: 16),
           Row(
             children: [
               Expanded(child: SearchWidget()),
-              SizedBox(width: 10,),
+              SizedBox(width: 10),
               Container(
                 width: 43,
                 height: 43,
                 decoration: BoxDecoration(
-                    color: context.resources.color.colorWhite,
-                    borderRadius: BorderRadius.circular(8)
+                  color: context.resources.color.colorWhite,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(child: Image.asset(AppIcons.filter, width: 20,)),
-              )
-
-
+                child: Center(child: Image.asset(AppIcons.filter, width: 20)),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

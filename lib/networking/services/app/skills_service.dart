@@ -1,4 +1,4 @@
-import '../../../model/SkilsResponse.dart';
+import '../../../model/SkillsResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 

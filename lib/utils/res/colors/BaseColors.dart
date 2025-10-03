@@ -8,6 +8,8 @@ abstract class BaseColors {
 
   Color get background;
 
+  Color get background2;
+
   Color get colorRed;
 
   Color get colorGrey;
@@ -36,13 +38,23 @@ abstract class BaseColors {
 
   Color get colorGrey13;
 
+  Color get colorGrey14;
+
+  Color get colorGrey15;
+
+  Color get colorGrey16;
+
   Color get colorWhite;
 
   Color get colorGreen;
 
   Color get colorGreen2;
 
+  Color get colorGreen3;
+
   Color get colorRed2;
 
   Color get colorBlackMain;
+
+  Color get colorBlue;
 }

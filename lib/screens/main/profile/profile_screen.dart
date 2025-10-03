@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
     final controller = Get.put(ProfileController());
 
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Expanded(
           child: Column(

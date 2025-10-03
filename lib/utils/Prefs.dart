@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get_storage/get_storage.dart';
 import 'package:wazafak_app/model/BannersResponse.dart';
+import 'package:wazafak_app/model/CategoriesResponse.dart';
 
 import '../model/LoginResponse.dart';
 import '../networking/Endpoints.dart';
@@ -147,6 +148,23 @@ class Prefs {
 
   static void setTermsAndConditionsTitle(String value) =>
       box.write(Const.TERMS_AND_CONDITIONS_TITLE, value);
+
+  static List<Category> get getCategories {
+    final data = box.read(Const.CATEGORIES);
+    if (data == null || data.isEmpty) return [];
+
+    List<Category> categories = [];
+    categories = (json.decode(data) as List)
+        .map((data) => Category.fromJson(data))
+        .toList();
+
+    return categories;
+  }
+
+  static void setCategories(List<Category> listNeedToSave) {
+    var jsonData = jsonEncode(listNeedToSave.map((e) => e.toJson()).toList());
+    box.write(Const.CATEGORIES, jsonData.toString());
+  }
 
   static void saveUser(User user) {
     setLoggedIn(true);

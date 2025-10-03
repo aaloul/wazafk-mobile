@@ -1,4 +1,4 @@
-import '../../model/SkilsResponse.dart';
+import '../../model/SkillsResponse.dart';
 import '../../networking/services/app/skills_service.dart';
 
 class SkillsRepository {
