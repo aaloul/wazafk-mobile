@@ -116,7 +116,9 @@ class PrimaryChooser extends StatelessWidget {
                   ),
                   closedBorderRadius: BorderRadius.circular(10),
                 ),
-                initialItem: selected ?? list[0],
+                initialItem: selected != null && selected!.isNotEmpty
+                    ? selected
+                    : null,
                 onChanged: (value) {
                   onSelect(value);
                 },
@@ -182,7 +184,9 @@ class PrimaryChooser extends StatelessWidget {
                 closedBorderRadius: BorderRadius.circular(10),
               ),
               items: list,
-              initialItems: [selected ?? list[0]],
+              initialItems: selected != null && selected!.isNotEmpty
+                  ? [selected!]
+                  : [],
               onListChanged: (value) {
                 onSelect(value);
               },

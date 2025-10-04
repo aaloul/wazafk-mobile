@@ -33,7 +33,7 @@ class PhoneNumberController extends GetxController {
         } else {
           Get.toNamed(
             RouteConstant.verificationScreen,
-            arguments: {'page': "login"},
+            arguments: {'page': "login", "mobile": mobile},
           );
         }
       } else {

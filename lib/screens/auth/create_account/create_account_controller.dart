@@ -65,7 +65,7 @@ class CreateAccountController extends GetxController {
     }
   }
 
-  String mobile = '96176673535';
+  String mobile = '';
 
   @override
   Future<void> onInit() async {
@@ -92,7 +92,7 @@ class CreateAccountController extends GetxController {
   Future<String?> convertImageToBase64(XFile image) async {
     try {
       final bytes = await File(image.path).readAsBytes();
-      return base64Encode(bytes);
+      return "data:image/jpeg;base64,${base64Encode(bytes)}";
     } catch (e) {
       constants.showSnackBar(
         getErrorMessage(e.toString()).toString(),
@@ -195,7 +195,6 @@ class CreateAccountController extends GetxController {
         'mobile': mobile,
         'email': emailController.text,
         'password': passwordController.text,
-        'password_confirmation': confirmPasswordController.text,
         'gender': selectedGender.value,
         'date_of_birth': formattedDate,
         'interests': selectedInterests,
@@ -216,21 +215,39 @@ class CreateAccountController extends GetxController {
           if (base64Image != null) {
             data['document_foreign_legal_1'] = base64Image;
           }
+        } else {
+          data['document_foreign_legal_1'] = "";
+
         }
         if (backIdImage.value != null) {
           final base64Image = await convertImageToBase64(backIdImage.value!);
           if (base64Image != null) {
             data['document_foreign_legal_2'] = base64Image;
           }
+        } else {
+          data['document_foreign_legal_2'] = "";
         }
+        data['document_passport'] = "";
+
+
       } else if (selectedTab.value == 'passport') {
         if (passportImage.value != null) {
           final base64Image = await convertImageToBase64(passportImage.value!);
           if (base64Image != null) {
             data['document_passport'] = base64Image;
           }
+        } else {
+          data['document_passport'] = "";
+
         }
+
+        data['document_foreign_legal_1'] = "";
+        data['document_foreign_legal_2'] = "";
+
       }
+
+      data['document_foreign_paperwork'] = "";
+
 
       final response = await _registerRepository.register(data);
 

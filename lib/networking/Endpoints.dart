@@ -21,6 +21,8 @@ class Endpoints {
   static const forgotPasswordRequest = 'account/forgotPasswordRequest';
   static const forgotPasswordConfirm = 'account/forgotPasswordConfirm';
   static const sendOTP = 'account/sendOTP';
+  static const sendGuestOTP = 'account/sendGuestOTP';
+  static const verifyGuestOTP = 'account/verifyGuestOTP';
   static const verifyOTP = 'account/verifyOTP';
   static const logout = 'account/logout';
   static const changePassword = 'account/changePassword';

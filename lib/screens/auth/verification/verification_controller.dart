@@ -19,6 +19,9 @@ class VerificationController extends GetxController {
     super.onInit();
     mobile = Get.arguments?['mobile'] ?? '';
     page = Get.arguments?['page'];
+    if (page == 'login') {
+      resendOTP();
+    }
   }
 
   Future<void> verifyOTP() async {
@@ -29,7 +32,8 @@ class VerificationController extends GetxController {
 
     isLoading(true);
     try {
-      final response = await _otpRepository.verifyOTP("SMS", otp.value);
+      final response = await _otpRepository.verifyGuestOTP(
+          channel: "SMS", otp: otp.value, recipient: mobile);
 
       if (response.success ?? false) {
         constants.showSnackBar(
@@ -64,7 +68,8 @@ class VerificationController extends GetxController {
   Future<void> resendOTP() async {
     isResending(true);
     try {
-      final response = await _otpRepository.sendOTP("SMS");
+      final response = await _otpRepository.sendGuestOTP(
+          channel: "SMS", recipient: mobile);
 
       if (response.success ?? false) {
         constants.showSnackBar(
