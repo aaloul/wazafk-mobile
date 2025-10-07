@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -65,10 +66,18 @@ class ItemMyService extends StatelessWidget {
               onChange: (a) {},
             ),
           ),
-          Image.asset(
-            AppIcons.edit,
-            width: 20,
-            color: context.resources.color.colorPrimary,
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(
+                RouteConstant.addServiceScreen,
+                arguments: service,
+              );
+            },
+            child: Image.asset(
+              AppIcons.edit,
+              width: 20,
+              color: context.resources.color.colorPrimary,
+            ),
           ),
         ],
       ),

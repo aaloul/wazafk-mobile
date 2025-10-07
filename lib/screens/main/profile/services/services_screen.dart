@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
@@ -16,49 +17,55 @@ class ServicesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ServicesController());
 
-    return Scaffold(
-      backgroundColor: context.resources.color.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            TopHeader(hasBack: true, title: 'Services'),
-            SizedBox(height: 16),
-            Expanded(
-              child: Obx(() {
-                if (controller.isLoading.value && controller.services.isEmpty) {
-                  return Center(child: ProgressBar());
-                }
+    return FocusDetector(
+      onFocusGained: () {
+        controller.fetchServices();
+      },
+      child: Scaffold(
+        backgroundColor: context.resources.color.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              TopHeader(hasBack: true, title: 'Services'),
+              SizedBox(height: 16),
+              Expanded(
+                child: Obx(() {
+                  if (controller.isLoading.value &&
+                      controller.services.isEmpty) {
+                    return Center(child: ProgressBar());
+                  }
 
-                if (controller.services.isEmpty) {
-                  return Center(child: Text('No services available'));
-                }
+                  if (controller.services.isEmpty) {
+                    return Center(child: Text('No services available'));
+                  }
 
-                return ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: controller.services.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 10),
-                  itemBuilder: (context, index) {
-                    final service = controller.services[index];
-                    return ItemMyService(service: service);
-                  },
-                );
-              }),
-            ),
-
-            SizedBox(height: 8),
-
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              child: PrimaryButton(
-                title: "Create New Service",
-                onPressed: () {
-                  Get.toNamed(RouteConstant.addServiceScreen);
-                },
+                  return ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: controller.services.length,
+                    separatorBuilder: (context, index) => SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      final service = controller.services[index];
+                      return ItemMyService(service: service);
+                    },
+                  );
+                }),
               ),
-            ),
 
-            SizedBox(height: 16),
-          ],
+              SizedBox(height: 8),
+
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: PrimaryButton(
+                  title: "Create New Service",
+                  onPressed: () {
+                    Get.toNamed(RouteConstant.addServiceScreen);
+                  },
+                ),
+              ),
+
+              SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );

@@ -12,12 +12,11 @@ class ServicesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchServices();
+    isLoading.value = true;
   }
 
   Future<void> fetchServices() async {
     try {
-      isLoading.value = true;
 
       Map<String, String>? filters = {};
       // filters['member'] = Prefs.getId;
