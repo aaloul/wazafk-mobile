@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/dialog/dialog_helper.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -8,6 +9,7 @@ class MyAddressesController extends GetxController {
 
   var isLoading = true.obs;
   var addresses = <Address>[].obs;
+  var isDeleting = false.obs;
 
   @override
   void onInit() {
@@ -35,11 +37,24 @@ class MyAddressesController extends GetxController {
     }
   }
 
+  void confirmDeleteAddress(String hashcode) {
+    DialogHelper.showAgreementPopup(
+      Get.context!,
+      'Are you sure you want to delete this address?',
+      'Delete',
+      'Cancel',
+          () => deleteAddress(hashcode),
+      isDeleting,
+    );
+  }
+
   Future<void> deleteAddress(String hashcode) async {
     try {
+      isDeleting.value = true;
       final response = await _repository.deleteAddress(hashcode);
 
       if (response.success == true) {
+        Get.back(); // Close dialog
         constants.showSnackBar(
             response.message ?? 'Address deleted successfully',
             SnackBarStatus.SUCCESS);
@@ -53,6 +68,8 @@ class MyAddressesController extends GetxController {
       constants.showSnackBar(
           'Error deleting address: $e', SnackBarStatus.ERROR);
       print('Error deleting address: $e');
+    } finally {
+      isDeleting.value = false;
     }
   }
 

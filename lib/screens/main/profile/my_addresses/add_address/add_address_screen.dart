@@ -52,6 +52,14 @@ class AddAddressScreen extends StatelessWidget {
                       inputType: TextInputType.text,
                     ),
                     LabeledTextFiled(
+                      controller: controller.cityController,
+                      hint: 'City',
+                      label: 'City',
+                      isMandatory: true,
+                      isPassword: false,
+                      inputType: TextInputType.text,
+                    ),
+                    LabeledTextFiled(
                       controller: controller.streetController,
                       hint: 'Street',
                       label: 'Street',

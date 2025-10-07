@@ -12,21 +12,32 @@ class AddAddressController extends GetxController {
   final streetController = TextEditingController();
   final buildingController = TextEditingController();
   final apartmentController = TextEditingController();
+  final cityController = TextEditingController();
 
   var isLoading = false.obs;
   var isEditMode = false.obs;
   String? editHashcode;
 
+  var latitude = '0.0';
+  var longitude = '0.0';
+
   @override
   void onInit() {
     super.onInit();
 
-    // Check if we're in edit mode
-    final Address? address = Get.arguments as Address?;
-    if (address != null) {
-      isEditMode.value = true;
-      editHashcode = address.hashcode;
-      _populateFields(address);
+    // Get latitude and longitude from arguments
+    if (Get.arguments != null && Get.arguments is Map) {
+      latitude = Get.arguments['latitude']?.toString() ?? '0.0';
+      longitude = Get.arguments['longitude']?.toString() ?? '0.0';
+
+      // Check if we're in edit mode
+      final Address? address = Get.arguments['address'] as Address?;
+
+      if (address != null) {
+        isEditMode.value = true;
+        editHashcode = address.hashcode;
+        _populateFields(address);
+      }
     }
   }
 
@@ -36,6 +47,7 @@ class AddAddressController extends GetxController {
     streetController.text = address.street ?? '';
     buildingController.text = address.building ?? '';
     apartmentController.text = address.apartment ?? '';
+    cityController.text = address.city ?? '';
   }
 
   Future<void> saveAddress() async {
@@ -52,6 +64,9 @@ class AddAddressController extends GetxController {
         'street': streetController.text,
         'building': buildingController.text,
         'apartment': apartmentController.text,
+        'city': cityController.text,
+        'latitude': latitude,
+        'longitude': longitude,
       };
 
       final response = isEditMode.value
@@ -66,7 +81,9 @@ class AddAddressController extends GetxController {
                   : 'Address added successfully'),
           SnackBarStatus.SUCCESS,
         );
-        Get.back(result: true);
+        // Go back twice to return to my addresses screen
+        Get.back(result: true); // Close add address screen
+        Get.back(result: true); // Close select location screen
       } else {
         constants.showSnackBar(
           response.message ??
@@ -108,6 +125,10 @@ class AddAddressController extends GetxController {
       constants.showSnackBar('Please enter an apartment', SnackBarStatus.ERROR);
       return false;
     }
+    if (cityController.text.trim().isEmpty) {
+      constants.showSnackBar('Please enter an city', SnackBarStatus.ERROR);
+      return false;
+    }
     return true;
   }
 
@@ -118,6 +139,7 @@ class AddAddressController extends GetxController {
     streetController.dispose();
     buildingController.dispose();
     apartmentController.dispose();
+    cityController.dispose();
     super.onClose();
   }
 }

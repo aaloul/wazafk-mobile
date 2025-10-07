@@ -37,4 +37,5 @@ class RouteConstant {
   static const String whereLoggedInScreen = '/where_logged_in_screen';
   static const String loginAlertsScreen = '/login_alerts_screen';
   static const String inviteFriendsScreen = '/invite_Friends_screen';
+  static const String selectLocationScreen = '/select_location_screen';
 }

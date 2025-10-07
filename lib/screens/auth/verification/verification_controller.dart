@@ -44,10 +44,14 @@ class VerificationController extends GetxController {
         // Navigate based on the page
         if (page == 'login') {
           // Navigate to main navigation after login
-          Get.offAllNamed(RouteConstant.createAccountScreen);
+          Get.offAllNamed(RouteConstant.createAccountScreen, arguments: {
+            'mobile': mobile
+          });
         } else {
           // Navigate to create account after registration OTP
-          Get.toNamed(RouteConstant.createAccountScreen);
+          Get.offAllNamed(RouteConstant.createAccountScreen, arguments: {
+            'mobile': mobile
+          });
         }
       } else {
         constants.showSnackBar(

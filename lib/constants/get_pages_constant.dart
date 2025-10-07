@@ -24,6 +24,7 @@ import '../screens/main/profile/login_security/saved_login/saved_login_screen.da
 import '../screens/main/profile/login_security/where_logged_in/where_logged_in_screen.dart';
 import '../screens/main/profile/my_addresses/add_address/add_address_screen.dart';
 import '../screens/main/profile/my_addresses/my_addresses_screen.dart';
+import '../screens/main/profile/my_addresses/select_location/select_location_screen.dart';
 import '../screens/main/profile/my_documents/my_documents_screen.dart';
 import '../screens/main/profile/packs/packs_screen.dart';
 import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
@@ -209,6 +210,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.inviteFriendsScreen,
     page: () => InviteFriendsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.selectLocationScreen,
+    page: () => SelectLocationScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

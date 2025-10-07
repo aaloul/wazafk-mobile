@@ -50,8 +50,10 @@ class MyAddressesScreen extends StatelessWidget {
                       },
                       onEditClick: () async {
                         final result = await Get.toNamed(
-                          RouteConstant.addAddressScreen,
-                          arguments: address,
+                          RouteConstant.selectLocationScreen,
+                          arguments: {
+                            'address': address
+                          },
                         );
                         if (result == true) {
                           controller.fetchAddresses();
@@ -59,7 +61,7 @@ class MyAddressesScreen extends StatelessWidget {
                       },
                       onDeleteClick: () {
                         if (address.hashcode != null) {
-                          controller.deleteAddress(address.hashcode!);
+                          controller.confirmDeleteAddress(address.hashcode!);
                         }
                       },
                     );
@@ -73,7 +75,7 @@ class MyAddressesScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: PrimaryButton(
                   title: "Add New Address", onPressed: () async {
-                Get.toNamed(RouteConstant.addAddressScreen);
+                Get.toNamed(RouteConstant.selectLocationScreen);
               }),
             ),
 

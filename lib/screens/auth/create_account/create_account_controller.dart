@@ -9,6 +9,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/InterestOptionsResponse.dart';
 import 'package:wazafak_app/repository/account/register_repository.dart';
 import 'package:wazafak_app/repository/app/interest_options_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 
 import '../../../utils/utils.dart';
 
@@ -193,9 +194,10 @@ class CreateAccountController extends GetxController {
         'first_name': firstNameController.text,
         'last_name': lastNameController.text,
         'mobile': mobile,
+        'document_type': selectedTab.value == "passport" ? "PASSPORT" : "ID",
         'email': emailController.text,
         'password': passwordController.text,
-        'gender': selectedGender.value,
+        'gender': selectedGender.value == "Male" ? "M" : "F",
         'date_of_birth': formattedDate,
         'interests': selectedInterests,
       };
@@ -208,26 +210,21 @@ class CreateAccountController extends GetxController {
         }
       }
 
+
       // Add identity images as base64 if available
       if (selectedTab.value == 'personal_id') {
         if (frontIdImage.value != null) {
           final base64Image = await convertImageToBase64(frontIdImage.value!);
           if (base64Image != null) {
-            data['document_foreign_legal_1'] = base64Image;
+            data['document_1'] = base64Image;
           }
-        } else {
-          data['document_foreign_legal_1'] = "";
-
         }
         if (backIdImage.value != null) {
           final base64Image = await convertImageToBase64(backIdImage.value!);
           if (base64Image != null) {
-            data['document_foreign_legal_2'] = base64Image;
+            data['document_2'] = base64Image;
           }
-        } else {
-          data['document_foreign_legal_2'] = "";
         }
-        data['document_passport'] = "";
 
 
       } else if (selectedTab.value == 'passport') {
@@ -236,22 +233,19 @@ class CreateAccountController extends GetxController {
           if (base64Image != null) {
             data['document_passport'] = base64Image;
           }
-        } else {
-          data['document_passport'] = "";
-
         }
-
-        data['document_foreign_legal_1'] = "";
-        data['document_foreign_legal_2'] = "";
-
       }
 
+      data['document_foreign_legal_1'] = "";
+      data['document_foreign_legal_2'] = "";
       data['document_foreign_paperwork'] = "";
 
 
       final response = await _registerRepository.register(data);
 
       if (response.success ?? false) {
+        Prefs.saveUser(response.data!);
+        Prefs.setToken(response.data!.token.toString());
         constants.showSnackBar(
           response.message ?? 'Registration successful',
           SnackBarStatus.SUCCESS,
