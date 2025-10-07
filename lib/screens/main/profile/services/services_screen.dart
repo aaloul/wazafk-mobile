@@ -45,7 +45,11 @@ class ServicesScreen extends StatelessWidget {
                     separatorBuilder: (context, index) => SizedBox(height: 10),
                     itemBuilder: (context, index) {
                       final service = controller.services[index];
-                      return ItemMyService(service: service);
+                      return ItemMyService(
+                        service: service,
+                        onToggleStatus: () =>
+                            controller.toggleServiceStatus(service),
+                      );
                     },
                   );
                 }),

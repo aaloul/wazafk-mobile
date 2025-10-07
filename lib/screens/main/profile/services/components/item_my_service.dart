@@ -10,9 +10,14 @@ import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 import '../../../../../components/primary_switch.dart';
 
 class ItemMyService extends StatelessWidget {
-  const ItemMyService({super.key, required this.service});
+  const ItemMyService({
+    super.key,
+    required this.service,
+    required this.onToggleStatus,
+  });
 
   final Service service;
+  final VoidCallback onToggleStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +68,9 @@ class ItemMyService extends StatelessWidget {
               trackColor: context.resources.color.colorGrey8,
               activeTrackColor: context.resources.color.colorPrimary,
               activeColor: context.resources.color.colorPrimary,
-              onChange: (a) {},
+              onChange: (value) {
+                onToggleStatus();
+              },
             ),
           ),
           GestureDetector(
