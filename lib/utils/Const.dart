@@ -23,6 +23,8 @@ class Const {
   static const String DOB = 'DOB';
   static const String EMAIL = 'EMAIL';
   static const String MOBILE = 'MOBILE';
+  static const String WEBSITE = 'WEBSITE';
+  static const String INFO = 'INFO';
   static const String AVATAR = 'AVATAR';
   static const String GENDER = 'GENDER';
   static const String PHONE = 'PHONE';

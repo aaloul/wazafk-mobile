@@ -93,6 +93,14 @@ class Prefs {
 
   static String get getMobile => box.read(Const.MOBILE) ?? '';
 
+  static void setWebsite(String value) => box.write(Const.WEBSITE, value);
+
+  static String get getWebsite => box.read(Const.WEBSITE) ?? '';
+
+  static void setInfo(String value) => box.write(Const.INFO, value);
+
+  static String get getInfo => box.read(Const.INFO) ?? '';
+
   static void setMobile(String value) => box.write(Const.MOBILE, value);
 
   static String get getAvatar => box.read(Const.AVATAR) ?? '';
@@ -217,6 +225,8 @@ class Prefs {
     setDob(user.dateOfBirth.toString() ?? '');
     setAvatar(user.image.toString() ?? '');
     setGender(user.gender.toString() ?? '');
+    setWebsite(user.website.toString() ?? '');
+    setInfo(user.info.toString() ?? '');
   }
 
   static void clearUser() {
@@ -230,5 +240,7 @@ class Prefs {
     setGender('');
     setToken('');
     setMobile('');
+    setWebsite('');
+    setInfo('');
   }
 }

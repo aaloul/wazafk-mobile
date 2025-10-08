@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:pretty_http_logger/pretty_http_logger.dart';
 
 import '../utils/Prefs.dart';
@@ -106,6 +107,40 @@ class ApiBaseHelper {
       throw FetchDataException('No Internet connection');
     }
     return apiResponse;
+  }
+
+  Future<dynamic> postMultipart(
+    String url,
+    Map<String, String> fields,
+    List<MultipartFile> files,
+  ) async {
+    var responseJson;
+    try {
+      var request = MultipartRequest('POST', Uri.parse(Prefs.getEnvUrl + url));
+
+      // Add headers
+      request.headers.addAll({
+        'Accept': 'application/json',
+        if (Prefs.getLoggedIn)
+          Params.authorization: 'Bearer ${Prefs.getToken}'.toString(),
+        Params.language: Prefs.getLanguage.toString(),
+      });
+
+      // Add fields
+      request.fields.addAll(fields);
+
+      // Add files
+      request.files.addAll(files);
+
+      var streamedResponse = await request.send();
+      var response = await Response.fromStream(streamedResponse);
+
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+    printWrapped(responseJson.toString());
+    return responseJson;
   }
 }
 
