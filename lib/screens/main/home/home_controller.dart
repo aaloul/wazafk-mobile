@@ -3,6 +3,7 @@ import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
+import 'package:wazafak_app/networking/services/wallet/get_wallet_service.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
@@ -15,15 +16,18 @@ class HomeController extends GetxController {
   final _jobsRepository = JobsListRepository();
   final _skillsRepository = SkillsRepository();
   final _addressesRepository = AddressesRepository();
+  final _getWalletService = GetWalletService();
 
   var isLoadingCategories = false.obs;
   var isLoadingJobs = false.obs;
   var isLoadingSkills = false.obs;
   var isLoadingAddresses = false.obs;
+  var isLoadingWallet = false.obs;
   var categories = <Category>[].obs;
   var jobs = <Job>[].obs;
   var skills = <Skill>[].obs;
   var addresses = <Address>[].obs;
+  var walletHashcode = ''.obs;
 
   @override
   void onInit() {
@@ -31,10 +35,12 @@ class HomeController extends GetxController {
     loadCategoriesFromPrefs();
     loadSkillsFromPrefs();
     loadAddressesFromPrefs();
+    loadWalletHashcodeFromPrefs();
     fetchCategories();
     fetchJobs();
     fetchSkills();
     fetchAddresses();
+    fetchWallet();
   }
 
   void loadCategoriesFromPrefs() {
@@ -47,6 +53,10 @@ class HomeController extends GetxController {
 
   void loadAddressesFromPrefs() {
     addresses.value = Prefs.getAddresses;
+  }
+
+  void loadWalletHashcodeFromPrefs() {
+    walletHashcode.value = Prefs.getWalletHashcode;
   }
 
   Future<void> fetchCategories() async {
@@ -141,6 +151,29 @@ class HomeController extends GetxController {
       print('Error loading addresses: $e');
     } finally {
       isLoadingAddresses.value = false;
+    }
+  }
+
+  Future<void> fetchWallet() async {
+    try {
+      isLoadingWallet.value = true;
+
+      final response = await _getWalletService.getWallet();
+
+      if (response.success == true && response.data != null) {
+        walletHashcode.value = response.data!.hashcode ?? '';
+        Prefs.setWalletHashcode(response.data!.hashcode ?? '');
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load wallet',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar('Error loading wallet: $e', SnackBarStatus.ERROR);
+      print('Error loading wallet: $e');
+    } finally {
+      isLoadingWallet.value = false;
     }
   }
 

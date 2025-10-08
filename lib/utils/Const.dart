@@ -36,4 +36,5 @@ class Const {
   static const String CATEGORIES = 'CATEGORIES';
   static const String SKILLS = 'SKILLS';
   static const String ADDRESSES = 'ADDRESSES';
+  static const String WALLET_HASHCODE = 'WALLET_HASHCODE';
 }

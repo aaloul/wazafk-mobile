@@ -202,6 +202,11 @@ class Prefs {
     box.write(Const.ADDRESSES, jsonData.toString());
   }
 
+  static String get getWalletHashcode => box.read(Const.WALLET_HASHCODE) ?? '';
+
+  static void setWalletHashcode(String value) =>
+      box.write(Const.WALLET_HASHCODE, value);
+
   static void saveUser(User user) {
     setLoggedIn(true);
     setId(user.hashcode.toString());

@@ -99,7 +99,8 @@ class PrimaryTextField extends StatelessWidget {
                     if (inputType == TextInputType.name)
                       FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                     if (inputType == TextInputType.phone)
-                      FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                      FilteringTextInputFormatter.allow(RegExp("[0-9+]")),
+
                   ],
                   // Only numbers can be entered
                   obscureText: inputType == TextInputType.visiblePassword,
