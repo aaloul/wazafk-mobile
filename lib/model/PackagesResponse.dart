@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 import 'ServicesResponse.dart';
 
 PackagesResponse packagesResponseFromJson(String str) =>
@@ -71,6 +73,8 @@ class Package {
   DateTime? createdAt;
   List<Service>? services;
   List<Availability>? availability;
+
+  var checked = false.obs;
 
   Package({
     this.hashcode,
