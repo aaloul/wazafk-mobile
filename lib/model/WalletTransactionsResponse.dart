@@ -64,6 +64,7 @@ class Transaction {
   String? amount;
   String? details;
   String? target;
+  String? reason;
   DateTime? createdAt;
 
   Transaction({
@@ -76,6 +77,7 @@ class Transaction {
     this.amount,
     this.details,
     this.target,
+    this.reason,
     this.createdAt,
   });
 
@@ -89,6 +91,7 @@ class Transaction {
     amount: json["amount"],
     details: json["details"],
     target: json["target"],
+    reason: json["reason"],
     createdAt: json["created_at"] == null
         ? null
         : DateTime.parse(json["created_at"]),
@@ -104,6 +107,7 @@ class Transaction {
     "amount": amount,
     "details": details,
     "target": target,
+    "reason": reason,
     "created_at": createdAt?.toIso8601String(),
   };
 }

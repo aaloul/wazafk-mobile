@@ -62,6 +62,8 @@ class Service {
   String? memberFirstName;
   String? memberLastName;
   String? categoryHashcode;
+  String? parentCategoryHashcode;
+  String? parentCategoryName;
   String? categoryName;
   String? title;
   String? image;
@@ -86,6 +88,8 @@ class Service {
     this.memberFirstName,
     this.memberLastName,
     this.categoryHashcode,
+    this.parentCategoryHashcode,
+    this.parentCategoryName,
     this.categoryName,
     this.title,
     this.image,
@@ -109,6 +113,8 @@ class Service {
     memberFirstName: json["member_first_name"],
     memberLastName: json["member_last_name"],
     categoryHashcode: json["category_hashcode"],
+    parentCategoryHashcode: json["parent_category_hashcode"],
+    parentCategoryName: json["parent_category_name"],
     categoryName: json["category_name"],
     title: json["title"],
     image: json["image"],
@@ -142,6 +148,8 @@ class Service {
     "member_first_name": memberFirstName,
     "member_last_name": memberLastName,
     "category_hashcode": categoryHashcode,
+    "parent_category_hashcode": parentCategoryHashcode,
+    "parent_category_name": parentCategoryName,
     "category_name": categoryName,
     "title": title,
     "image": image,

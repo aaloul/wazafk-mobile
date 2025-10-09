@@ -14,7 +14,8 @@ class LoginPasswordScreen extends StatelessWidget {
   LoginPasswordScreen({super.key});
 
   final LoginPasswordController dataController = Get.put(
-      LoginPasswordController());
+    LoginPasswordController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,10 @@ class LoginPasswordScreen extends StatelessWidget {
                 SizedBox(height: 80),
 
                 Center(
-                  child: Container(
-                    child: Image.asset(
-                      AppIcons.passwordScreenImage,
-                      height: Get.width / 2,
-                      width: Get.width / 1.5,
-                    ),
+                  child: Image.asset(
+                    AppIcons.passwordScreenImage,
+                    height: Get.width / 2,
+                    width: Get.width / 1.5,
                   ),
                 ),
 
@@ -50,21 +49,20 @@ class LoginPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
 
-
                 Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(AppIcons.phone, width: 12),
-                            SizedBox(width: 4),
-                            PrimaryText(
-                              text: dataController.mobile,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              textColor: context.resources.color.colorGrey,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(AppIcons.phone, width: 12),
+                      SizedBox(width: 4),
+                      PrimaryText(
+                        text: dataController.mobile,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        textColor: context.resources.color.colorGrey,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
 
@@ -93,8 +91,11 @@ class LoginPasswordScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(
-                          RouteConstant.resetPasswordScreen,
-                          arguments: {'mobile': dataController.mobile},
+                          RouteConstant.verificationScreen,
+                          arguments: {
+                            'mobile': dataController.mobile,
+                            'page': 'reset_password',
+                          },
                         );
                       },
                       child: PrimaryText(
@@ -112,15 +113,14 @@ class LoginPasswordScreen extends StatelessWidget {
                 SizedBox(height: 42),
 
                 Obx(
-                      () =>
-                  dataController.isLoading.value
+                  () => dataController.isLoading.value
                       ? ProgressBar()
                       : PrimaryButton(
-                    title: "Login",
-                    onPressed: () {
-                      dataController.login();
-                    },
-                  ),
+                          title: "Login",
+                          onPressed: () {
+                            dataController.login();
+                          },
+                        ),
                 ),
 
                 Center(

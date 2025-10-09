@@ -4,9 +4,6 @@ import '../../networking/services/account/password_service.dart';
 class PasswordRepository {
   final _provider = PasswordService();
 
-  Future<ApiResponse> forgotPasswordRequest(String mobile) async {
-    return _provider.forgotPasswordRequest(mobile);
-  }
 
   Future<ApiResponse> forgotPasswordConfirm(
     String mobile,

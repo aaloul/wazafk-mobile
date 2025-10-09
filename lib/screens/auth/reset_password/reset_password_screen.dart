@@ -29,12 +29,10 @@ class ResetPasswordScreen extends StatelessWidget {
                 SizedBox(height: 80),
 
                 Center(
-                  child: Container(
-                    child: Image.asset(
-                      AppIcons.newPasswordScreenImage,
-                      height: Get.width / 2,
-                      width: Get.width / 1.5,
-                    ),
+                  child: Image.asset(
+                    AppIcons.newPasswordScreenImage,
+                    height: Get.width / 2,
+                    width: Get.width / 1.5,
                   ),
                 ),
 

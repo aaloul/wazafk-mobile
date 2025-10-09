@@ -1,4 +1,5 @@
 import '../../../model/ApiResponse.dart';
+import '../../../model/VerifyGuestResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
@@ -21,7 +22,7 @@ class OtpService {
     return ApiResponse.fromJson(response);
   }
 
-  Future<ApiResponse> verifyGuestOTP(
+  Future<VerifyGuestResponse> verifyGuestOTP(
       {required String channel, required String recipient, required String otp}) async {
     final Map<String, dynamic> body = {
       'channel': channel,
@@ -29,7 +30,7 @@ class OtpService {
       'otp': otp,
     };
     final response = await _helper.post(Endpoints.verifyGuestOTP, body);
-    return ApiResponse.fromJson(response);
+    return VerifyGuestResponse.fromJson(response);
   }
 
   Future<ApiResponse> verifyOTP(

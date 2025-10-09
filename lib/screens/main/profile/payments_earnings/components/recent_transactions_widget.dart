@@ -163,7 +163,7 @@ class RecentTransactionItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: PrimaryText(
-                text: transaction.details ?? "N/A",
+                text: transaction.reason ?? "N/A",
                 fontWeight: FontWeight.w500,
                 fontSize: 13,
                 textColor: context.resources.color.colorBlack2,

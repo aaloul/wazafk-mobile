@@ -19,7 +19,7 @@ class VerificationController extends GetxController {
     super.onInit();
     mobile = Get.arguments?['mobile'] ?? '';
     page = Get.arguments?['page'];
-    if (page == 'login') {
+    if (page == 'login' || page == 'reset_password') {
       resendOTP();
     }
   }
@@ -47,10 +47,11 @@ class VerificationController extends GetxController {
           Get.offAllNamed(RouteConstant.createAccountScreen, arguments: {
             'mobile': mobile
           });
-        } else {
+        } else if (page == 'reset_password') {
           // Navigate to create account after registration OTP
-          Get.offAllNamed(RouteConstant.createAccountScreen, arguments: {
-            'mobile': mobile
+          Get.offAllNamed(RouteConstant.resetPasswordScreen, arguments: {
+            'mobile': mobile,
+            'token': response.data!.verifyToken.toString(),
           });
         }
       } else {

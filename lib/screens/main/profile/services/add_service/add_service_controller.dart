@@ -80,7 +80,7 @@ class AddServiceController extends GetxController {
     }
   }
 
-  void _populateFieldsFromService(Service service) {
+  Future<void> _populateFieldsFromService(Service service) async {
     // Reset category selections
     selectedCategory.value = null;
     selectedSubcategory.value = null;
@@ -158,57 +158,77 @@ class AddServiceController extends GetxController {
     }
 
     // Set category - find from HomeController's categories list
-    // if (service.categoryHashcode != null) {
-    //   _setCategoryFromHashcode(service.categoryHashcode!);
-    // }
-  }
-
-  void _setCategoryFromHashcode(String categoryHashcode) async {
-    try {
-      // Find the category by hashcode
+    if (service.parentCategoryHashcode == null) {
       final category = Prefs.getCategories.firstWhereOrNull(
-        (cat) => cat.hashcode == categoryHashcode,
+        (cat) => cat.hashcode == service.categoryHashcode,
       );
 
       if (category != null) {
         selectedCategory.value = category;
-
-        // If category has subcategories, fetch them and try to find matching subcategory
-        if (category.hasSubCategories == true) {
-          await getSubcategories(category.hashcode!);
-
-          // The current category might actually be a subcategory
-          // So check if any subcategory matches
-          final subcategory = subcategories.firstWhereOrNull(
-            (subcat) => subcat.hashcode == categoryHashcode,
-          );
-
-          if (subcategory != null) {
-            selectedSubcategory.value = subcategory;
-          }
-        }
-      } else {
-        // If not found in main categories, it might be a subcategory
-        // Try to find its parent
-        for (var cat in Prefs.getCategories) {
-          if (cat.hasSubCategories == true) {
-            await getSubcategories(cat.hashcode!);
-            final subcategory = subcategories.firstWhereOrNull(
-              (subcat) => subcat.hashcode == categoryHashcode,
-            );
-
-            if (subcategory != null) {
-              selectedCategory.value = cat;
-              selectedSubcategory.value = subcategory;
-              break;
-            }
-          }
-        }
       }
-    } catch (e) {
-      print('Error setting category: $e');
+    } else {
+      final category = Prefs.getCategories.firstWhereOrNull(
+        (cat) => cat.hashcode == service.parentCategoryHashcode,
+      );
+
+      if (category != null) {
+        selectedCategory.value = category;
+      }
+
+      await getSubcategories(service.parentCategoryHashcode.toString());
+
+      selectedSubcategory.value = subcategories.firstWhereOrNull(
+        (cat) => cat.hashcode == service.categoryHashcode,
+      );
     }
   }
+
+  // void _setCategoryFromHashcode(String categoryHashcode) async {
+  //   try {
+  //     // Find the category by hashcode
+  //     final category = Prefs.getCategories.firstWhereOrNull(
+  //       (cat) => cat.hashcode == categoryHashcode,
+  //     );
+  //
+  //     if (category != null) {
+  //       selectedCategory.value = category;
+  //
+  //       // If category has subcategories, fetch them and try to find matching subcategory
+  //       if (category.hasSubCategories == true) {
+  //         await getSubcategories(category.hashcode!);
+  //
+  //         // The current category might actually be a subcategory
+  //         // So check if any subcategory matches
+  //         final subcategory = subcategories.firstWhereOrNull(
+  //           (subcat) => subcat.hashcode == categoryHashcode,
+  //         );
+  //
+  //         if (subcategory != null) {
+  //           selectedSubcategory.value = subcategory;
+  //         }
+  //       }
+  //     } else {
+  //       // If not found in main categories, it might be a subcategory
+  //       // Try to find its parent
+  //       for (var cat in Prefs.getCategories) {
+  //         if (cat.hasSubCategories == true) {
+  //           await getSubcategories(cat.hashcode!);
+  //           final subcategory = subcategories.firstWhereOrNull(
+  //             (subcat) => subcat.hashcode == categoryHashcode,
+  //           );
+  //
+  //           if (subcategory != null) {
+  //             selectedCategory.value = cat;
+  //             selectedSubcategory.value = subcategory;
+  //             break;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print('Error setting category: $e');
+  //   }
+  // }
 
   String _getDayNameFromAbbreviation(String abbr) {
     switch (abbr.toUpperCase()) {

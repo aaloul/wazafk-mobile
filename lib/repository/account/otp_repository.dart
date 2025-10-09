@@ -1,4 +1,5 @@
 import '../../model/ApiResponse.dart';
+import '../../model/VerifyGuestResponse.dart';
 import '../../networking/services/account/otp_service.dart';
 
 class OtpRepository {
@@ -18,7 +19,7 @@ class OtpRepository {
     return _provider.sendGuestOTP(channel: channel, recipient: recipient);
   }
 
-  Future<ApiResponse> verifyGuestOTP(
+  Future<VerifyGuestResponse> verifyGuestOTP(
       {required String channel, required String otp, required String recipient}) async {
     return _provider.verifyGuestOTP(
         channel: channel, otp: otp, recipient: recipient);

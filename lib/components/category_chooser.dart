@@ -114,7 +114,19 @@ class CategoryChooser extends StatelessWidget {
                 ),
                 closedBorderRadius: BorderRadius.circular(10),
               ),
-              initialItem: selected ?? (list.isNotEmpty ? list[0] : null),
+              initialItem: () {
+                final selectedItem = selected;
+                if (selectedItem != null && list.isNotEmpty) {
+                  try {
+                    return list.firstWhere(
+                      (c) => c.hashcode == selectedItem.hashcode,
+                    );
+                  } catch (e) {
+                    return list[0];
+                  }
+                }
+                return list.isNotEmpty ? list[0] : null;
+              }(),
               onChanged: (value) {
                 onSelect(value);
               },

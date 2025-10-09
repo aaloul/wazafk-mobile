@@ -5,11 +5,6 @@ import '../../api_base_helper.dart';
 class PasswordService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> forgotPasswordRequest(String mobile) async {
-    final Map<String, dynamic> body = {'mobile': mobile};
-    final response = await _helper.post(Endpoints.forgotPasswordRequest, body);
-    return ApiResponse.fromJson(response);
-  }
 
   Future<ApiResponse> forgotPasswordConfirm(
     String mobile,
@@ -19,7 +14,7 @@ class PasswordService {
     final Map<String, dynamic> body = {
       'mobile': mobile,
       'reset_token': resetToken,
-      'new_password': newPassword,
+      'password': newPassword,
     };
     final response = await _helper.post(Endpoints.forgotPasswordConfirm, body);
     return ApiResponse.fromJson(response);

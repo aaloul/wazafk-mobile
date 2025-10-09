@@ -18,8 +18,7 @@ class Endpoints {
   //ACCOUNT
   static const login = 'account/login';
   static const register = 'account/register';
-  static const forgotPasswordRequest = 'account/forgotPasswordRequest';
-  static const forgotPasswordConfirm = 'account/forgotPasswordConfirm';
+  static const forgotPasswordConfirm = 'account/resetPassword';
   static const sendOTP = 'account/sendOTP';
   static const sendGuestOTP = 'account/sendGuestOTP';
   static const verifyGuestOTP = 'account/verifyGuestOTP';

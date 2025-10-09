@@ -14,15 +14,13 @@ class ResetPasswordController extends GetxController {
   var isLoading = false.obs;
 
   String mobile = '';
+  String token = '';
 
   @override
   void onInit() {
     super.onInit();
     mobile = Get.arguments?['mobile'] ?? '';
-    // Automatically request OTP when screen loads
-    if (mobile.isNotEmpty) {
-      requestPasswordReset();
-    }
+    token = Get.arguments?['token'] ?? '';
   }
 
   @override
@@ -32,36 +30,6 @@ class ResetPasswordController extends GetxController {
     super.onClose();
   }
 
-  Future<void> requestPasswordReset() async {
-    if (mobile.isEmpty) {
-      constants.showSnackBar('Mobile number is required', SnackBarStatus.ERROR);
-      return;
-    }
-
-    // isLoading(true);
-    try {
-      final response = await _passwordRepository.forgotPasswordRequest(mobile);
-
-      if (response.success ?? false) {
-        constants.showSnackBar(
-          response.message ?? 'OTP sent successfully',
-          SnackBarStatus.SUCCESS,
-        );
-      } else {
-        constants.showSnackBar(
-          response.message ?? 'Failed to send OTP',
-          SnackBarStatus.ERROR,
-        );
-      }
-      // isLoading(false);
-    } catch (e) {
-      // isLoading(false);
-      constants.showSnackBar(
-        getErrorMessage(e.toString()).toString(),
-        SnackBarStatus.ERROR,
-      );
-    }
-  }
 
   Future<void> confirmPasswordReset() async {
     if (newPasswordController.text.isEmpty) {
@@ -86,7 +54,7 @@ class ResetPasswordController extends GetxController {
     try {
       final response = await _passwordRepository.forgotPasswordConfirm(
         mobile,
-        "123456",
+        token,
         newPasswordController.text,
       );
 
