@@ -324,7 +324,7 @@ class AddPackageScreen extends StatelessWidget {
                         isMandatory: false,
                         isOptional: false,
                         onClick: () {
-                          controller.pickPackageImage();
+                          controller.pickPackageImage(context);
                         },
                       );
                     }),

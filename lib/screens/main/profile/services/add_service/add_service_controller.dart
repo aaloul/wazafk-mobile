@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
@@ -352,12 +353,9 @@ class AddServiceController extends GetxController {
     return selectedAddresses.any((a) => a.hashcode == address.hashcode);
   }
 
-  Future<void> pickPortfolioImage() async {
+  Future<void> pickPortfolioImage(BuildContext context) async {
     try {
-      final XFile? image = await _imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
+      final XFile? image = await ImageSourceBottomSheet.show(context);
 
       if (image != null) {
         portfolioImage.value = File(image.path);

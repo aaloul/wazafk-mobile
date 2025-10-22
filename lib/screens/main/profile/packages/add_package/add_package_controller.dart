@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/WorkingHoursModel.dart';
@@ -292,12 +293,9 @@ class AddPackageController extends GetxController {
     }
   }
 
-  Future<void> pickPackageImage() async {
+  Future<void> pickPackageImage(BuildContext context) async {
     try {
-      final XFile? image = await _imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
+      final XFile? image = await ImageSourceBottomSheet.show(context);
 
       if (image != null) {
         packageImage.value = File(image.path);

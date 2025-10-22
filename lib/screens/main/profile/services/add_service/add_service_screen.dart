@@ -235,7 +235,7 @@ class AddServiceScreen extends StatelessWidget {
                             isMandatory: false,
                             isOptional: false,
                             onClick: () {
-                              controller.pickPortfolioImage();
+                              controller.pickPortfolioImage(context);
                             },
                           ),
                     ),

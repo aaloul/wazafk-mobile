@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
 import 'package:wazafak_app/networking/services/member/profile_service.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -56,49 +57,11 @@ class PersonalInformationController extends GetxController {
     }
   }
 
-  Future<void> pickImageFromGallery() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> showImageSourceDialog(BuildContext context) async {
+    final XFile? image = await ImageSourceBottomSheet.show(context);
     if (image != null) {
       profileImage.value = image;
     }
-  }
-
-  Future<void> pickImageFromCamera() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      profileImage.value = image;
-    }
-  }
-
-  void showImageSourceDialog() {
-    Get.dialog(
-      AlertDialog(
-        title: Text('Choose Image Source'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Gallery'),
-              onTap: () {
-                Get.back();
-                pickImageFromGallery();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Camera'),
-              onTap: () {
-                Get.back();
-                pickImageFromCamera();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Future<void> updateProfile() async {

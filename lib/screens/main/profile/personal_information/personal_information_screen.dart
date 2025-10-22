@@ -42,7 +42,7 @@ class PersonalInformationScreen extends StatelessWidget {
                       // Profile Image
                       GestureDetector(
                         onTap: () {
-                          controller.showImageSourceDialog();
+                          controller.showImageSourceDialog(context);
                         },
                         child: Obx(() {
                           if (controller.profileImage.value != null) {

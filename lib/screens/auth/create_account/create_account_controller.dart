@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/InterestOptionsResponse.dart';
 import 'package:wazafak_app/repository/account/register_repository.dart';
@@ -105,12 +106,9 @@ class CreateAccountController extends GetxController {
     }
   }
 
-  Future<void> pickImageFromCamera(String type) async {
+  Future<void> pickImageFromCamera(BuildContext context, String type) async {
     try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.camera,
-        imageQuality: 80,
-      );
+      final XFile? image = await ImageSourceBottomSheet.show(context);
 
       if (image != null) {
         if (type == 'front_id') {
@@ -129,12 +127,9 @@ class CreateAccountController extends GetxController {
     }
   }
 
-  Future<void> pickProfileImage(ImageSource source) async {
+  Future<void> showImageSourceDialog(BuildContext context) async {
     try {
-      final XFile? image = await _picker.pickImage(
-        source: source,
-        imageQuality: 80,
-      );
+      final XFile? image = await ImageSourceBottomSheet.show(context);
 
       if (image != null) {
         profileImage.value = image;
@@ -145,35 +140,6 @@ class CreateAccountController extends GetxController {
         SnackBarStatus.ERROR,
       );
     }
-  }
-
-  void showImageSourceDialog() {
-    Get.dialog(
-      AlertDialog(
-        title: Text('Choose Image Source'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Camera'),
-              onTap: () {
-                Get.back();
-                pickProfileImage(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Gallery'),
-              onTap: () {
-                Get.back();
-                pickProfileImage(ImageSource.gallery);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Future<void> register() async {

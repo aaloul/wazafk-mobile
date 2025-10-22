@@ -33,7 +33,7 @@ class CreateAccountStep1 extends StatelessWidget {
 
                   GestureDetector(
                     onTap: () {
-                      dataController.showImageSourceDialog();
+                      dataController.showImageSourceDialog(context);
                     },
                     child: Obx(
                           () =>
