@@ -1,15 +1,16 @@
 import 'package:http/http.dart' as http;
 import 'package:wazafak_app/model/LoginResponse.dart';
 
+import '../../../model/ProfileResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
 class ProfileService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<LoginResponse> getProfile(String hashcode) async {
-    final response = await _helper.get("${Endpoints.profile}/$hashcode");
-    return LoginResponse.fromJson(response);
+  Future<ProfileResponse> getProfile() async {
+    final response = await _helper.get(Endpoints.profile);
+    return ProfileResponse.fromJson(response);
   }
 
   Future<LoginResponse> editProfile(Map<String, dynamic> data) async {

@@ -36,6 +36,11 @@ class Prefs {
 
   static void setDeviceId(String value) => box.write(Const.DEVICE_ID, value);
 
+  static String get getProfileTitle => box.read(Const.PROFILE_TITLE) ?? '';
+
+  static void setProfileTitle(String value) =>
+      box.write(Const.PROFILE_TITLE, value);
+
   static String get getAppVersion => box.read(Const.APP_VERSION) ?? '';
 
   static void setAppVersion(String value) =>
@@ -227,6 +232,7 @@ class Prefs {
     setGender(user.gender.toString() ?? '');
     setWebsite(user.website.toString() ?? '');
     setInfo(user.info.toString() ?? '');
+    setProfileTitle(user.title.toString() ?? '');
   }
 
   static void clearUser() {
@@ -242,5 +248,6 @@ class Prefs {
     setMobile('');
     setWebsite('');
     setInfo('');
+    setProfileTitle('');
   }
 }

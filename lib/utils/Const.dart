@@ -12,6 +12,7 @@ class Const {
   static const String APP_VERSION = 'APP_VERSION';
   static const String DEVICE_BRAND = 'DEVICE_BRAND';
   static const String FIRST_RUN = 'FIRST_RUN';
+  static const String PROFILE_TITLE = 'PROFILE_TITLE';
   static const String DEVICE_ID = 'DEVICE_ID';
   static const String REMOTE_VERSION = 'REMOTE_VERSION';
   static const String APP_SETTINGS = 'APP_SETTINGS';

@@ -14,7 +14,11 @@ class LoginResponse {
   String? message;
   User? data;
 
-  LoginResponse({this.success, this.message, this.data});
+  LoginResponse({
+    this.success,
+    this.message,
+    this.data,
+  });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
     success: json["success"],
@@ -30,9 +34,10 @@ class LoginResponse {
 }
 
 class User {
+  String? entityType;
   String? hashcode;
-  String? token;
   String? code;
+  dynamic title;
   String? firstName;
   String? lastName;
   String? mobile;
@@ -43,8 +48,10 @@ class User {
   String? country;
   String? info;
   dynamic workExperience;
-  dynamic website;
-  int? rating;
+  String? website;
+  String? rating;
+  DateTime? joinDate;
+  String? joinYear;
   String? timezone;
   String? language;
   int? idVerified;
@@ -57,11 +64,17 @@ class User {
   String? documentForeignLegal2;
   String? documentForeignPaperwork;
   int? status;
+  dynamic nbJobPosts;
+  dynamic nbHiredFreelancers;
+  dynamic nbCompletedJobs;
+  dynamic isFavorite;
+  String? token;
 
   User({
+    this.entityType,
     this.hashcode,
-    this.token,
     this.code,
+    this.title,
     this.firstName,
     this.lastName,
     this.mobile,
@@ -74,6 +87,8 @@ class User {
     this.workExperience,
     this.website,
     this.rating,
+    this.joinDate,
+    this.joinYear,
     this.timezone,
     this.language,
     this.idVerified,
@@ -86,19 +101,24 @@ class User {
     this.documentForeignLegal2,
     this.documentForeignPaperwork,
     this.status,
+    this.nbJobPosts,
+    this.nbHiredFreelancers,
+    this.nbCompletedJobs,
+    this.isFavorite,
+    this.token,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+    entityType: json["entity_type"],
     hashcode: json["hashcode"],
-    token: json["token"],
     code: json["code"],
+    title: json["title"],
     firstName: json["first_name"],
     lastName: json["last_name"],
     mobile: json["mobile"],
     email: json["email"],
-    dateOfBirth: json["date_of_birth"] == null
-        ? null
-        : DateTime.parse(json["date_of_birth"]),
+    dateOfBirth: json["date_of_birth"] == null ? null : DateTime.parse(
+        json["date_of_birth"]),
     gender: json["gender"],
     image: json["image"],
     country: json["country"],
@@ -106,6 +126,9 @@ class User {
     workExperience: json["work_experience"],
     website: json["website"],
     rating: json["rating"],
+    joinDate: json["join_date"] == null ? null : DateTime.parse(
+        json["join_date"]),
+    joinYear: json["join_year"],
     timezone: json["timezone"],
     language: json["language"],
     idVerified: json["id_verified"],
@@ -118,18 +141,25 @@ class User {
     documentForeignLegal2: json["document_foreign_legal_2"],
     documentForeignPaperwork: json["document_foreign_paperwork"],
     status: json["status"],
+    nbJobPosts: json["nb_job_posts"],
+    nbHiredFreelancers: json["nb_hired_freelancers"],
+    nbCompletedJobs: json["nb_completed_jobs"],
+    isFavorite: json["is_favorite"],
+    token: json["token"],
   );
 
   Map<String, dynamic> toJson() => {
+    "entity_type": entityType,
     "hashcode": hashcode,
-    "token": token,
     "code": code,
+    "title": title,
     "first_name": firstName,
     "last_name": lastName,
     "mobile": mobile,
     "email": email,
-    "date_of_birth":
-        "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
+    "date_of_birth": "${dateOfBirth!.year.toString().padLeft(
+        4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!
+        .day.toString().padLeft(2, '0')}",
     "gender": gender,
     "image": image,
     "country": country,
@@ -137,6 +167,8 @@ class User {
     "work_experience": workExperience,
     "website": website,
     "rating": rating,
+    "join_date": joinDate?.toIso8601String(),
+    "join_year": joinYear,
     "timezone": timezone,
     "language": language,
     "id_verified": idVerified,
@@ -149,5 +181,10 @@ class User {
     "document_foreign_legal_2": documentForeignLegal2,
     "document_foreign_paperwork": documentForeignPaperwork,
     "status": status,
+    "nb_job_posts": nbJobPosts,
+    "nb_hired_freelancers": nbHiredFreelancers,
+    "nb_completed_jobs": nbCompletedJobs,
+    "is_favorite": isFavorite,
+    "token": token,
   };
 }

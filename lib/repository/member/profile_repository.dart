@@ -1,11 +1,12 @@
 import '../../model/LoginResponse.dart';
+import '../../model/ProfileResponse.dart';
 import '../../networking/services/member/profile_service.dart';
 
 class ProfileRepository {
   final _provider = ProfileService();
 
-  Future<LoginResponse> getProfile(String hashcode) async {
-    return _provider.getProfile(hashcode);
+  Future<ProfileResponse> getProfile() async {
+    return _provider.getProfile();
   }
 
   Future<LoginResponse> editProfile(Map<String, dynamic> data) async {

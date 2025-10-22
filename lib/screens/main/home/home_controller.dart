@@ -2,12 +2,15 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
+import 'package:wazafak_app/model/LoginResponse.dart';
+import 'package:wazafak_app/model/ProfileResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/networking/services/wallet/get_wallet_service.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
+import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
@@ -17,17 +20,24 @@ class HomeController extends GetxController {
   final _skillsRepository = SkillsRepository();
   final _addressesRepository = AddressesRepository();
   final _getWalletService = GetWalletService();
+  final _profileRepository = ProfileRepository();
 
   var isLoadingCategories = false.obs;
   var isLoadingJobs = false.obs;
   var isLoadingSkills = false.obs;
   var isLoadingAddresses = false.obs;
   var isLoadingWallet = false.obs;
+  var isLoadingProfile = false.obs;
   var categories = <Category>[].obs;
   var jobs = <Job>[].obs;
   var skills = <Skill>[].obs;
   var addresses = <Address>[].obs;
   var walletHashcode = ''.obs;
+  Rx<User?> profileData = Rx<User?>(null);
+  var totalEarnings = ''.obs;
+  var nbActiveJobs = 0.obs;
+  var nbCompletedJobs = 0.obs;
+  var successRate = ''.obs;
 
   @override
   void onInit() {
@@ -36,6 +46,7 @@ class HomeController extends GetxController {
     loadSkillsFromPrefs();
     loadAddressesFromPrefs();
     loadWalletHashcodeFromPrefs();
+    fetchProfile();
     fetchCategories();
     fetchJobs();
     fetchSkills();
@@ -63,7 +74,9 @@ class HomeController extends GetxController {
     try {
       isLoadingCategories.value = true;
 
-      final response = await _categoriesRepository.getCategories();
+      final response = await _categoriesRepository.getCategories(
+          type: 'S'
+      );
 
       if (response.success == true && response.data?.list != null) {
         categories.value = response.data!.list!;
@@ -174,6 +187,45 @@ class HomeController extends GetxController {
       print('Error loading wallet: $e');
     } finally {
       isLoadingWallet.value = false;
+    }
+  }
+
+  Future<void> fetchProfile() async {
+    try {
+      isLoadingProfile.value = true;
+
+
+      final response = await _profileRepository.getProfile();
+
+      if (response.success == true && response.data != null) {
+        profileData.value = response.data!.member;
+
+        // Update profile statistics
+        totalEarnings.value = response.data!.totalEarnings?.toString() ?? '0';
+        nbActiveJobs.value = response.data!.nbActiveJobs ?? 0;
+        nbCompletedJobs.value = response.data!.nbCompletedJobs ?? 0;
+        successRate.value = response.data!.successRate?.toString() ?? '0';
+
+        // Update user preferences with fresh data
+        if (response.data!.member != null) {
+          final user = response.data!.member!;
+          if (user.firstName != null) Prefs.setFName(user.firstName!);
+          if (user.lastName != null) Prefs.setLName(user.lastName!);
+          if (user.email != null) Prefs.setEmail(user.email!);
+          if (user.image != null) Prefs.setAvatar(user.image!);
+          if (user.title != null) Prefs.setProfileTitle(user.title.toString());
+        }
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load profile',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar('Error loading profile: $e', SnackBarStatus.ERROR);
+      print('Error loading profile: $e');
+    } finally {
+      isLoadingProfile.value = false;
     }
   }
 

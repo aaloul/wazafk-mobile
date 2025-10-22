@@ -108,6 +108,16 @@ class PersonalInformationScreen extends StatelessWidget {
                         controller: controller.lastNameController,
                       ),
 
+                      // Title
+                      LabeledTextFiled(
+                        label: "Title",
+                        hint: "Title",
+                        inputType: TextInputType.text,
+                        isPassword: false,
+                        isMandatory: true,
+                        controller: controller.titleController,
+                      ),
+
                       // Email
                       LabeledTextFiled(
                         label: "Email Address",

@@ -7,8 +7,8 @@ import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../../../../../model/JobsResponse.dart';
 
-class HomeJobItem extends StatelessWidget {
-  const HomeJobItem({super.key, required this.job});
+class ProjectsJobItem extends StatelessWidget {
+  const ProjectsJobItem({super.key, required this.job});
 
   final Job job;
 
@@ -64,8 +64,11 @@ class HomeJobItem extends StatelessWidget {
                 ),
               ),
               Image.asset(
-                  job.isFavorite ?? false ? AppIcons.banomarkOn : AppIcons
-                      .banomark, width: 18),
+                job.isFavorite ?? false
+                    ? AppIcons.banomarkOn
+                    : AppIcons.banomark,
+                width: 18,
+              ),
             ],
           ),
           SizedBox(height: 8),

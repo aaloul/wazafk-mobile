@@ -75,6 +75,14 @@ class CreateAccountStep1 extends StatelessWidget {
                     controller: dataController.lastNameController,
                   ),
                   LabeledTextFiled(
+                    label: "Title",
+                    hint: "Title",
+                    inputType: TextInputType.text,
+                    isPassword: false,
+                    isMandatory: true,
+                    controller: dataController.titleController,
+                  ),
+                  LabeledTextFiled(
                     label: "Email Address",
                     hint: "Email Address",
                     inputType: TextInputType.emailAddress,

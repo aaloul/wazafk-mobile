@@ -4,6 +4,8 @@ import 'package:wazafak_app/repository/service/service_status_repository.dart';
 import 'package:wazafak_app/repository/service/services_list_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../utils/Prefs.dart';
+
 class ServicesController extends GetxController {
   final _repository = ServicesListRepository();
   final _statusRepository = ServiceStatusRepository();
@@ -22,7 +24,7 @@ class ServicesController extends GetxController {
     try {
 
       Map<String, String>? filters = {};
-      // filters['member'] = Prefs.getId;
+      filters['member'] = Prefs.getId;
 
       final response = await _repository.getServices(filters: filters);
 

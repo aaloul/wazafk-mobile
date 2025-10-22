@@ -8,6 +8,7 @@ import 'package:wazafak_app/utils/utils.dart';
 class PersonalInformationController extends GetxController {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
+  final titleController = TextEditingController();
   final emailController = TextEditingController();
   final portfolioLinkController = TextEditingController();
   final aboutController = TextEditingController();
@@ -32,14 +33,15 @@ class PersonalInformationController extends GetxController {
     emailController.text = Prefs.getEmail;
     portfolioLinkController.text = Prefs.getWebsite;
     aboutController.text = Prefs.getInfo;
+    titleController.text = Prefs.getProfileTitle;
 
     // Auto-fill gender with proper capitalization
     if (Prefs.getGender.isNotEmpty) {
       String gender = Prefs.getGender.toLowerCase();
-      if (gender == 'male' || gender == 'm') {
-        selectedGender.value = 'Male';
-      } else if (gender == 'female' || gender == 'f') {
-        selectedGender.value = 'Female';
+      if (gender == 'male' || gender == 'm' || gender == 'M') {
+        selectedGender.value = genders.first;
+      } else if (gender == 'female' || gender == 'f' || gender == 'F') {
+        selectedGender.value = genders[1];
       } else {
         selectedGender.value = Prefs.getGender;
       }
@@ -111,6 +113,7 @@ class PersonalInformationController extends GetxController {
         'gender': selectedGender.value.substring(0, 1),
         'website': portfolioLinkController.text,
         'info': aboutController.text,
+        'title': titleController.text,
       };
 
       if (selectedDate.value != null) {
@@ -174,6 +177,7 @@ class PersonalInformationController extends GetxController {
     emailController.dispose();
     portfolioLinkController.dispose();
     aboutController.dispose();
+    titleController.dispose();
     super.onClose();
   }
 }

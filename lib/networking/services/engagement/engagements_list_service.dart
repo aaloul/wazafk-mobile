@@ -1,4 +1,4 @@
-import 'package:wazafak_app/model/EngagementssResponse.dart';
+import 'package:wazafak_app/model/EngagementsResponse.dart';
 
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';

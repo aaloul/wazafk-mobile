@@ -6,6 +6,8 @@ abstract class BaseColors {
 
   Color get colorBlack;
 
+  Color get colorBlack3;
+
   Color get background;
 
   Color get background2;

@@ -32,31 +32,45 @@ class TabsWidget extends StatelessWidget {
               ...tabs.map((tab) {
                 return Expanded(
                   flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      onSelect(tab);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(0),
-                        color: selectedTab == tab.toString()
-                            ? context.resources.color.colorPrimary
-                            : context.resources.color.colorWhite,
-                      ),
-                      child: Center(
-                        child: PrimaryText(
-                          textAlign: TextAlign.center,
-                          text: tab.toString(),
-                          textColor: selectedTab == tab.toString()
-                              ? context.resources.color.colorWhite
-                              : context.resources.color.colorGrey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
+                  child: Row(
+                    children: [
+
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            onSelect(tab);
+                          },
+                          child: Container(
+                            height: 40,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(0),
+                              color: selectedTab == tab.toString()
+                                  ? context.resources.color.colorPrimary
+                                  : context.resources.color.colorWhite,
+                            ),
+                            child: Center(
+                              child: PrimaryText(
+                                textAlign: TextAlign.center,
+                                text: tab.toString(),
+                                textColor: selectedTab == tab.toString()
+                                    ? context.resources.color.colorWhite
+                                    : context.resources.color.colorGrey,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+
+                      Container(
+                        width: .5,
+                        height: 20,
+                        color: context.resources.color.colorGrey,
+                      )
+
+                    ],
                   ),
                 );
               }),

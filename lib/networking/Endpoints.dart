@@ -100,8 +100,8 @@ class Endpoints {
   static const removeFavoriteMember = 'favorite/removeFavoriteMember';
   static const addFavoriteJob = 'favorite/addFavoriteJob';
   static const removeFavoriteJob = 'favorite/removeFavoriteJob';
-  static const favoriteMembers = 'favorite/favoriteMembers';
-  static const favoriteJobs = 'favorite/favoriteJobs';
+  static const favoriteMembers = 'favorite/favorites';
+  static const favoriteJobs = 'favorite/favorites';
 
   //RATING
   static const ratingCriteria = 'rating/ratingCriteria';

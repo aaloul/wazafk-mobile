@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
@@ -9,6 +11,8 @@ class HomeStatisticsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HomeController>();
+
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 16),
@@ -18,42 +22,44 @@ class HomeStatisticsWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: HexColor("#00AEC81A"), width: 1),
       ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              StatisticsItem(
-                title: 'Total Earnings',
-                value: '\$834.12',
-                textIcon: "\$",
-                icon: "",
-              ),
-              SizedBox(width: 10),
-              StatisticsItem(
-                title: 'Active Jobs',
-                value: '8',
-                icon: AppIcons.time,
-              ),
-            ],
-          ),
+      child: Obx(
+        () => Column(
+          children: [
+            Row(
+              children: [
+                StatisticsItem(
+                  title: 'Total Earnings',
+                  value: '\$${controller.totalEarnings.value}',
+                  textIcon: "\$",
+                  icon: "",
+                ),
+                SizedBox(width: 10),
+                StatisticsItem(
+                  title: 'Active Jobs',
+                  value: '${controller.nbActiveJobs.value}',
+                  icon: AppIcons.time,
+                ),
+              ],
+            ),
 
-          SizedBox(height: 10),
-          Row(
-            children: [
-              StatisticsItem(
-                title: 'Completed',
-                value: '12',
-                icon: AppIcons.completed,
-              ),
-              SizedBox(width: 10),
-              StatisticsItem(
-                title: 'Success Rate',
-                value: '96%',
-                icon: AppIcons.chart,
-              ),
-            ],
-          ),
-        ],
+            SizedBox(height: 10),
+                Row(
+                  children: [
+                    StatisticsItem(
+                      title: 'Completed',
+                      value: '${controller.nbCompletedJobs.value}',
+                      icon: AppIcons.completed,
+                    ),
+                    SizedBox(width: 10),
+                    StatisticsItem(
+                      title: 'Success Rate',
+                      value: '${controller.successRate.value}%',
+                      icon: AppIcons.chart,
+                    ),
+                  ],
+                ),
+              ],
+            ),
       ),
     );
   }

@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/main/profile/packages/packs_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import 'components/item_my_package.dart';
-import 'packs_controller.dart';
 
 class PacksScreen extends StatelessWidget {
   const PacksScreen({super.key});
@@ -60,9 +61,8 @@ class PacksScreen extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 16),
                 child: PrimaryButton(
                   title: "Create New Pack",
-                  onPressed: () {
-                    // TODO: Navigate to add package screen when available
-                    // Get.toNamed(RouteConstant.addPackageScreen);
+                  onPressed: () async {
+                    Get.toNamed(RouteConstant.addPackageScreen);
                   },
                 ),
               ),

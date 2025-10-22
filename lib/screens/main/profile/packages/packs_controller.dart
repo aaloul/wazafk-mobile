@@ -4,6 +4,8 @@ import 'package:wazafak_app/repository/package/package_status_repository.dart';
 import 'package:wazafak_app/repository/package/packages_list_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../utils/Prefs.dart';
+
 class PacksController extends GetxController {
   final _repository = PackagesListRepository();
   final _statusRepository = PackageStatusRepository();
@@ -21,7 +23,7 @@ class PacksController extends GetxController {
   Future<void> fetchPackages() async {
     try {
       Map<String, String>? filters = {};
-      // filters['member'] = Prefs.getId;
+      filters['member'] = Prefs.getId;
 
       final response = await _repository.getPackages(filters: filters);
 

@@ -18,7 +18,11 @@ class EngagementsResponse {
   String? message;
   Data? data;
 
-  EngagementsResponse({this.success, this.message, this.data});
+  EngagementsResponse({
+    this.success,
+    this.message,
+    this.data,
+  });
 
   factory EngagementsResponse.fromJson(Map<String, dynamic> json) =>
       EngagementsResponse(
@@ -38,26 +42,26 @@ class Data {
   Meta? meta;
   List<Engagement>? list;
 
-  Data({this.meta, this.list});
+  Data({
+    this.meta,
+    this.list,
+  });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
-    list: json["list"] == null
-        ? []
-        : List<Engagement>.from(
-            json["list"]!.map((x) => Engagement.fromJson(x)),
-          ),
+    list: json["list"] == null ? [] : List<Engagement>.from(
+        json["list"]!.map((x) => Engagement.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "meta": meta?.toJson(),
-    "list": list == null
-        ? []
-        : List<dynamic>.from(list!.map((x) => x.toJson())),
+    "list": list == null ? [] : List<dynamic>.from(
+        list!.map((x) => x.toJson())),
   };
 }
 
 class Engagement {
+  String? entityType;
   String? hashcode;
   String? type;
   String? clientHashcode;
@@ -84,14 +88,21 @@ class Engagement {
   String? messageToClient;
   String? messageToFreelancer;
   String? freelancerCv;
-  dynamic completedDatetime;
-  dynamic completedDeliverables;
+  DateTime? completedDatetime;
+  String? completedDeliverables;
   int? pendingChangeRequest;
   int? hasDispute;
   DateTime? createdAt;
   int? status;
+  String? statusCode;
+  String? statusLabel;
+  String? statusColor;
+  String? statusPendingAction;
+  String? progress;
+  String? remaining;
 
   Engagement({
+    this.entityType,
     this.hashcode,
     this.type,
     this.clientHashcode,
@@ -124,9 +135,16 @@ class Engagement {
     this.hasDispute,
     this.createdAt,
     this.status,
+    this.statusCode,
+    this.statusLabel,
+    this.statusColor,
+    this.statusPendingAction,
+    this.progress,
+    this.remaining,
   });
 
   factory Engagement.fromJson(Map<String, dynamic> json) => Engagement(
+    entityType: json["entity_type"],
     hashcode: json["hashcode"],
     type: json["type"],
     clientHashcode: json["client_hashcode"],
@@ -137,16 +155,13 @@ class Engagement {
     freelancerLastName: json["freelancer_last_name"],
     job: json["job"] == null ? null : Job.fromJson(json["job"]),
     package: json["package"],
-    services: json["services"] == null
-        ? []
-        : List<dynamic>.from(json["services"]!.map((x) => x)),
+    services: json["services"] == null ? [] : List<dynamic>.from(
+        json["services"]!.map((x) => x)),
     estimatedHours: json["estimated_hours"],
-    startDatetime: json["start_datetime"] == null
-        ? null
-        : DateTime.parse(json["start_datetime"]),
-    expiryDatetime: json["expiry_datetime"] == null
-        ? null
-        : DateTime.parse(json["expiry_datetime"]),
+    startDatetime: json["start_datetime"] == null ? null : DateTime.parse(
+        json["start_datetime"]),
+    expiryDatetime: json["expiry_datetime"] == null ? null : DateTime.parse(
+        json["expiry_datetime"]),
     unitPrice: json["unit_price"],
     totalPrice: json["total_price"],
     profitAmount: json["profit_amount"],
@@ -159,17 +174,24 @@ class Engagement {
     messageToClient: json["message_to_client"],
     messageToFreelancer: json["message_to_freelancer"],
     freelancerCv: json["freelancer_cv"],
-    completedDatetime: json["completed_datetime"],
+    completedDatetime: json["completed_datetime"] == null ? null : DateTime
+        .parse(json["completed_datetime"]),
     completedDeliverables: json["completed_deliverables"],
     pendingChangeRequest: json["pending_change_request"],
     hasDispute: json["has_dispute"],
-    createdAt: json["created_at"] == null
-        ? null
-        : DateTime.parse(json["created_at"]),
+    createdAt: json["created_at"] == null ? null : DateTime.parse(
+        json["created_at"]),
     status: json["status"],
+    statusCode: json["status_code"],
+    statusLabel: json["status_label"],
+    statusColor: json["status_color"],
+    statusPendingAction: json["status_pending_action"],
+    progress: json["progress"],
+    remaining: json["remaining"],
   );
 
   Map<String, dynamic> toJson() => {
+    "entity_type": entityType,
     "hashcode": hashcode,
     "type": type,
     "client_hashcode": clientHashcode,
@@ -180,9 +202,8 @@ class Engagement {
     "freelancer_last_name": freelancerLastName,
     "job": job?.toJson(),
     "package": package,
-    "services": services == null
-        ? []
-        : List<dynamic>.from(services!.map((x) => x)),
+    "services": services == null ? [] : List<dynamic>.from(
+        services!.map((x) => x)),
     "estimated_hours": estimatedHours,
     "start_datetime": startDatetime?.toIso8601String(),
     "expiry_datetime": expiryDatetime?.toIso8601String(),
@@ -198,14 +219,21 @@ class Engagement {
     "message_to_client": messageToClient,
     "message_to_freelancer": messageToFreelancer,
     "freelancer_cv": freelancerCv,
-    "completed_datetime": completedDatetime,
+    "completed_datetime": completedDatetime?.toIso8601String(),
     "completed_deliverables": completedDeliverables,
     "pending_change_request": pendingChangeRequest,
     "has_dispute": hasDispute,
     "created_at": createdAt?.toIso8601String(),
     "status": status,
+    "status_code": statusCode,
+    "status_label": statusLabel,
+    "status_color": statusColor,
+    "status_pending_action": statusPendingAction,
+    "progress": progress,
+    "remaining": remaining,
   };
 }
+
 
 class Meta {
   int? page;
@@ -213,7 +241,12 @@ class Meta {
   int? size;
   int? total;
 
-  Meta({this.page, this.last, this.size, this.total});
+  Meta({
+    this.page,
+    this.last,
+    this.size,
+    this.total,
+  });
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
     page: json["page"],

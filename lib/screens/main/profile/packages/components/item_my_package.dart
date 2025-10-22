@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -73,12 +74,16 @@ class ItemMyPackage extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              // TODO: Navigate to edit package screen when available
-              // Get.toNamed(
-              //   RouteConstant.addPackageScreen,
-              //   arguments: package,
-              // );
+            onTap: () async {
+              final result = await Get.toNamed(
+                RouteConstant.addPackageScreen,
+                arguments: package,
+              );
+              // Refresh packages list if edited
+              if (result == true) {
+                // Trigger a refresh by calling the controller
+                // The FocusDetector in PacksScreen will handle this
+              }
             },
             child: Image.asset(
               AppIcons.edit,

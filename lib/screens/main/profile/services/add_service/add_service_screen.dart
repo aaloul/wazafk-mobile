@@ -9,7 +9,7 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/screens/main/profile/services/add_service/components/address_choose_widget.dart';
 import 'package:wazafak_app/screens/main/profile/services/add_service/components/skills_choose_widget.dart';
-import 'package:wazafak_app/screens/main/profile/services/add_service/select_service_working_hours/select_service_working_hours_screen.dart';
+import 'package:wazafak_app/screens/main/profile/services/add_service/components/working_hours_bottom_sheet.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../components/file_upload_item.dart';
@@ -380,7 +380,7 @@ class AddServiceScreen extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => const SelectServiceWorkingHoursScreen());
+                        WorkingHoursBottomSheet.show(context);
                       },
                       child: Container(
                         padding: EdgeInsets.all(16),

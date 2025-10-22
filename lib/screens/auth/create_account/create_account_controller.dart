@@ -33,6 +33,7 @@ class CreateAccountController extends GetxController {
   // Form controllers
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
+  final titleController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -88,6 +89,7 @@ class CreateAccountController extends GetxController {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    titleController.dispose();
   }
 
   Future<String?> convertImageToBase64(XFile image) async {
@@ -193,6 +195,7 @@ class CreateAccountController extends GetxController {
       Map<String, dynamic> data = {
         'first_name': firstNameController.text,
         'last_name': lastNameController.text,
+        'title': titleController.text,
         'mobile': mobile,
         'document_type': selectedTab.value == "passport" ? "PASSPORT" : "ID",
         'email': emailController.text,
@@ -275,6 +278,10 @@ class CreateAccountController extends GetxController {
     }
     if (lastNameController.text.isEmpty) {
       constants.showSnackBar('Last name is required', SnackBarStatus.ERROR);
+      return;
+    }
+    if (titleController.text.isEmpty) {
+      constants.showSnackBar('Title is required', SnackBarStatus.ERROR);
       return;
     }
     if (emailController.text.isEmpty) {

@@ -26,7 +26,8 @@ import '../screens/main/profile/my_addresses/add_address/add_address_screen.dart
 import '../screens/main/profile/my_addresses/my_addresses_screen.dart';
 import '../screens/main/profile/my_addresses/select_location/select_location_screen.dart';
 import '../screens/main/profile/my_documents/my_documents_screen.dart';
-import '../screens/main/profile/packs/packs_screen.dart';
+import '../screens/main/profile/packages/add_package/add_package_screen.dart';
+import '../screens/main/profile/packages/packs_screen.dart';
 import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
 import '../screens/main/profile/personal_information/personal_information_screen.dart';
 import '../screens/main/profile/privacy_sharing/privacy_sharing_screen.dart';
@@ -180,6 +181,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.packsScreen,
     page: () => PacksScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.addPackageScreen,
+    page: () => AddPackageScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(

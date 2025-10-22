@@ -1,4 +1,4 @@
-import '../../model/EngagementssResponse.dart';
+import '../../model/EngagementsResponse.dart';
 import '../../networking/services/engagement/engagements_list_service.dart';
 
 class EngagementsListRepository {

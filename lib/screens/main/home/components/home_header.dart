@@ -4,6 +4,7 @@ import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/search_widget.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -15,6 +16,8 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HomeController>();
+
     return Container(
       width: double.infinity,
       color: context.resources.color.colorPrimary,
@@ -23,34 +26,39 @@ class HomeHeader extends StatelessWidget {
         children: [
           Row(
             children: [
-              ClipRRect(
+              Obx(() =>
+                  ClipRRect(
                 borderRadius: BorderRadiusGeometry.circular(1000),
                 child: PrimaryNetworkImage(
-                  url: Prefs.getAvatar,
+                  url: controller.profileData.value?.image ?? Prefs.getAvatar,
                   width: 40,
                   height: 40,
                 ),
-              ),
+                  )),
               SizedBox(width: 10),
 
               Expanded(
-                child: Column(
+                child: Obx(() =>
+                    Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PrimaryText(
-                      text: "${Prefs.getFName} ${Prefs.getLName}",
+                      text: "${controller.profileData.value?.firstName ??
+                          Prefs.getFName} ${controller.profileData.value
+                          ?.lastName ?? Prefs.getLName}",
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       textColor: context.resources.color.colorGrey6,
                     ),
                     PrimaryText(
-                      text: "UX/UI Designer",
+                      text: controller.profileData.value?.title?.toString() ??
+                          Prefs.getProfileTitle,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       textColor: context.resources.color.colorWhite,
                     ),
                   ],
-                ),
+                    )),
               ),
 
               PrimarySwitch(scale: .7, checked: true, onChange: (b) {}),

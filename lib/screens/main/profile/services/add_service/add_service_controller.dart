@@ -364,7 +364,8 @@ class AddServiceController extends GetxController {
 
         // Convert to base64
         final bytes = await portfolioImage.value!.readAsBytes();
-        portfolioImageBase64.value = base64Encode(bytes);
+        portfolioImageBase64.value =
+            "data:image/jpeg;base64,${base64Encode(bytes)}";
 
         constants.showSnackBar(
           'Portfolio image selected successfully',
