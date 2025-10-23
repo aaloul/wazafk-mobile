@@ -39,4 +39,10 @@ class RouteConstant {
   static const String loginAlertsScreen = '/login_alerts_screen';
   static const String inviteFriendsScreen = '/invite_Friends_screen';
   static const String selectLocationScreen = '/select_location_screen';
+
+  // Details screens
+  static const String jobDetailsScreen = '/job_details_screen';
+  static const String packageDetailsScreen = '/package_details_screen';
+  static const String serviceDetailsScreen = '/service_details_screen';
+  static const String jobApplicantsScreen = '/job_applicants_screen';
 }

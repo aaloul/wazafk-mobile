@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/main/job_applicants/job_applicants_screen.dart';
 import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
 
 import '../screens/auth/create_account/create_account_screen.dart';
@@ -12,7 +13,9 @@ import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
 import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
+import '../screens/main/job_details/job_details_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
+import '../screens/main/package_details/package_details_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
 import '../screens/main/profile/give_feedback/give_feedback_screen.dart';
@@ -37,6 +40,7 @@ import '../screens/main/profile/share_app/invite_friends/invite_friends_screen.d
 import '../screens/main/profile/share_app/share_app_screen.dart';
 import '../screens/main/profile/way_of_payment/way_of_payment_screen.dart';
 import '../screens/main/profile/working_days/working_days_screen.dart';
+import '../screens/main/service_details/service_details_screen.dart';
 
 List<GetPage> getPages = [
   GetPage(
@@ -221,6 +225,26 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.selectLocationScreen,
     page: () => SelectLocationScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.jobDetailsScreen,
+    page: () => JobDetailsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.serviceDetailsScreen,
+    page: () => ServiceDetailsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.packageDetailsScreen,
+    page: () => PackageDetailsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.jobApplicantsScreen,
+    page: () => JobApplicantsScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

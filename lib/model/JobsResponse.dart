@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:wazafak_app/model/AddressesResponse.dart';
+
 import 'SkillsResponse.dart';
 
 JobsResponse jobsResponseFromJson(String str) =>
@@ -80,7 +82,7 @@ class Job {
   String? responsibilities;
   String? requirememts;
   String? workLocationType;
-  dynamic address;
+  Address? address;
   DateTime? startDatetime;
   DateTime? expiryDatetime;
   String? periodicity;
@@ -152,7 +154,7 @@ class Job {
     responsibilities: json["responsibilities"],
     requirememts: json["requirememts"],
     workLocationType: json["work_location_type"],
-    address: json["address"],
+    address: json["address"] == null ? null : Address.fromJson(json["address"]),
     startDatetime: json["start_datetime"] == null ? null : DateTime.parse(
         json["start_datetime"]),
     expiryDatetime: json["expiry_datetime"] == null ? null : DateTime.parse(
@@ -192,7 +194,7 @@ class Job {
     "responsibilities": responsibilities,
     "requirememts": requirememts,
     "work_location_type": workLocationType,
-    "address": address,
+    "address": address?.toJson(),
     "start_datetime": startDatetime?.toIso8601String(),
     "expiry_datetime": expiryDatetime?.toIso8601String(),
     "periodicity": periodicity,

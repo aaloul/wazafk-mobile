@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -14,17 +16,21 @@ class HomeJobItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.resources.color.colorWhite,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: context.resources.color.colorGrey15,
-          width: 2,
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(RouteConstant.jobDetailsScreen, arguments: job);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.resources.color.colorWhite,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: context.resources.color.colorGrey15,
+            width: 2,
+          ),
         ),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -148,6 +154,7 @@ class HomeJobItem extends StatelessWidget {
             ],
           ),
         ],
+      ),
       ),
     );
   }

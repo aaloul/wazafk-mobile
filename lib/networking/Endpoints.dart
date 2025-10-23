@@ -73,6 +73,7 @@ class Endpoints {
   static const jobStatus = 'job/jobStatus';
   static const jobs = 'job/jobs';
   static const job = 'job/job';
+  static const jobApplicants = 'job/jobApplicants';
 
   //ENGAGEMENT
   static const submitEngagement = 'engagement/submitEngagement';

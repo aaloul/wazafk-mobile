@@ -70,4 +70,5 @@ class AppIcons {
   static const String star2 = '${base}star2.png';
   static const String upload = '${base}upload.png';
   static const String banomarkOn = '${base}banomark_on.png';
+  static const String jobCover = '${base}job_cover.png';
 }

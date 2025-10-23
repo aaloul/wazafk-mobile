@@ -95,4 +95,10 @@ class AppColors implements BaseColors {
 
   @override
   Color get colorBlue => HexColor('#00AEC8');
+
+  @override
+  Color get colorBlue2 => HexColor('#A1A4C3');
+
+  @override
+  Color get colorBlue3 => HexColor('#353C82');
 }
