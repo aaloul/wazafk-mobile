@@ -15,6 +15,7 @@ class FileUploadItem extends StatelessWidget {
     required this.isMandatory,
     required this.isOptional,
     this.imagePath,
+    this.isPdf = false,
   });
 
   final String label;
@@ -22,6 +23,7 @@ class FileUploadItem extends StatelessWidget {
   final bool isMandatory;
   final bool isOptional;
   final String? imagePath;
+  final bool isPdf;
 
   @override
   Widget build(BuildContext context) {
@@ -74,15 +76,32 @@ class FileUploadItem extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(16),
                 child: imagePath != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.file(
-                          File(imagePath!),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      )
+                    ? (isPdf
+                          ? Center(
+                              child: Icon(
+                                Icons.picture_as_pdf,
+                                color: context.resources.color.colorPrimary,
+                                size: 48,
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                File(imagePath!),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                    child: Icon(
+                                      Icons.insert_drive_file,
+                                      color: context.resources.color.colorGrey,
+                                      size: 48,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ))
                     : Center(
                         child: Image.asset(
                           AppIcons.upload,

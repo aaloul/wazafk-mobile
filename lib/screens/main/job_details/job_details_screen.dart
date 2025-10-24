@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/job_details/job_details_controller.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -285,23 +286,37 @@ class JobDetailsScreen extends StatelessWidget {
 
                             SizedBox(height: 20),
 
-                            PrimaryButton(
-                              title: "View Applications",
-                              onPressed: () {
-                                if (job.hashcode != null) {
+                            if (job.memberHashcode.toString() != Prefs.getId)
+                              PrimaryButton(
+                                title: "Apply Now",
+                                onPressed: () {
                                   Get.toNamed(
-                                    RouteConstant.jobApplicantsScreen,
-                                    arguments: job.hashcode,
+                                    RouteConstant.applyJobScreen,
+                                    arguments: job,
                                   );
-                                }
-                              },
-                            ),
+                                },
+                              ),
 
-                            SizedBox(height: 12),
+                            if (job.memberHashcode.toString() == Prefs.getId)
+                              PrimaryButton(
+                                title: "View Applications",
+                                onPressed: () {
+                                  if (job.hashcode != null) {
+                                    Get.toNamed(
+                                      RouteConstant.jobApplicantsScreen,
+                                      arguments: job.hashcode,
+                                    );
+                                  }
+                                },
+                              ),
 
-                            Obx(
-                              () => controller.isUpdatingStatus.value
-                                  ? Center(
+                            if (job.memberHashcode.toString() == Prefs.getId)
+                              SizedBox(height: 12),
+
+                            if (job.memberHashcode.toString() == Prefs.getId)
+                              Obx(
+                                () => controller.isUpdatingStatus.value
+                                    ? Center(
                                       child: CircularProgressIndicator(
                                         color: context
                                             .resources

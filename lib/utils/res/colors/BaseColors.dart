@@ -67,4 +67,6 @@ abstract class BaseColors {
   Color get colorBlue2;
 
   Color get colorBlue3;
+
+  Color get colorBlue4;
 }

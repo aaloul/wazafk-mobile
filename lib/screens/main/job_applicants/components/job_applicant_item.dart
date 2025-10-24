@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -16,7 +18,16 @@ class JobApplicantItem extends StatelessWidget {
     final applicant = applicantData.applicant;
     final engagement = applicantData.engagement;
 
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        if (applicant != null) {
+          Get.toNamed(
+            RouteConstant.memberProfileScreen,
+            arguments: applicant,
+          );
+        }
+      },
+      child: Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(color: context.resources.color.colorBlue2),
       child: Row(
@@ -82,6 +93,7 @@ class JobApplicantItem extends StatelessWidget {
 
           Image.asset(AppIcons.banomark, width: 20),
         ],
+      ),
       ),
     );
   }

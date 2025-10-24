@@ -35,6 +35,7 @@ class Endpoints {
   static const checkMemberExists = 'member/checkMemberExists';
   static const members = 'member/members';
   static const profile = 'member/profile';
+  static const memberProfile = 'member/memberProfile';
   static const editProfile = 'member/editProfile';
   static const editProfileImage = 'member/editProfileImage';
   static const saveInterests = 'member/saveInterests';

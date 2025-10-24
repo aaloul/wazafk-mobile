@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/main/apply_job/apply_job_screen.dart';
 import 'package:wazafak_app/screens/main/job_applicants/job_applicants_screen.dart';
 import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
 
@@ -15,6 +16,7 @@ import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
 import '../screens/main/job_details/job_details_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
+import '../screens/main/member_profile/member_profile_screen.dart';
 import '../screens/main/package_details/package_details_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
@@ -245,6 +247,16 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.jobApplicantsScreen,
     page: () => JobApplicantsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.memberProfileScreen,
+    page: () => MemberProfileScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.applyJobScreen,
+    page: () => ApplyJobScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

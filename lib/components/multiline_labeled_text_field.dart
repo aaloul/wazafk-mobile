@@ -21,6 +21,7 @@ class MultilineLabeledTextField extends StatelessWidget {
     this.labelFontWeight,
     this.maxLines,
     this.margin,
+    this.labelFontSize,
     required this.isPassword,
     required this.isMandatory,
     this.enabled,
@@ -34,6 +35,7 @@ class MultilineLabeledTextField extends StatelessWidget {
   final String hint;
   double? height;
   double? margin;
+  double? labelFontSize;
   int? maxLines;
 
   String? startText = '';
@@ -58,7 +60,7 @@ class MultilineLabeledTextField extends StatelessWidget {
                   text: label,
                   textColor: context.resources.color.colorGrey3,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
-                  fontSize: AppThemeValues.textSize18,
+                  fontSize: labelFontSize ?? AppThemeValues.textSize18,
                 ),
                 const SizedBox(width: 4),
                 if (isMandatory)
