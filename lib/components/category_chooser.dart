@@ -122,10 +122,10 @@ class CategoryChooser extends StatelessWidget {
                       (c) => c.hashcode == selectedItem.hashcode,
                     );
                   } catch (e) {
-                    return list[0];
+                    return null;
                   }
                 }
-                return list.isNotEmpty ? list[0] : null;
+                return null;
               }(),
               onChanged: (value) {
                 onSelect(value);

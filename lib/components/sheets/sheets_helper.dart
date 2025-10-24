@@ -63,4 +63,40 @@ class SheetHelper {
       },
     );
   }
+
+  static void showSingleAddressSheet(
+    BuildContext context, {
+    required Address? selectedAddress,
+    required Function(Address) onAddressSelected,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      enableDrag: false,
+      isScrollControlled: true,
+      isDismissible: false,
+      backgroundColor: context.resources.color.background2,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: SizedBox(
+            height: 570,
+            child: AddressesSheet(
+              selectedAddresses: selectedAddress != null
+                  ? [selectedAddress]
+                  : [],
+              onAddressesSelected: (addresses) {
+                if (addresses.isNotEmpty) {
+                  onAddressSelected(addresses.first);
+                }
+              },
+              singleSelect: true,
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

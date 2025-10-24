@@ -9,11 +9,13 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 class AddressesSheet extends StatefulWidget {
   final List<Address> selectedAddresses;
   final Function(List<Address>) onAddressesSelected;
+  final bool singleSelect;
 
   const AddressesSheet({
     super.key,
     required this.selectedAddresses,
     required this.onAddressesSelected,
+    this.singleSelect = false,
   });
 
   @override
@@ -36,12 +38,19 @@ class _AddressesSheetState extends State<AddressesSheet> {
 
   void toggleAddressSelection(Address address) {
     setState(() {
-      if (isAddressSelected(address)) {
-        tempSelectedAddresses.removeWhere(
-          (a) => a.hashcode == address.hashcode,
-        );
-      } else {
+      if (widget.singleSelect) {
+        // For single select, replace the selection
+        tempSelectedAddresses.clear();
         tempSelectedAddresses.add(address);
+      } else {
+        // For multi-select, toggle the selection
+        if (isAddressSelected(address)) {
+          tempSelectedAddresses.removeWhere(
+            (a) => a.hashcode == address.hashcode,
+          );
+        } else {
+          tempSelectedAddresses.add(address);
+        }
       }
     });
   }
@@ -64,7 +73,9 @@ class _AddressesSheetState extends State<AddressesSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PrimaryText(
-                  text: "Select Addresses",
+                  text: widget.singleSelect
+                      ? "Select Address"
+                      : "Select Addresses",
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                   textColor: context.resources.color.colorGrey,

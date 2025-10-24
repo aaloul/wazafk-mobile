@@ -176,9 +176,26 @@ class Prefs {
     return categories;
   }
 
+  static List<Category> get getJobCategories {
+    final data = box.read(Const.JOB_CATEGORIES);
+    if (data == null || data.isEmpty) return [];
+
+    List<Category> categories = [];
+    categories = (json.decode(data) as List)
+        .map((data) => Category.fromJson(data))
+        .toList();
+
+    return categories;
+  }
+
   static void setCategories(List<Category> listNeedToSave) {
     var jsonData = jsonEncode(listNeedToSave.map((e) => e.toJson()).toList());
     box.write(Const.CATEGORIES, jsonData.toString());
+  }
+
+  static void setJobCategories(List<Category> listNeedToSave) {
+    var jsonData = jsonEncode(listNeedToSave.map((e) => e.toJson()).toList());
+    box.write(Const.JOB_CATEGORIES, jsonData.toString());
   }
 
   static List<Skill> get getSkills {

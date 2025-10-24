@@ -226,7 +226,7 @@ class ProfileController extends GetxController {
   }
 
   void navigateToServices() {
-    Get.toNamed(RouteConstant.servicesScreen);
+    Get.toNamed(RouteConstant.addJobScreen);
   }
 
   void navigateToPacks() {

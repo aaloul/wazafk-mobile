@@ -54,7 +54,7 @@ class ApplyJobScreen extends StatelessWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(99999),
                                     child: PrimaryNetworkImage(
-                                      url: job.image.toString(),
+                                      url: job.memberImage.toString(),
                                       width: 40,
                                       height: 40,
                                     ),

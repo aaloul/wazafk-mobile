@@ -3,7 +3,6 @@ import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
-import 'package:wazafak_app/model/ProfileResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/networking/services/wallet/get_wallet_service.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
@@ -23,12 +22,14 @@ class HomeController extends GetxController {
   final _profileRepository = ProfileRepository();
 
   var isLoadingCategories = false.obs;
+  var isLoadingJobCategories = false.obs;
   var isLoadingJobs = false.obs;
   var isLoadingSkills = false.obs;
   var isLoadingAddresses = false.obs;
   var isLoadingWallet = false.obs;
   var isLoadingProfile = false.obs;
   var categories = <Category>[].obs;
+  var jobCategories = <Category>[].obs;
   var jobs = <Job>[].obs;
   var skills = <Skill>[].obs;
   var addresses = <Address>[].obs;
@@ -48,6 +49,7 @@ class HomeController extends GetxController {
     loadWalletHashcodeFromPrefs();
     fetchProfile();
     fetchCategories();
+    fetchJobCategories();
     fetchJobs();
     fetchSkills();
     fetchAddresses();
@@ -95,6 +97,34 @@ class HomeController extends GetxController {
       print('Error loading categories: $e');
     } finally {
       isLoadingCategories.value = false;
+    }
+  }
+
+  Future<void> fetchJobCategories() async {
+    try {
+      isLoadingJobCategories.value = true;
+
+      final response = await _categoriesRepository.getCategories(
+          type: 'J'
+      );
+
+      if (response.success == true && response.data?.list != null) {
+        jobCategories.value = response.data!.list!;
+        Prefs.setJobCategories(response.data!.list!);
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load categories',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error loading categories: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error loading categories: $e');
+    } finally {
+      isLoadingJobCategories.value = false;
     }
   }
 

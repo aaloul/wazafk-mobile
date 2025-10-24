@@ -39,7 +39,7 @@ class HomeJobItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: PrimaryNetworkImage(
-                  url: job.image.toString(),
+                  url: job.memberImage.toString(),
                   width: 40,
                   height: 40,
                 ),

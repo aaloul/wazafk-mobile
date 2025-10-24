@@ -66,6 +66,7 @@ class Job {
   String? memberFirstName;
   String? memberLastName;
   String? memberRating;
+  String? memberImage;
   String? categoryHashcode;
   String? categoryName;
   dynamic parentCategoryHashcode;
@@ -101,6 +102,7 @@ class Job {
     this.memberFirstName,
     this.memberLastName,
     this.memberRating,
+    this.memberImage,
     this.categoryHashcode,
     this.categoryName,
     this.parentCategoryHashcode,
@@ -138,6 +140,7 @@ class Job {
     memberFirstName: json["member_first_name"],
     memberLastName: json["member_last_name"],
     memberRating: json["member_rating"],
+    memberImage: json["member_image"],
     categoryHashcode: json["category_hashcode"],
     categoryName: json["category_name"],
     parentCategoryHashcode: json["parent_category_hashcode"],
@@ -178,6 +181,7 @@ class Job {
     "member_first_name": memberFirstName,
     "member_last_name": memberLastName,
     "member_rating": memberRating,
+    "member_image": memberImage,
     "category_hashcode": categoryHashcode,
     "category_name": categoryName,
     "parent_category_hashcode": parentCategoryHashcode,
