@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
-import 'package:wazafak_app/model/FavoritesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
 import 'package:wazafak_app/repository/favorite/favorite_jobs_repository.dart';
@@ -32,8 +31,8 @@ class ProjectsController extends GetxController {
       isLoadingEngagements.value = true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
-          'status': '-10',
-          'type': 'JA',
+          // 'type': 'JA',
+          'flow': 'ONGOING'
         }, // Assuming status 1 is for ongoing
       );
       if (response.success == true && response.data?.list != null) {
@@ -51,8 +50,8 @@ class ProjectsController extends GetxController {
       isLoadingEngagements.value = true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
-          'status': '0',
-          'type': 'JA',
+          'flow': 'PENDING',
+          // 'type': 'JA',
         }, // Assuming status 0 is for pending
       );
       if (response.success == true && response.data?.list != null) {

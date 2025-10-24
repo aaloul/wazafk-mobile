@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 import '../../../../../components/primary_text.dart';
 import '../../../../../utils/res/AppIcons.dart';
@@ -31,6 +34,7 @@ class ProjectItem extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     PrimaryText(
                       text: 'Ui Design',
@@ -49,18 +53,95 @@ class ProjectItem extends StatelessWidget {
                 ),
               ),
 
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: HexColor(engagement.statusColor.toString()),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: PrimaryText(
+                  text: engagement.statusLabel.toString(),
+                  textColor: context.resources.color.colorWhite,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: context.resources.color.colorBlue,
+                    width: 2,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(9999),
+                  child: PrimaryNetworkImage(
+                    url: engagement.status.toString(),
+                    width: 32,
+                    height: 32,
+                  ),
+                ),
+              ),
+
+              SizedBox(width: 6),
+
+              PrimaryText(
+                text:
+                    "${engagement.clientFirstName} ${engagement.clientLastName}",
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+                textColor: context.resources.color.colorBlack,
+              ),
+            ],
+          ),
+
+          SizedBox(height: 12),
+
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PrimaryText(
+                      text: '\$${engagement.totalPrice.toString()}',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      textColor: context.resources.color.colorGreen3,
+                    ),
+                    SizedBox(height: 4),
+
+                    PrimaryText(
+                      text: 'Total Value',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      textColor: context.resources.color.colorGrey7,
+                    ),
+                  ],
+                ),
+              ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PrimaryText(
-                    text: '\$${engagement.totalPrice.toString()}',
+                    text: '\$${engagement.remaining ?? '-'}',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    textColor: context.resources.color.colorGreen3,
+                    textColor: context.resources.color.colorPrimary,
                   ),
 
+                  SizedBox(height: 4),
+
                   PrimaryText(
-                    text: 'Total Value',
+                    text: 'Remaining',
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                     textColor: context.resources.color.colorGrey7,
@@ -69,24 +150,7 @@ class ProjectItem extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8),
 
-          // PrimaryText(
-          //   text: job.title.toString(),
-          //   fontSize: 16,
-          //   fontWeight: FontWeight.w500,
-          //   textColor: context.resources.color.colorGrey16,
-          // ),
-          // SizedBox(height: 4),
-          // PrimaryText(
-          //   text: DateFormat("dd-MM-yyyy").format(job.startDatetime!),
-          //   fontSize: 12,
-          //   fontWeight: FontWeight.w400,
-          //   textColor: context.resources.color.colorGrey16,
-          // ),
-          //
-          // SizedBox(height: 8),
-          //
           Container(
             width: double.infinity,
             height: 1,
@@ -94,20 +158,24 @@ class ProjectItem extends StatelessWidget {
             color: context.resources.color.colorPrimary.withOpacity(.25),
           ),
 
-          // Row(
-          //   children: [
-          //     Image.asset(AppIcons.location, width: 18),
-          //     SizedBox(width: 8),
-          //     Expanded(child: PrimaryText(text: job.workLocationType ?? "N/A")),
-          //
-          //     PrimaryText(
-          //       text: "\$${job.totalPrice}",
-          //       textColor: context.resources.color.colorGreen3,
-          //       fontSize: 16,
-          //       fontWeight: FontWeight.w700,
-          //     ),
-          //   ],
-          // ),
+          Row(
+            children: [
+              Image.asset(
+                AppIcons.calendar,
+                width: 20,
+                color: context.resources.color.colorGrey7,
+              ),
+              SizedBox(width: 6),
+              Expanded(
+                child: PrimaryText(
+                  text:
+                      "Due:${DateFormat('MMM dd,yyyy').format(engagement.expiryDatetime!)}",
+                  textColor: context.resources.color.colorGrey7,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

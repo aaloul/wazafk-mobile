@@ -4,21 +4,103 @@ import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/repository/favorite/add_favorite_job_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../../model/JobsResponse.dart';
 
-class HomeJobItem extends StatelessWidget {
+class HomeJobItem extends StatefulWidget {
   const HomeJobItem({super.key, required this.job});
 
   final Job job;
 
   @override
+  State<HomeJobItem> createState() => _HomeJobItemState();
+}
+
+class _HomeJobItemState extends State<HomeJobItem> {
+  final AddFavoriteJobRepository _addFavoriteJobRepository = AddFavoriteJobRepository();
+  final RemoveFavoriteJobRepository _removeFavoriteJobRepository = RemoveFavoriteJobRepository();
+  bool isTogglingFavorite = false;
+
+  Future<void> toggleFavorite() async {
+    if (widget.job.hashcode == null) {
+      constants.showSnackBar(
+        'Job information not available',
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    setState(() {
+      isTogglingFavorite = true;
+    });
+
+    try {
+      final isFavorite = widget.job.isFavorite ?? false;
+
+      if (isFavorite) {
+        // Remove from favorites
+        final response = await _removeFavoriteJobRepository.removeFavoriteJob(
+          widget.job.hashcode!,
+        );
+
+        if (response.success == true) {
+          setState(() {
+            widget.job.isFavorite = false;
+          });
+          constants.showSnackBar(
+            'Removed from favorites',
+            SnackBarStatus.SUCCESS,
+          );
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to remove from favorites',
+            SnackBarStatus.ERROR,
+          );
+        }
+      } else {
+        // Add to favorites
+        final response = await _addFavoriteJobRepository.addFavoriteJob(
+          widget.job.hashcode!,
+        );
+
+        if (response.success == true) {
+          setState(() {
+            widget.job.isFavorite = true;
+          });
+          constants.showSnackBar(
+            'Added to favorites',
+            SnackBarStatus.SUCCESS,
+          );
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to add to favorites',
+            SnackBarStatus.ERROR,
+          );
+        }
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error updating favorites: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error toggling favorite: $e');
+    } finally {
+      setState(() {
+        isTogglingFavorite = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(RouteConstant.jobDetailsScreen, arguments: job);
+        Get.toNamed(RouteConstant.jobDetailsScreen, arguments: widget.job);
       },
       child: Container(
         width: double.infinity,
@@ -39,7 +121,7 @@ class HomeJobItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: PrimaryNetworkImage(
-                  url: job.memberImage.toString(),
+                  url: widget.job.memberImage.toString(),
                   width: 40,
                   height: 40,
                 ),
@@ -50,7 +132,8 @@ class HomeJobItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PrimaryText(
-                      text: '${job.memberFirstName} ${job.memberLastName}',
+                      text: '${widget.job.memberFirstName} ${widget.job
+                          .memberLastName}',
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
@@ -60,7 +143,7 @@ class HomeJobItem extends StatelessWidget {
                         Image.asset(AppIcons.star2, width: 16),
                         SizedBox(width: 2),
                         PrimaryText(
-                          text: job.rating.toString(),
+                          text: widget.job.rating.toString(),
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
@@ -69,21 +152,38 @@ class HomeJobItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Image.asset(
-                  job.isFavorite ?? false ? AppIcons.banomarkOn : AppIcons
-                      .banomark, width: 18),
+              GestureDetector(
+                onTap: isTogglingFavorite ? null : () => toggleFavorite(),
+                child: isTogglingFavorite
+                    ? SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      context.resources.color.colorPrimary,
+                    ),
+                  ),
+                )
+                    : Image.asset(
+                  widget.job.isFavorite ?? false
+                      ? AppIcons.banomarkOn
+                      : AppIcons.banomark,
+                  width: 18,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 8),
           PrimaryText(
-            text: job.title.toString(),
+            text: widget.job.title.toString(),
             fontSize: 16,
             fontWeight: FontWeight.w500,
             textColor: context.resources.color.colorGrey16,
           ),
           SizedBox(height: 4),
           PrimaryText(
-            text: DateFormat("dd-MM-yyyy").format(job.startDatetime!),
+            text: DateFormat("dd-MM-yyyy").format(widget.job.startDatetime!),
             fontSize: 12,
             fontWeight: FontWeight.w400,
             textColor: context.resources.color.colorGrey16,
@@ -99,10 +199,10 @@ class HomeJobItem extends StatelessWidget {
                   height: 26,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: job.skills!.length,
+                    itemCount: widget.job.skills!.length,
                     separatorBuilder: (context, index) => SizedBox(width: 10),
                     itemBuilder: (context, index) {
-                      final skill = job.skills![index];
+                      final skill = widget.job.skills![index];
                       return Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 6,
@@ -128,7 +228,7 @@ class HomeJobItem extends StatelessWidget {
 
               Image.asset(AppIcons.userCircle, width: 24),
               SizedBox(width: 2),
-              PrimaryText(text: "${job.nbApplicants} applications"),
+              PrimaryText(text: "${widget.job.nbApplicants} applications"),
             ],
           ),
 
@@ -143,10 +243,11 @@ class HomeJobItem extends StatelessWidget {
             children: [
               Image.asset(AppIcons.location, width: 18),
               SizedBox(width: 8),
-              Expanded(child: PrimaryText(text: job.workLocationType ?? "N/A")),
+              Expanded(child: PrimaryText(
+                  text: widget.job.workLocationType ?? "N/A")),
 
               PrimaryText(
-                text: "\$${job.totalPrice}",
+                text: "\$${widget.job.totalPrice}",
                 textColor: context.resources.color.colorGreen3,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,

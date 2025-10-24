@@ -6,7 +6,7 @@ class RemoveFavoriteJobService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<ApiResponse> removeFavoriteJob(String jobHashcode) async {
-    final Map<String, dynamic> body = {'job_hashcode': jobHashcode};
+    final Map<String, dynamic> body = {'favorite_job': jobHashcode};
     final response = await _helper.post(Endpoints.removeFavoriteJob, body);
     return ApiResponse.fromJson(response);
   }
