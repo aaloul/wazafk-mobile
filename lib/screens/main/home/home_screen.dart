@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import 'components/categories/home_categories_widget.dart';
+import 'components/engagements/home_engagements_widget.dart';
+import 'components/freelancers/home_freelancers_widget.dart';
 import 'components/home_header.dart';
 import 'components/jobs/home_jobs_widget.dart';
 import 'components/statistics/home_statistics_widget.dart';
@@ -13,7 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
+    Get.put(HomeController());
 
     return Scaffold(
       backgroundColor: context.resources.color.background2,
@@ -25,9 +27,13 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 16),
               HomeStatisticsWidget(),
               SizedBox(height: 16),
+              HomeEngagementsWidget(),
+              SizedBox(height: 16),
               HomeCategoriesWidget(),
               SizedBox(height: 16),
               HomeJobsWidget(),
+              SizedBox(height: 16),
+              HomeFreelancersWidget(),
               SizedBox(height: 16),
             ],
           ),

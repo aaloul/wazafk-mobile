@@ -1,0 +1,150 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/model/EngagementsResponse.dart';
+import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
+
+class HomeEngagementItem extends StatelessWidget {
+  const HomeEngagementItem({super.key, required this.engagement});
+
+  final Engagement engagement;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.resources.color.colorWhite,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: context.resources.color.colorGrey18,
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Job Title
+          PrimaryText(
+            text: engagement.job!.title.toString(),
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            textColor: context.resources.color.colorBlack,
+            maxLines: 1,
+          ),
+          SizedBox(height: 2),
+          PrimaryText(
+            text: engagement.job!.description.toString(),
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            textColor: context.resources.color.colorGrey19,
+            maxLines: 2,
+          ),
+
+          SizedBox(height: 12),
+
+          Expanded(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            AppIcons.location,
+                            width: 18,
+                            color: context.resources.color.colorGrey19,
+                          ),
+                          SizedBox(width: 6),
+                          PrimaryText(
+                            text:
+                                engagement.job!.workLocationType
+                                    .toString()
+                                    .isEmpty
+                                ? "N/A"
+                                : engagement.job?.workLocationType ?? "N/A",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            textColor: context.resources.color.colorGrey19,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    PrimaryText(
+                      text: "\$${engagement.totalPrice}",
+                      textColor: context.resources.color.colorGreen3,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            AppIcons.clock,
+                            width: 20,
+                            color: context.resources.color.colorGrey19,
+                          ),
+                          SizedBox(width: 6),
+                          PrimaryText(
+                            text: "${engagement.estimatedHours} Hours",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            textColor: context.resources.color.colorGrey19,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    PrimaryText(
+                      text: "Total Value",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      textColor: context.resources.color.colorGrey19,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          Container(
+            width: double.infinity,
+            height: 1,
+            margin: EdgeInsets.symmetric(vertical: 12),
+            color: context.resources.color.colorPrimary.withOpacity(.25),
+          ),
+
+          Row(
+            children: [
+              Image.asset(
+                AppIcons.calendar,
+                width: 20,
+                color: context.resources.color.colorGrey19,
+              ),
+              SizedBox(width: 6),
+              Expanded(
+                child: PrimaryText(
+                  text:
+                      "Due:${DateFormat('MMM dd,yyyy').format(engagement.expiryDatetime!)}",
+                  textColor: context.resources.color.colorGrey19,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

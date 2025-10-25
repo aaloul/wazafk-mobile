@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
+import 'package:wazafak_app/model/EmployerHomeResponse.dart';
+import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/networking/services/wallet/get_wallet_service.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
+import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
+import 'package:wazafak_app/repository/home/employer_home_repository.dart';
 import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
@@ -20,6 +24,8 @@ class HomeController extends GetxController {
   final _addressesRepository = AddressesRepository();
   final _getWalletService = GetWalletService();
   final _profileRepository = ProfileRepository();
+  final _engagementsListRepository = EngagementsListRepository();
+  final _employerHomeRepository = EmployerHomeRepository();
 
   var isLoadingCategories = false.obs;
   var isLoadingJobCategories = false.obs;
@@ -28,11 +34,15 @@ class HomeController extends GetxController {
   var isLoadingAddresses = false.obs;
   var isLoadingWallet = false.obs;
   var isLoadingProfile = false.obs;
+  var isLoadingEngagements = false.obs;
+  var isLoadingEmployerHome = false.obs;
   var categories = <Category>[].obs;
   var jobCategories = <Category>[].obs;
   var jobs = <Job>[].obs;
   var skills = <Skill>[].obs;
   var addresses = <Address>[].obs;
+  var engagements = <Engagement>[].obs;
+  var freelancers = <HomeFreelancer>[].obs;
   var walletHashcode = ''.obs;
   Rx<User?> profileData = Rx<User?>(null);
   var totalEarnings = ''.obs;
@@ -54,6 +64,8 @@ class HomeController extends GetxController {
     fetchSkills();
     fetchAddresses();
     fetchWallet();
+    fetchEngagements();
+    fetchEmployerHome();
   }
 
   void loadCategoriesFromPrefs() {
@@ -259,8 +271,53 @@ class HomeController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  Future<void> fetchEngagements() async {
+    try {
+      isLoadingEngagements.value = true;
+
+      final response = await _engagementsListRepository.getEngagements();
+
+      if (response.success == true && response.data?.list != null) {
+        engagements.value = response.data!.list!;
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load engagements',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error loading engagements: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error loading engagements: $e');
+    } finally {
+      isLoadingEngagements.value = false;
+    }
+  }
+
+  Future<void> fetchEmployerHome() async {
+    try {
+      isLoadingEmployerHome.value = true;
+
+      final response = await _employerHomeRepository.getEmployerHome();
+
+      if (response.success == true && response.data != null) {
+        freelancers.value = response.data!;
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load freelancers',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error loading freelancers: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error loading freelancers: $e');
+    } finally {
+      isLoadingEmployerHome.value = false;
+    }
   }
 }

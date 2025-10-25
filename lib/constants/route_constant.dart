@@ -48,4 +48,5 @@ class RouteConstant {
   static const String jobApplicantsScreen = '/job_applicants_screen';
   static const String memberProfileScreen = '/member_profile_screen';
   static const String applyJobScreen = '/apply_job_screen';
+  static const String rateMemberScreen = '/rate_member_screen';
 }

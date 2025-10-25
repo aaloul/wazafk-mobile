@@ -14,6 +14,8 @@ class Endpoints {
   static const termsAndConditions = 'app/termsAndConditions';
   static const privacyPolicy = 'app/privacyPolicy';
   static const aboutUs = 'app/aboutUs';
+  static const freelancerHome = 'home/freelancerHome';
+  static const employerHome = 'home/employerHome';
 
   //ACCOUNT
   static const login = 'account/login';

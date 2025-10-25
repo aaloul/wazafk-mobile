@@ -4,6 +4,7 @@ import 'package:wazafak_app/screens/main/apply_job/apply_job_screen.dart';
 import 'package:wazafak_app/screens/main/job_applicants/job_applicants_screen.dart';
 import 'package:wazafak_app/screens/main/profile/jobs/add_job/add_job_screen.dart';
 import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
+import 'package:wazafak_app/screens/main/rate_member/rate_member_screen.dart';
 
 import '../screens/auth/create_account/create_account_screen.dart';
 import '../screens/auth/login_password/login_password_screen.dart';
@@ -263,6 +264,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.applyJobScreen,
     page: () => ApplyJobScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.rateMemberScreen,
+    page: () => RateMemberScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

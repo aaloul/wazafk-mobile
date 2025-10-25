@@ -118,12 +118,27 @@ class _HomeJobItemState extends State<HomeJobItem> {
         children: [
           Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: PrimaryNetworkImage(
-                  url: widget.job.memberImage.toString(),
-                  width: 40,
-                  height: 40,
+              GestureDetector(
+                onTap: () {
+                  if (widget.job.memberHashcode != null) {
+                    Get.toNamed(
+                      RouteConstant.rateMemberScreen,
+                      arguments: {
+                        'memberHashcode': widget.job.memberHashcode,
+                        'memberImage': widget.job.memberImage,
+                        'memberName': '${widget.job.memberFirstName} ${widget
+                            .job.memberLastName}',
+                      },
+                    );
+                  }
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: PrimaryNetworkImage(
+                    url: widget.job.memberImage.toString(),
+                    width: 40,
+                    height: 40,
+                  ),
                 ),
               ),
               SizedBox(width: 6),

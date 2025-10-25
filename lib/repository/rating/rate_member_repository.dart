@@ -1,13 +1,12 @@
-import '../../networking/services/rating/rate_member_service.dart';
 import '../../model/ApiResponse.dart';
+import '../../networking/services/rating/rate_member_service.dart';
 
 class RateMemberRepository {
   final _provider = RateMemberService();
 
   Future<ApiResponse> rateMember(
-    String memberHashcode,
     Map<String, dynamic> ratingData,
   ) async {
-    return _provider.rateMember(memberHashcode, ratingData);
+    return _provider.rateMember(ratingData);
   }
 }
