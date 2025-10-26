@@ -14,7 +14,7 @@ class HomeEngagementItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.resources.color.colorWhite,
@@ -29,7 +29,11 @@ class HomeEngagementItem extends StatelessWidget {
         children: [
           // Job Title
           PrimaryText(
-            text: engagement.job!.title.toString(),
+            text: engagement.type.toString() == 'SB'
+                ? engagement.services?.first.title.toString() ?? 'N/A'
+                : engagement.type.toString() == 'PB'
+                ? engagement.package?.title.toString() ?? 'N/A'
+                : engagement.job?.title.toString() ?? 'N/A',
             fontSize: 14,
             fontWeight: FontWeight.w700,
             textColor: context.resources.color.colorBlack,
@@ -37,7 +41,7 @@ class HomeEngagementItem extends StatelessWidget {
           ),
           SizedBox(height: 2),
           PrimaryText(
-            text: engagement.job!.description.toString(),
+            text: engagement.description.toString(),
             fontSize: 12,
             fontWeight: FontWeight.w400,
             textColor: context.resources.color.colorGrey19,
@@ -61,12 +65,9 @@ class HomeEngagementItem extends StatelessWidget {
                           ),
                           SizedBox(width: 6),
                           PrimaryText(
-                            text:
-                                engagement.job!.workLocationType
-                                    .toString()
-                                    .isEmpty
+                            text: engagement.workLocationType.toString().isEmpty
                                 ? "N/A"
-                                : engagement.job?.workLocationType ?? "N/A",
+                                : engagement.workLocationType ?? "N/A",
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
                             textColor: context.resources.color.colorGrey19,

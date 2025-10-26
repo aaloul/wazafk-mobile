@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
-import 'package:wazafak_app/model/EmployerHomeResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/repository/favorite/favorite_members_repository.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -14,7 +13,7 @@ import '../../../../../utils/res/AppIcons.dart';
 class HomeFreelancerItem extends StatefulWidget {
   const HomeFreelancerItem({super.key, required this.freelancer});
 
-  final HomeFreelancer freelancer;
+  final User freelancer;
 
   @override
   State<HomeFreelancerItem> createState() => _HomeFreelancerItemState();

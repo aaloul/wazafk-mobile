@@ -32,6 +32,7 @@ class RouteConstant {
   static const String addServiceScreen = '/add_service_screen';
   static const String packsScreen = '/packs_screen';
   static const String addPackageScreen = '/add_package_screen';
+  static const String myJobsScreen = '/my_jobs_screen';
   static const String addJobScreen = '/add_job_screen';
   static const String shareAppScreen = '/share_app_screen';
   static const String addAddressScreen = '/add_address_screen';
@@ -48,5 +49,5 @@ class RouteConstant {
   static const String jobApplicantsScreen = '/job_applicants_screen';
   static const String memberProfileScreen = '/member_profile_screen';
   static const String applyJobScreen = '/apply_job_screen';
-  static const String rateMemberScreen = '/rate_member_screen';
+  static const String employerRateMemberScreen = '/rate_member_screen';
 }

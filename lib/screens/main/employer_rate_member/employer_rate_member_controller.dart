@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/model/MemberProfileResponse.dart';
 import 'package:wazafak_app/model/RatingCriteriaResponse.dart';
+import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/repository/rating/rate_member_repository.dart';
 import 'package:wazafak_app/repository/rating/rating_criteria_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
-class RateMemberController extends GetxController {
+class EmployerRateMemberController extends GetxController {
   final RatingCriteriaRepository _ratingCriteriaRepository =
       RatingCriteriaRepository();
   final RateMemberRepository _rateMemberRepository = RateMemberRepository();
+  final ProfileRepository _profileRepository = ProfileRepository();
 
   var isLoadingCriteria = false.obs;
+  var isLoadingProfile = false.obs;
   var isSubmitting = false.obs;
   var criteria = <RatingCriteria>[].obs;
   var criteriaRatings = <String, double>{}.obs; // Map of hashcode to rating
@@ -18,6 +22,7 @@ class RateMemberController extends GetxController {
   var memberHashcode = ''.obs;
   var memberName = ''.obs;
   var memberImage = ''.obs;
+  var memberProfile = Rxn<MemberProfile>();
 
   final TextEditingController commentController = TextEditingController();
 
@@ -34,6 +39,9 @@ class RateMemberController extends GetxController {
     }
 
     fetchRatingCriteria();
+    if (memberHashcode.value.isNotEmpty) {
+      getMemberProfile();
+    }
   }
 
   Future<void> fetchRatingCriteria() async {
@@ -65,6 +73,47 @@ class RateMemberController extends GetxController {
       print('Error loading rating criteria: $e');
     } finally {
       isLoadingCriteria.value = false;
+    }
+  }
+
+  Future<void> getMemberProfile() async {
+    try {
+      isLoadingProfile.value = true;
+
+      final response = await _profileRepository.getMemberProfile(
+        filters: {
+          'hashcode': '8bade700cbd9a4012f45f6b3f7f4cbc8',
+          'ratings': '1',
+          'skills': '0',
+          'services': '0',
+          'packages': '0',
+          'jobs': '0',
+        },
+      );
+
+      if (response.success == true && response.data != null) {
+        memberProfile.value = response.data;
+
+        // Update member details from profile if available
+        if (response.data!.member != null) {
+          memberName.value =
+              '${response.data!.member!.firstName ?? ''} ${response.data!.member!.lastName ?? ''}'
+                  .trim();
+          memberImage.value = response.data!.member!.image ?? '';
+        }
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load member profile',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error loading member profile: $e',
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isLoadingProfile.value = false;
     }
   }
 
@@ -123,17 +172,20 @@ class RateMemberController extends GetxController {
     try {
       isSubmitting.value = true;
 
+      // Build rating_by_criteria string in format: hashcode1:rating1,hashcode2:rating2
+      List<String> ratingPairs = [];
+      criteriaRatings.forEach((hashcode, rating) {
+        ratingPairs.add('$hashcode:${rating.toInt()}');
+      });
+      String ratingByCriteria = ratingPairs.join(',');
+
       // Prepare rating data
       Map<String, dynamic> ratingData = {
         'comment': commentController.text.trim(),
         'target': 'C',
-        'rate_member': memberHashcode,
+        'rate_member': memberHashcode.value,
+        'rating_by_criteria': ratingByCriteria,
       };
-
-      // Add individual criteria ratings
-      criteriaRatings.forEach((hashcode, rating) {
-        ratingData['rating_by_criteria'] = rating;
-      });
 
       final response = await _rateMemberRepository.rateMember(ratingData);
 

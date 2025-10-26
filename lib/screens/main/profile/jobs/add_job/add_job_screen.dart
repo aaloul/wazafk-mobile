@@ -29,7 +29,10 @@ class AddJobScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Add Job Post'),
+            TopHeader(
+              hasBack: true,
+              title: controller.isEditMode ? 'Edit Job Post' : 'Add Job Post',
+            ),
             SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
@@ -367,6 +370,259 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
+                      text: "Expiry Date",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      textColor: context.resources.color.colorGrey3,
+                    ),
+                    SizedBox(height: 8),
+
+                    GestureDetector(
+                      onTap: () async {
+                        await showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 400,
+                              decoration: BoxDecoration(
+                                color: context.resources.color.colorWhite,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 16),
+                                  PrimaryText(
+                                    text: 'Select Expiry Date',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    textColor:
+                                        context.resources.color.colorGrey,
+                                  ),
+                                  Expanded(
+                                    child: CalendarDatePicker(
+                                      initialDate:
+                                          controller.selectedExpiryDate.value ??
+                                          DateTime.now().add(
+                                            Duration(days: 30),
+                                          ),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime.now().add(
+                                        Duration(days: 365),
+                                      ),
+                                      onDateChanged: (DateTime date) {
+                                        controller.selectExpiryDate(date);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Obx(
+                        () => Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: context.resources.color.colorWhite,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: context.resources.color.colorGrey2,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: PrimaryText(
+                                  text:
+                                      controller.selectedExpiryDate.value !=
+                                          null
+                                      ? DateFormat('MMM dd, yyyy').format(
+                                          controller.selectedExpiryDate.value!,
+                                        )
+                                      : 'Select Expiry Date',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  textColor:
+                                      controller.selectedExpiryDate.value !=
+                                          null
+                                      ? context.resources.color.colorGrey
+                                      : context.resources.color.colorGrey8,
+                                ),
+                              ),
+                              Icon(
+                                Icons.calendar_today,
+                                size: 20,
+                                color: context.resources.color.colorGrey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 12),
+
+                    PrimaryText(
+                      text: "Expiry Time",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      textColor: context.resources.color.colorGrey3,
+                    ),
+                    SizedBox(height: 8),
+
+                    GestureDetector(
+                      onTap: () async {
+                        final TimeOfDay?
+                        picked = await showModalBottomSheet<TimeOfDay>(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 450,
+                              decoration: BoxDecoration(
+                                color: context.resources.color.colorWhite,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: PrimaryText(
+                                            text: 'Cancel',
+                                            fontSize: 16,
+                                            textColor: context
+                                                .resources
+                                                .color
+                                                .colorGrey,
+                                          ),
+                                        ),
+                                        PrimaryText(
+                                          text: 'Select Expiry Time',
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                          textColor:
+                                              context.resources.color.colorGrey,
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(
+                                              context,
+                                              controller
+                                                      .selectedExpiryTime
+                                                      .value ??
+                                                  TimeOfDay.now(),
+                                            );
+                                          },
+                                          child: PrimaryText(
+                                            text: 'Done',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            textColor: context
+                                                .resources
+                                                .color
+                                                .colorPrimary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                        timePickerTheme: TimePickerThemeData(
+                                          dialHandColor: context
+                                              .resources
+                                              .color
+                                              .colorPrimary,
+                                          dialBackgroundColor: context
+                                              .resources
+                                              .color
+                                              .colorGrey9,
+                                        ),
+                                      ),
+                                      child: TimePickerDialog(
+                                        initialTime:
+                                            controller
+                                                .selectedExpiryTime
+                                                .value ??
+                                            TimeOfDay.now(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                        if (picked != null) {
+                          controller.selectExpiryTime(picked);
+                        }
+                      },
+                      child: Obx(
+                        () => Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: context.resources.color.colorWhite,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: context.resources.color.colorGrey2,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: PrimaryText(
+                                  text:
+                                      controller.selectedExpiryTime.value !=
+                                          null
+                                      ? controller.selectedExpiryTime.value!
+                                            .format(context)
+                                      : 'Select Expiry Time',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  textColor:
+                                      controller.selectedExpiryTime.value !=
+                                          null
+                                      ? context.resources.color.colorGrey
+                                      : context.resources.color.colorGrey8,
+                                ),
+                              ),
+                              Icon(
+                                Icons.access_time,
+                                size: 20,
+                                color: context.resources.color.colorGrey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    PrimaryText(
                       text: "Hourly Rate *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
@@ -464,7 +720,9 @@ class AddJobScreen extends StatelessWidget {
                 () => controller.isLoading.value
                     ? ProgressBar()
                     : PrimaryButton(
-                        title: 'Post Job',
+                        title: controller.isEditMode
+                            ? 'Update Job'
+                            : 'Post Job',
                         onPressed: () {
                           controller.addJob();
                         },

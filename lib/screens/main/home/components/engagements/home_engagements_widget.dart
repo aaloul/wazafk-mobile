@@ -56,7 +56,7 @@ class HomeEngagementsWidget extends StatelessWidget {
                 autoPlay: controller.engagements.length > 1,
                 autoPlayInterval: Duration(seconds: 5),
                 autoPlayAnimationDuration: Duration(milliseconds: 800),
-                enlargeCenterPage: true,
+                enlargeCenterPage: false,
                 viewportFraction: 0.80,
                 enableInfiniteScroll: controller.engagements.length > 1,
               ),

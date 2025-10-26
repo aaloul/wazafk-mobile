@@ -4,6 +4,10 @@
 
 import 'dart:convert';
 
+import 'JobsResponse.dart';
+import 'PackagesResponse.dart';
+import 'ServicesResponse.dart';
+
 LoginResponse loginResponseFromJson(String str) =>
     LoginResponse.fromJson(json.decode(str));
 
@@ -69,6 +73,9 @@ class User {
   dynamic nbCompletedJobs;
   dynamic isFavorite;
   String? token;
+  List<Service>? services;
+  List<Package>? packages;
+  List<Job>? jobs;
 
   User({
     this.entityType,
@@ -106,6 +113,9 @@ class User {
     this.nbCompletedJobs,
     this.isFavorite,
     this.token,
+    this.services,
+    this.packages,
+    this.jobs,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -146,6 +156,16 @@ class User {
     nbCompletedJobs: json["nb_completed_jobs"],
     isFavorite: json["is_favorite"],
     token: json["token"],
+    packages: json["packages"] == null
+        ? []
+        : List<Package>.from(json["packages"]!.map((x) => Package.fromJson(x))),
+    services: json["services"] == null
+        ? []
+        : List<Service>.from(json["services"]!.map((x) => Service.fromJson(x))),
+    jobs: json["jobs"] == null
+        ? []
+        : List<Job>.from(json["jobs"]!.map((x) => Job.fromJson(x))),
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -186,5 +206,14 @@ class User {
     "nb_completed_jobs": nbCompletedJobs,
     "is_favorite": isFavorite,
     "token": token,
+    "services": services == null
+        ? []
+        : List<dynamic>.from(services!.map((x) => x.toJson())),
+    "packages": packages == null
+        ? []
+        : List<dynamic>.from(packages!.map((x) => x)),
+    "jobs": jobs == null
+        ? []
+        : List<dynamic>.from(jobs!.map((x) => x.toJson())),
   };
 }

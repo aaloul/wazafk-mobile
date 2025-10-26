@@ -4,7 +4,6 @@ import 'package:wazafak_app/screens/main/apply_job/apply_job_screen.dart';
 import 'package:wazafak_app/screens/main/job_applicants/job_applicants_screen.dart';
 import 'package:wazafak_app/screens/main/profile/jobs/add_job/add_job_screen.dart';
 import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
-import 'package:wazafak_app/screens/main/rate_member/rate_member_screen.dart';
 
 import '../screens/auth/create_account/create_account_screen.dart';
 import '../screens/auth/login_password/login_password_screen.dart';
@@ -16,6 +15,7 @@ import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
 import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
+import '../screens/main/employer_rate_member/employer_rate_member_screen.dart';
 import '../screens/main/job_details/job_details_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
 import '../screens/main/member_profile/member_profile_screen.dart';
@@ -33,6 +33,7 @@ import '../screens/main/profile/my_addresses/add_address/add_address_screen.dart
 import '../screens/main/profile/my_addresses/my_addresses_screen.dart';
 import '../screens/main/profile/my_addresses/select_location/select_location_screen.dart';
 import '../screens/main/profile/my_documents/my_documents_screen.dart';
+import '../screens/main/profile/my_jobs/my_jobs_screen.dart';
 import '../screens/main/profile/packages/add_package/add_package_screen.dart';
 import '../screens/main/profile/packages/packs_screen.dart';
 import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
@@ -197,6 +198,11 @@ List<GetPage> getPages = [
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
+    name: RouteConstant.myJobsScreen,
+    page: () => MyJobsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
     name: RouteConstant.addJobScreen,
     page: () => AddJobScreen(),
     transition: Transition.rightToLeftWithFade,
@@ -267,8 +273,8 @@ List<GetPage> getPages = [
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
-    name: RouteConstant.rateMemberScreen,
-    page: () => RateMemberScreen(),
+    name: RouteConstant.employerRateMemberScreen,
+    page: () => EmployerRateMemberScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

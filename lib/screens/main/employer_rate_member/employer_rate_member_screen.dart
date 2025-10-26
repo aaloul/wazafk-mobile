@@ -9,14 +9,16 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../member_profile/components/member_profile_header.dart';
-import 'rate_member_controller.dart';
+import 'components/member_info_header.dart';
+import 'components/member_rating_info.dart';
+import 'employer_rate_member_controller.dart';
 
-class RateMemberScreen extends StatelessWidget {
-  const RateMemberScreen({super.key});
+class EmployerRateMemberScreen extends StatelessWidget {
+  const EmployerRateMemberScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(RateMemberController());
+    final controller = Get.put(EmployerRateMemberController());
 
     return Scaffold(
       backgroundColor: context.resources.color.background,
@@ -62,16 +64,64 @@ class RateMemberScreen extends StatelessWidget {
                             ),
                           ),
 
-                          // Category
-                          // Center(
-                          //   child: PrimaryText(
-                          //     text: user.title,
-                          //     fontSize: 15,
-                          //     fontWeight: FontWeight.w400,
-                          //     textColor: context.resources.color.colorGrey,
-                          //   ),
-                          // ),
+                          Center(
+                            child: PrimaryText(
+                              text: controller.memberProfile.value?.member
+                                  ?.title ?? "N/A",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              textColor: context.resources.color.colorGrey,
+                            ),
+                          ),
                           SizedBox(height: 20),
+
+                          Obx(() =>
+                          controller.isLoadingProfile.value
+                              ? Container()
+                              : MemberInfoHeader(
+                            memberProfile: controller.memberProfile.value!,),),
+
+                          Container(
+                            width: double.infinity,
+                            height: 1,
+                            color: context.resources.color.colorGrey
+                                .withOpacity(
+                              .25,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 8,
+                            ),
+                          ),
+
+
+                          // Member Ratings Display
+                          Obx(() {
+                            if (controller.isLoadingProfile.value) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                child: Center(child: ProgressBar()),
+                              );
+                            }
+
+                            return MemberRatingInfo(
+                              memberProfile: controller.memberProfile.value!,);
+                          }),
+
+                          Container(
+                            width: double.infinity,
+                            height: 1,
+                            color: context.resources.color.colorGrey
+                                .withOpacity(
+                              .25,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 8,
+                            ),
+                          ),
+
+
 
                           // Rating Criteria List
                           Obx(() {

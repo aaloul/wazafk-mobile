@@ -37,7 +37,11 @@ class ProjectItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     PrimaryText(
-                      text: 'Ui Design',
+                      text: engagement.type.toString() == 'SB'
+                          ? engagement.services?.first.title.toString() ?? 'N/A'
+                          : engagement.type.toString() == 'PB'
+                          ? engagement.package?.title.toString() ?? 'N/A'
+                          : engagement.job?.title.toString() ?? 'N/A',
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       textColor: context.resources.color.colorBlack3,
@@ -83,7 +87,7 @@ class ProjectItem extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(9999),
                   child: PrimaryNetworkImage(
-                    url: engagement.status.toString(),
+                    url: engagement.clientImage.toString(),
                     width: 32,
                     height: 32,
                   ),

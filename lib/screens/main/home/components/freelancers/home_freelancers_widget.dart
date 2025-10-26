@@ -54,7 +54,7 @@ class HomeFreelancersWidget extends StatelessWidget {
                 children: controller.freelancers
                     .map(
                       (freelancer) =>
-                          HomeFreelancerItem(freelancer: freelancer),
+                          HomeFreelancerItem(freelancer: freelancer.member!),
                     )
                     .toList(),
               ),

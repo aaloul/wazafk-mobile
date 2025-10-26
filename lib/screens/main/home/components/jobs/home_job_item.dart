@@ -122,7 +122,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
                 onTap: () {
                   if (widget.job.memberHashcode != null) {
                     Get.toNamed(
-                      RouteConstant.rateMemberScreen,
+                      RouteConstant.employerRateMemberScreen,
                       arguments: {
                         'memberHashcode': widget.job.memberHashcode,
                         'memberImage': widget.job.memberImage,

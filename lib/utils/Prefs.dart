@@ -266,5 +266,6 @@ class Prefs {
     setWebsite('');
     setInfo('');
     setProfileTitle('');
+    setAddresses([]);
   }
 }

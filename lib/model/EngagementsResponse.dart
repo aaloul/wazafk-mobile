@@ -4,6 +4,9 @@
 
 import 'dart:convert';
 
+import 'package:wazafak_app/model/PackagesResponse.dart';
+import 'package:wazafak_app/model/ServicesResponse.dart';
+
 import 'AddressesResponse.dart';
 import 'JobsResponse.dart';
 
@@ -67,12 +70,14 @@ class Engagement {
   String? clientHashcode;
   String? clientFirstName;
   String? clientLastName;
+  String? clientImage;
   String? freelancerHashcode;
   String? freelancerFirstName;
   String? freelancerLastName;
+  String? freelancerImage;
   Job? job;
-  dynamic package;
-  List<dynamic>? services;
+  Package? package;
+  List<Service>? services;
   int? estimatedHours;
   DateTime? startDatetime;
   DateTime? expiryDatetime;
@@ -108,9 +113,11 @@ class Engagement {
     this.clientHashcode,
     this.clientFirstName,
     this.clientLastName,
+    this.clientImage,
     this.freelancerHashcode,
     this.freelancerFirstName,
     this.freelancerLastName,
+    this.freelancerImage,
     this.job,
     this.package,
     this.services,
@@ -150,13 +157,15 @@ class Engagement {
     clientHashcode: json["client_hashcode"],
     clientFirstName: json["client_first_name"],
     clientLastName: json["client_last_name"],
+    clientImage: json["client_image"],
     freelancerHashcode: json["freelancer_hashcode"],
     freelancerFirstName: json["freelancer_first_name"],
     freelancerLastName: json["freelancer_last_name"],
+    freelancerImage: json["freelancer_image"],
     job: json["job"] == null ? null : Job.fromJson(json["job"]),
-    package: json["package"],
-    services: json["services"] == null ? [] : List<dynamic>.from(
-        json["services"]!.map((x) => x)),
+    package: json["package"] == null ? null : Package.fromJson(json["package"]),
+    services: json["services"] == null ? [] : List<Service>.from(
+        json["services"]!.map((x) => Service.fromJson(x))),
     estimatedHours: json["estimated_hours"],
     startDatetime: json["start_datetime"] == null ? null : DateTime.parse(
         json["start_datetime"]),

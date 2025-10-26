@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 
 import 'SkillsResponse.dart';
@@ -94,6 +95,8 @@ class Job {
   DateTime? createdAt;
   List<Skill>? skills;
   bool? isFavorite;
+
+  var checked = false.obs;
 
   Job({
     this.entityType,

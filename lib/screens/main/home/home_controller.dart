@@ -11,7 +11,7 @@ import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
 import 'package:wazafak_app/repository/home/employer_home_repository.dart';
-import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
+import 'package:wazafak_app/repository/home/freelancer_home_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
@@ -19,7 +19,7 @@ import 'package:wazafak_app/utils/utils.dart';
 
 class HomeController extends GetxController {
   final _categoriesRepository = CategoriesRepository();
-  final _jobsRepository = JobsListRepository();
+  final _freelancerHomeRepository = FreelancerHomeRepository();
   final _skillsRepository = SkillsRepository();
   final _addressesRepository = AddressesRepository();
   final _getWalletService = GetWalletService();
@@ -144,10 +144,10 @@ class HomeController extends GetxController {
     try {
       isLoadingJobs.value = true;
 
-      final response = await _jobsRepository.getJobs();
+      final response = await _freelancerHomeRepository.getFreelancerHome();
 
-      if (response.success == true && response.data?.list != null) {
-        jobs.value = response.data!.list!;
+      if (response.success == true && response.data != null) {
+        jobs.value = response.data!;
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to load jobs',
@@ -156,7 +156,6 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar('Error loading jobs: $e', SnackBarStatus.ERROR);
-      print('Error loading jobs: $e');
     } finally {
       isLoadingJobs.value = false;
     }

@@ -6,6 +6,7 @@ import 'package:wazafak_app/screens/main/member_profile/components/member_profil
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../utils/res/AppIcons.dart';
+import '../employer_rate_member/components/member_info_header.dart';
 import 'member_profile_controller.dart';
 
 class MemberProfileScreen extends StatelessWidget {
@@ -69,87 +70,8 @@ class MemberProfileScreen extends StatelessWidget {
 
                       SizedBox(height: 20),
 
-                      // Price Section
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                PrimaryText(
-                                  text: '${user.nbCompletedJobs ?? '0'}',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                                SizedBox(height: 4),
-                                PrimaryText(
-                                  text: 'Completed Jobs',
-                                  fontSize: 14,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Container(
-                            width: 1,
-                            height: 30,
-                            color: context.resources.color.colorGrey,
-                          ),
-
-                          Expanded(
-                            flex: 2,
-
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                PrimaryText(
-                                  text: '${user.rating}/5',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                                SizedBox(height: 4),
-                                PrimaryText(
-                                  text: 'Rating',
-                                  fontSize: 14,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Container(
-                            width: 1,
-                            height: 30,
-                            color: context.resources.color.colorGrey,
-                          ),
-
-                          Expanded(
-                            flex: 3,
-
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                PrimaryText(
-                                  text: '${user.nbJobPosts ?? '0'}',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                                SizedBox(height: 4),
-                                PrimaryText(
-                                  text: 'Services',
-                                  fontSize: 14,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      MemberInfoHeader(
+                        memberProfile: controller.memberProfile.value!,
                       ),
 
                       Container(

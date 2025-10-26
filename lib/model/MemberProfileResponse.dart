@@ -61,12 +61,11 @@ class MemberProfile {
 
   factory MemberProfile.fromJson(Map<String, dynamic> json) => MemberProfile(
     member: json["member"] == null ? null : User.fromJson(json["member"]),
-    freelancerRatings: json["freelancer_ratings"] == null
-        ? []
-        : List<dynamic>.from(json["freelancer_ratings"]!.map((x) => x)),
-    clientRatings: json["client_ratings"] == null
-        ? []
-        : List<dynamic>.from(json["client_ratings"]!.map((x) => x)),
+    freelancerRatings: json["freelancer_ratings"] == null ? [] : List<
+        Rating>.from(
+        json["freelancer_ratings"]!.map((x) => Rating.fromJson(x))),
+    clientRatings: json["client_ratings"] == null ? [] : List<Rating>.from(
+        json["client_ratings"]!.map((x) => Rating.fromJson(x))),
     skills: json["skills"] == null
         ? []
         : List<Skill>.from(json["skills"]!.map((x) => Skill.fromJson(x))),
@@ -83,12 +82,10 @@ class MemberProfile {
 
   Map<String, dynamic> toJson() => {
     "member": member?.toJson(),
-    "freelancer_ratings": freelancerRatings == null
-        ? []
-        : List<dynamic>.from(freelancerRatings!.map((x) => x)),
-    "client_ratings": clientRatings == null
-        ? []
-        : List<dynamic>.from(clientRatings!.map((x) => x)),
+    "freelancer_ratings": freelancerRatings == null ? [] : List<dynamic>.from(
+        freelancerRatings!.map((x) => x.toJson())),
+    "client_ratings": clientRatings == null ? [] : List<dynamic>.from(
+        clientRatings!.map((x) => x.toJson())),
     "skills": skills == null ? [] : List<dynamic>.from(skills!.map((x) => x)),
     "services": services == null
         ? []
@@ -100,4 +97,36 @@ class MemberProfile {
         ? []
         : List<dynamic>.from(jobs!.map((x) => x.toJson())),
   };
+
 }
+
+class Rating {
+  String? hashcode;
+  String? name;
+  String? target;
+  String? rating;
+
+  Rating({
+    this.hashcode,
+    this.name,
+    this.target,
+    this.rating,
+  });
+
+  factory Rating.fromJson(Map<String, dynamic> json) =>
+      Rating(
+        hashcode: json["hashcode"],
+        name: json["name"],
+        target: json["target"],
+        rating: json["rating"],
+      );
+
+  Map<String, dynamic> toJson() =>
+      {
+        "hashcode": hashcode,
+        "name": name,
+        "target": target,
+        "rating": rating,
+      };
+}
+
