@@ -78,45 +78,8 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
   void navigateToMemberProfile() {
     if (widget.freelancer.hashcode == null) return;
 
-    // Convert HomeFreelancer to User
-    final user = User(
-      entityType: widget.freelancer.entityType,
-      hashcode: widget.freelancer.hashcode,
-      code: widget.freelancer.code,
-      title: widget.freelancer.title,
-      firstName: widget.freelancer.firstName,
-      lastName: widget.freelancer.lastName,
-      mobile: widget.freelancer.mobile,
-      email: widget.freelancer.email,
-      dateOfBirth: widget.freelancer.dateOfBirth,
-      gender: widget.freelancer.gender,
-      image: widget.freelancer.image,
-      country: widget.freelancer.country,
-      info: widget.freelancer.info,
-      workExperience: widget.freelancer.workExperience,
-      website: widget.freelancer.website,
-      rating: widget.freelancer.rating,
-      joinDate: widget.freelancer.joinDate,
-      joinYear: widget.freelancer.joinYear,
-      timezone: widget.freelancer.timezone,
-      language: widget.freelancer.language,
-      idVerified: widget.freelancer.idVerified,
-      idVerifiedDatetime: widget.freelancer.idVerifiedDatetime,
-      documentType: widget.freelancer.documentType,
-      document1: widget.freelancer.document1,
-      document2: widget.freelancer.document2,
-      documentPassport: widget.freelancer.documentPassport,
-      documentForeignLegal1: widget.freelancer.documentForeignLegal1,
-      documentForeignLegal2: widget.freelancer.documentForeignLegal2,
-      documentForeignPaperwork: widget.freelancer.documentForeignPaperwork,
-      status: widget.freelancer.status,
-      nbJobPosts: widget.freelancer.nbJobPosts,
-      nbHiredFreelancers: widget.freelancer.nbHiredFreelancers,
-      nbCompletedJobs: widget.freelancer.nbCompletedJobs,
-      isFavorite: widget.freelancer.isFavorite,
-    );
-
-    Get.toNamed(RouteConstant.freelancerMemberProfileScreen, arguments: user);
+    Get.toNamed(RouteConstant.freelancerMemberProfileScreen,
+        arguments: widget.freelancer);
   }
 
   @override

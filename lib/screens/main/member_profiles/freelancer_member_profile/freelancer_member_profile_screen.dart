@@ -49,6 +49,8 @@ class FreelancerMemberProfileScreen extends StatelessWidget {
                     children: [
                       MemberProfileHeader(
                         avatar: controller.user.value!.image.toString(),
+                        memberHashcode: controller.user.value!.hashcode ?? '',
+                        isFavorite: controller.user.value!.isFavorite ?? false,
                       ),
 
                       SizedBox(height: 10),

@@ -1,18 +1,100 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wazafak_app/repository/favorite/add_favorite_member_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_member_repository.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../components/primary_network_image.dart';
 import '../../../../utils/res/AppIcons.dart';
 import '../../../../utils/utils.dart';
 
-class MemberProfileHeader extends StatelessWidget {
-  const MemberProfileHeader({super.key, required this.avatar});
+class MemberProfileHeader extends StatefulWidget {
+  const MemberProfileHeader({
+    super.key,
+    required this.avatar,
+    required this.memberHashcode,
+    this.isFavorite = false,
+  });
 
   final String avatar;
+  final String memberHashcode;
+  final bool isFavorite;
+
+  @override
+  State<MemberProfileHeader> createState() => _MemberProfileHeaderState();
+}
+
+class _MemberProfileHeaderState extends State<MemberProfileHeader> {
+  final AddFavoriteMemberRepository _addFavoriteRepository =
+  AddFavoriteMemberRepository();
+  final RemoveFavoriteMemberRepository _removeFavoriteRepository =
+  RemoveFavoriteMemberRepository();
+
+  var isFavorite = false.obs;
+  var isLoading = false.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite.value = widget.isFavorite;
+  }
+
+  Future<void> _toggleFavorite() async {
+    if (isLoading.value) return;
+
+    try {
+      isLoading.value = true;
+
+      if (isFavorite.value) {
+        // Remove from favorites
+        final response = await _removeFavoriteRepository.removeFavoriteMember(
+          widget.memberHashcode,
+        );
+
+        if (response.success == true) {
+          isFavorite.value = false;
+          constants.showSnackBar(
+            response.message ?? 'Removed from favorites',
+            SnackBarStatus.SUCCESS,
+          );
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to remove from favorites',
+            SnackBarStatus.ERROR,
+          );
+        }
+      } else {
+        // Add to favorites
+        final response = await _addFavoriteRepository.addFavoriteMember(
+          widget.memberHashcode,
+        );
+
+        if (response.success == true) {
+          isFavorite.value = true;
+          constants.showSnackBar(
+            response.message ?? 'Added to favorites',
+            SnackBarStatus.SUCCESS,
+          );
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to add to favorites',
+            SnackBarStatus.ERROR,
+          );
+        }
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error: $e',
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 210,
       child: Stack(
@@ -54,10 +136,29 @@ class MemberProfileHeader extends StatelessWidget {
                 ),
                 Spacer(),
 
-                Image.asset(
-                  AppIcons.banomark,
-                  width: 20,
-                  color: context.resources.color.colorWhite,
+                Obx(
+                      () =>
+                      GestureDetector(
+                        onTap: isLoading.value ? null : _toggleFavorite,
+                        child: isLoading.value
+                            ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              context.resources.color.colorWhite,
+                            ),
+                          ),
+                        )
+                            : Image.asset(
+                          isFavorite.value
+                              ? AppIcons.banomarkOn
+                              : AppIcons.banomark,
+                          width: 20,
+                          color: context.resources.color.colorWhite,
+                        ),
+                      ),
                 ),
               ],
             ),
@@ -83,7 +184,7 @@ class MemberProfileHeader extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadiusGeometry.circular(999999),
                     child: PrimaryNetworkImage(
-                      url: avatar,
+                      url: widget.avatar,
                       width: double.infinity,
                       height: double.infinity,
                     ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/screens/main/job_details/job_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
+import '../../../../utils/Prefs.dart';
 import '../../../../utils/utils.dart';
 
 class JobDetailsHeader extends StatelessWidget {
@@ -17,9 +17,9 @@ class JobDetailsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<JobDetailsController>();
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      height: 210,
+      height: 160,
       child: Stack(
         children: [
           Positioned(
@@ -62,8 +62,9 @@ class JobDetailsHeader extends StatelessWidget {
                 ),
                 Spacer(),
 
-                Obx(() {
-                  final isFavorite = controller.job.value?.isFavorite ?? false;
+                if (job.memberHashcode != Prefs.getId)
+                  Obx(() {
+                    final isFavorite = controller.job.value?.isFavorite ?? false;
                   final isLoading = controller.isTogglingFavorite.value;
 
                   return GestureDetector(
@@ -92,35 +93,6 @@ class JobDetailsHeader extends StatelessWidget {
             ),
           ),
 
-          Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 110,
-                  height: 110,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusGeometry.circular(14),
-                    border: Border.all(
-                      color: context.resources.color.background2,
-                      width: 5,
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(10),
-                    child: PrimaryNetworkImage(
-                      url: job.image.toString(),
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );

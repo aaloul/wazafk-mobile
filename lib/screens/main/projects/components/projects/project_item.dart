@@ -18,6 +18,7 @@ class ProjectItem extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: context.resources.color.colorWhite,
         borderRadius: BorderRadius.circular(8),

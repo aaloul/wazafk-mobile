@@ -73,7 +73,8 @@ class Job {
   dynamic parentCategoryHashcode;
   dynamic parentCategoryName;
   String? title;
-  String? image;
+
+  // String? image;
   String? description;
   String? unitPrice;
   String? totalPrice;
@@ -111,7 +112,7 @@ class Job {
     this.parentCategoryHashcode,
     this.parentCategoryName,
     this.title,
-    this.image,
+    // this.image,
     this.description,
     this.unitPrice,
     this.totalPrice,
@@ -149,7 +150,7 @@ class Job {
     parentCategoryHashcode: json["parent_category_hashcode"],
     parentCategoryName: json["parent_category_name"],
     title: json["title"],
-    image: json["image"],
+    // image: json["image"],
     description: json["description"],
     unitPrice: json["unit_price"],
     totalPrice: json["total_price"],
@@ -190,7 +191,7 @@ class Job {
     "parent_category_hashcode": parentCategoryHashcode,
     "parent_category_name": parentCategoryName,
     "title": title,
-    "image": image,
+    // "image": image,
     "description": description,
     "unit_price": unitPrice,
     "total_price": totalPrice,

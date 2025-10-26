@@ -34,7 +34,7 @@ class PackageDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PackageDetailsHeader(package: controller.package.value!),
+                      PackageDetailsHeader(),
 
                       SizedBox(height: 12),
 

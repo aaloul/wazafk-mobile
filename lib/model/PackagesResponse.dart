@@ -73,6 +73,7 @@ class Package {
   DateTime? createdAt;
   List<Service>? services;
   List<Availability>? availability;
+  bool? isFavorite;
 
   var checked = false.obs;
 
@@ -93,6 +94,7 @@ class Package {
     this.createdAt,
     this.services,
     this.availability,
+    this.isFavorite,
   });
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
@@ -120,6 +122,7 @@ class Package {
         : List<Availability>.from(
             json["availability"]!.map((x) => Availability.fromJson(x)),
           ),
+    isFavorite: json["is_favorite"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -143,6 +146,7 @@ class Package {
     "availability": availability == null
         ? []
         : List<dynamic>.from(availability!.map((x) => x.toJson())),
+    "is_favorite": isFavorite,
   };
 }
 

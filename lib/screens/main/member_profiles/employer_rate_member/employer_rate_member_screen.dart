@@ -50,6 +50,8 @@ class EmployerRateMemberScreen extends StatelessWidget {
                         children: [
                           MemberProfileHeader(
                             avatar: controller.memberImage.toString(),
+                            memberHashcode: controller.memberHashcode
+                                .toString(),
                           ),
 
                           SizedBox(height: 10),

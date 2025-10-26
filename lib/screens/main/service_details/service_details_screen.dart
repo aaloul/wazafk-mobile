@@ -34,7 +34,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ServiceDetailsHeader(service: controller.service.value!),
+                      ServiceDetailsHeader(),
 
                       SizedBox(height: 12),
 

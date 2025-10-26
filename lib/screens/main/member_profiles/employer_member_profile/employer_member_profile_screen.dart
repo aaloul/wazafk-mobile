@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import '../../../../utils/res/AppIcons.dart';
+
 import '../components/member_info_header.dart';
 import '../components/member_profile_header.dart';
 import 'employer_member_profile_controller.dart';
@@ -43,6 +43,8 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                     children: [
                       MemberProfileHeader(
                         avatar: controller.user.value!.image.toString(),
+                        memberHashcode: controller.user.value!.hashcode
+                            .toString(),
                       ),
 
                       SizedBox(height: 10),

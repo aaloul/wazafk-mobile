@@ -23,8 +23,8 @@ class FreelancerMemberProfileController extends GetxController {
       user.value = arguments;
       // Fetch full member profile if we have the hashcode
       if (user.value?.hashcode != null) {
-        // fetchMemberProfile(user.value!.hashcode!);
-        fetchMemberProfile('e0b268610e9c3e609945c9361730b463');
+        fetchMemberProfile(user.value!.hashcode!);
+        // fetchMemberProfile('e0b268610e9c3e609945c9361730b463');
       }
     }
   }

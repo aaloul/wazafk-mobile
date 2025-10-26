@@ -43,7 +43,7 @@ class JobDetailsScreen extends StatelessWidget {
                     children: [
                       JobDetailsHeader(job: controller.job.value!),
 
-                      SizedBox(height: 12),
+                      SizedBox(height: 20),
 
                       // Title
                       Center(
