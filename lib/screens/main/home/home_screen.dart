@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeController());
+    final controller = Get.put(HomeController());
 
     return Scaffold(
       backgroundColor: context.resources.color.background2,
@@ -25,16 +25,34 @@ class HomeScreen extends StatelessWidget {
             children: [
               HomeHeader(),
               SizedBox(height: 16),
-              HomeStatisticsWidget(),
-              SizedBox(height: 16),
-              HomeEngagementsWidget(),
-              SizedBox(height: 16),
-              HomeCategoriesWidget(),
-              SizedBox(height: 16),
-              HomeJobsWidget(),
-              SizedBox(height: 16),
-              HomeFreelancersWidget(),
-              SizedBox(height: 16),
+
+              Obx(() {
+                if (controller.isFreelancerMode.value) {
+                  // Freelancer view: Statistics, Available Jobs, Engagements
+                  return Column(
+                    children: [
+                      HomeStatisticsWidget(),
+                      SizedBox(height: 16),
+                      HomeEngagementsWidget(),
+                      SizedBox(height: 16),
+                      HomeJobsWidget(),
+                      SizedBox(height: 16),
+                    ],
+                  );
+                } else {
+                  // Employer view: Categories (Services), Freelancers, Engagements
+                  return Column(
+                    children: [
+                      HomeCategoriesWidget(),
+                      SizedBox(height: 16),
+                      HomeEngagementsWidget(),
+                      SizedBox(height: 16),
+                      HomeFreelancersWidget(),
+                      SizedBox(height: 16),
+                    ],
+                  );
+                }
+              }),
             ],
           ),
         ),

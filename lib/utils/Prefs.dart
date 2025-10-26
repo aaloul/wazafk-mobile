@@ -237,6 +237,11 @@ class Prefs {
   static void setWalletHashcode(String value) =>
       box.write(Const.WALLET_HASHCODE, value);
 
+  // User mode: 'freelancer' or 'employer'
+  static String get getUserMode => box.read(Const.USER_MODE) ?? 'freelancer';
+
+  static void setUserMode(String value) => box.write(Const.USER_MODE, value);
+
   static void saveUser(User user) {
     setLoggedIn(true);
     setId(user.hashcode.toString());

@@ -49,10 +49,12 @@ class HomeController extends GetxController {
   var nbActiveJobs = 0.obs;
   var nbCompletedJobs = 0.obs;
   var successRate = ''.obs;
+  var isFreelancerMode = true.obs;
 
   @override
   void onInit() {
     super.onInit();
+    loadUserModeFromPrefs();
     loadCategoriesFromPrefs();
     loadSkillsFromPrefs();
     loadAddressesFromPrefs();
@@ -60,12 +62,33 @@ class HomeController extends GetxController {
     fetchProfile();
     fetchCategories();
     fetchJobCategories();
-    fetchJobs();
     fetchSkills();
     fetchAddresses();
     fetchWallet();
     fetchEngagements();
-    fetchEmployerHome();
+
+    // Load data based on mode
+    if (isFreelancerMode.value) {
+      fetchJobs();
+    } else {
+      fetchEmployerHome();
+    }
+  }
+
+  void loadUserModeFromPrefs() {
+    isFreelancerMode.value = Prefs.getUserMode == 'freelancer';
+  }
+
+  void toggleUserMode(bool isFreelancer) {
+    isFreelancerMode.value = isFreelancer;
+    Prefs.setUserMode(isFreelancer ? 'freelancer' : 'employer');
+
+    // Reload data based on new mode
+    if (isFreelancer) {
+      fetchJobs();
+    } else {
+      fetchEmployerHome();
+    }
   }
 
   void loadCategoriesFromPrefs() {

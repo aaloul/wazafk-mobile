@@ -41,4 +41,5 @@ class Const {
   static const String ADDRESSES = 'ADDRESSES';
   static const String WALLET_HASHCODE = 'WALLET_HASHCODE';
   static const String JOB_CATEGORIES = 'JOB_CATEGORIES';
+  static const String USER_MODE = 'USER_MODE';
 }

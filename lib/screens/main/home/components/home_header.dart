@@ -61,7 +61,14 @@ class HomeHeader extends StatelessWidget {
                     )),
               ),
 
-              PrimarySwitch(scale: .7, checked: true, onChange: (b) {}),
+              Obx(() =>
+                  PrimarySwitch(
+                    scale: .7,
+                    checked: controller.isFreelancerMode.value,
+                    onChange: (bool value) {
+                      controller.toggleUserMode(value);
+                    },
+                  )),
               GestureDetector(
                 onTap: () {
                   Get.toNamed(RouteConstant.profileNotificationsScreen);
