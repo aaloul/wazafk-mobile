@@ -8,9 +8,9 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
-import '../member_profile/components/member_profile_header.dart';
-import 'components/member_info_header.dart';
-import 'components/member_rating_info.dart';
+import '../components/member_info_header.dart';
+import '../components/member_profile_header.dart';
+import '../components/member_rating_info.dart';
 import 'employer_rate_member_controller.dart';
 
 class EmployerRateMemberScreen extends StatelessWidget {

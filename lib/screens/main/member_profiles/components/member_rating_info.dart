@@ -47,10 +47,26 @@ class MemberRatingInfo extends StatelessWidget {
                     minHeight: 8,
                   ),
                 ),
-                SizedBox(height: 8),
+
               ],
             );
-          }),
+          }
+          )
+
+          ,
+
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: context.resources.color.colorGrey.withOpacity(
+              .25,
+            ),
+            margin: EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 8,
+            ),
+          ),
+
         ],
       ),
     );

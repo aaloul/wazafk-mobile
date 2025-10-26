@@ -22,7 +22,7 @@ class JobApplicantItem extends StatelessWidget {
       onTap: () {
         if (applicant != null) {
           Get.toNamed(
-            RouteConstant.memberProfileScreen,
+            RouteConstant.freelancerMemberProfileScreen,
             arguments: applicant,
           );
         }

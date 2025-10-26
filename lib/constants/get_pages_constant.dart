@@ -15,10 +15,11 @@ import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
 import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
-import '../screens/main/employer_rate_member/employer_rate_member_screen.dart';
 import '../screens/main/job_details/job_details_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
-import '../screens/main/member_profile/member_profile_screen.dart';
+import '../screens/main/member_profiles/employer_member_profile/employer_member_profile_screen.dart';
+import '../screens/main/member_profiles/employer_rate_member/employer_rate_member_screen.dart';
+import '../screens/main/member_profiles/freelancer_member_profile/freelancer_member_profile_screen.dart';
 import '../screens/main/package_details/package_details_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
@@ -263,8 +264,8 @@ List<GetPage> getPages = [
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
-    name: RouteConstant.memberProfileScreen,
-    page: () => MemberProfileScreen(),
+    name: RouteConstant.employerMemberProfileScreen,
+    page: () => EmployerMemberProfileScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
@@ -275,6 +276,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.employerRateMemberScreen,
     page: () => EmployerRateMemberScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.freelancerMemberProfileScreen,
+    page: () => FreelancerMemberProfileScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

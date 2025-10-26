@@ -116,7 +116,7 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
       isFavorite: widget.freelancer.isFavorite,
     );
 
-    Get.toNamed(RouteConstant.memberProfileScreen, arguments: user);
+    Get.toNamed(RouteConstant.freelancerMemberProfileScreen, arguments: user);
   }
 
   @override

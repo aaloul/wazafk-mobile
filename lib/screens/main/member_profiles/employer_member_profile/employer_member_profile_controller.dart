@@ -4,7 +4,7 @@ import 'package:wazafak_app/model/MemberProfileResponse.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
-class MemberProfileController extends GetxController {
+class EmployerMemberProfileController extends GetxController {
   final ProfileRepository _profileRepository = ProfileRepository();
 
   var user = Rxn<User>();
