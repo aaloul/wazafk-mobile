@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import 'components/categories/home_categories_widget.dart';
+import 'components/employer_data/employer_home_data_widget.dart';
 import 'components/engagements/home_engagements_widget.dart';
-import 'components/freelancers/employer_home_data_widget.dart';
 import 'components/home_header.dart';
 import 'components/jobs/home_jobs_widget.dart';
 import 'components/statistics/home_statistics_widget.dart';

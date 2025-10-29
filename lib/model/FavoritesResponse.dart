@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
+import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 
-import 'JobsResponse.dart';
+import 'PackagesResponse.dart';
+import 'ServicesResponse.dart';
 
 FavoritesResponse favoritesResponseFromJson(String str) =>
     FavoritesResponse.fromJson(json.decode(str));
@@ -17,45 +19,57 @@ String favoritesResponseToJson(FavoritesResponse data) =>
 class FavoritesResponse {
   bool? success;
   String? message;
-  Data? data;
+  List<FavoriteData>? data;
 
   FavoritesResponse({this.success, this.message, this.data});
 
-  factory FavoritesResponse.fromJson(Map<String, dynamic> json) =>
+  ffactory FavoritesResponse.fromJson(Map<String, dynamic> json) =>
       FavoritesResponse(
         success: json["success"],
         message: json["message"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        data: json["data"] == null ? [] : List<FavoriteData>.from(
+            json["data"]!.map((x) => FavoriteData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
     "success": success,
     "message": message,
-    "data": data?.toJson(),
+    "data": data == null ? [] : List<dynamic>.from(
+        data!.map((x) => x.toJson())),
   };
 }
 
-class Data {
-  List<User>? members;
-  List<Job>? jobs;
+class FavoriteData {
+  String? entityType;
+  Service? service;
+  Package? package;
+  User? member;
+  Job? job;
 
-  Data({this.members, this.jobs});
+  FavoriteData({
+    this.entityType,
+    this.service,
+    this.package,
+    this.member,
+    this.job,
+  });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    members: json["members"] == null
-        ? []
-        : List<User>.from(json["members"]!.map((x) => User.fromJson(x))),
-    jobs: json["jobs"] == null
-        ? []
-        : List<Job>.from(json["jobs"]!.map((x) => Job.fromJson(x))),
+  factory FavoriteData.fromJson(Map<String, dynamic> json) =>
+      FavoriteData(
+        entityType: json["entity_type"],
+        service: json["service"] == null ? null : Service.fromJson(
+            json["service"]),
+        package: json["package"] == null ? null : Package.fromJson(
+            json["package"]),
+        member: json["member"] == null ? null : User.fromJson(json["member"]),
+        job: json["job"] == null ? null : Job.fromJson(json["job"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "members": members == null
-        ? []
-        : List<dynamic>.from(members!.map((x) => x.toJson())),
-    "jobs": jobs == null
-        ? []
-        : List<dynamic>.from(jobs!.map((x) => x.toJson())),
+    "entity_type": entityType,
+    "service": service?.toJson(),
+    "package": package?.toJson(),
+    "member": member?.toJson(),
+    "job": job?.toJson(),
   };
 }

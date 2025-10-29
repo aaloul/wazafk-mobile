@@ -127,7 +127,7 @@ class ProjectsScreen extends StatelessWidget {
       return Center(child: CircularProgressIndicator());
     }
 
-    if (controller.favoriteJobs.isEmpty) {
+    if (controller.favorites.isEmpty) {
       return Center(
         child: Text(
           'No saved jobs',
@@ -139,9 +139,9 @@ class ProjectsScreen extends StatelessWidget {
       onRefresh: controller.fetchFavoriteJobs,
       child: ListView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: controller.favoriteJobs.length,
+        itemCount: controller.favorites.length,
         itemBuilder: (context, index) {
-          final job = controller.favoriteJobs[index];
+          final job = controller.favorites[index].job!;
           return ProjectsJobItem(job: job,);
         },
       ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/screens/main/activity/activity_screen.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/screens/main/home/home_screen.dart';
+import 'package:wazafak_app/screens/main/profile/my_jobs/my_jobs_screen.dart';
 import 'package:wazafak_app/screens/main/profile/profile_screen.dart';
 import 'package:wazafak_app/screens/main/projects/projects_screen.dart';
 import 'package:wazafak_app/screens/main/search/search_screen.dart';
@@ -26,10 +27,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       // Freelancer: Home, Projects, Search, Profile (no Activity)
       return [HomeScreen(), ProjectsScreen(), SearchScreen(), ProfileScreen()];
     } else {
-      // Employer: Home, Projects, Search, Activity, Profile
+      // Employer: Home, My Jobs, Search, Activity, Profile
       return [
         HomeScreen(),
-        ProjectsScreen(),
+        MyJobsScreen(),
         SearchScreen(),
         ActivityScreen(),
         ProfileScreen(),
@@ -157,7 +158,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           width: 22,
           color: context.resources.color.colorPrimary,
         ),
-        label: 'Projects',
+        label: isFreelancerMode ? 'Projects' : 'My Jobs',
       ),
       BottomNavigationBarItem(
         icon: Image.asset(

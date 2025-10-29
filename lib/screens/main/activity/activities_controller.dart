@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
+import 'package:wazafak_app/model/FavoritesResponse.dart';
+import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
 import 'package:wazafak_app/repository/favorite/favorite_jobs_repository.dart';
 
-import '../../../model/FavoritesResponse.dart';
+import '../../../repository/favorite/favorites_repository.dart';
 
-class ProjectsController extends GetxController {
-  var selectedTab = 'Ongoing Project'.obs;
+class ActivitiesController extends GetxController {
+  var selectedTab = 'Project & Services'.obs;
 
   // Repositories
   final _engagementsRepository = EngagementsListRepository();
-  final _favoriteJobsRepository = FavoriteJobsRepository();
+  final _favoritesRepository = FavoritesRepository();
 
   // State variables
   var isLoadingEngagements = false.obs;
@@ -33,7 +35,7 @@ class ProjectsController extends GetxController {
       final response = await _engagementsRepository.getEngagements(
         filters: {
           // 'type': 'JA',
-          'flow': 'ONGOING'
+          'flow': 'ONGOING',
         }, // Assuming status 1 is for ongoing
       );
       if (response.success == true && response.data?.list != null) {
@@ -68,7 +70,7 @@ class ProjectsController extends GetxController {
   Future<void> fetchFavoriteJobs() async {
     try {
       isLoadingFavorites.value = true;
-      final response = await _favoriteJobsRepository.getFavoriteJobs();
+      final response = await _favoritesRepository.getFavorites(type: 'M,S,P');
       favorites.value = response.data ?? [];
     } catch (e) {
       print('Error fetching favorite jobs: $e');
@@ -79,13 +81,13 @@ class ProjectsController extends GetxController {
 
   void refreshCurrentTab() {
     switch (selectedTab.value) {
-      case 'Ongoing Project':
+      case 'Project & Services':
         fetchOngoingEngagements();
         break;
       case 'Pending':
         fetchPendingEngagements();
         break;
-      case 'Saved Jobs':
+      case 'Pins':
         fetchFavoriteJobs();
         break;
     }

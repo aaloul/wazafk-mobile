@@ -20,11 +20,9 @@ class EmployerHomeResponse {
   String? message;
   List<EmployerHomeData>? data;
 
-  EmployerHomeResponse({
-    this.success,
-    this.message,
-    this.data,
-  });actory EmployerHomeResponse.fromJson(Map<String, dynamic> json) =>
+  EmployerHomeResponse({this.success, this.message, this.data});
+
+  factory EmployerHomeResponse.fromJson(Map<String, dynamic> json) =>
       EmployerHomeResponse(
         success: json["success"],
         message: json["message"],
@@ -38,8 +36,9 @@ class EmployerHomeResponse {
   Map<String, dynamic> toJson() => {
     "success": success,
     "message": message,
-    "data": data == null ? [] : List<dynamic>.from(
-        data!.map((x) => x.toJson())),
+    "data": data == null
+        ? []
+        : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
@@ -49,21 +48,15 @@ class EmployerHomeData {
   Service? service;
   Package? package;
 
-  EmployerHomeData({
-    this.entityType,
-    this.member,
-    this.service,
-    this.package,
-  });
+  EmployerHomeData({this.entityType, this.member, this.service, this.package});
 
-  factory EmployerHomeData.fromJson(Map<String, dynamic> json) =>
-      EmployerHomeData(
+  factory EmployerHomeData.fromJson(
+    Map<String, dynamic> json,
+  ) => EmployerHomeData(
     entityType: json["entity_type"],
     member: json["member"] == null ? null : User.fromJson(json["member"]),
-        service: json["service"] == null ? null : Service.fromJson(
-            json["service"]),
-        package: json["package"] == null ? null : Package.fromJson(
-            json["package"]),
+    service: json["service"] == null ? null : Service.fromJson(json["service"]),
+    package: json["package"] == null ? null : Package.fromJson(json["package"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -73,4 +66,3 @@ class EmployerHomeData {
     "package": package?.toJson(),
   };
 }
-

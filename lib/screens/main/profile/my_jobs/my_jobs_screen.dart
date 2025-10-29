@@ -26,7 +26,7 @@ class MyJobsScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: 'My Jobs'),
+              TopHeader(hasBack: false, title: 'My Jobs'),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {

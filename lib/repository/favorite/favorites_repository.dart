@@ -4,13 +4,13 @@ import '../../networking/services/favorite/add_favorite_member_service.dart';
 import '../../networking/services/favorite/favorites_service.dart';
 import '../../networking/services/favorite/remove_favorite_member_service.dart';
 
-class FavoriteMembersRepository {
+class FavoritesRepository {
   final _provider = FavoritesService();
   final _addFavoriteProvider = AddFavoriteMemberService();
   final _removeFavoriteProvider = RemoveFavoriteMemberService();
 
-  Future<FavoritesResponse> getFavorites() async {
-    return _provider.getFavorites();
+  Future<FavoritesResponse> getFavorites({required String type}) async {
+    return _provider.getFavorites(type: type);
   }
 
   Future<ApiResponse> addFavoriteMember(String memberHashcode) async {

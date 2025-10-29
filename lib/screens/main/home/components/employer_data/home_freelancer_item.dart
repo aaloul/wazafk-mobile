@@ -44,8 +44,10 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
   void navigateToMemberProfile() {
     if (widget.freelancer.hashcode == null) return;
 
-    Get.toNamed(RouteConstant.freelancerMemberProfileScreen,
-        arguments: widget.freelancer);
+    Get.toNamed(
+      RouteConstant.freelancerMemberProfileScreen,
+      arguments: widget.freelancer,
+    );
   }
 
   @override
@@ -146,7 +148,7 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
                             ),
                           )
                         : Image.asset(
-                      widget.freelancer.isFavorite == 1
+                            widget.freelancer.isFavorite == 1
                                 ? AppIcons.banomarkOn
                                 : AppIcons.banomark,
                             width: 18,

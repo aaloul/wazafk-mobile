@@ -37,7 +37,7 @@ class HomeController extends GetxController {
   final _employerHomeRepository = EmployerHomeRepository();
   final _addFavoriteJobRepository = AddFavoriteJobRepository();
   final _removeFavoriteJobRepository = RemoveFavoriteJobRepository();
-  final _favoriteMembersRepository = FavoriteMembersRepository();
+  final _favoriteMembersRepository = FavoritesRepository();
   final _addFavoriteServiceRepository = AddFavoriteServiceRepository();
   final _removeFavoriteServiceRepository = RemoveFavoriteServiceRepository();
   final _addFavoritePackageRepository = AddFavoritePackageRepository();
