@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/projects/projects_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -18,34 +18,40 @@ class ProjectsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.resources.color.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            TopHeader(
-              hasBack: false,
-              title: 'Projects',
+    return FocusDetector(
+      onFocusGained: () {
+        // Refresh data when screen gains focus
+        controller.refreshCurrentTab();
+      },
+      child: Scaffold(
+        backgroundColor: context.resources.color.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              TopHeader(
+                hasBack: false,
+                title: 'Projects',
 
-            ),
+              ),
 
 
-            Obx(
-                  () =>
-                  TabsWidget(
-                    tabs: ['Ongoing Project', 'Pending', 'Saved Jobs'],
-                    onSelect: (tab) {
-                      controller.selectedTab.value = tab;
-                    },
-                    selectedTab: controller.selectedTab.value,
-                  ),
-            ),
+              Obx(
+                    () =>
+                    TabsWidget(
+                      tabs: ['Ongoing Project', 'Pending', 'Saved Jobs'],
+                      onSelect: (tab) {
+                        controller.selectedTab.value = tab;
+                      },
+                      selectedTab: controller.selectedTab.value,
+                    ),
+              ),
 
-            Expanded(
-              child: Obx(() => _buildTabContent(context)),
-            ),
+              Expanded(
+                child: Obx(() => _buildTabContent(context)),
+              ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

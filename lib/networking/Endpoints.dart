@@ -104,7 +104,7 @@ class Endpoints {
   static const removeFavoriteMember = 'favorite/removeFavoriteMember';
   static const addFavoriteJob = 'favorite/addFavoriteJob';
   static const removeFavoriteJob = 'favorite/removeFavoriteJob';
-  static const favoriteMembers = 'favorite/favorites';
+  static const favorites = 'favorite/favorites';
   static const favoriteJobs = 'favorite/favorites';
   static const addFavoriteService = 'favorite/addFavoriteService';
   static const removeFavoriteService = 'favorite/removeFavoriteService';

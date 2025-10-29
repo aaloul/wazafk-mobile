@@ -4,74 +4,40 @@ import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
-import 'package:wazafak_app/repository/favorite/favorite_members_repository.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../../utils/res/AppIcons.dart';
 
 class HomeFreelancerItem extends StatefulWidget {
-  const HomeFreelancerItem({super.key, required this.freelancer});
+  const HomeFreelancerItem({
+    super.key,
+    required this.freelancer,
+    this.onFavoriteToggle,
+  });
 
   final User freelancer;
+  final Future<bool> Function(User member)? onFavoriteToggle;
 
   @override
   State<HomeFreelancerItem> createState() => _HomeFreelancerItemState();
 }
 
 class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
-  final _favoriteMembersRepository = FavoriteMembersRepository();
-  late RxBool isFavorite;
   var isLoading = false.obs;
 
-  @override
-  void initState() {
-    super.initState();
-    isFavorite = (widget.freelancer.isFavorite == 1).obs;
-  }
-
   Future<void> toggleFavorite() async {
-    if (isLoading.value || widget.freelancer.hashcode == null) return;
+    if (widget.onFavoriteToggle == null || isLoading.value) return;
+
+    setState(() {
+      isLoading.value = true;
+    });
 
     try {
-      isLoading.value = true;
-      final previousState = isFavorite.value;
-      isFavorite.value = !isFavorite.value;
-
-      final response = isFavorite.value
-          ? await _favoriteMembersRepository.addFavoriteMember(
-              widget.freelancer.hashcode!,
-            )
-          : await _favoriteMembersRepository.removeFavoriteMember(
-              widget.freelancer.hashcode!,
-            );
-
-      if (response.success == true) {
-        constants.showSnackBar(
-          response.message ??
-              (isFavorite.value
-                  ? 'Added to favorites'
-                  : 'Removed from favorites'),
-          SnackBarStatus.SUCCESS,
-        );
-      } else {
-        // Revert on failure
-        isFavorite.value = previousState;
-        constants.showSnackBar(
-          response.message ?? 'Failed to update favorites',
-          SnackBarStatus.ERROR,
-        );
-      }
-    } catch (e) {
-      // Revert on error
-      isFavorite.value = !isFavorite.value;
-      constants.showSnackBar(
-        'Error updating favorites: $e',
-        SnackBarStatus.ERROR,
-      );
-      print('Error toggling favorite: $e');
+      await widget.onFavoriteToggle!(widget.freelancer);
     } finally {
-      isLoading.value = false;
+      setState(() {
+        isLoading.value = false;
+      });
     }
   }
 
@@ -180,7 +146,7 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
                             ),
                           )
                         : Image.asset(
-                            isFavorite.value
+                      widget.freelancer.isFavorite == 1
                                 ? AppIcons.banomarkOn
                                 : AppIcons.banomark,
                             width: 18,
@@ -233,12 +199,10 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: context.resources.color.colorPrimary
-                              .withOpacity(0.1),
+                          color: context.resources.color.colorGrey20,
                           borderRadius: BorderRadius.circular(32),
                           border: Border.all(
-                            color: context.resources.color.colorPrimary
-                                .withOpacity(0.3),
+                            color: context.resources.color.colorGrey20,
                             width: 1,
                           ),
                         ),
@@ -246,7 +210,7 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
                           text: service.title ?? '',
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          textColor: context.resources.color.colorBlack,
+                          textColor: context.resources.color.colorGrey8,
                           maxLines: 1,
                         ),
                       ),
@@ -260,12 +224,10 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: context.resources.color.colorPrimary
-                              .withOpacity(0.1),
+                          color: context.resources.color.colorGrey20,
                           borderRadius: BorderRadius.circular(32),
                           border: Border.all(
-                            color: context.resources.color.colorPrimary
-                                .withOpacity(0.3),
+                            color: context.resources.color.colorGrey20,
                             width: 1,
                           ),
                         ),
@@ -273,7 +235,7 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
                           text: package.title ?? '',
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          textColor: context.resources.color.colorBlack,
+                          textColor: context.resources.color.colorGrey8,
                           maxLines: 1,
                         ),
                       ),

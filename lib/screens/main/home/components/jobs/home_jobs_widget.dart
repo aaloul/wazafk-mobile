@@ -55,7 +55,10 @@ class HomeJobsWidget extends StatelessWidget {
               separatorBuilder: (context, index) => SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final job = controller.jobs[index];
-                return HomeJobItem(job: job);
+                return HomeJobItem(
+                  job: job,
+                  onFavoriteToggle: controller.toggleJobFavorite,
+                );
               },
             );
           }),

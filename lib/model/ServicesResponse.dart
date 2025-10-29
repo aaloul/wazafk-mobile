@@ -66,6 +66,7 @@ class Service {
   String? parentCategoryName;
   String? categoryName;
   String? title;
+  String? rating;
   String? image;
   String? description;
   String? unitPrice;
@@ -93,6 +94,7 @@ class Service {
     this.parentCategoryName,
     this.categoryName,
     this.title,
+    this.rating,
     this.image,
     this.description,
     this.unitPrice,
@@ -119,6 +121,7 @@ class Service {
     parentCategoryName: json["parent_category_name"],
     categoryName: json["category_name"],
     title: json["title"],
+    rating: json["rating"],
     image: json["image"],
     description: json["description"],
     unitPrice: json["unit_price"],
@@ -155,6 +158,7 @@ class Service {
     "parent_category_name": parentCategoryName,
     "category_name": categoryName,
     "title": title,
+    "rating": rating,
     "image": image,
     "description": description,
     "unit_price": unitPrice,

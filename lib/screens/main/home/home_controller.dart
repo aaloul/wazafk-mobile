@@ -5,11 +5,20 @@ import 'package:wazafak_app/model/EmployerHomeResponse.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
+import 'package:wazafak_app/model/PackagesResponse.dart';
+import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/networking/services/wallet/get_wallet_service.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
+import 'package:wazafak_app/repository/favorite/add_favorite_job_repository.dart';
+import 'package:wazafak_app/repository/favorite/add_favorite_package_repository.dart';
+import 'package:wazafak_app/repository/favorite/add_favorite_service_repository.dart';
+import 'package:wazafak_app/repository/favorite/favorites_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_package_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_service_repository.dart';
 import 'package:wazafak_app/repository/home/employer_home_repository.dart';
 import 'package:wazafak_app/repository/home/freelancer_home_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
@@ -26,6 +35,13 @@ class HomeController extends GetxController {
   final _profileRepository = ProfileRepository();
   final _engagementsListRepository = EngagementsListRepository();
   final _employerHomeRepository = EmployerHomeRepository();
+  final _addFavoriteJobRepository = AddFavoriteJobRepository();
+  final _removeFavoriteJobRepository = RemoveFavoriteJobRepository();
+  final _favoriteMembersRepository = FavoriteMembersRepository();
+  final _addFavoriteServiceRepository = AddFavoriteServiceRepository();
+  final _removeFavoriteServiceRepository = RemoveFavoriteServiceRepository();
+  final _addFavoritePackageRepository = AddFavoritePackageRepository();
+  final _removeFavoritePackageRepository = RemoveFavoritePackageRepository();
 
   var isLoadingCategories = false.obs;
   var isLoadingJobCategories = false.obs;
@@ -42,7 +58,7 @@ class HomeController extends GetxController {
   var skills = <Skill>[].obs;
   var addresses = <Address>[].obs;
   var engagements = <Engagement>[].obs;
-  var freelancers = <HomeFreelancer>[].obs;
+  var employerData = <EmployerHomeData>[].obs;
   var walletHashcode = ''.obs;
   Rx<User?> profileData = Rx<User?>(null);
   var totalEarnings = ''.obs;
@@ -325,21 +341,337 @@ class HomeController extends GetxController {
       final response = await _employerHomeRepository.getEmployerHome();
 
       if (response.success == true && response.data != null) {
-        freelancers.value = response.data!;
+        // Filter data by entity type
+        employerData.value = response.data ?? [];
+
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load freelancers',
+          response.message ?? 'Failed to load employer home data',
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading freelancers: $e',
+        'Error loading employer home data: $e',
         SnackBarStatus.ERROR,
       );
-      print('Error loading freelancers: $e');
+      print('Error loading employer home data: $e');
     } finally {
       isLoadingEmployerHome.value = false;
+    }
+  }
+
+  Future<bool> toggleJobFavorite(Job job) async {
+    if (job.hashcode == null) {
+      constants.showSnackBar(
+        'Job information not available',
+        SnackBarStatus.ERROR,
+      );
+      return false;
+    }
+
+    try {
+      final isFavorite = job.isFavorite ?? false;
+
+      if (isFavorite) {
+        // Remove from favorites
+        final response = await _removeFavoriteJobRepository.removeFavoriteJob(
+          job.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the job's favorite status in the jobs list
+          final index = jobs.indexWhere((j) => j.hashcode == job.hashcode);
+          if (index != -1) {
+            jobs[index].isFavorite = false;
+            jobs.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            'Removed from favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to remove from favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      } else {
+        // Add to favorites
+        final response = await _addFavoriteJobRepository.addFavoriteJob(
+          job.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the job's favorite status in the jobs list
+          final index = jobs.indexWhere((j) => j.hashcode == job.hashcode);
+          if (index != -1) {
+            jobs[index].isFavorite = true;
+            jobs.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            'Added to favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to add to favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error updating favorites: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error toggling favorite: $e');
+      return false;
+    }
+  }
+
+  Future<bool> toggleMemberFavorite(User member) async {
+    if (member.hashcode == null) {
+      constants.showSnackBar(
+        'Member information not available',
+        SnackBarStatus.ERROR,
+      );
+      return false;
+    }
+
+    try {
+      final isFavorite = member.isFavorite == 1;
+
+      if (isFavorite) {
+        // Remove from favorites
+        final response = await _favoriteMembersRepository.removeFavoriteMember(
+          member.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the member's favorite status in the employerData list
+          final index = employerData.indexWhere(
+                (data) => data.member?.hashcode == member.hashcode,
+          );
+          if (index != -1 && employerData[index].member != null) {
+            employerData[index].member!.isFavorite = 0;
+            employerData.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            response.message ?? 'Removed from favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to remove from favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      } else {
+        // Add to favorites
+        final response = await _favoriteMembersRepository.addFavoriteMember(
+          member.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the member's favorite status in the employerData list
+          final index = employerData.indexWhere(
+                (data) => data.member?.hashcode == member.hashcode,
+          );
+          if (index != -1 && employerData[index].member != null) {
+            employerData[index].member!.isFavorite = 1;
+            employerData.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            response.message ?? 'Added to favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to add to favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error updating favorites: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error toggling member favorite: $e');
+      return false;
+    }
+  }
+
+  Future<bool> toggleServiceFavorite(Service service) async {
+    if (service.hashcode == null) {
+      constants.showSnackBar(
+        'Service information not available',
+        SnackBarStatus.ERROR,
+      );
+      return false;
+    }
+
+    try {
+      final isFavorite = service.isFavorite ?? false;
+
+      if (isFavorite) {
+        // Remove from favorites
+        final response = await _removeFavoriteServiceRepository
+            .removeFavoriteService(
+          service.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the service's favorite status in the employerData list
+          final index = employerData.indexWhere(
+                (data) => data.service?.hashcode == service.hashcode,
+          );
+          if (index != -1 && employerData[index].service != null) {
+            employerData[index].service!.isFavorite = false;
+            employerData.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            response.message ?? 'Removed from favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to remove from favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      } else {
+        // Add to favorites
+        final response = await _addFavoriteServiceRepository.addFavoriteService(
+          service.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the service's favorite status in the employerData list
+          final index = employerData.indexWhere(
+                (data) => data.service?.hashcode == service.hashcode,
+          );
+          if (index != -1 && employerData[index].service != null) {
+            employerData[index].service!.isFavorite = true;
+            employerData.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            response.message ?? 'Added to favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to add to favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error updating favorites: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error toggling service favorite: $e');
+      return false;
+    }
+  }
+
+  Future<bool> togglePackageFavorite(Package package) async {
+    if (package.hashcode == null) {
+      constants.showSnackBar(
+        'Package information not available',
+        SnackBarStatus.ERROR,
+      );
+      return false;
+    }
+
+    try {
+      final isFavorite = package.isFavorite ?? false;
+
+      if (isFavorite) {
+        // Remove from favorites
+        final response = await _removeFavoritePackageRepository
+            .removeFavoritePackage(
+          package.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the package's favorite status in the employerData list
+          final index = employerData.indexWhere(
+                (data) => data.package?.hashcode == package.hashcode,
+          );
+          if (index != -1 && employerData[index].package != null) {
+            employerData[index].package!.isFavorite = false;
+            employerData.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            response.message ?? 'Removed from favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to remove from favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      } else {
+        // Add to favorites
+        final response = await _addFavoritePackageRepository.addFavoritePackage(
+          package.hashcode!,
+        );
+
+        if (response.success == true) {
+          // Update the package's favorite status in the employerData list
+          final index = employerData.indexWhere(
+                (data) => data.package?.hashcode == package.hashcode,
+          );
+          if (index != -1 && employerData[index].package != null) {
+            employerData[index].package!.isFavorite = true;
+            employerData.refresh(); // Notify listeners
+          }
+
+          constants.showSnackBar(
+            response.message ?? 'Added to favorites',
+            SnackBarStatus.SUCCESS,
+          );
+          return true;
+        } else {
+          constants.showSnackBar(
+            response.message ?? 'Failed to add to favorites',
+            SnackBarStatus.ERROR,
+          );
+          return false;
+        }
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error updating favorites: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error toggling package favorite: $e');
+      return false;
     }
   }
 }

@@ -19,6 +19,7 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
+  bool? _previousMode;
 
   List<Widget> _getScreens(bool isFreelancerMode) {
     if (isFreelancerMode) {
@@ -36,10 +37,29 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     }
   }
 
-  vvoid _onItemTapped(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _handleModeChange(bool isFreelancerMode) {
+    if (_previousMode != null && _previousMode != isFreelancerMode) {
+      // Mode has changed
+      if (isFreelancerMode && _selectedIndex == 3) {
+        // Switching from employer to freelancer and user was on Activity tab
+        // Reset to Home since Activity tab doesn't exist in freelancer mode
+        setState(() {
+          _selectedIndex = 0;
+        });
+      } else if (_selectedIndex >= (isFreelancerMode ? 4 : 5)) {
+        // Index is out of bounds for the new mode
+        setState(() {
+          _selectedIndex = 0;
+        });
+      }
+    }
+    _previousMode = isFreelancerMode;
   }
 
   @override
@@ -55,30 +75,59 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ? Get.find<HomeController>()
         : null;
 
-    return Obx(() {
-      final isFreelancerMode = homeController?.isFreelancerMode.value ?? true;
-      final screens = _getScreens(isFreelancerMode);
+    // If controller exists, use Obx to observe changes
+    if (homeController != null) {
+      return Obx(() {
+        final isFreelancerMode = homeController.isFreelancerMode.value;
 
-      // Ensure selected index is valid
-      if (_selectedIndex >= screens.length) {
-        _selectedIndex = 0;
-      }
+        // Handle mode changes and adjust selected index if needed
+        _handleModeChange(isFreelancerMode);
 
-      return Scaffold(
-        body: screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: context.resources.color.background,
-          selectedItemColor: context.resources.color.colorPrimary,
-          unselectedItemColor: context.resources.color.colorGrey,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
-          items: _buildNavigationItems(context, isFreelancerMode),
-        ),
-      );
-    });
+        final screens = _getScreens(isFreelancerMode);
+
+        // Safety check: ensure selected index is within bounds
+        final safeIndex = _selectedIndex.clamp(0, screens.length - 1);
+
+        return Scaffold(
+          body: screens[safeIndex],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: safeIndex,
+            onTap: _onItemTapped,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: context.resources.color.background,
+            selectedItemColor: context.resources.color.colorPrimary,
+            unselectedItemColor: context.resources.color.colorGrey,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            items: _buildNavigationItems(context, isFreelancerMode),
+          ),
+        );
+      });
+    }
+
+    // Default view when controller is not available yet (freelancer mode by default)
+    final isFreelancerMode = true;
+    _handleModeChange(isFreelancerMode);
+
+    final screens = _getScreens(isFreelancerMode);
+
+    // Safety check: ensure selected index is within bounds
+    final safeIndex = _selectedIndex.clamp(0, screens.length - 1);
+
+    return Scaffold(
+      body: screens[safeIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: safeIndex,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: context.resources.color.background,
+        selectedItemColor: context.resources.color.colorPrimary,
+        unselectedItemColor: context.resources.color.colorGrey,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
+        items: _buildNavigationItems(context, isFreelancerMode),
+      ),
+    );
   }
 
   List<BottomNavigationBarItem> _buildNavigationItems(BuildContext context,

@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:wazafak_app/components/primary_text.dart';
+import 'package:get/get.dart';
+import 'package:focus_detector_v2/focus_detector_v2.dart';
+import 'package:wazafak_app/components/top_header.dart';
+import 'package:wazafak_app/components/tabs_widget.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/screens/main/projects/components/projects/project_item.dart';
 
 class ActivityScreen extends StatelessWidget {
-  const ActivityScreen({super.key});
+  ActivityScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.resources.color.background,
-      body: Center(
-        child: PrimaryText(
-          text: 'Activity Screen',
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          textColor: context.resources.color.colorBlackMain,
+    return FocusDetector(
+      onFocusGained: () {},
+      child: Scaffold(
+        backgroundColor: context.resources.color.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              TopHeader(
+                hasBack: false,
+                title: 'Activity',
+              ),
+
+
+            ],
+          ),
         ),
       ),
     );
   }
+
 }

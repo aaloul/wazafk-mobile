@@ -62,6 +62,7 @@ class Package {
   String? memberFirstName;
   String? memberLastName;
   String? title;
+  dynamic rating;
   String? image;
   String? description;
   String? unitPrice;
@@ -83,6 +84,7 @@ class Package {
     this.memberFirstName,
     this.memberLastName,
     this.title,
+    this.rating,
     this.image,
     this.description,
     this.unitPrice,
@@ -103,6 +105,7 @@ class Package {
     memberFirstName: json["member_first_name"],
     memberLastName: json["member_last_name"],
     title: json["title"],
+    rating: json["rating"],
     image: json["image"],
     description: json["description"],
     unitPrice: json["unit_price"],
@@ -132,6 +135,7 @@ class Package {
     "member_last_name": memberLastName,
     "title": title,
     "image": image,
+    "rating": rating,
     "description": description,
     "unit_price": unitPrice,
     "total_price": totalPrice,

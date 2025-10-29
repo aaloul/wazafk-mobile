@@ -20,10 +20,17 @@ class ProjectItem extends StatelessWidget {
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
-        color: context.resources.color.colorWhite,
+        color:
+
+        engagement.type.toString() == 'SB'
+            ? context.resources.color.colorBlue4.withOpacity(.5)
+            : engagement.type.toString() == 'PB'
+            ? context.resources.color.colorGreen5.withOpacity(.5)
+            : context.resources.color.colorWhite
+        ,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: context.resources.color.colorGrey15,
+          color: context.resources.color.colorGrey18,
           width: 2,
         ),
       ),
@@ -97,13 +104,29 @@ class ProjectItem extends StatelessWidget {
 
               SizedBox(width: 6),
 
-              PrimaryText(
-                text:
-                    "${engagement.clientFirstName} ${engagement.clientLastName}",
-                fontWeight: FontWeight.w500,
-                fontSize: 12,
-                textColor: context.resources.color.colorBlack,
-              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PrimaryText(
+                      text:
+                      "${engagement.clientFirstName} ${engagement
+                          .clientLastName}",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                      textColor: context.resources.color.colorBlack,
+                    ),
+                    PrimaryText(
+                      text:
+                      "member title",
+                      fontWeight: FontWeight.w900,
+                      fontSize: 11,
+                      textColor: context.resources.color.colorBlack,
+                    ),
+                  ],
+                ),
+              )
+
             ],
           ),
 
@@ -119,7 +142,7 @@ class ProjectItem extends StatelessWidget {
                       text: '\$${engagement.totalPrice.toString()}',
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      textColor: context.resources.color.colorGreen3,
+                      textColor: context.resources.color.colorGreen6,
                     ),
                     SizedBox(height: 4),
 
@@ -140,7 +163,7 @@ class ProjectItem extends StatelessWidget {
                     text: '\$${engagement.remaining ?? '-'}',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    textColor: context.resources.color.colorPrimary,
+                    textColor: context.resources.color.colorBlue3,
                   ),
 
                   SizedBox(height: 4),

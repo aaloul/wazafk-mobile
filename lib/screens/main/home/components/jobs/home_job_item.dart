@@ -4,91 +4,38 @@ import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
-import 'package:wazafak_app/repository/favorite/add_favorite_job_repository.dart';
-import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
-import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../../model/JobsResponse.dart';
 
 class HomeJobItem extends StatefulWidget {
-  const HomeJobItem({super.key, required this.job});
+  const HomeJobItem({
+    super.key,
+    required this.job,
+    this.onFavoriteToggle,
+  });
 
   final Job job;
+  final Future<bool> Function(Job job)? onFavoriteToggle;
 
   @override
   State<HomeJobItem> createState() => _HomeJobItemState();
 }
 
 class _HomeJobItemState extends State<HomeJobItem> {
-  final AddFavoriteJobRepository _addFavoriteJobRepository = AddFavoriteJobRepository();
-  final RemoveFavoriteJobRepository _removeFavoriteJobRepository = RemoveFavoriteJobRepository();
   bool isTogglingFavorite = false;
 
   Future<void> toggleFavorite() async {
-    if (widget.job.hashcode == null) {
-      constants.showSnackBar(
-        'Job information not available',
-        SnackBarStatus.ERROR,
-      );
-      return;
-    }
+    if (widget.onFavoriteToggle == null) return;
 
     setState(() {
       isTogglingFavorite = true;
     });
 
     try {
-      final isFavorite = widget.job.isFavorite ?? false;
-
-      if (isFavorite) {
-        // Remove from favorites
-        final response = await _removeFavoriteJobRepository.removeFavoriteJob(
-          widget.job.hashcode!,
-        );
-
-        if (response.success == true) {
-          setState(() {
-            widget.job.isFavorite = false;
-          });
-          constants.showSnackBar(
-            'Removed from favorites',
-            SnackBarStatus.SUCCESS,
-          );
-        } else {
-          constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
-            SnackBarStatus.ERROR,
-          );
-        }
-      } else {
-        // Add to favorites
-        final response = await _addFavoriteJobRepository.addFavoriteJob(
-          widget.job.hashcode!,
-        );
-
-        if (response.success == true) {
-          setState(() {
-            widget.job.isFavorite = true;
-          });
-          constants.showSnackBar(
-            'Added to favorites',
-            SnackBarStatus.SUCCESS,
-          );
-        } else {
-          constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
-            SnackBarStatus.ERROR,
-          );
-        }
-      }
-    } catch (e) {
-      constants.showSnackBar(
-        'Error updating favorites: $e',
-        SnackBarStatus.ERROR,
-      );
-      print('Error toggling favorite: $e');
+      await widget.onFavoriteToggle!(widget.job);
     } finally {
       setState(() {
         isTogglingFavorite = false;
@@ -167,6 +114,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
                   ],
                 ),
               ),
+              if(widget.job.memberHashcode != Prefs.getId)
               GestureDetector(
                 onTap: isTogglingFavorite ? null : () => toggleFavorite(),
                 child: isTogglingFavorite
