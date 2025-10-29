@@ -23,7 +23,7 @@ class FavoritesResponse {
 
   FavoritesResponse({this.success, this.message, this.data});
 
-  ffactory FavoritesResponse.fromJson(Map<String, dynamic> json) =>
+  factory FavoritesResponse.fromJson(Map<String, dynamic> json) =>
       FavoritesResponse(
         success: json["success"],
         message: json["message"],
