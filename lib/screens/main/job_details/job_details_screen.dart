@@ -49,7 +49,7 @@ class JobDetailsScreen extends StatelessWidget {
                       Center(
                         child: PrimaryText(
                           text: job.title ?? '',
-                          fontSize: 16,
+                          fontSize: 20,
                           fontWeight: FontWeight.w900,
                           textColor: context.resources.color.colorGrey,
                         ),

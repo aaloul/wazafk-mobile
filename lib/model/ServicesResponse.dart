@@ -81,6 +81,9 @@ class Service {
   List<Area>? areas;
   List<Availability>? availability;
   bool? isFavorite;
+  String? memberImage;
+  String? memberRating;
+  String? memberTitle;
 
   var checked = false.obs;
 
@@ -109,6 +112,9 @@ class Service {
     this.areas,
     this.availability,
     this.isFavorite,
+    this.memberImage,
+    this.memberRating,
+    this.memberTitle,
   });
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
@@ -146,6 +152,9 @@ class Service {
             json["availability"]!.map((x) => Availability.fromJson(x)),
           ),
     isFavorite: json["is_favorite"],
+    memberImage: json["member_image"],
+    memberRating: json["member_rating"],
+    memberTitle: json["member_title"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -179,6 +188,9 @@ class Service {
         ? []
         : List<dynamic>.from(availability!.map((x) => x.toJson())),
     "is_favorite": isFavorite,
+    "member_image": memberImage,
+    "member_title": memberTitle,
+    "member_rating": memberRating,
   };
 }
 

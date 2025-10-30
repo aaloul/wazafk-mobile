@@ -67,6 +67,9 @@ class Package {
   String? description;
   String? unitPrice;
   String? totalPrice;
+  String? memberImage;
+  String? memberRating;
+  String? memberTitle;
   int? featured;
   int? availableDuration;
   int? availableBuffer;
@@ -89,6 +92,9 @@ class Package {
     this.description,
     this.unitPrice,
     this.totalPrice,
+    this.memberImage,
+    this.memberRating,
+    this.memberTitle,
     this.featured,
     this.availableDuration,
     this.availableBuffer,
@@ -107,6 +113,9 @@ class Package {
     title: json["title"],
     rating: json["rating"],
     image: json["image"],
+    memberImage: json["member_image"],
+    memberRating: json["member_rating"],
+    memberTitle: json["member_title"],
     description: json["description"],
     unitPrice: json["unit_price"],
     totalPrice: json["total_price"],
@@ -136,6 +145,9 @@ class Package {
     "title": title,
     "image": image,
     "rating": rating,
+    "member_image": memberImage,
+    "member_title": memberTitle,
+    "member_rating": memberRating,
     "description": description,
     "unit_price": unitPrice,
     "total_price": totalPrice,

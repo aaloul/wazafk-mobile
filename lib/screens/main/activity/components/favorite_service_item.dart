@@ -132,7 +132,7 @@ class _FavoriteServiceItemState extends State<FavoriteServiceItem> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: PrimaryNetworkImage(
-                      url: widget.service.image ?? '',
+                      url: widget.service.memberImage ?? '',
                       width: 32,
                       height: 32,
                     ),
@@ -157,7 +157,7 @@ class _FavoriteServiceItemState extends State<FavoriteServiceItem> {
                           SizedBox(width: 2),
                           Icon(Icons.star, color: Colors.amber, size: 13),
                           PrimaryText(
-                            text: widget.service.rating ?? 'N/A',
+                            text: widget.service.memberRating ?? 'N/A',
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             textColor: context.resources.color.colorBlack,

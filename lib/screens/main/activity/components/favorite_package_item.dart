@@ -133,7 +133,7 @@ class _FavoritePackageItemState extends State<FavoritePackageItem> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: PrimaryNetworkImage(
-                      url: widget.package.image ?? '',
+                      url: widget.package.memberImage ?? '',
                       width: 32,
                       height: 32,
                     ),
@@ -158,7 +158,8 @@ class _FavoritePackageItemState extends State<FavoritePackageItem> {
                           SizedBox(width: 2),
                           Icon(Icons.star, color: Colors.amber, size: 13),
                           PrimaryText(
-                            text: widget.package.rating.toString() ?? 'N/A',
+                            text:
+                                widget.package.memberRating.toString() ?? 'N/A',
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             textColor: context.resources.color.colorBlack,
