@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
-import 'package:wazafak_app/components/top_header.dart';
+import 'package:get/get.dart';
 import 'package:wazafak_app/components/tabs_widget.dart';
+import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/activity/components/favorite_freelancer_item.dart';
-import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/screens/main/projects/components/projects/project_item.dart';
+import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+
 import 'activities_controller.dart';
 import 'components/favorite_package_item.dart';
 import 'components/favorite_service_item.dart';
@@ -146,19 +147,19 @@ class ActivityScreen extends StatelessWidget {
           if (favorite.entityType == 'MEMBER' && favorite.member != null) {
             return FavoriteFreelancerItem(
               freelancer: favorite.member!,
-              // No callback for favorites in activity screen
+              onFavoriteToggle: controller.toggleMemberFavorite,
             );
           } else
           if (favorite.entityType == 'SERVICE' && favorite.service != null) {
             return FavoriteServiceItem(
               service: favorite.service!,
-              // No callback for favorites in activity screen
+              onFavoriteToggle: controller.toggleServiceFavorite,
             );
           } else
           if (favorite.entityType == 'PACKAGE' && favorite.package != null) {
             return FavoritePackageItem(
               package: favorite.package!,
-              // No callback for favorites in activity screen
+              onFavoriteToggle: controller.togglePackageFavorite,
             );
           }
 
