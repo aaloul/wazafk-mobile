@@ -53,4 +53,5 @@ class RouteConstant {
       '/freelancer_member_profile_screen';
   static const String applyJobScreen = '/apply_job_screen';
   static const String employerRateMemberScreen = '/rate_member_screen';
+  static const String bookServiceScreen = '/book_service_screen';
 }

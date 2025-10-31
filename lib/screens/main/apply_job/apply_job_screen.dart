@@ -86,7 +86,7 @@ class ApplyJobScreen extends StatelessWidget {
                                             ),
                                             SizedBox(width: 2),
                                             PrimaryText(
-                                              text: job.rating.toString(),
+                                              text: job.memberRating.toString(),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                               textColor: context

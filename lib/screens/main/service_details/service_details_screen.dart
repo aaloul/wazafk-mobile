@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/service_details/components/service_details_header.dart';
 import 'package:wazafak_app/screens/main/service_details/service_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -207,6 +209,21 @@ class ServiceDetailsScreen extends StatelessWidget {
                               SizedBox(height: 16),
                             ],
                           ],
+                        ),
+                      ),
+
+                      SizedBox(height: 24),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: PrimaryButton(
+                          title: 'Book Now',
+                          onPressed: () {
+                            Get.toNamed(
+                              RouteConstant.bookServiceScreen,
+                              arguments: service,
+                            );
+                          },
                         ),
                       ),
 

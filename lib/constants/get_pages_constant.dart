@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/apply_job/apply_job_screen.dart';
+import 'package:wazafak_app/screens/main/book_service/book_service_screen.dart';
 import 'package:wazafak_app/screens/main/job_applicants/job_applicants_screen.dart';
 import 'package:wazafak_app/screens/main/profile/jobs/add_job/add_job_screen.dart';
 import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
@@ -281,6 +282,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.freelancerMemberProfileScreen,
     page: () => FreelancerMemberProfileScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.bookServiceScreen,
+    page: () => BookServiceScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];
