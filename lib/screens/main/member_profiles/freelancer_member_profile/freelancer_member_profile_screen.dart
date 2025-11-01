@@ -79,6 +79,7 @@ class FreelancerMemberProfileScreen extends StatelessWidget {
 
                       MemberInfoHeader(
                         memberProfile: controller.memberProfile.value!,
+                        isEmployer: false,
                       ),
 
                       Container(
@@ -120,7 +121,8 @@ class FreelancerMemberProfileScreen extends StatelessWidget {
                       ),
 
                       MemberJobsCarousel(
-                        memberProfile: controller.memberProfile.value!,
+                        engagements: controller.engagements,
+                        isLoading: controller.isLoadingEngagements.value,
                       ),
 
                       SizedBox(height: 24),

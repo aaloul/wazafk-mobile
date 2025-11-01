@@ -118,7 +118,7 @@ class ProjectItem extends StatelessWidget {
                     ),
                     PrimaryText(
                       text:
-                      "member title",
+                      engagement.clientTitle ?? 'N/A',
                       fontWeight: FontWeight.w900,
                       fontSize: 11,
                       textColor: context.resources.color.colorBlack,

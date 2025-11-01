@@ -81,8 +81,6 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(milliseconds: 2000), () async {
       if (Prefs.getLoggedIn) {
         Get.offAllNamed(RouteConstant.mainNavigationScreen);
-      } else {
-        Get.offAllNamed(RouteConstant.phoneNumberScreen);
       }
     });
   }

@@ -1,17 +1,24 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/model/MemberProfileResponse.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
+import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../constants/route_constant.dart';
+
 class FreelancerMemberProfileController extends GetxController {
   final ProfileRepository _profileRepository = ProfileRepository();
+  final EngagementsListRepository _engagementsListRepository = EngagementsListRepository();
 
   var user = Rxn<User>();
   var memberProfile = Rxn<MemberProfile>();
+  var engagements = <Engagement>[].obs;
   var isLoading = false.obs;
+  var isLoadingEngagements = false.obs;
 
   @override
   void onInit() {
@@ -51,6 +58,9 @@ class FreelancerMemberProfileController extends GetxController {
         if (response.data!.member != null) {
           user.value = response.data!.member;
         }
+
+        // Fetch engagements for this member
+        fetchMemberEngagements(memberHashcode);
       } else {
         if (response.message != null) {
           constants.showSnackBar(response.message!, SnackBarStatus.ERROR);
@@ -67,23 +77,38 @@ class FreelancerMemberProfileController extends GetxController {
     }
   }
 
+  Future<void> fetchMemberEngagements(String memberHashcode) async {
+    try {
+      isLoadingEngagements.value = true;
+
+      final response = await _engagementsListRepository.getEngagements(
+        filters: {
+          'freelancer': memberHashcode,
+          'status': '1',
+        },
+      );
+
+      if (response.success == true && response.data?.list != null) {
+        engagements.value = response.data!.list!;
+      }
+    } catch (e) {
+      print('Error fetching member engagements: $e');
+    } finally {
+      isLoadingEngagements.value = false;
+    }
+  }
+
   void bookService(Service service) {
-    // TODO: Implement booking functionality
-    // This could navigate to a booking screen or open a booking dialog
-    constants.showSnackBar(
-      'Booking functionality for "${service.title}" will be implemented soon',
-      SnackBarStatus.INFO,
+    Get.toNamed(
+      RouteConstant.bookServiceScreen,
+      arguments: service,
     );
-    print('Book service: ${service.title} (${service.hashcode})');
   }
 
   void bookPackage(Package package) {
-    // TODO: Implement booking functionality
-    // This could navigate to a booking screen or open a booking dialog
-    constants.showSnackBar(
-      'Booking functionality for "${package.title}" will be implemented soon',
-      SnackBarStatus.INFO,
+    Get.toNamed(
+      RouteConstant.bookServiceScreen,
+      arguments: package,
     );
-    print('Book package: ${package.title} (${package.hashcode})');
   }
 }

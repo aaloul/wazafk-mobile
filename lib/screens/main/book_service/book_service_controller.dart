@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
+import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/repository/engagement/submit_engagement_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
@@ -13,6 +14,8 @@ class BookServiceController extends GetxController {
   final _submitEngagementRepository = SubmitEngagementRepository();
 
   var service = Rx<Service?>(null);
+  var package = Rx<Package?>(null);
+  var isPackage = false.obs;
   var rangeStart = Rx<DateTime?>(null);
   var rangeEnd = Rx<DateTime?>(null);
   var focusedDay = DateTime.now().obs;
@@ -27,9 +30,15 @@ class BookServiceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Get service from arguments
-    if (Get.arguments != null && Get.arguments is Service) {
-      service.value = Get.arguments as Service;
+    // Get service or package from arguments
+    if (Get.arguments != null) {
+      if (Get.arguments is Service) {
+        service.value = Get.arguments as Service;
+        isPackage.value = false;
+      } else if (Get.arguments is Package) {
+        package.value = Get.arguments as Package;
+        isPackage.value = true;
+      }
     }
   }
 
@@ -100,9 +109,9 @@ class BookServiceController extends GetxController {
   }
 
   Future<void> bookService() async {
-    if (service.value == null) {
+    if (service.value == null && package.value == null) {
       constants.showSnackBar(
-        'Service information not available',
+        'Service/Package information not available',
         SnackBarStatus.ERROR,
       );
       return;
@@ -144,12 +153,19 @@ class BookServiceController extends GetxController {
       }
 
       Map<String, dynamic> data = {
-        'type': 'SR', // SR = Service Request
-        'service': service.value!.hashcode!,
+        'type': isPackage.value ? 'PR' : 'SR',
+        // PR = Package Request, SR = Service Request
         'start_date': startDateStr,
         'service_type': selectedServiceType.value!,
         'message_to_client': notesController.text.trim(),
       };
+
+      // Add service or package hashcode
+      if (isPackage.value) {
+        data['package'] = package.value!.hashcode!;
+      } else {
+        data['service'] = service.value!.hashcode!;
+      }
 
       // Add end date if available
       if (endDateStr != null) {

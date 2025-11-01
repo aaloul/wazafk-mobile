@@ -5,15 +5,39 @@ import '../../../../components/primary_text.dart';
 import '../../../../model/MemberProfileResponse.dart';
 
 class MemberInfoHeader extends StatelessWidget {
-  const MemberInfoHeader({super.key, required this.memberProfile});
+  const MemberInfoHeader(
+      {super.key, required this.memberProfile, required this.isEmployer});
 
   final MemberProfile memberProfile;
+  final bool isEmployer;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        if(isEmployer)
+          Expanded(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PrimaryText(
+                  text: '${memberProfile.member?.nbHiredFreelancers ?? '0'}',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  textColor: context.resources.color.colorGrey,
+                ),
+                SizedBox(height: 2),
+                PrimaryText(
+                  text: 'Freelancer hired',
+                  fontSize: 13,
+                  textColor: context.resources.color.colorGrey,
+                ),
+              ],
+            ),
+          ),
+        if(!isEmployer)
         Expanded(
           flex: 3,
           child: Column(
@@ -68,6 +92,7 @@ class MemberInfoHeader extends StatelessWidget {
           height: 28,
           color: context.resources.color.colorGrey,
         ),
+        if(isEmployer)
 
         Expanded(
           flex: 3,
@@ -82,6 +107,29 @@ class MemberInfoHeader extends StatelessWidget {
                 textColor: context.resources.color.colorGrey,
               ),
               SizedBox(height: 2),
+              PrimaryText(
+                text: 'Jobs Posted',
+                fontSize: 13,
+                textColor: context.resources.color.colorGrey,
+              ),
+            ],
+          ),
+        ),
+
+        if(!isEmployer)
+          Expanded(
+            flex: 3,
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PrimaryText(
+                  text: '${memberProfile.member?.services?.length ?? '0'}',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  textColor: context.resources.color.colorGrey,
+                ),
+                SizedBox(height: 2),
               PrimaryText(
                 text: 'Services',
                 fontSize: 13,

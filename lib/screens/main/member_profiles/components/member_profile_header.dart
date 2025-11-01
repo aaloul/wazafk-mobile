@@ -128,10 +128,15 @@ class _MemberProfileHeaderState extends State<MemberProfileHeader> {
               children: [
                 RotatedBox(
                   quarterTurns: Utils().isRTL() ? 2 : 0,
-                  child: Image.asset(
-                    AppIcons.back,
-                    width: 30,
-                    color: context.resources.color.colorWhite,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      AppIcons.back,
+                      width: 30,
+                      color: context.resources.color.colorWhite,
+                    ),
                   ),
                 ),
                 Spacer(),

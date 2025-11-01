@@ -7,6 +7,7 @@ import 'package:wazafak_app/repository/app/banners_repository.dart';
 import 'package:wazafak_app/repository/app/privacy_repository.dart';
 import 'package:wazafak_app/repository/app/terms_repository.dart';
 
+import '../../../constants/route_constant.dart';
 import '../../../utils/Prefs.dart';
 import '../../../utils/utils.dart';
 
@@ -25,6 +26,10 @@ class SplashController extends GetxController {
       final response = await _bannersRepository.getBanners("S");
       if (response.success ?? false) {
         Prefs.setStartBanners(response.data ?? []);
+
+        if (!Prefs.getLoggedIn) {
+          Get.offAllNamed(RouteConstant.onboardingScreen);
+        }
       }
       isBannersLoading(false);
     } catch (e) {

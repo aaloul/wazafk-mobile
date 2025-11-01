@@ -69,9 +69,11 @@ class Engagement {
   String? type;
   String? clientHashcode;
   String? clientFirstName;
+  String? clientTitle;
   String? clientLastName;
   String? clientImage;
   String? freelancerHashcode;
+  String? freelancerTitle;
   String? freelancerFirstName;
   String? freelancerLastName;
   String? freelancerImage;
@@ -114,10 +116,12 @@ class Engagement {
     this.clientFirstName,
     this.clientLastName,
     this.clientImage,
+    this.clientTitle,
     this.freelancerHashcode,
     this.freelancerFirstName,
     this.freelancerLastName,
     this.freelancerImage,
+    this.freelancerTitle,
     this.job,
     this.package,
     this.services,
@@ -156,6 +160,8 @@ class Engagement {
     type: json["type"],
     clientHashcode: json["client_hashcode"],
     clientFirstName: json["client_first_name"],
+    clientTitle: json["client_title"],
+    freelancerTitle: json["freelancer_title"],
     clientLastName: json["client_last_name"],
     clientImage: json["client_image"],
     freelancerHashcode: json["freelancer_hashcode"],
@@ -203,6 +209,8 @@ class Engagement {
     "entity_type": entityType,
     "hashcode": hashcode,
     "type": type,
+    "client_title": clientTitle,
+    "freelancer_title": freelancerTitle,
     "client_hashcode": clientHashcode,
     "client_first_name": clientFirstName,
     "client_last_name": clientLastName,

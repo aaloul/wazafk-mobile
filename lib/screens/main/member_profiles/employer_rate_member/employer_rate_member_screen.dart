@@ -81,7 +81,8 @@ class EmployerRateMemberScreen extends StatelessWidget {
                           controller.isLoadingProfile.value
                               ? Container()
                               : MemberInfoHeader(
-                            memberProfile: controller.memberProfile.value!,),),
+                            memberProfile: controller.memberProfile.value!,
+                            isEmployer: true,),),
 
                           Container(
                             width: double.infinity,

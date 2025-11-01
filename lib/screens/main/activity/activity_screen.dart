@@ -30,7 +30,7 @@ class ActivityScreen extends StatelessWidget {
             children: [
               TopHeader(
                 hasBack: false,
-                title: 'Projects',
+                title: 'Activity',
 
               ),
 

@@ -74,6 +74,7 @@ class EmployerMemberProfileScreen extends StatelessWidget {
 
                       MemberInfoHeader(
                         memberProfile: controller.memberProfile.value!,
+                        isEmployer: true,
                       ),
 
                       Container(

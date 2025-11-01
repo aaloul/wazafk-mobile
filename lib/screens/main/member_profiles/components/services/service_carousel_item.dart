@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
@@ -19,8 +21,12 @@ class ServiceCarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(RouteConstant.serviceDetailsScreen, arguments: service);
+      },
+      child: Container(
+        width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 8),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -98,6 +104,7 @@ class ServiceCarouselItem extends StatelessWidget {
             ),
           ),
         ],
+        ),
       ),
     );
   }

@@ -105,6 +105,7 @@ class HomeController extends GetxController {
     } else {
       fetchEmployerHome();
     }
+    fetchEngagements();
   }
 
   void loadCategoriesFromPrefs() {
@@ -127,9 +128,7 @@ class HomeController extends GetxController {
     try {
       isLoadingCategories.value = true;
 
-      final response = await _categoriesRepository.getCategories(
-          type: 'S'
-      );
+      final response = await _categoriesRepository.getCategories(type: 'S');
 
       if (response.success == true && response.data?.list != null) {
         categories.value = response.data!.list!;
@@ -155,9 +154,7 @@ class HomeController extends GetxController {
     try {
       isLoadingJobCategories.value = true;
 
-      final response = await _categoriesRepository.getCategories(
-          type: 'J'
-      );
+      final response = await _categoriesRepository.getCategories(type: 'J');
 
       if (response.success == true && response.data?.list != null) {
         jobCategories.value = response.data!.list!;
@@ -240,7 +237,9 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-          'Error loading addresses: $e', SnackBarStatus.ERROR);
+        'Error loading addresses: $e',
+        SnackBarStatus.ERROR,
+      );
       print('Error loading addresses: $e');
     } finally {
       isLoadingAddresses.value = false;
@@ -273,7 +272,6 @@ class HomeController extends GetxController {
   Future<void> fetchProfile() async {
     try {
       isLoadingProfile.value = true;
-
 
       final response = await _profileRepository.getProfile();
 
@@ -313,7 +311,12 @@ class HomeController extends GetxController {
     try {
       isLoadingEngagements.value = true;
 
-      final response = await _engagementsListRepository.getEngagements();
+      final response = await _engagementsListRepository.getEngagements(
+        filters: {
+          if (Prefs.getUserMode == 'freelancer') 'freelancer': Prefs.getId,
+          if (Prefs.getUserMode == 'employer') 'client': Prefs.getId,
+        },
+      );
 
       if (response.success == true && response.data?.list != null) {
         engagements.value = response.data!.list!;
@@ -343,7 +346,6 @@ class HomeController extends GetxController {
       if (response.success == true && response.data != null) {
         // Filter data by entity type
         employerData.value = response.data ?? [];
-
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to load employer home data',
@@ -413,10 +415,7 @@ class HomeController extends GetxController {
             jobs.refresh(); // Notify listeners
           }
 
-          constants.showSnackBar(
-            'Added to favorites',
-            SnackBarStatus.SUCCESS,
-          );
+          constants.showSnackBar('Added to favorites', SnackBarStatus.SUCCESS);
           return true;
         } else {
           constants.showSnackBar(
@@ -457,7 +456,7 @@ class HomeController extends GetxController {
         if (response.success == true) {
           // Update the member's favorite status in the employerData list
           final index = employerData.indexWhere(
-                (data) => data.member?.hashcode == member.hashcode,
+            (data) => data.member?.hashcode == member.hashcode,
           );
           if (index != -1 && employerData[index].member != null) {
             employerData[index].member!.isFavorite = 0;
@@ -485,7 +484,7 @@ class HomeController extends GetxController {
         if (response.success == true) {
           // Update the member's favorite status in the employerData list
           final index = employerData.indexWhere(
-                (data) => data.member?.hashcode == member.hashcode,
+            (data) => data.member?.hashcode == member.hashcode,
           );
           if (index != -1 && employerData[index].member != null) {
             employerData[index].member!.isFavorite = 1;
@@ -530,14 +529,12 @@ class HomeController extends GetxController {
       if (isFavorite) {
         // Remove from favorites
         final response = await _removeFavoriteServiceRepository
-            .removeFavoriteService(
-          service.hashcode!,
-        );
+            .removeFavoriteService(service.hashcode!);
 
         if (response.success == true) {
           // Update the service's favorite status in the employerData list
           final index = employerData.indexWhere(
-                (data) => data.service?.hashcode == service.hashcode,
+            (data) => data.service?.hashcode == service.hashcode,
           );
           if (index != -1 && employerData[index].service != null) {
             employerData[index].service!.isFavorite = false;
@@ -565,7 +562,7 @@ class HomeController extends GetxController {
         if (response.success == true) {
           // Update the service's favorite status in the employerData list
           final index = employerData.indexWhere(
-                (data) => data.service?.hashcode == service.hashcode,
+            (data) => data.service?.hashcode == service.hashcode,
           );
           if (index != -1 && employerData[index].service != null) {
             employerData[index].service!.isFavorite = true;
@@ -610,14 +607,12 @@ class HomeController extends GetxController {
       if (isFavorite) {
         // Remove from favorites
         final response = await _removeFavoritePackageRepository
-            .removeFavoritePackage(
-          package.hashcode!,
-        );
+            .removeFavoritePackage(package.hashcode!);
 
         if (response.success == true) {
           // Update the package's favorite status in the employerData list
           final index = employerData.indexWhere(
-                (data) => data.package?.hashcode == package.hashcode,
+            (data) => data.package?.hashcode == package.hashcode,
           );
           if (index != -1 && employerData[index].package != null) {
             employerData[index].package!.isFavorite = false;
@@ -645,7 +640,7 @@ class HomeController extends GetxController {
         if (response.success == true) {
           // Update the package's favorite status in the employerData list
           final index = employerData.indexWhere(
-                (data) => data.package?.hashcode == package.hashcode,
+            (data) => data.package?.hashcode == package.hashcode,
           );
           if (index != -1 && employerData[index].package != null) {
             employerData[index].package!.isFavorite = true;

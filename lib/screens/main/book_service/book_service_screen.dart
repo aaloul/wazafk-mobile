@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
@@ -31,7 +30,7 @@ class BookServiceScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: 'Book Service'),
+              TopHeader(hasBack: true, title: 'Booking'),
               SizedBox(height: 16),
 
               Expanded(
@@ -41,15 +40,66 @@ class BookServiceScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Service Information Section
-                      Container(
+                      SizedBox(
                         width: double.infinity,
 
                         child: Obx(() {
-                          if (controller.service.value == null) {
+                          if (controller.service.value == null &&
+                              controller.package.value == null) {
                             return Center(child: CircularProgressIndicator());
                           }
 
-                          final service = controller.service.value!;
+                          // Get data from either service or package
+                          final title = controller.isPackage.value
+                              ? controller.package.value!.title
+                              : controller.service.value!.title;
+                          final unitPrice = controller.isPackage.value
+                              ? (controller.package.value!.totalPrice ??
+                                    controller.package.value!.unitPrice)
+                              : controller.service.value!.unitPrice;
+                          final memberFirstName = controller.isPackage.value
+                              ? controller.package.value!.memberFirstName
+                              : controller.service.value!.memberFirstName;
+                          final memberLastName = controller.isPackage.value
+                              ? controller.package.value!.memberLastName
+                              : controller.service.value!.memberLastName;
+                          final memberImage = controller.isPackage.value
+                              ? controller.package.value!.memberImage
+                              : controller.service.value!.memberImage;
+                          final memberRating = controller.isPackage.value
+                              ? controller.package.value!.memberRating
+                              : controller.service.value!.memberRating;
+                          final categoryName = controller.isPackage.value
+                              ? (controller.package.value!.services != null &&
+                                        controller
+                                            .package
+                                            .value!
+                                            .services!
+                                            .isNotEmpty
+                                    ? controller
+                                          .package
+                                          .value!
+                                          .services!
+                                          .first
+                                          .categoryName
+                                    : 'Package')
+                              : controller.service.value!.categoryName;
+                          final parentCategoryName = controller.isPackage.value
+                              ? (controller.package.value!.services != null &&
+                                        controller
+                                            .package
+                                            .value!
+                                            .services!
+                                            .isNotEmpty
+                                    ? controller
+                                          .package
+                                          .value!
+                                          .services!
+                                          .first
+                                          .parentCategoryName
+                                    : null)
+                              : controller.service.value!.parentCategoryName;
+
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -64,7 +114,7 @@ class BookServiceScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           PrimaryText(
-                                            text: service.title ?? '',
+                                            text: title ?? '',
                                             fontSize: 16,
                                             fontWeight: FontWeight.w900,
                                             textColor: context
@@ -75,11 +125,9 @@ class BookServiceScreen extends StatelessWidget {
                                           SizedBox(height: 2),
                                           Row(
                                             children: [
-                                              if (service.parentCategoryName !=
-                                                  null)
+                                              if (parentCategoryName != null)
                                                 PrimaryText(
-                                                  text:
-                                                      "${service.parentCategoryName}/",
+                                                  text: "$parentCategoryName/",
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w400,
                                                   textColor: context
@@ -88,8 +136,7 @@ class BookServiceScreen extends StatelessWidget {
                                                       .colorGrey,
                                                 ),
                                               PrimaryText(
-                                                text:
-                                                    service.categoryName ?? '',
+                                                text: categoryName ?? '',
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                                 textColor: context
@@ -108,7 +155,7 @@ class BookServiceScreen extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         PrimaryText(
-                                          text: '${service.unitPrice}\$' ?? '',
+                                          text: '${unitPrice}\$',
                                           fontSize: 16,
                                           fontWeight: FontWeight.w900,
                                           textColor:
@@ -141,7 +188,7 @@ class BookServiceScreen extends StatelessWidget {
                                         99999,
                                       ),
                                       child: PrimaryNetworkImage(
-                                        url: service.memberImage.toString(),
+                                        url: memberImage.toString(),
                                         width: 35,
                                         height: 35,
                                       ),
@@ -156,7 +203,7 @@ class BookServiceScreen extends StatelessWidget {
                                         children: [
                                           PrimaryText(
                                             text:
-                                                "${service.memberFirstName} ${service.memberLastName}",
+                                                "$memberFirstName $memberLastName",
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             textColor: context
@@ -175,8 +222,7 @@ class BookServiceScreen extends StatelessWidget {
                                               ),
                                               SizedBox(width: 2),
                                               PrimaryText(
-                                                text: service.memberRating
-                                                    .toString(),
+                                                text: memberRating.toString(),
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w600,
                                                 textColor: context

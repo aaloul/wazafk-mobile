@@ -57,7 +57,7 @@ class TabsWidget extends StatelessWidget {
                                     ? context.resources.color.colorWhite
                                     : context.resources.color.colorGrey,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ),

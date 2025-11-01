@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/model/JobsResponse.dart';
+import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../utils/res/AppIcons.dart';
 
 class JobCarouselItem extends StatelessWidget {
-  const JobCarouselItem({super.key, required this.job, this.isFocused = false});
+  const JobCarouselItem(
+      {super.key, required this.engagement, this.isFocused = false});
 
-  final Job job;
+  final Engagement engagement;
   final bool isFocused;
 
   String _getCategoryText() {
-    if (job.parentCategoryName != null) {
-      return '${job.parentCategoryName}/${job.categoryName}';
+    final job = engagement.job;
+    if (job?.parentCategoryName != null) {
+      return '${job!.parentCategoryName}/${job.categoryName}';
     }
-    return job.categoryName ?? 'Job';
+    return job?.categoryName ?? 'Job';
   }
 
   @override
   Widget build(BuildContext context) {
-    final rating = double.tryParse(job.memberRating ?? '0') ?? 0.0;
+    final job = engagement.job;
 
     return Container(
       width: double.infinity,
@@ -36,68 +38,27 @@ class JobCarouselItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Job Title
-                    PrimaryText(
-                      text: job.title ?? 'N/A',
-                      textColor: context.resources.color.colorPrimary,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 15,
-                      maxLines: 2,
-                    ),
-
-                    SizedBox(height: 6),
-
-                    // Category
-                    PrimaryText(
-                      text: _getCategoryText(),
-                      textColor: context.resources.color.colorGrey8,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      maxLines: 1,
-                    ),
-                  ],
-                ),
-              ),
-
-              Column(
-                children: [
-                  Container(
-                    width: 35,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: context.resources.color.colorPrimary,
-                        width: 2,
-                      ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: PrimaryNetworkImage(
-                        url: job.memberImage ?? '',
-                        width: 35,
-                        height: 35,
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 4),
-                  PrimaryText(
-                    text: '${job.memberFirstName} ${job.memberLastName}',
-                    fontWeight: FontWeight.w500,
-                    textAlign: TextAlign.center,
-                    fontSize: 12,
-                  ),
-                ],
-              ),
-            ],
+          // Job Title
+          PrimaryText(
+            text: job?.title ?? 'N/A',
+            textColor: context.resources.color.colorPrimary,
+            fontWeight: FontWeight.w900,
+            fontSize: 15,
+            maxLines: 1,
           ),
+
+          SizedBox(height: 3),
+
+          // Category
+          PrimaryText(
+            text: _getCategoryText(),
+            textColor: context.resources.color.colorGrey8,
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+            maxLines: 1,
+          ),
+
+          SizedBox(height: 3),
 
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +66,7 @@ class JobCarouselItem extends StatelessWidget {
               Image.asset(AppIcons.star2, width: 14),
               SizedBox(width: 2),
               PrimaryText(
-                text: job.rating.toString(),
+                text: (job?.rating ?? 0).toString(),
                 fontSize: 12,
                 fontWeight: FontWeight.w900,
                 textColor: context.resources.color.colorPrimary,
@@ -113,18 +74,58 @@ class JobCarouselItem extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 12),
+          SizedBox(height: 8),
 
           // Description
-          PrimaryText(
-            text: job.description.toString().isEmpty
-                ? 'N/A'
-                : job.description ?? 'N/A',
-            textColor: context.resources.color.colorGrey8,
-            fontWeight: FontWeight.w400,
-            fontSize: 12,
-            maxLines: 3,
+          Expanded(
+            child: PrimaryText(
+              text: job?.description
+                  ?.toString()
+                  .isEmpty ?? true
+                  ? 'N/A'
+                  : job?.description ?? 'N/A',
+              textColor: context.resources.color.colorGrey8,
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              maxLines: 2,
+            ),
           ),
+
+
+          Row(
+            children: [
+              Container(
+                width: 35,
+                height: 35,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: context.resources.color.colorPrimary,
+                    width: 2,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: PrimaryNetworkImage(
+                    url: engagement.clientImage ?? '',
+                    width: 35,
+                    height: 35,
+                  ),
+                ),
+              ),
+
+              SizedBox(width: 6),
+              PrimaryText(
+                text: '${engagement.clientFirstName ?? ''} ${engagement
+                    .clientLastName ?? ''}',
+                fontWeight: FontWeight.w500,
+                textAlign: TextAlign.center,
+                fontSize: 12,
+              ),
+            ],
+          ),
+
+
         ],
       ),
     );

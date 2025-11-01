@@ -4,6 +4,7 @@ import 'package:wazafak_app/repository/engagement/engagements_list_repository.da
 import 'package:wazafak_app/repository/favorite/favorite_jobs_repository.dart';
 
 import '../../../model/FavoritesResponse.dart';
+import '../../../utils/Prefs.dart';
 
 class ProjectsController extends GetxController {
   var selectedTab = 'Ongoing Project'.obs;
@@ -32,7 +33,7 @@ class ProjectsController extends GetxController {
       isLoadingEngagements.value = true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
-          // 'type': 'JA',
+          'freelancer': Prefs.getId,
           'flow': 'ONGOING'
         }, // Assuming status 1 is for ongoing
       );
@@ -52,7 +53,7 @@ class ProjectsController extends GetxController {
       final response = await _engagementsRepository.getEngagements(
         filters: {
           'flow': 'PENDING',
-          // 'type': 'JA',
+          'freelancer': Prefs.getId,
         }, // Assuming status 0 is for pending
       );
       if (response.success == true && response.data?.list != null) {

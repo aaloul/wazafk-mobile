@@ -1,17 +1,16 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/FavoritesResponse.dart';
-import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
-import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
+import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
-import 'package:wazafak_app/repository/favorite/favorite_jobs_repository.dart';
-import 'package:wazafak_app/repository/favorite/favorites_repository.dart';
-import 'package:wazafak_app/repository/favorite/add_favorite_service_repository.dart';
-import 'package:wazafak_app/repository/favorite/remove_favorite_service_repository.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_package_repository.dart';
+import 'package:wazafak_app/repository/favorite/add_favorite_service_repository.dart';
+import 'package:wazafak_app/repository/favorite/favorites_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_package_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_service_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class ActivitiesController extends GetxController {
@@ -46,8 +45,8 @@ class ActivitiesController extends GetxController {
       isLoadingEngagements.value = true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
-          // 'type': 'JA',
           'flow': 'ONGOING',
+          'client': Prefs.getId,
         }, // Assuming status 1 is for ongoing
       );
       if (response.success == true && response.data?.list != null) {
@@ -66,7 +65,7 @@ class ActivitiesController extends GetxController {
       final response = await _engagementsRepository.getEngagements(
         filters: {
           'flow': 'PENDING',
-          // 'type': 'JA',
+          'client': Prefs.getId,
         }, // Assuming status 0 is for pending
       );
       if (response.success == true && response.data?.list != null) {
