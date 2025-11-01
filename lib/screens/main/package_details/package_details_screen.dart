@@ -5,6 +5,9 @@ import 'package:wazafak_app/screens/main/package_details/components/package_deta
 import 'package:wazafak_app/screens/main/package_details/package_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../../../components/primary_button.dart';
+import '../../../constants/route_constant.dart';
+
 class PackageDetailsScreen extends StatelessWidget {
   const PackageDetailsScreen({super.key});
 
@@ -30,67 +33,117 @@ class PackageDetailsScreen extends StatelessWidget {
                   );
                 }
 
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PackageDetailsHeader(),
+                return Column(
+                  children: [
 
-                      SizedBox(height: 12),
-
-                      // Title
-                      Center(
-                        child: PrimaryText(
-                          text: package.title ?? '',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
-                          textColor: context.resources.color.colorGrey,
-                        ),
-                      ),
-
-                      SizedBox(height: 20),
-
-                      Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: context.resources.color.colorGrey.withOpacity(
-                          .25,
-                        ),
-                        margin: EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 8,
-                        ),
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 16),
+                    Expanded(
+                      child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            PrimaryText(
-                              text: 'Pack Details',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              textColor: context.resources.color.colorGrey,
+                            PackageDetailsHeader(),
+
+                            SizedBox(height: 12),
+
+                            // Title
+                            Center(
+                              child: PrimaryText(
+                                text: package.title ?? '',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                textColor: context.resources.color.colorGrey,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            // Price
+                            Center(
+                              child: PrimaryText(
+                                text: '\$${package.totalPrice}',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                textColor: context.resources.color.colorGrey3,
+                              ),
                             ),
 
-                            SizedBox(height: 4),
 
-                            PrimaryText(
-                              text: package.description ?? "N/A",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              textColor: context.resources.color.colorGrey,
+                            Container(
+                              width: double.infinity,
+                              height: 1,
+                              color: context.resources.color.colorGrey
+                                  .withOpacity(
+                                .25,
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 8,
+                              ),
                             ),
 
-                            SizedBox(height: 16),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PrimaryText(
+                                    text: 'Pack Details',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                    textColor: context.resources.color
+                                        .colorGrey,
+                                  ),
+
+                                  SizedBox(height: 4),
+
+                                  PrimaryText(
+                                    text: package.description ?? "N/A",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    textColor: context.resources.color
+                                        .colorGrey,
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              height: 1,
+                              color: context.resources.color.colorGrey
+                                  .withOpacity(
+                                .25,
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 8,
+                              ),
+                            ),
+
+
                           ],
                         ),
                       ),
+                    ),
 
-                      SizedBox(height: 24),
-                    ],
-                  ),
+
+                    SizedBox(height: 16),
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: PrimaryButton(
+                        title: 'Book Package',
+                        onPressed: () {
+                          Get.toNamed(
+                            RouteConstant.bookServiceScreen,
+                            arguments: package,
+                          );
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+
+                  ],
                 );
               }),
             ),
