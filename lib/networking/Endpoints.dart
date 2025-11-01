@@ -130,6 +130,10 @@ class Endpoints {
   static const chat = 'support/chat';
   static const sendMessage = 'support/sendMessage';
   static const chatMessages = 'support/chatMessages';
+
+  //SEARCH
+  static const employerSearch = 'search/employerSearch';
+  static const freelancerSearch = 'search/freelancerSearch';
 }
 
 class Params {

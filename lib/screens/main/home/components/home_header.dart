@@ -87,7 +87,18 @@ class HomeHeader extends StatelessWidget {
           SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: SearchWidget()),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed(RouteConstant.searchScreen);
+                  },
+                  child: AbsorbPointer(
+                    child: SearchWidget(
+                      enabled: false,
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(width: 10),
               Container(
                 width: 43,

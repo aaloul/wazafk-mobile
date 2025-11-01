@@ -25,6 +25,7 @@ class SearchWidget extends StatelessWidget {
     this.showCloseButton,
     this.onCloseClick,
     this.type,
+    this.borderRadius,
     this.onSearchSubmit,
   });
 
@@ -42,6 +43,7 @@ class SearchWidget extends StatelessWidget {
   Color? borderColor;
   double? margin;
   double? height;
+  double? borderRadius;
   bool? showCloseButton;
   Function? onCloseClick;
 
@@ -59,7 +61,7 @@ class SearchWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: context.resources.color.colorWhite,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(borderRadius ?? 8),
             border: Border.all(
               color: borderColor ?? context.resources.color.colorWhite,
               width: 0.5,
