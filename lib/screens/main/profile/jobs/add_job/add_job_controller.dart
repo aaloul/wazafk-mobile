@@ -10,6 +10,9 @@ import 'package:wazafak_app/repository/job/save_job_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../../components/sheets/success_sheet.dart';
+import '../../../../../utils/res/AppIcons.dart';
+
 class AddJobController extends GetxController {
   final _categoriesRepository = CategoriesRepository();
   final _addJobRepository = AddJobRepository();
@@ -367,13 +370,17 @@ class AddJobController extends GetxController {
           : await _addJobRepository.addJob(data);
 
       if (response.success == true) {
-        constants.showSnackBar(
-          editingJob != null
-              ? 'Job updated successfully'
-              : 'Job posted successfully',
-          SnackBarStatus.SUCCESS,
+        SuccessSheet.show(
+            Get.context!,
+            title: isEditMode ? 'Job Updated' : 'Job Posted',
+            image: AppIcons.servicePosted,
+            description:
+            'Your Job is now live! Keep an eye out for opportunities.',
+            buttonText: 'View Profile',
+            onButtonPressed: () {
+              Navigator.pop(Get.context!);
+            }
         );
-        Get.back();
       } else {
         constants.showSnackBar(
           response.message ??

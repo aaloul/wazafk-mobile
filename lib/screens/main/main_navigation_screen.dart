@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/screens/main/activity/activity_screen.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/screens/main/home/home_screen.dart';
-import 'package:wazafak_app/screens/main/profile/my_jobs/my_jobs_screen.dart';
+import 'package:wazafak_app/screens/main/profile/jobs/my_jobs/my_jobs_screen.dart';
 import 'package:wazafak_app/screens/main/profile/profile_screen.dart';
 import 'package:wazafak_app/screens/main/projects/projects_screen.dart';
 import 'package:wazafak_app/screens/main/search/search_screen.dart';
@@ -74,10 +74,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     // Try to find existing HomeController, if not found, it will be created when HomeScreen is displayed
     final homeController = Get.isRegistered<HomeController>()
         ? Get.find<HomeController>()
-        : null;
+        : Get.put(HomeController());
 
     // If controller exists, use Obx to observe changes
-    if (homeController != null) {
       return Obx(() {
         final isFreelancerMode = homeController.isFreelancerMode.value;
 
@@ -104,7 +103,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
         );
       });
-    }
 
     // Default view when controller is not available yet (freelancer mode by default)
     final isFreelancerMode = true;

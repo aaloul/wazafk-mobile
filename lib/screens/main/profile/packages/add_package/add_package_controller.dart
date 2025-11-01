@@ -13,7 +13,9 @@ import 'package:wazafak_app/repository/package/save_package_repository.dart';
 import 'package:wazafak_app/repository/service/services_list_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../../components/sheets/success_sheet.dart';
 import '../../../../../utils/Prefs.dart';
+import '../../../../../utils/res/AppIcons.dart';
 
 class AddPackageController extends GetxController {
   final _repository = AddPackageRepository();
@@ -388,14 +390,17 @@ class AddPackageController extends GetxController {
           : await _repository.addPackage(data);
 
       if (response.success == true) {
-        constants.showSnackBar(
-          response.message ??
-              (isEditMode.value
-                  ? 'Package updated successfully'
-                  : 'Package added successfully'),
-          SnackBarStatus.SUCCESS,
+        SuccessSheet.show(
+            Get.context!,
+            title: isEditMode.value ? 'Package Updated' : 'Package Posted',
+            image: AppIcons.servicePosted,
+            description:
+            'Your Package is now live! Keep an eye out for opportunities.',
+            buttonText: 'View Profile',
+            onButtonPressed: () {
+              Navigator.pop(Get.context!);
+            }
         );
-        Get.back(result: true);
       } else {
         constants.showSnackBar(
           response.message ??

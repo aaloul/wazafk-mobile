@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
+import 'package:wazafak_app/components/sheets/success_sheet.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
@@ -14,6 +15,7 @@ import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/service/add_service_repository.dart';
 import 'package:wazafak_app/repository/service/save_service_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class AddServiceController extends GetxController {
@@ -183,53 +185,6 @@ class AddServiceController extends GetxController {
       );
     }
   }
-
-  // void _setCategoryFromHashcode(String categoryHashcode) async {
-  //   try {
-  //     // Find the category by hashcode
-  //     final category = Prefs.getCategories.firstWhereOrNull(
-  //       (cat) => cat.hashcode == categoryHashcode,
-  //     );
-  //
-  //     if (category != null) {
-  //       selectedCategory.value = category;
-  //
-  //       // If category has subcategories, fetch them and try to find matching subcategory
-  //       if (category.hasSubCategories == true) {
-  //         await getSubcategories(category.hashcode!);
-  //
-  //         // The current category might actually be a subcategory
-  //         // So check if any subcategory matches
-  //         final subcategory = subcategories.firstWhereOrNull(
-  //           (subcat) => subcat.hashcode == categoryHashcode,
-  //         );
-  //
-  //         if (subcategory != null) {
-  //           selectedSubcategory.value = subcategory;
-  //         }
-  //       }
-  //     } else {
-  //       // If not found in main categories, it might be a subcategory
-  //       // Try to find its parent
-  //       for (var cat in Prefs.getCategories) {
-  //         if (cat.hasSubCategories == true) {
-  //           await getSubcategories(cat.hashcode!);
-  //           final subcategory = subcategories.firstWhereOrNull(
-  //             (subcat) => subcat.hashcode == categoryHashcode,
-  //           );
-  //
-  //           if (subcategory != null) {
-  //             selectedCategory.value = cat;
-  //             selectedSubcategory.value = subcategory;
-  //             break;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print('Error setting category: $e');
-  //   }
-  // }
 
   String _getDayNameFromAbbreviation(String abbr) {
     switch (abbr.toUpperCase()) {
@@ -476,14 +431,17 @@ class AddServiceController extends GetxController {
           : await _repository.addService(data);
 
       if (response.success == true) {
-        constants.showSnackBar(
-          response.message ??
-              (isEditMode.value
-                  ? 'Service updated successfully'
-                  : 'Service added successfully'),
-          SnackBarStatus.SUCCESS,
+        SuccessSheet.show(
+            Get.context!,
+            title: isEditMode.value ? 'Service Updated' : 'Service Posted',
+            image: AppIcons.servicePosted,
+            description:
+            'Your service is now live! Keep an eye out for opportunities.',
+            buttonText: 'View Profile',
+            onButtonPressed: () {
+              Navigator.pop(Get.context!);
+            }
         );
-        Get.back();
       } else {
         constants.showSnackBar(
           response.message ??

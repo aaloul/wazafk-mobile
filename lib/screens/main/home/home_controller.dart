@@ -65,7 +65,7 @@ class HomeController extends GetxController {
   var nbActiveJobs = 0.obs;
   var nbCompletedJobs = 0.obs;
   var successRate = ''.obs;
-  var isFreelancerMode = true.obs;
+  var isFreelancerMode = (Prefs.getUserMode.toString() == 'freelancer').obs;
 
   @override
   void onInit() {

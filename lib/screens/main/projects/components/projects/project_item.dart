@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
@@ -13,9 +15,28 @@ class ProjectItem extends StatelessWidget {
 
   final Engagement engagement;
 
+  void _handleTap() {
+    // Navigate based on engagement type
+    if (engagement.type == 'SB' && engagement.services != null &&
+        engagement.services!.isNotEmpty) {
+      // Service Booking - navigate to service details
+      Get.toNamed(RouteConstant.serviceDetailsScreen,
+          arguments: engagement.services!.first);
+    } else if (engagement.type == 'PB' && engagement.package != null) {
+      // Package Booking - navigate to package details
+      Get.toNamed(
+          RouteConstant.packageDetailsScreen, arguments: engagement.package);
+    } else if (engagement.job != null) {
+      // Job - navigate to job details
+      Get.toNamed(RouteConstant.jobDetailsScreen, arguments: engagement.job);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: _handleTap,
+      child: Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.symmetric(vertical: 6),
@@ -205,6 +226,7 @@ class ProjectItem extends StatelessWidget {
             ],
           ),
         ],
+      ),
       ),
     );
   }

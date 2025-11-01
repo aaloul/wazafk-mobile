@@ -4,7 +4,9 @@ import 'package:wazafak_app/repository/package/package_status_repository.dart';
 import 'package:wazafak_app/repository/package/packages_list_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../components/sheets/success_sheet.dart';
 import '../../../../utils/Prefs.dart';
+import '../../../../utils/res/AppIcons.dart';
 
 class PacksController extends GetxController {
   final _repository = PackagesListRepository();
@@ -70,9 +72,16 @@ class PacksController extends GetxController {
         package.checked.value = newStatus == 1;
         packages.refresh();
 
-        constants.showSnackBar(
-          response.message ?? 'Package status updated successfully',
-          SnackBarStatus.SUCCESS,
+        SuccessSheet.show(
+          Get.context!,
+          title: package.checked.value ? 'Package Posted' : 'Package Disabled',
+          image: package.checked.value
+              ? AppIcons.servicePosted
+              : AppIcons.serviceRemoved,
+          description: package.checked.value
+              ? 'Your Package is now live! Keep an eye out for opportunities.'
+              : 'Your Package will be disable, you can activate it later .',
+          buttonText: 'View Profile',
         );
       } else {
         constants.showSnackBar(

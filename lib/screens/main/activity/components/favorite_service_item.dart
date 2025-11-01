@@ -41,7 +41,7 @@ class _FavoriteServiceItemState extends State<FavoriteServiceItem> {
     }
   }
 
-  void navigateToMemberProfile() {
+  void navigateToService() {
     if (widget.service.hashcode == null) return;
 
     Get.toNamed(RouteConstant.serviceDetailsScreen, arguments: widget.service);
@@ -50,7 +50,7 @@ class _FavoriteServiceItemState extends State<FavoriteServiceItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: navigateToMemberProfile,
+      onTap: navigateToService,
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.only(bottom: 12),

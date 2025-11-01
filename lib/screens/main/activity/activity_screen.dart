@@ -7,6 +7,7 @@ import 'package:wazafak_app/screens/main/activity/components/favorite_freelancer
 import 'package:wazafak_app/screens/main/projects/components/projects/project_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../../../components/progress_bar.dart';
 import 'activities_controller.dart';
 import 'components/favorite_package_item.dart';
 import 'components/favorite_service_item.dart';
@@ -72,7 +73,7 @@ class ActivityScreen extends StatelessWidget {
 
   Widget _buildOngoingProjects(BuildContext context) {
     if (controller.isLoadingEngagements.value) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: ProgressBar());
     }
 
     if (controller.ongoingEngagements.isEmpty) {
@@ -98,7 +99,7 @@ class ActivityScreen extends StatelessWidget {
 
   Widget _buildPendingProjects(BuildContext context) {
     if (controller.isLoadingEngagements.value) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: ProgressBar());
     }
 
     if (controller.pendingEngagements.isEmpty) {
@@ -124,7 +125,7 @@ class ActivityScreen extends StatelessWidget {
 
   Widget _buildSavedFavorites(BuildContext context) {
     if (controller.isLoadingFavorites.value) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: ProgressBar());
     }
 
     if (controller.favorites.isEmpty) {

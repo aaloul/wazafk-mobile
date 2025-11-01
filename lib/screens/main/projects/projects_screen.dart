@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/projects/projects_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -72,7 +73,7 @@ class ProjectsScreen extends StatelessWidget {
 
   Widget _buildOngoingProjects(BuildContext context) {
     if (controller.isLoadingEngagements.value) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: ProgressBar());
     }
 
     if (controller.ongoingEngagements.isEmpty) {
@@ -98,7 +99,7 @@ class ProjectsScreen extends StatelessWidget {
 
   Widget _buildPendingProjects(BuildContext context) {
     if (controller.isLoadingEngagements.value) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: ProgressBar());
     }
 
     if (controller.pendingEngagements.isEmpty) {
@@ -124,7 +125,7 @@ class ProjectsScreen extends StatelessWidget {
 
   Widget _buildSavedJobs(BuildContext context) {
     if (controller.isLoadingFavorites.value) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: ProgressBar());
     }
 
     if (controller.favorites.isEmpty) {

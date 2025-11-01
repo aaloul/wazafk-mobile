@@ -4,7 +4,9 @@ import 'package:wazafak_app/repository/service/service_status_repository.dart';
 import 'package:wazafak_app/repository/service/services_list_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../components/sheets/success_sheet.dart';
 import '../../../../utils/Prefs.dart';
+import '../../../../utils/res/AppIcons.dart';
 
 class ServicesController extends GetxController {
   final _repository = ServicesListRepository();
@@ -71,9 +73,16 @@ class ServicesController extends GetxController {
         service.checked.value = newStatus == 1;
         services.refresh();
 
-        constants.showSnackBar(
-          response.message ?? 'Service status updated successfully',
-          SnackBarStatus.SUCCESS,
+        SuccessSheet.show(
+          Get.context!,
+          title: service.checked.value ? 'Service Posted' : 'Service Disabled',
+          image: service.checked.value
+              ? AppIcons.servicePosted
+              : AppIcons.serviceRemoved,
+          description: service.checked.value
+              ? 'Your service is now live! Keep an eye out for opportunities.'
+              : 'Your service will be disable, you can activate it later .',
+          buttonText: 'View Profile',
         );
       } else {
         constants.showSnackBar(

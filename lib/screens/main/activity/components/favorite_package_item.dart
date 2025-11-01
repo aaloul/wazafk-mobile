@@ -41,7 +41,7 @@ class _FavoritePackageItemState extends State<FavoritePackageItem> {
     }
   }
 
-  void navigateToMemberProfile() {
+  void navigateToPackage() {
     if (widget.package.hashcode == null) return;
 
     Get.toNamed(RouteConstant.packageDetailsScreen, arguments: widget.package);
@@ -50,7 +50,7 @@ class _FavoritePackageItemState extends State<FavoritePackageItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: navigateToMemberProfile,
+      onTap: navigateToPackage,
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.only(bottom: 12),

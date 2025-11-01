@@ -9,7 +9,7 @@ import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 import '../../../../../components/primary_switch.dart';
 
-class ItemMyService extends StatelessWidget {
+class ItemMyService extends StatefulWidget {
   const ItemMyService({
     super.key,
     required this.service,
@@ -17,7 +17,30 @@ class ItemMyService extends StatelessWidget {
   });
 
   final Service service;
-  final VoidCallback onToggleStatus;
+  final Future<void> Function() onToggleStatus;
+
+  @override
+  State<ItemMyService> createState() => _ItemMyServiceState();
+}
+
+class _ItemMyServiceState extends State<ItemMyService> {
+  bool isTogglingStatus = false;
+
+  Future<void> handleToggleStatus() async {
+    setState(() {
+      isTogglingStatus = true;
+    });
+
+    try {
+      await widget.onToggleStatus();
+    } finally {
+      if (mounted) {
+        setState(() {
+          isTogglingStatus = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +60,13 @@ class ItemMyService extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PrimaryText(
-                  text: "${service.title}",
+                  text: "${widget.service.title}",
                   textColor: context.resources.color.colorPrimary,
                   fontWeight: FontWeight.w900,
                   fontSize: 14,
                 ),
                 PrimaryText(
-                  text: "${service.categoryName}",
+                  text: "${widget.service.categoryName}",
                   textColor: context.resources.color.colorGrey8,
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
@@ -53,31 +76,48 @@ class ItemMyService extends StatelessWidget {
           ),
 
           PrimaryText(
-            text: "\$ ${service.unitPrice}/Hour",
+            text: "\$ ${widget.service.unitPrice}/Hour",
             textColor: context.resources.color.colorPrimary,
             fontWeight: FontWeight.w700,
             fontSize: 16,
           ),
 
-          Obx(
-            () => PrimarySwitch(
-              scale: .7,
-              checked: service.checked.value,
-              thumbColorActive: context.resources.color.colorWhite,
-              thumbColorNotActive: context.resources.color.colorWhite,
-              trackColor: context.resources.color.colorGrey8,
-              activeTrackColor: context.resources.color.colorPrimary,
-              activeColor: context.resources.color.colorPrimary,
-              onChange: (value) {
-                onToggleStatus();
-              },
-            ),
-          ),
+          isTogglingStatus
+              ? SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          context.resources.color.colorPrimary,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Obx(
+                  () => PrimarySwitch(
+                    scale: .7,
+                    checked: widget.service.checked.value,
+                    thumbColorActive: context.resources.color.colorWhite,
+                    thumbColorNotActive: context.resources.color.colorWhite,
+                    trackColor: context.resources.color.colorGrey8,
+                    activeTrackColor: context.resources.color.colorPrimary,
+                    activeColor: context.resources.color.colorPrimary,
+                    onChange: (value) {
+                      handleToggleStatus();
+                    },
+                  ),
+                ),
           GestureDetector(
             onTap: () {
               Get.toNamed(
                 RouteConstant.addServiceScreen,
-                arguments: service,
+                arguments: widget.service,
               );
             },
             child: Image.asset(

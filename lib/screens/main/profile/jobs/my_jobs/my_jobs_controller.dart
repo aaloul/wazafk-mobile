@@ -5,6 +5,9 @@ import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../../components/sheets/success_sheet.dart';
+import '../../../../../utils/res/AppIcons.dart';
+
 class MyJobsController extends GetxController {
   final _repository = JobsListRepository();
   final _statusRepository = JobStatusRepository();
@@ -65,9 +68,16 @@ class MyJobsController extends GetxController {
         job.checked.value = newStatus == 1;
         jobs.refresh();
 
-        constants.showSnackBar(
-          response.message ?? 'Job status updated successfully',
-          SnackBarStatus.SUCCESS,
+        SuccessSheet.show(
+          Get.context!,
+          title: job.checked.value ? 'Job Posted' : 'Job Disabled',
+          image: job.checked.value
+              ? AppIcons.servicePosted
+              : AppIcons.serviceRemoved,
+          description: job.checked.value
+              ? 'Your Job is now live! Keep an eye out for opportunities.'
+              : 'Your Job will be disable, you can activate it later .',
+          buttonText: 'View Profile',
         );
       } else {
         constants.showSnackBar(

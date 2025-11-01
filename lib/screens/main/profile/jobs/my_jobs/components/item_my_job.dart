@@ -8,11 +8,34 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
-class ItemMyJob extends StatelessWidget {
+class ItemMyJob extends StatefulWidget {
   const ItemMyJob({super.key, required this.job, required this.onToggleStatus});
 
   final Job job;
-  final VoidCallback onToggleStatus;
+  final Future<void> Function() onToggleStatus;
+
+  @override
+  State<ItemMyJob> createState() => _ItemMyJobState();
+}
+
+class _ItemMyJobState extends State<ItemMyJob> {
+  bool isTogglingStatus = false;
+
+  Future<void> handleToggleStatus() async {
+    setState(() {
+      isTogglingStatus = true;
+    });
+
+    try {
+      await widget.onToggleStatus();
+    } finally {
+      if (mounted) {
+        setState(() {
+          isTogglingStatus = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +55,13 @@ class ItemMyJob extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PrimaryText(
-                  text: "${job.title}",
+                  text: "${widget.job.title}",
                   textColor: context.resources.color.colorPrimary,
                   fontWeight: FontWeight.w900,
                   fontSize: 14,
                 ),
                 PrimaryText(
-                  text: "${job.categoryName}",
+                  text: "${widget.job.categoryName}",
                   textColor: context.resources.color.colorGrey8,
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
@@ -48,29 +71,46 @@ class ItemMyJob extends StatelessWidget {
           ),
 
           PrimaryText(
-            text: "\$ ${job.totalPrice ?? '0'}",
+            text: "\$ ${widget.job.totalPrice ?? '0'}",
             textColor: context.resources.color.colorPrimary,
             fontWeight: FontWeight.w700,
             fontSize: 16,
           ),
 
-          Obx(
-            () => PrimarySwitch(
-              scale: .7,
-              checked: job.checked.value,
-              thumbColorActive: context.resources.color.colorWhite,
-              thumbColorNotActive: context.resources.color.colorWhite,
-              trackColor: context.resources.color.colorGrey8,
-              activeTrackColor: context.resources.color.colorPrimary,
-              activeColor: context.resources.color.colorPrimary,
-              onChange: (value) {
-                onToggleStatus();
-              },
-            ),
-          ),
+          isTogglingStatus
+              ? SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          context.resources.color.colorPrimary,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Obx(
+                  () => PrimarySwitch(
+                    scale: .7,
+                    checked: widget.job.checked.value,
+                    thumbColorActive: context.resources.color.colorWhite,
+                    thumbColorNotActive: context.resources.color.colorWhite,
+                    trackColor: context.resources.color.colorGrey8,
+                    activeTrackColor: context.resources.color.colorPrimary,
+                    activeColor: context.resources.color.colorPrimary,
+                    onChange: (value) {
+                      handleToggleStatus();
+                    },
+                  ),
+                ),
           GestureDetector(
             onTap: () {
-              Get.toNamed(RouteConstant.addJobScreen, arguments: job);
+              Get.toNamed(RouteConstant.addJobScreen, arguments: widget.job);
             },
             child: Image.asset(
               AppIcons.edit,

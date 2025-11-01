@@ -9,7 +9,7 @@ import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 import '../../../../../components/primary_switch.dart';
 
-class ItemMyPackage extends StatelessWidget {
+class ItemMyPackage extends StatefulWidget {
   const ItemMyPackage({
     super.key,
     required this.package,
@@ -17,7 +17,30 @@ class ItemMyPackage extends StatelessWidget {
   });
 
   final Package package;
-  final VoidCallback onToggleStatus;
+  final Future<void> Function() onToggleStatus;
+
+  @override
+  State<ItemMyPackage> createState() => _ItemMyPackageState();
+}
+
+class _ItemMyPackageState extends State<ItemMyPackage> {
+  bool isTogglingStatus = false;
+
+  Future<void> handleToggleStatus() async {
+    setState(() {
+      isTogglingStatus = true;
+    });
+
+    try {
+      await widget.onToggleStatus();
+    } finally {
+      if (mounted) {
+        setState(() {
+          isTogglingStatus = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +60,13 @@ class ItemMyPackage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PrimaryText(
-                  text: "${package.title}",
+                  text: "${widget.package.title}",
                   textColor: context.resources.color.colorPrimary,
                   fontWeight: FontWeight.w900,
                   fontSize: 14,
                 ),
                 PrimaryText(
-                  text: "${package.services?.length ?? 0} Services",
+                  text: "${widget.package.services?.length ?? 0} Services",
                   textColor: context.resources.color.colorGrey8,
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
@@ -53,31 +76,48 @@ class ItemMyPackage extends StatelessWidget {
           ),
 
           PrimaryText(
-            text: "\$ ${package.totalPrice}",
+            text: "\$ ${widget.package.totalPrice}",
             textColor: context.resources.color.colorPrimary,
             fontWeight: FontWeight.w700,
             fontSize: 16,
           ),
 
-          Obx(
-            () => PrimarySwitch(
-              scale: .7,
-              checked: package.checked.value,
-              thumbColorActive: context.resources.color.colorWhite,
-              thumbColorNotActive: context.resources.color.colorWhite,
-              trackColor: context.resources.color.colorGrey8,
-              activeTrackColor: context.resources.color.colorPrimary,
-              activeColor: context.resources.color.colorPrimary,
-              onChange: (value) {
-                onToggleStatus();
-              },
-            ),
-          ),
+          isTogglingStatus
+              ? SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          context.resources.color.colorPrimary,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Obx(
+                  () => PrimarySwitch(
+                    scale: .7,
+                    checked: widget.package.checked.value,
+                    thumbColorActive: context.resources.color.colorWhite,
+                    thumbColorNotActive: context.resources.color.colorWhite,
+                    trackColor: context.resources.color.colorGrey8,
+                    activeTrackColor: context.resources.color.colorPrimary,
+                    activeColor: context.resources.color.colorPrimary,
+                    onChange: (value) {
+                      handleToggleStatus();
+                    },
+                  ),
+                ),
           GestureDetector(
             onTap: () async {
               final result = await Get.toNamed(
                 RouteConstant.addPackageScreen,
-                arguments: package,
+                arguments: widget.package,
               );
               // Refresh packages list if edited
               if (result == true) {
