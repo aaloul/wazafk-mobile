@@ -121,8 +121,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
                 child: isTogglingFavorite
                     ? SizedBox(
                   width: 18,
-                  height: 18,hild: ProgressBar()),
-                )
+                    height: 18, child: ProgressBar())
                     : Image.asset(
                   widget.job.isFavorite ?? false
                       ? AppIcons.banomarkOn
