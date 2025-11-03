@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/EmployerHomeResponse.dart';
@@ -668,5 +669,9 @@ class HomeController extends GetxController {
       print('Error toggling package favorite: $e');
       return false;
     }
+  }
+
+  void onViewAllCategories() {
+    Get.toNamed(RouteConstant.allCategoriesScreen);
   }
 }

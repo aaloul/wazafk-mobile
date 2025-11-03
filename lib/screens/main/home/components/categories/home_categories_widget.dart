@@ -27,11 +27,16 @@ class HomeCategoriesWidget extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              PrimaryText(
-                text: "View All",
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                textColor: context.resources.color.colorGrey14,
+              GestureDetector(
+                onTap: () {
+                  controller.onViewAllCategories();
+                },
+                child: PrimaryText(
+                  text: "View All",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  textColor: context.resources.color.colorGrey14,
+                ),
               ),
             ],
           ),

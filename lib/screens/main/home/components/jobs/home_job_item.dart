@@ -8,6 +8,7 @@ import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
+import '../../../../../components/progress_bar.dart';
 import '../../../../../model/JobsResponse.dart';
 
 class HomeJobItem extends StatefulWidget {
@@ -120,13 +121,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
                 child: isTogglingFavorite
                     ? SizedBox(
                   width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      context.resources.color.colorPrimary,
-                    ),
-                  ),
+                  height: 18,hild: ProgressBar()),
                 )
                     : Image.asset(
                   widget.job.isFavorite ?? false

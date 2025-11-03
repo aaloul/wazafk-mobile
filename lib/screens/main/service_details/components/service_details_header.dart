@@ -5,6 +5,7 @@ import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
+import '../../../../components/progress_bar.dart';
 import '../../../../utils/utils.dart';
 import '../service_details_controller.dart';
 
@@ -71,12 +72,7 @@ class ServiceDetailsHeader extends StatelessWidget {
                           ? SizedBox(
                               width: 20,
                               height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  context.resources.color.colorWhite,
-                                ),
-                              ),
+                              child: ProgressBar(),
                             )
                           : Image.asset(
                               controller.isFavorite.value

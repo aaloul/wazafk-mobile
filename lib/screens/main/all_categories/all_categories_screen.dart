@@ -6,41 +6,31 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../components/search_widget.dart';
-import 'components/sub_category_item.dart';
-import 'subcategories_controller.dart';
+import '../subcategories/components/sub_category_item.dart';
+import 'all_categories_controller.dart';
 
-class SubcategoriesScreen extends StatelessWidget {
-  const SubcategoriesScreen({super.key});
+class AllCategoriesScreen extends StatelessWidget {
+  const AllCategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SubcategoriesController(),
-        tag: DateTime
-            .timestamp()
-            .millisecond
-            .toString());
-
+    final controller = Get.put(AllCategoriesController());
 
     return Scaffold(
       backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
-            Obx(
-              () => TopHeader(
-                hasBack: true,
-                title: controller.parentCategory.value?.name ?? 'Subcategories',
-              ),
-            ),
+            TopHeader(hasBack: true, title: 'All Categories'),
 
             // Search bar
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: SearchWidget(
-                hint: 'Search subcategories...',
+                hint: 'Search categories...',
                 borderRadius: 0,
                 onTextChangedWithDelay: (text) {
-                  controller.searchSubcategories(text);
+                  controller.searchCategories(text);
                 },
                 enabled: true,
               ),
@@ -52,7 +42,7 @@ class SubcategoriesScreen extends StatelessWidget {
                   return Center(child: ProgressBar());
                 }
 
-                if (controller.subcategories.isEmpty) {
+                if (controller.categories.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +57,7 @@ class SubcategoriesScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         PrimaryText(
                           text: controller.searchQuery.value.isEmpty
-                              ? 'No subcategories found'
+                              ? 'No categories found'
                               : 'No results found',
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -92,14 +82,14 @@ class SubcategoriesScreen extends StatelessWidget {
                 }
 
                 return ListView.builder(
-                  itemCount: controller.subcategories.length,
+                  itemCount: controller.categories.length,
                   itemBuilder: (context, index) {
-                    final subcategory = controller.subcategories[index];
-                    return GestureDetector(
+                    final category = controller.categories[index];
+                    return SubCategoryItem(
+                      category: category,
                       onTap: () {
-                        controller.onSubcategoryTap(subcategory);
+                        controller.onCategoryTap(category);
                       },
-                      child: SubCategoryItem(category: subcategory),
                     );
                   },
                 );

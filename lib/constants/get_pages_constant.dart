@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/screens/main/all_categories/all_categories_screen.dart';
 import 'package:wazafak_app/screens/main/apply_job/apply_job_screen.dart';
 import 'package:wazafak_app/screens/main/book_service/book_service_screen.dart';
 import 'package:wazafak_app/screens/main/job_applicants/job_applicants_screen.dart';
@@ -299,6 +300,12 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.subcategoriesScreen,
     page: () => SubcategoriesScreen(),
+    preventDuplicates: false,
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.allCategoriesScreen,
+    page: () => AllCategoriesScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

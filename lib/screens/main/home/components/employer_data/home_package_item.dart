@@ -6,6 +6,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../../../../../components/progress_bar.dart';
 import '../../../../../utils/res/AppIcons.dart';
 
 class HomePackageItem extends StatefulWidget {
@@ -98,12 +99,7 @@ class _HomePackageItemState extends State<HomePackageItem> {
                         ? SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                context.resources.color.colorPrimary,
-                              ),
-                            ),
+                      child: ProgressBar(),
                           )
                         : Image.asset(
                             widget.package.isFavorite ?? false

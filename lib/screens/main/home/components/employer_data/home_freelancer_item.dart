@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -140,11 +141,9 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
                         ? SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                context.resources.color.colorPrimary,
-                              ),
+                      child: ProgressBar(
+                        width: 24,
+
                             ),
                           )
                         : Image.asset(

@@ -46,7 +46,7 @@ class BookServiceScreen extends StatelessWidget {
                         child: Obx(() {
                           if (controller.service.value == null &&
                               controller.package.value == null) {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(child: ProgressBar());
                           }
 
                           // Get data from either service or package

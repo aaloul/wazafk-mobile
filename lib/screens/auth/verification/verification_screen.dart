@@ -86,9 +86,7 @@ class VerificationScreen extends StatelessWidget {
                         dataController.isResending.value
                             ? SizedBox(
                           width: 14,
-                          height: 14,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
+                          height: 14,)
                             : PrimaryText(
                           text: "Resend Code",
                           fontSize: 14,

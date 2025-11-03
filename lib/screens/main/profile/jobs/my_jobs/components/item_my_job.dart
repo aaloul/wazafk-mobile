@@ -8,6 +8,8 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
+import '../../../../../../components/progress_bar.dart';
+
 class ItemMyJob extends StatefulWidget {
   const ItemMyJob({super.key, required this.job, required this.onToggleStatus});
 
@@ -85,12 +87,7 @@ class _ItemMyJobState extends State<ItemMyJob> {
                     child: SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          context.resources.color.colorPrimary,
-                        ),
-                      ),
+                      child: ProgressBar(),
                     ),
                   ),
                 )

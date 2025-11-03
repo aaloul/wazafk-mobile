@@ -10,6 +10,7 @@ import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
+import '../../../components/progress_bar.dart';
 import 'components/job_details_header.dart';
 
 class JobDetailsScreen extends StatelessWidget {
@@ -317,8 +318,8 @@ class JobDetailsScreen extends StatelessWidget {
                               Obx(
                                 () => controller.isUpdatingStatus.value
                                     ? Center(
-                                      child: CircularProgressIndicator(
-                                        color: context
+                                        child: ProgressBar(
+                                          color: context
                                             .resources
                                             .color
                                             .colorPrimary,

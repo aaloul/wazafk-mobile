@@ -18,7 +18,8 @@ class SubCategoryItem extends StatelessWidget {
     } else {
       // Default behavior: check if category has subcategories
       if (category.hasSubCategories == true) {
-        Get.toNamed(RouteConstant.subcategoriesScreen, arguments: category);
+        Get.toNamed(RouteConstant.subcategoriesScreen, arguments: category,
+            preventDuplicates: false);
       } else {
         Get.toNamed(RouteConstant.searchScreen, arguments: category);
       }

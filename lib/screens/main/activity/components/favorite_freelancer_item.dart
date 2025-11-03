@@ -7,6 +7,7 @@ import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../utils/res/AppIcons.dart';
+import '../../../../components/progress_bar.dart';
 
 class FavoriteFreelancerItem extends StatefulWidget {
   const FavoriteFreelancerItem({
@@ -124,12 +125,8 @@ class _FavoriteFreelancerItemState extends State<FavoriteFreelancerItem> {
                                   ? SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                context.resources.color.colorPrimary,
-                              ),
-                            ),
+                                child: ProgressBar(
+                                ),
                           )
                                   : Image.asset(
                                 widget.freelancer.isFavorite == 1

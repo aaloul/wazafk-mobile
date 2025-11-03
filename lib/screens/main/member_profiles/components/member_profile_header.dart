@@ -5,6 +5,7 @@ import 'package:wazafak_app/repository/favorite/remove_favorite_member_repositor
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../components/primary_network_image.dart';
+import '../../../../components/progress_bar.dart';
 import '../../../../utils/res/AppIcons.dart';
 import '../../../../utils/utils.dart';
 
@@ -149,11 +150,8 @@ class _MemberProfileHeaderState extends State<MemberProfileHeader> {
                             ? SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              context.resources.color.colorWhite,
-                            ),
+                          child: ProgressBar(
+
                           ),
                         )
                             : Image.asset(

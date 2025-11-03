@@ -1,11 +1,12 @@
 import '../../../model/FreelancerHomeResponse.dart';
+import '../../../model/SearchResponse.dart';
 import '../../Endpoints.dart';
 import '../../api_base_helper.dart';
 
 class FreelancerSearchService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<FreelancerHomeResponse> freelancerSearch({
+  Future<SearchResponse> freelancerSearch({
     Map<String, String>? filters,
   }) async {
     String url = Endpoints.freelancerSearch;
@@ -16,6 +17,6 @@ class FreelancerSearchService {
       url += '?$params';
     }
     final response = await _helper.get(url);
-    return FreelancerHomeResponse.fromJson(response);
+    return SearchResponse.fromJson(response);
   }
 }

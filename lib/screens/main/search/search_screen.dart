@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide SearchController;
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/search_widget.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_freelancer_item.dart';
@@ -23,10 +24,7 @@ class SearchScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(
-              hasBack: true,
-              title: 'Search',
-            ),
+            TopHeader(hasBack: true, title: 'Search'),
 
             // Search bar
             Padding(
@@ -46,9 +44,7 @@ class SearchScreen extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Center(child: ProgressBar());
                 }
 
                 if (controller.searchQuery.value.isEmpty) {
@@ -72,7 +68,8 @@ class SearchScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 32),
                           child: PrimaryText(
-                            text: 'Search for jobs, services, packages, or freelancers',
+                            text:
+                                'Search for jobs, services, packages, or freelancers',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             textColor: context.resources.color.colorGrey,
@@ -86,9 +83,7 @@ class SearchScreen extends StatelessWidget {
                 }
 
                 // Check if there are any results based on mode
-                final hasResults = controller.isFreelancerMode
-                    ? controller.jobResults.isNotEmpty
-                    : controller.employerResults.isNotEmpty;
+                final hasResults = controller.searchResults.isNotEmpty;
 
                 if (!hasResults) {
                   return Center(
@@ -123,64 +118,53 @@ class SearchScreen extends StatelessWidget {
                   );
                 }
 
-                // Display results based on mode
-                if (controller.isFreelancerMode) {
-                  // Freelancer mode: show jobs
-                  return ListView.builder(
-                    padding: EdgeInsets.all(16),
-                    itemCount: controller.jobResults.length,
-                    itemBuilder: (context, index) {
-                      final job = controller.jobResults[index];
-                      return HomeJobItem(
-                        job: job,
-                        onFavoriteToggle: (job) async {
-                          // TODO: Implement favorite toggle
-                          return true;
+                return ListView.builder(
+                  padding: EdgeInsets.all(16),
+                  itemCount: controller.searchResults.length,
+                  itemBuilder: (context, index) {
+                    final item = controller.searchResults[index];
+
+                    // Determine item type and return appropriate widget
+                    if (item.entityType == 'SERVICE' && item.service != null) {
+                      return HomeServiceItem(
+                        service: item.service!,
+                        onFavoriteToggle: (service) async {
+                          return await controller.toggleServiceFavorite(
+                            service,
+                          );
                         },
                       );
-                    },
-                  );
-                } else {
-                  // Employer mode: show services, packages, and freelancers
-                  return ListView.builder(
-                    padding: EdgeInsets.all(16),
-                    itemCount: controller.employerResults.length,
-                    itemBuilder: (context, index) {
-                      final item = controller.employerResults[index];
+                    } else if (item.entityType == 'PACKAGE' &&
+                        item.package != null) {
+                      return HomePackageItem(
+                        package: item.package!,
+                        onFavoriteToggle: (package) async {
+                          return await controller.togglePackageFavorite(
+                            package,
+                          );
+                        },
+                      );
+                    } else if (item.entityType == 'MEMBER' &&
+                        item.member != null) {
+                      return HomeFreelancerItem(
+                        onFavoriteToggle: (user) async {
+                          return await controller.toggleMemberFavorite(user);
+                        },
+                        freelancer: item.member!,
+                      );
+                    } else if (item.entityType == 'JOB' &&
+                        item.member != null) {
+                      return HomeJobItem(
+                        job: item.job!,
+                        onFavoriteToggle: (job) async {
+                          return await controller.toggleJobFavorite(job);
+                        },
+                      );
+                    }
 
-                      // Determine item type and return appropriate widget
-                      if (item.entityType == 'SERVICE' &&
-                          item.service != null) {
-                        return HomeServiceItem(
-                          service: item.service!,
-                          onFavoriteToggle: (service) async {
-                            // TODO: Implement favorite toggle
-                            return true;
-                          },
-                        );
-                      } else if (item.entityType == 'Package' &&
-                          item.package != null) {
-                        return HomePackageItem(
-                          package: item.package!,
-                          onFavoriteToggle: (package) async {
-                            // TODO: Implement favorite toggle
-                            return true;
-                          },
-                        );
-                      } else if (item.entityType == 'Member' && item.member !=
-                          null) {
-                        return HomeFreelancerItem(
-                          onFavoriteToggle: (user) async {
-                            // TODO: Implement favorite toggle
-                            return true;
-                          }, freelancer: item.member!,
-                        );
-                      }
-
-                      return SizedBox.shrink();
-                    },
-                  );
-                }
+                    return SizedBox.shrink();
+                  },
+                );
               }),
             ),
           ],

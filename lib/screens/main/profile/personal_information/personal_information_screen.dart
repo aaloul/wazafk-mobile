@@ -61,8 +61,7 @@ class PersonalInformationScreen extends StatelessWidget {
                                 width: 100,
                                 height: 100,
                                 fit: BoxFit.cover,
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
+                                placeholder: (context, url) => ProgressBar(),
                                 errorWidget: (context, url, error) =>
                                     Image.asset(
                                       AppIcons.addImage,

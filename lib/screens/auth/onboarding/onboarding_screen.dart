@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -95,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       backgroundColor: context.resources.color.background,
       body: SafeArea(
         child: onboardingData.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(child: ProgressBar())
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
