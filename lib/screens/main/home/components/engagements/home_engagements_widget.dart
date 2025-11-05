@@ -52,7 +52,7 @@ class HomeEngagementsWidget extends StatelessWidget {
             CarouselSlider.builder(
               itemCount: controller.engagements.length,
               options: CarouselOptions(
-                height: 185,
+                height: 193,
                 autoPlay: controller.engagements.length > 1,
                 autoPlayInterval: Duration(seconds: 5),
                 autoPlayAnimationDuration: Duration(milliseconds: 800),

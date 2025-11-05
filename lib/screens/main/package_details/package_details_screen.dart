@@ -7,6 +7,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../components/primary_button.dart';
 import '../../../constants/route_constant.dart';
+import '../../../utils/Prefs.dart';
 
 class PackageDetailsScreen extends StatelessWidget {
   const PackageDetailsScreen({super.key});
@@ -127,7 +128,8 @@ class PackageDetailsScreen extends StatelessWidget {
 
                     SizedBox(height: 16),
 
-                    Padding(
+                    if(package.memberHashcode.toString() != Prefs.getId)
+                      Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: PrimaryButton(
                         title: 'Book Package',

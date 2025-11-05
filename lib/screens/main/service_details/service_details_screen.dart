@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/service_details/components/service_details_header.dart';
 import 'package:wazafak_app/screens/main/service_details/service_details_controller.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 class ServiceDetailsScreen extends StatelessWidget {
@@ -240,6 +241,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 16),
 
+                      if(service.memberHashcode.toString() != Prefs.getId)
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: PrimaryButton(

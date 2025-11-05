@@ -8,6 +8,7 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/book_service/components/select_date_calendar_widget.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../../../components/multiline_labeled_text_field.dart';
 import '../../../components/primary_network_image.dart';
 import '../../../utils/res/AppIcons.dart';
 import 'book_service_controller.dart';
@@ -267,6 +268,21 @@ class BookServiceScreen extends StatelessWidget {
                       ),
 
                       // Notes Section
+
+                      // Description
+                      MultilineLabeledTextField(
+                        controller: controller.notesController,
+                        label: 'Message To Client',
+                        hint: 'Brief Description ...',
+                        maxLines: 20,
+                        height: 100,
+                        labelFontSize: 14,
+                        margin: 0,
+                        labelFontWeight: FontWeight.w500,
+                        inputType: TextInputType.text,
+                        isPassword: false,
+                        isMandatory: true,
+                      ),
                     ],
                   ),
                 ),

@@ -63,7 +63,8 @@ class FileUploadItem extends StatelessWidget {
 
         GestureDetector(
           onTap: () => onClick(),
-          child: SizedBox(
+          child: Container(
+            color: context.resources.color.background,
             width: double.infinity,
             height: 80,
             child: DottedBorder(

@@ -146,36 +146,62 @@ class BookServiceController extends GetxController {
       // Format start date
       final startDateStr = DateFormat('yyyy-MM-dd').format(rangeStart.value!);
 
+      final price = isPackage.value
+          ? package.value!.totalPrice.toString()
+          : service.value!.unitPrice.toString();
+
       // Format end date if available
       String? endDateStr;
       if (rangeEnd.value != null) {
         endDateStr = DateFormat('yyyy-MM-dd').format(rangeEnd.value!);
       }
 
+      // Map work location type to API codes
+      String workLocationType = '';
+      switch (selectedServiceType.value) {
+        case 'Remote':
+          workLocationType = 'RMT';
+          break;
+        case 'Hybrid':
+          workLocationType = 'HYB';
+          break;
+        case 'Onsite':
+          workLocationType = 'SIT';
+          break;
+      }
+
       Map<String, dynamic> data = {
-        'type': isPackage.value ? 'PR' : 'SR',
-        // PR = Package Request, SR = Service Request
-        'start_date': startDateStr,
-        'service_type': selectedServiceType.value!,
-        'message_to_client': notesController.text.trim(),
+        'type': isPackage.value ? 'PB' : 'SB',
+        'start_datetime': startDateStr,
+        'unit_price': price,
+        'total_price': price,
+        'work_location_type': workLocationType,
+        'message_to_client': notesController.text,
+        'description': "",
+        'tasks_milestones': "",
+        'message_to_freelancer': "",
       };
 
       // Add service or package hashcode
       if (isPackage.value) {
         data['package'] = package.value!.hashcode!;
       } else {
-        data['service'] = service.value!.hashcode!;
+        data['services'] = [service.value!.hashcode!];
       }
 
       // Add end date if available
       if (endDateStr != null) {
-        data['end_date'] = endDateStr;
+        data['expiry_datetime'] = endDateStr;
+      } else {
+        data['start_datetime'] = startDateStr;
       }
 
       // Add address only for Onsite service type
       if (selectedServiceType.value == 'Onsite' &&
           selectedAddress.value != null) {
         data['address'] = selectedAddress.value!.hashcode;
+      } else {
+        data['address'] = '';
       }
 
       final response = await _submitEngagementRepository.submitEngagement(data);

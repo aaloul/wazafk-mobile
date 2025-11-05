@@ -63,7 +63,7 @@ class ApplyJobController extends GetxController {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf'],
+        allowedExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
       );
 
       if (result != null && result.files.single.path != null) {
@@ -72,10 +72,34 @@ class ApplyJobController extends GetxController {
         cvFileName.value = result.files.single.name;
         cvFileSize.value = result.files.single.size;
 
-        // Convert to base64
+        // Convert to base64 with proper MIME type
         final bytes = await file.readAsBytes();
-        cvFileBase64.value =
-            "data:application/pdf;base64,${base64Encode(bytes)}";
+        final extension = result.files.single.extension?.toLowerCase();
+        String mimeType;
+
+        switch (extension) {
+          case 'pdf':
+            mimeType = 'application/pdf';
+            break;
+          case 'doc':
+            mimeType = 'application/msword';
+            break;
+          case 'docx':
+            mimeType =
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+            break;
+          case 'jpg':
+          case 'jpeg':
+            mimeType = 'image/jpeg';
+            break;
+          case 'png':
+            mimeType = 'image/png';
+            break;
+          default:
+            mimeType = 'application/octet-stream';
+        }
+
+        cvFileBase64.value = "data:$mimeType;base64,${base64Encode(bytes)}";
 
         constants.showSnackBar(
           'CV selected successfully',
@@ -131,14 +155,26 @@ class ApplyJobController extends GetxController {
       Map<String, dynamic> data = {
         'type': 'JA',
         'job': job.value!.hashcode!,
-        'unit_price': budgetController.text.trim(),
+        'unit_price': budgetController.text,
+        'total_price': budgetController.text,
         'estimated_hours': selectedDuration.value!,
-        'message_to_client': descriptionController.text.trim(),
+        'message_to_client': descriptionController.text,
+        'work_location_type': job.value!.workLocationType.toString(),
+        'address': "",
+        'message_to_freelancer': "",
+        'tasks_milestones': "",
+        'description': "",
+        'start_datetime': "",
+        'expiry_datetime': "",
+        'package': "",
+        'services': [],
       };
 
       // Add CV if provided (as base64)
       if (cvFileBase64.value != null) {
         data['freelancer_cv'] = cvFileBase64.value!;
+      } else {
+        data['freelancer_cv'] = "";
       }
 
       final response = await _submitEngagementRepository.submitEngagement(data);
