@@ -8,6 +8,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../../../components/labeled_text_field.dart';
+import '../../../components/phone_text_field.dart';
 import '../../../components/primary_text.dart';
 
 class PhoneNumberScreen extends StatelessWidget {
@@ -47,15 +48,22 @@ class PhoneNumberScreen extends StatelessWidget {
                 ),
 
                 SizedBox(height: 24),
-
-                LabeledTextFiled(
-                  label: 'Phone Number',
-                  hint: '',
-                  isPassword: false,
+                PhoneTextFiled(
+                  hint: 'Phone Number',
                   controller: dataController.phoneController,
-                  isMandatory: true,
-                  inputType: TextInputType.phone,
+                  onCCChanged: (cc) {
+                    dataController.cc = cc;
+                  },
                 ),
+
+                // LabeledTextFiled(
+                //   label: 'Phone Number',
+                //   hint: '',
+                //   isPassword: false,
+                //   controller: dataController.phoneController,
+                //   isMandatory: true,
+                //   inputType: TextInputType.phone,
+                // ),
                 SizedBox(height: 20),
 
                 GestureDetector(

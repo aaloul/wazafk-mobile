@@ -19,9 +19,8 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.resources.color.background2,
       body: SafeArea(
-        child: Expanded(
-          child: Column(
-            children: [
+        child: Column(
+          children: [
               ProfileHeader(),
               Expanded(
                 child: SingleChildScrollView(
@@ -67,7 +66,6 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ],
-          ),
         ),
       ),
     );

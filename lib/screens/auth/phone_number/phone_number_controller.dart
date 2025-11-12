@@ -9,6 +9,7 @@ class PhoneNumberController extends GetxController {
   final CheckMemberRepository _checkMemberRepository = CheckMemberRepository();
 
   var isLoading = false.obs;
+  String cc = '';
 
   TextEditingController phoneController = TextEditingController();
 
@@ -22,18 +23,18 @@ class PhoneNumberController extends GetxController {
     isLoading(true);
     try {
       final response = await _checkMemberRepository.checkMemberExists(
-        mobile: mobile,
+        mobile: cc + mobile,
       );
       if (response.success ?? false) {
         if (response.data?.exists ?? false) {
           Get.toNamed(
             RouteConstant.loginPasswordScreen,
-            arguments: {"mobile": mobile},
+            arguments: {"mobile": cc + mobile},
           );
         } else {
           Get.toNamed(
             RouteConstant.verificationScreen,
-            arguments: {'page': "login", "mobile": mobile},
+            arguments: {'page': "login", "mobile": cc + mobile},
           );
         }
       } else {
