@@ -257,7 +257,9 @@ class BookServiceScreen extends StatelessWidget {
 
                       // Show address selection only when Onsite is selected
                       Obx(
-                        () => controller.selectedServiceType.value == 'Onsite'
+                        () =>
+                            controller.selectedServiceType.value == 'Onsite' ||
+                                controller.selectedServiceType.value == 'Hybrid'
                             ? Column(
                                 children: [
                                   AddressListWidget(),

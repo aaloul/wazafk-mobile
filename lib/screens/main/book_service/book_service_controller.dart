@@ -134,7 +134,8 @@ class BookServiceController extends GetxController {
     }
 
     // Validate address only for Onsite service type
-    if (selectedServiceType.value == 'Onsite' &&
+    if ((selectedServiceType.value == 'Onsite' ||
+            selectedServiceType.value == 'Hybrid') &&
         selectedAddress.value == null) {
       constants.showSnackBar('Please select a location', SnackBarStatus.ERROR);
       return;
@@ -197,7 +198,8 @@ class BookServiceController extends GetxController {
       }
 
       // Add address only for Onsite service type
-      if (selectedServiceType.value == 'Onsite' &&
+      if ((selectedServiceType.value == 'Onsite' ||
+              selectedServiceType.value == 'Hybrid') &&
           selectedAddress.value != null) {
         data['address'] = selectedAddress.value!.hashcode;
       } else {
