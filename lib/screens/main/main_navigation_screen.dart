@@ -88,18 +88,33 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         // Safety check: ensure selected index is within bounds
         final safeIndex = _selectedIndex.clamp(0, screens.length - 1);
 
-        return Scaffold(
-          body: screens[safeIndex],
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: safeIndex,
-            onTap: _onItemTapped,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: context.resources.color.background,
-            selectedItemColor: context.resources.color.colorPrimary,
-            unselectedItemColor: context.resources.color.colorGrey,
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
-            items: _buildNavigationItems(context, isFreelancerMode),
+        return WillPopScope(
+          onWillPop: () async {
+            if (safeIndex == 0) {
+              // Already on home screen, exit the app
+              SystemNavigator.pop();
+              return false;
+            } else {
+              // Not on home screen, navigate to home
+              setState(() {
+                _selectedIndex = 0;
+              });
+              return false;
+            }
+          },
+          child: Scaffold(
+            body: screens[safeIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: safeIndex,
+              onTap: _onItemTapped,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: context.resources.color.background,
+              selectedItemColor: context.resources.color.colorPrimary,
+              unselectedItemColor: context.resources.color.colorGrey,
+              selectedFontSize: 12,
+              unselectedFontSize: 12,
+              items: _buildNavigationItems(context, isFreelancerMode),
+            ),
           ),
         );
       });
