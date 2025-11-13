@@ -27,6 +27,7 @@ class SelectDateCalendarWidget extends StatelessWidget {
             rangeSelectionMode: controller.rangeSelectionMode.value,
             calendarFormat: CalendarFormat.month,
             startingDayOfWeek: StartingDayOfWeek.monday,
+            availableGestures: AvailableGestures.horizontalSwipe,
             onDaySelected: controller.onDaySelected,
             onRangeSelected: controller.onRangeSelected,
             onPageChanged: (focusedDay) {
