@@ -57,4 +57,6 @@ class RouteConstant {
   static const String searchScreen = '/search_screen';
   static const String subcategoriesScreen = '/subcategories_screen';
   static const String allCategoriesScreen = '/all_categories_screen';
+  static const String allEngagementsScreen = '/all_engagements_screen';
+  static const String allJobsScreen = '/all_jobs_screen';
 }

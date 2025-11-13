@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -39,11 +40,16 @@ class HomeEngagementsWidget extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorBlack,
                   ),
-                  PrimaryText(
-                    text: 'View All',
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    textColor: context.resources.color.colorGrey14,
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteConstant.allEngagementsScreen);
+                    },
+                    child: PrimaryText(
+                      text: 'View All',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      textColor: context.resources.color.colorGrey14,
+                    ),
                   ),
                 ],
               ),

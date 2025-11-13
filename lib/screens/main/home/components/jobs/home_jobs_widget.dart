@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -27,11 +28,16 @@ class HomeJobsWidget extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              PrimaryText(
-                text: "View All",
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                textColor: context.resources.color.colorGrey14,
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(RouteConstant.allJobsScreen);
+                },
+                child: PrimaryText(
+                  text: "View All",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  textColor: context.resources.color.colorGrey14,
+                ),
               ),
             ],
           ),
