@@ -75,7 +75,13 @@ class NotificationsController extends GetxController {
 
       // Add filter based on selected tab
       if (selectedTab.value != "All") {
-        filters['target'] = selectedTab.value.toLowerCase();
+        if (selectedTab.value == "Requests") {
+          filters['reference'] = "SB,PB,CR";
+        } else if (selectedTab.value == "Payments") {
+          filters['reference'] = "PA";
+        } else if (selectedTab.value == "Jobs") {
+          filters['reference'] = "JA";
+        }
       }
 
       final response = await _repository.getNotifications(filters: filters);
@@ -111,7 +117,13 @@ class NotificationsController extends GetxController {
 
       // Add filter based on selected tab
       if (selectedTab.value != "All") {
-        filters['target'] = selectedTab.value.toLowerCase();
+        if (selectedTab.value == "Requests") {
+          filters['reference'] = "SB,PB,CR";
+        } else if (selectedTab.value == "Payments") {
+          filters['reference'] = "PA";
+        } else if (selectedTab.value == "Jobs") {
+          filters['reference'] = "JA";
+        }
       }
 
       final response = await _repository.getNotifications(filters: filters);

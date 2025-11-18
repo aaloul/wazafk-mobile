@@ -72,9 +72,7 @@ class AllJobsScreen extends StatelessWidget {
                               child: SizedBox(
                                 width: 24,
                                 height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
+                                child: ProgressBar(),
                               ),
                             ),
                           );

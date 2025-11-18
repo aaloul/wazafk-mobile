@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/NotificationsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 class NotificationItem extends StatelessWidget {
@@ -49,17 +49,25 @@ class NotificationItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Icon
-            Container(
-              width: 70,
-              height: 70,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: context.resources.color.colorGrey21,
-                shape: BoxShape.circle,
+            ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(99999999),
+              child: PrimaryNetworkImage(
+                url: notification.image.toString(),
+                width: 70,
+                height: 70,
               ),
-              child: Image.asset(AppIcons.notification2),
             ),
 
+            // Container(
+            //   width: 70,
+            //   height: 70,
+            //   padding: EdgeInsets.all(10),
+            //   decoration: BoxDecoration(
+            //     color: context.resources.color.colorGrey21,
+            //     shape: BoxShape.circle,
+            //   ),
+            //   child: Image.asset(AppIcons.notification2),
+            // ),
             Container(
               width: 1,
               height: 50,

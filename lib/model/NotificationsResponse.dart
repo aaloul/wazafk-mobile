@@ -58,6 +58,7 @@ class NotificationElement {
   String? hashcode;
   DateTime? datetime;
   String? target;
+  String? image;
   dynamic reference;
   dynamic referenceHashcode;
   String? channel;
@@ -73,6 +74,7 @@ class NotificationElement {
     this.target,
     this.reference,
     this.referenceHashcode,
+    this.image,
     this.channel,
     this.title,
     this.message,
@@ -88,6 +90,7 @@ class NotificationElement {
             ? null
             : DateTime.parse(json["datetime"]),
         target: json["target"],
+        image: json["image"],
         reference: json["reference"],
         referenceHashcode: json["reference_hashcode"],
         channel: json["channel"],
@@ -102,6 +105,7 @@ class NotificationElement {
     "hashcode": hashcode,
     "datetime": datetime?.toIso8601String(),
     "target": target,
+    "image": image,
     "reference": reference,
     "reference_hashcode": referenceHashcode,
     "channel": channel,

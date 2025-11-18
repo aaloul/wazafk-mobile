@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_freelancer_item.dart';
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_package_item.dart';
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_service_item.dart';
@@ -18,7 +19,7 @@ class EmployerDataListWidget extends StatelessWidget {
     return Obx(() {
       if (controller.isLoading.value && controller.employerData.isEmpty) {
         return Center(
-          child: CircularProgressIndicator(
+          child: ProgressBar(
             color: context.resources.color.colorPrimary,
           ),
         );
@@ -66,7 +67,7 @@ class EmployerDataListWidget extends StatelessWidget {
               return Center(
                 child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: CircularProgressIndicator(
+                  child: ProgressBar(
                     color: context.resources.color.colorPrimary,
                   ),
                 ),

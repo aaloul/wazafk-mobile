@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/screens/main/member_profiles/components/jobs/job_carousel_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -28,7 +29,7 @@ class _MemberJobsCarouselState extends State<MemberJobsCarousel> {
     if (widget.isLoading) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 32),
-        child: Center(child: CircularProgressIndicator()),
+        child: Center(child: ProgressBar()),
       );
     }
 
