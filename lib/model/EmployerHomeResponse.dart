@@ -18,7 +18,7 @@ String employerHomeResponseToJson(EmployerHomeResponse data) =>
 class EmployerHomeResponse {
   bool? success;
   String? message;
-  List<EmployerHomeData>? data;
+  EmployerHome? data;
 
   EmployerHomeResponse({this.success, this.message, this.data});
 
@@ -26,19 +26,55 @@ class EmployerHomeResponse {
       EmployerHomeResponse(
         success: json["success"],
         message: json["message"],
-        data: json["data"] == null
-            ? []
-            : List<EmployerHomeData>.from(
-                json["data"]!.map((x) => EmployerHomeData.fromJson(x)),
-              ),
+        data: json["data"] == null ? null : EmployerHome.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
     "success": success,
     "message": message,
-    "data": data == null
+    "data": data?.toJson(),
+  };
+}
+
+class EmployerHome {
+  int? page;
+  int? pageLimit;
+  int? total;
+  String? prevIndices;
+  String? pageIndices;
+  List<EmployerHomeData>? records;
+
+  EmployerHome({
+    this.page,
+    this.pageLimit,
+    this.prevIndices,
+    this.pageIndices,
+    this.total,
+    this.records,
+  });
+
+  factory EmployerHome.fromJson(Map<String, dynamic> json) => EmployerHome(
+    page: json["page"],
+    pageLimit: json["page_limit"],
+    prevIndices: json["prev_indices"],
+    pageIndices: json["page_indices"],
+    total: json["total"],
+    records: json["records"] == null
         ? []
-        : List<dynamic>.from(data!.map((x) => x.toJson())),
+        : List<EmployerHomeData>.from(
+            json["records"]!.map((x) => EmployerHomeData.fromJson(x)),
+          ),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "page": page,
+    "page_limit": pageLimit,
+    "prev_indices": prevIndices,
+    "page_indices": pageIndices,
+    "total": total,
+    "records": records == null
+        ? []
+        : List<dynamic>.from(records!.map((x) => x.toJson())),
   };
 }
 

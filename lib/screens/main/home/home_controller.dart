@@ -346,7 +346,7 @@ class HomeController extends GetxController {
 
       if (response.success == true && response.data != null) {
         // Filter data by entity type
-        employerData.value = response.data ?? [];
+        employerData.value = response.data?.records ?? [];
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to load employer home data',
