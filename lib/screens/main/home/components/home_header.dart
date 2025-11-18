@@ -71,7 +71,7 @@ class HomeHeader extends StatelessWidget {
                   )),
               GestureDetector(
                 onTap: () {
-                  Get.toNamed(RouteConstant.profileNotificationsScreen);
+                  Get.toNamed(RouteConstant.notificationsScreen);
                 },
                 child: Image.asset(AppIcons.notification, width: 24),
               ),

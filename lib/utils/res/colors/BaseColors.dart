@@ -50,6 +50,8 @@ abstract class BaseColors {
 
   Color get colorGrey15;
 
+  Color get colorGrey21;
+
   Color get colorGrey16;
 
   Color get colorGrey17;

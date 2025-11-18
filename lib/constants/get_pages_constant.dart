@@ -24,6 +24,7 @@ import '../screens/main/main_navigation_screen.dart';
 import '../screens/main/member_profiles/employer_member_profile/employer_member_profile_screen.dart';
 import '../screens/main/member_profiles/employer_rate_member/employer_rate_member_screen.dart';
 import '../screens/main/member_profiles/freelancer_member_profile/freelancer_member_profile_screen.dart';
+import '../screens/main/notifications/notifications_screen.dart';
 import '../screens/main/package_details/package_details_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
@@ -142,6 +143,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.loginSecurityScreen,
     page: () => LoginSecurityScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.notificationsScreen,
+    page: () => NotificationsScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(

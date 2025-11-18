@@ -75,4 +75,5 @@ class AppIcons {
   static const String clock = '${base}clock.png';
   static const String servicePosted = '${base}service_posted.png';
   static const String serviceRemoved = '${base}service_removed.png';
+  static const String notification2 = '${base}notification2.png';
 }

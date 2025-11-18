@@ -19,6 +19,7 @@ class RouteConstant {
   static const String myAddressesScreen = '/my_addresses_screen';
   static const String profileNotificationsScreen =
       '/profile_notifications_screen';
+  static const String notificationsScreen = '/notifications_screen';
   static const String loginSecurityScreen = '/login_security_screen';
   static const String paymentsEarningsScreen = '/payments_earnings_screen';
   static const String privacySharingScreen = '/privacy_sharing_screen';
