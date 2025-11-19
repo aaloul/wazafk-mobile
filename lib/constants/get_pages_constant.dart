@@ -20,6 +20,7 @@ import '../screens/auth/splash/splash_screen.dart';
 import '../screens/auth/verification/verification_screen.dart';
 import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
+import '../screens/conversation_messages/conversation_messages_screen.dart';
 import '../screens/main/job_details/job_details_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
 import '../screens/main/member_profiles/employer_member_profile/employer_member_profile_screen.dart';
@@ -117,6 +118,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.chatScreen,
     page: () => ChatScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.conversationMessagesScreen,
+    page: () => const ConversationMessagesScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 

@@ -10,6 +10,7 @@ class RouteConstant {
   static const String selectPortalScreen = '/select_portal_screen';
   static const String mainNavigationScreen = '/main_navigation_screen';
   static const String chatScreen = '/chat_screen';
+  static const String conversationMessagesScreen = '/conversation_messages';
   static const String resetPasswordScreen = '/reset_password_screen';
 
   // Profile screens

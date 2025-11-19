@@ -26,8 +26,10 @@ class PrimaryTextField extends StatelessWidget {
     this.fontSize,
     this.maxLines,
     this.endIcon,
+    this.backgroundColor,
     this.textInputAction,
     this.endIconClick,
+    this.borderRadius,
   });
 
   final String hint;
@@ -41,8 +43,10 @@ class PrimaryTextField extends StatelessWidget {
   double? height;
   double? margin;
   double? fontSize;
+  double? borderRadius;
   int? maxLength;
   Color? borderColor;
+  Color? backgroundColor;
   FontWeight? fontWeight;
   int? maxLines;
   TextInputAction? textInputAction;
@@ -56,10 +60,11 @@ class PrimaryTextField extends StatelessWidget {
         height: height ?? AppDimensions.textFieldHeight,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: context.resources.color.colorWhite,
+            color: backgroundColor ?? context.resources.color.colorWhite,
             border: Border.all(
                 width: 1, color: borderColor ?? context.resources.color.colorGrey2),
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
+            borderRadius: BorderRadius.all(
+                Radius.circular(borderRadius ?? 10))),
         child: Center(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

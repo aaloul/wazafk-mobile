@@ -3,6 +3,7 @@ class Endpoints {
   static const base_url_staging = 'https://wazafk.lcp.website/api/';
 
   static const base_url_prod = 'https://wazafk.lcp.website/api/';
+  static const authenticateChannel = 'communication/authenticateChannel';
 
   //APP
   static const banners = 'app/banners';
@@ -111,6 +112,11 @@ class Endpoints {
   static const addFavoritePackage = 'favorite/addFavoritePackage';
   static const removeFavoritePackage = 'favorite/removeFavoritePackage';
 
+  //COMMUNICATION
+  static const contacts = 'communication/contacts';
+  static const messages = 'communication/getConversationMessages';
+  static const sendMessage = 'communication/sendMessage';
+
   //RATING
   static const ratingCriteria = 'rating/ratingCriteria';
   static const rateMember = 'rating/rateMember';
@@ -128,7 +134,6 @@ class Endpoints {
   static const createChat = 'support/createChat';
   static const chats = 'support/chats';
   static const chat = 'support/chat';
-  static const sendMessage = 'support/sendMessage';
   static const chatMessages = 'support/chatMessages';
 
   //SEARCH

@@ -5,6 +5,7 @@ import 'package:toastification/toastification.dart';
 import 'package:wazafak_app/screens/auth/splash/splash_screen.dart';
 import 'package:wazafak_app/utils/DismissKeyboard.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/pusher_manager.dart';
 
 import 'constants/get_pages_constant.dart';
 import 'constants/route_constant.dart';
@@ -12,6 +13,7 @@ import 'constants/route_constant.dart';
 Future<void> main() async {
   await GetStorage.init('USER');
   WidgetsFlutterBinding.ensureInitialized();
+  PusherManager().initPusher();
 
   runApp(const MyApp());
 }
