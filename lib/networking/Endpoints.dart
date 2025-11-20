@@ -116,6 +116,7 @@ class Endpoints {
   static const contacts = 'communication/contacts';
   static const messages = 'communication/getConversationMessages';
   static const sendMessage = 'communication/sendMessage';
+  static const coversations = 'communication/coversations';
 
   //RATING
   static const ratingCriteria = 'rating/ratingCriteria';

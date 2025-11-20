@@ -7,6 +7,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/chat/chat_controller.dart';
 import 'package:wazafak_app/screens/chat/components/chat_tab_bar.dart';
 import 'package:wazafak_app/screens/chat/components/contact_list_item.dart';
+import 'package:wazafak_app/screens/chat/components/conversation_list_item.dart';
 import 'package:wazafak_app/screens/chat/components/empty_state_view.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -47,12 +48,80 @@ class ChatScreen extends StatelessWidget {
         ));
   }
 
-  Widget _buildOngoingChatTab(BuildContext context) {
-    return EmptyStateView(
-      message: "No ongoing chats",
-      icon: Icons.chat_bubble_outline,
-    );
-  }
+  Widget _buildOngoingChatTab(BuildContext context) {) {
+    return Obx(() {
+      // Loading state
+      if (controller.conversations.isEmpty &&
+          controller.isLoadingConversations.value) {
+        return Center(
+          child: ProgressBar(color: context.resources.color.colorPrimary),
+        );
+      }
+
+      // Error state with retry
+      if (controller.conversations.isEmpty &&
+          !controller.isLoadingConversations.value &&
+          controller.hasConversationsError.value) {
+        return EmptyStateView(
+          message: controller.conversationsErrorMessage.value,
+          icon: Icons.error_outline,
+          showRetry: true,
+          onRetry: controller.retryLoadConversations,
+        );
+      }
+
+      // Empty state
+      if (controller.conversations.isEmpty &&
+          !controller.isLoadingConversations.value) {
+        return EmptyStateView(
+          message: "No ongoing chats",
+          icon: Icons.chat_bubble_outline,
+        );
+      }
+
+      // Conversations list
+      return RefreshIndicator(
+        onRefresh: controller.refreshConversations,
+        color: context.resources.color.colorPrimary,
+        child: ListView.builder(
+          controller: controller.conversationsScrollController,
+          // padding: EdgeInsets.symmetric(horizontal: 16),
+          itemCount:
+              controller.conversations.length +
+              (controller.hasMoreConversations.value ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == controller.conversations.length) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: ProgressBar(
+                    color: context.resources.color.colorPrimary,
+                  ),
+                ),
+              );
+            }
+
+            final conversation = controller.conversations[index];
+            return ConversationListItem(
+              conversation: conversation,
+              conversationName: controller.getConversationName(conversation),
+              lastMessageTime: controller.formatLastMessageTime(
+                conversation.lastMessage?.createdAt,
+              ),
+              onTap: () {
+                Get.toNamed(
+                  RouteConstant.conversationMessagesScreen,
+                  arguments: {
+                    'member_hashcode': conversation.hashcode ?? '',
+                    'member_name': controller.getConversationName(conversation),
+                  },
+                );
+              },
+            );
+          },
+        ),
+      );
+    })}
 
   Widget _buildActiveEmployersTab(BuildContext context) {
     return Obx(() {
@@ -91,7 +160,7 @@ class ChatScreen extends StatelessWidget {
         color: context.resources.color.colorPrimary,
         child: ListView.builder(
           controller: controller.scrollController,
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          // padding: EdgeInsets.symmetric(horizontal: 16),
           itemCount: controller.contacts.length +
               (controller.hasMoreData.value ? 1 : 0),
           itemBuilder: (context, index) {

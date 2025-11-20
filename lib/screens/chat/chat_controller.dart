@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/ContactsResponse.dart';
+import 'package:wazafak_app/model/CoversationsResponse.dart';
 import 'package:wazafak_app/repository/communication/contacts_repository.dart';
+import 'package:wazafak_app/repository/communication/coversations_repository.dart';
 
 class ChatController extends GetxController {
   final ContactsRepository _repository = ContactsRepository();
+  final CoversationsRepository _coversationsRepository =
+      CoversationsRepository();
 
   // Tabs
   final List<String> tabs = ["Ongoing Chat", "Active Employers"];
@@ -23,18 +27,35 @@ class ChatController extends GetxController {
   var totalPages = 1.obs;
   var pageSize = 20.obs;
 
+  // Conversations data
+  var conversations = <Coversation>[].obs;
+  var isLoadingConversations = false.obs;
+  var isLoadingMoreConversations = false.obs;
+  var hasMoreConversations = true.obs;
+  var hasConversationsError = false.obs;
+  var conversationsErrorMessage = ''.obs;
+
+  // Conversations pagination
+  var conversationsCurrentPage = 1.obs;
+  var conversationsTotalPages = 1.obs;
+
   // ScrollController for pagination
   final ScrollController scrollController = ScrollController();
+  final ScrollController conversationsScrollController = ScrollController();
 
   @override
   void onInit() {
     super.onInit();
     _setupScrollListener();
+    _setupConversationsScrollListener();
+    // Load conversations by default since Ongoing Chat is the default tab
+    loadConversations();
   }
 
   @override
   void onClose() {
     scrollController.dispose();
+    conversationsScrollController.dispose();
     super.onClose();
   }
 
@@ -50,13 +71,27 @@ class ChatController extends GetxController {
     });
   }
 
+  void _setupConversationsScrollListener() {
+    conversationsScrollController.addListener(() {
+      if (selectedTab.value == "Ongoing Chat" &&
+          conversationsScrollController.position.pixels >=
+              conversationsScrollController.position.maxScrollExtent * 0.8) {
+        if (!isLoadingMoreConversations.value && hasMoreConversations.value) {
+          loadMoreConversations();
+        }
+      }
+    });
+  }
+
   void changeTab(String tab) {
     if (selectedTab.value != tab) {
       selectedTab.value = tab;
 
-      // Load contacts when switching to Active Employers tab
+      // Load data based on selected tab
       if (tab == "Active Employers" && contacts.isEmpty) {
         loadContacts();
+      } else if (tab == "Ongoing Chat" && conversations.isEmpty) {
+        loadConversations();
       }
     }
   }
@@ -155,5 +190,130 @@ class ChatController extends GetxController {
     }
 
     return name.trim().isEmpty ? 'Unknown' : name.trim();
+  }
+
+  // Conversations methods
+  Future<void> loadConversations() async {
+    if (isLoadingConversations.value) return;
+
+    try {
+      isLoadingConversations.value = true;
+      hasConversationsError.value = false;
+      conversationsErrorMessage.value = '';
+      conversationsCurrentPage.value = 1;
+      conversations.clear();
+      hasMoreConversations.value = true;
+
+      final response = await _coversationsRepository.getCoversations(
+        page: conversationsCurrentPage.value,
+        size: pageSize.value,
+      );
+
+      if (response.success == true && response.data != null) {
+        conversations.value = response.data!.list ?? [];
+
+        if (response.data!.meta != null) {
+          conversationsCurrentPage.value = response.data!.meta!.page ?? 1;
+          conversationsTotalPages.value = response.data!.meta!.last ?? 1;
+          hasMoreConversations.value =
+              conversationsCurrentPage.value < conversationsTotalPages.value;
+        }
+      } else {
+        hasConversationsError.value = true;
+        conversationsErrorMessage.value =
+            response.message ?? 'Failed to load conversations';
+      }
+    } catch (e) {
+      print('Error loading conversations: $e');
+      hasConversationsError.value = true;
+      conversationsErrorMessage.value =
+          'Failed to load conversations. Please check your connection.';
+      Get.snackbar(
+        'Error',
+        conversationsErrorMessage.value,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoadingConversations.value = false;
+    }
+  }
+
+  Future<void> retryLoadConversations() async {
+    await loadConversations();
+  }
+
+  Future<void> loadMoreConversations() async {
+    if (isLoadingMoreConversations.value || !hasMoreConversations.value) return;
+
+    try {
+      isLoadingMoreConversations.value = true;
+
+      int nextPage = conversationsCurrentPage.value + 1;
+
+      final response = await _coversationsRepository.getCoversations(
+        page: nextPage,
+        size: pageSize.value,
+      );
+
+      if (response.success == true && response.data != null) {
+        List<Coversation> newConversations = response.data!.list ?? [];
+        conversations.addAll(newConversations);
+
+        if (response.data!.meta != null) {
+          conversationsCurrentPage.value =
+              response.data!.meta!.page ?? conversationsCurrentPage.value;
+          conversationsTotalPages.value =
+              response.data!.meta!.last ?? conversationsTotalPages.value;
+          hasMoreConversations.value =
+              conversationsCurrentPage.value < conversationsTotalPages.value;
+        }
+      }
+    } catch (e) {
+      print('Error loading more conversations: $e');
+    } finally {
+      isLoadingMoreConversations.value = false;
+    }
+  }
+
+  Future<void> refreshConversations() async {
+    conversations.clear();
+    conversationsCurrentPage.value = 1;
+    hasMoreConversations.value = true;
+    await loadConversations();
+  }
+
+  String getConversationName(Coversation conversation) {
+    String name = '';
+    if (conversation.firstName != null && conversation.firstName!.isNotEmpty) {
+      name = conversation.firstName!;
+    }
+    if (conversation.lastName != null && conversation.lastName!.isNotEmpty) {
+      name += ' ${conversation.lastName!}';
+    }
+
+    return name.trim().isEmpty ? 'Unknown' : name.trim();
+  }
+
+  String formatLastMessageTime(DateTime? dateTime) {
+    if (dateTime == null) return '';
+
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inDays > 0) {
+      if (difference.inDays == 1) {
+        return 'Yesterday';
+      } else if (difference.inDays < 7) {
+        return '${difference.inDays}d ago';
+      } else {
+        return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+      }
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m ago';
+    } else {
+      return 'Just now';
+    }
   }
 }
