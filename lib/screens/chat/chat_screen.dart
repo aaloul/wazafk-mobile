@@ -41,8 +41,8 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ],
-          )),
-      ),
+          ),
+        )),
     );
   }
 
@@ -55,8 +55,8 @@ class ChatScreen extends StatelessWidget {
   };
   }
 
-  Widget _buildOngoingChatTab(BuildContext contextreturn Obx(() {
-      // Loading state
+  Widget _buildOngoingChatTab(BuildContext context) {
+    return Obx((// Loading state
       if (controller.conversations.isEmpty &&
           controller.isLoadingConversations.value) {
         return Center(

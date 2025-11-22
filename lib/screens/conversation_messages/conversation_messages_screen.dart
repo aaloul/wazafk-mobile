@@ -55,7 +55,27 @@ class _ConversationMessagesScreenState
                     ? const MessagesShimmer()
                     : SingleChildScrollView(
                         controller: dataController.scrollController,
-                        child: Column(children: [MessagesWidget()]),
+                      child: Column(
+                        children: [
+                          // Loading indicator for pagination
+                          Obx(() =>
+                          dataController.isLoadingMore.value
+                              ? const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
+                          )
+                              : const SizedBox.shrink()),
+                          MessagesWidget(),
+                        ],
+                      ),
                       ),
               ),
             ),

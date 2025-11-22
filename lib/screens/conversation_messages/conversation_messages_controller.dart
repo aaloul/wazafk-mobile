@@ -41,15 +41,40 @@ class ConversationMessagesController extends GetxController {
 
   var dateTimePage = 'date'.obs;
 
+  // Pagination
+  int currentPage = 1;
+  int lastPage = 1;
+  var isLoadingMore = false.obs;
+  var hasMoreData = true.obs;
+
   // late MyListingItem secondary;
   bool isSender = false;
 
-  Future<void> getMessages() async {
+  Future<void> getMessages({bool loadMore = false}) async {
+    if (loadMore) {
+      if (isLoadingMore.value || !hasMoreData.value) return;
+      isLoadingMore(true);
+    }
+
     try {
+      final page = loadMore ? currentPage + 1 : 1;
       final response = await _conversationMessagesRepository
-          .getConversationMessages(customerId: customerHashcode, page: '1');
+          .getConversationMessages(
+          customerId: customerHashcode, page: page.toString());
       if (response.success ?? false) {
-        messages.value = response.data?.list ?? [];
+        final newMessages = response.data?.list ?? [];
+
+        // Update pagination info
+        currentPage = response.data?.meta?.page ?? 1;
+        lastPage = response.data?.meta?.last ?? 1;
+        hasMoreData.value = currentPage < lastPage;
+
+        if (loadMore) {
+          // Append older messages at the end (since messages are in reverse order)
+          messages.addAll(newMessages);
+        } else {
+          messages.value = newMessages;
+        }
 
         grouped.value = groupBy<ConversationMessage, String>(messages.value, (
           message,
@@ -63,11 +88,14 @@ class ConversationMessagesController extends GetxController {
           return "${time.day}-${time.month}-${time.year}";
         });
 
-        scrollToBottom();
-        initPusher(
-          response.data!.conversationEventDetails!.channelName.toString(),
-          response.data!.conversationEventDetails!.eventListenerName.toString(),
-        );
+        if (!loadMore) {
+          scrollToBottom();
+          initPusher(
+            response.data!.conversationEventDetails!.channelName.toString(),
+            response.data!.conversationEventDetails!.eventListenerName
+                .toString(),
+          );
+        }
       } else {
         constants.showSnackBar(
           response.message.toString(),
@@ -75,8 +103,10 @@ class ConversationMessagesController extends GetxController {
         );
       }
       isMessagesLoading(false);
+      isLoadingMore(false);
     } catch (e) {
       isMessagesLoading(false);
+      isLoadingMore(false);
       // DialogHelper.showNoInternetPopup(Get.context!, () {
       //   getMessages();
       // });
@@ -127,6 +157,9 @@ class ConversationMessagesController extends GetxController {
     super.onInit();
     isMessagesLoading(true);
 
+    // Add scroll listener for pagination
+    scrollController.addListener(_onScroll);
+
     var keyboardVisibilityController = KeyboardVisibilityController();
     // Subscribe
     keyboardSubscription = keyboardVisibilityController.onChange.listen((
@@ -139,6 +172,13 @@ class ConversationMessagesController extends GetxController {
     });
   }
 
+  void _onScroll() {
+    // Load more when scrolled to top (for older messages)
+    if (scrollController.position.pixels <= 100) {
+      getMessages(loadMore: true);
+    }
+  }
+
   @override
   Future<void> onReady() async {
     super.onReady();
@@ -147,6 +187,8 @@ class ConversationMessagesController extends GetxController {
   @override
   void onClose() {
     keyboardSubscription.cancel();
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
     // Clear the callback when controller is disposed
     PusherManager.onEventCallback = null;
   }
