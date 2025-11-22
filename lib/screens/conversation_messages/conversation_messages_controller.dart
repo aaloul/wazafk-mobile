@@ -5,15 +5,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
-import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../model/ConversationMessagesResponse.dart';
 import '../../repository/communication/conversation_messages_repository.dart';
 import '../../repository/communication/send_message_repository.dart';
 import '../../utils/Prefs.dart';
+import '../../utils/pusher_manager.dart';
 import '../../utils/utils.dart';
 
 class ConversationMessagesController extends GetxController {
@@ -149,31 +147,39 @@ class ConversationMessagesController extends GetxController {
   @override
   void onClose() {
     keyboardSubscription.cancel();
+    // Clear the callback when controller is disposed
+    PusherManager.onEventCallback = null;
   }
 
-  PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
+  // Expose pusher for unsubscribe operations
+  PusherChannelsFlutter get pusher => PusherManager.pusher;
 
   Future<void> initPusher(String channel, String eventName) async {
+    print("initPusher: $channel");
+    print("initPusher: $eventName");
+
     channelName = channel;
     this.eventName = eventName;
     try {
-      await pusher.subscribe(
-        channelName: channel,
-        onEvent: (dynamic event) {
-          if (event.eventName.toString() == eventName.toString()) {
-            ConversationMessage m = ConversationMessage.fromJson(
-              json.decode(event.data),
-            );
-            if (m.senderHashcode != Prefs.getId) {
-              addMessage(m);
-              getMessages();
-            }
-            scrollToBottom();
-            scrollToBottom();
+      // Set the global event callback
+      PusherManager.onEventCallback = (PusherEvent event) {
+        print("event_aaa: $event");
+
+        if (event.eventName.toString() == eventName.toString()) {
+          ConversationMessage m = ConversationMessage.fromJson(
+            json.decode(event.data),
+          );
+          if (m.senderHashcode != Prefs.getId) {
+            addMessage(m);
+            // getMessages();
           }
-        },
-      );
-      await pusher.connect();
+          scrollToBottom();
+          scrollToBottom();
+        }
+      };
+
+      // Use the pusher instance from PusherManager
+      await PusherManager.pusher.subscribe(channelName: channel);
     } catch (e) {
       print("ERROR: $e");
     }

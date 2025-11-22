@@ -11,9 +11,9 @@ import 'constants/get_pages_constant.dart';
 import 'constants/route_constant.dart';
 
 Future<void> main() async {
-  await GetStorage.init('USER');
   WidgetsFlutterBinding.ensureInitialized();
-  PusherManager().initPusher();
+  await GetStorage.init('USER');
+  await PusherManager().initPusher();
 
   runApp(const MyApp());
 }

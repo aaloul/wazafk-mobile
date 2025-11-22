@@ -49,7 +49,7 @@ class ChatController extends GetxController {
     _setupScrollListener();
     _setupConversationsScrollListener();
     // Load conversations by default since Ongoing Chat is the default tab
-    loadConversations();
+    loadConversations(true);
   }
 
   @override
@@ -91,7 +91,7 @@ class ChatController extends GetxController {
       if (tab == "Active Employers" && contacts.isEmpty) {
         loadContacts();
       } else if (tab == "Ongoing Chat" && conversations.isEmpty) {
-        loadConversations();
+        loadConversations(false);
       }
     }
   }
@@ -193,15 +193,17 @@ class ChatController extends GetxController {
   }
 
   // Conversations methods
-  Future<void> loadConversations() async {
+  Future<void> loadConversations(bool showLoading) async {
     if (isLoadingConversations.value) return;
 
     try {
-      isLoadingConversations.value = true;
+      if (showLoading) {
+        isLoadingConversations.value = true;
+        conversations.clear();
+      }
       hasConversationsError.value = false;
       conversationsErrorMessage.value = '';
       conversationsCurrentPage.value = 1;
-      conversations.clear();
       hasMoreConversations.value = true;
 
       final response = await _coversationsRepository.getCoversations(
@@ -239,7 +241,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> retryLoadConversations() async {
-    await loadConversations();
+    await loadConversations(true);
   }
 
   Future<void> loadMoreConversations() async {
@@ -279,7 +281,7 @@ class ChatController extends GetxController {
     conversations.clear();
     conversationsCurrentPage.value = 1;
     hasMoreConversations.value = true;
-    await loadConversations();
+    await loadConversations(true);
   }
 
   String getConversationName(Coversation conversation) {

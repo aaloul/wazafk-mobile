@@ -11,6 +11,8 @@ import 'Prefs.dart';
 
 const title = "PusherManager";
 
+typedef PusherEventCallback = void Function(PusherEvent event);
+
 class PusherManager {
   static final PusherChannelsFlutter pusher =
       PusherChannelsFlutter.getInstance();
@@ -23,6 +25,9 @@ class PusherManager {
     return _pusherManager;
   }
 
+  // Global event callback that can be set by subscribers
+  static PusherEventCallback? onEventCallback;
+
   initPusher() async {
     try {
       await pusher.init(
@@ -31,7 +36,7 @@ class PusherManager {
         onConnectionStateChange: onConnectionStateChange,
         onError: onError,
         onSubscriptionSucceeded: onSubscriptionSucceeded,
-        // onEvent: onEvent,
+        onEvent: onEvent,
         onSubscriptionError: onSubscriptionError,
         onDecryptionFailure: onDecryptionFailure,
         onMemberAdded: onMemberAdded,
@@ -45,10 +50,9 @@ class PusherManager {
           },
         },
       );
-      // await pusher.subscribe(channelName: channel, onEvent: (dynamic event) {});
-      // await pusher.connect();
+      await pusher.connect();
     } catch (e) {
-      print("ERROR: $e");
+      print("ERROR_aa: $e");
     }
   }
 
@@ -79,11 +83,13 @@ class PusherManager {
     log("onError: $message code: $code exception: $e");
   }
 
-  // void onEvent(PusherEvent event) {
-  //   log("onEvent: $event");
-  //
-  //
-  // }
+  void onEvent(PusherEvent event) {
+    log("onEvent: $event");
+    // Call the registered callback if available
+    if (onEventCallback != null) {
+      onEventCallback!(event);
+    }
+  }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {
     log("onSubscriptionSucceeded: $channelName data: $data");

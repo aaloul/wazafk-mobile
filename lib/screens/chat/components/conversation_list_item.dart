@@ -100,7 +100,7 @@ class ConversationListItem extends StatelessWidget {
                           fontWeight: hasUnreadMessage
                               ? FontWeight.w500
                               : FontWeight.normal,
-                          maxLines: 1,
+                          maxLines: 2,
                         ),
                       ),
                       if (hasUnreadMessage)

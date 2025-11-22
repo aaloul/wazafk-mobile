@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
@@ -18,24 +19,29 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.resources.color.background2,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TopHeader(title: "Chat"),
-            SizedBox(height: 8),
-            _buildTabBar(context),
-            SizedBox(height: 8),
-            Expanded(
-              child: Obx(() =>
-              controller.selectedTab.value == "Ongoing Chat"
-                  ? _buildOngoingChatTab(context)
-                  : _buildActiveEmployersTab(context)),
-            ),
-          ],
-        ),
+    return FocusDetector(
+      onFocusGained: () {
+        controller.loadConversations(false);
+      },
+      child: Scaffold(
+        backgroundColor: context.resources.color.background2,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopHeader(title: "Chat"),
+              SizedBox(height: 8),
+              _buildTabBar(context),
+              SizedBox(height: 8),
+              Expanded(
+                child: Obx(
+                  () => controller.selectedTab.value == "Ongoing Chat"
+                      ? _buildOngoingChatTab(context)
+                      : _buildActiveEmployersTab(context),
+                ),
+              ),
+            ],
+          )),
       ),
     );
   }
@@ -46,15 +52,17 @@ class ChatScreen extends StatelessWidget {
           selectedTab: controller.selectedTab.value,
           onTabSelected: controller.changeTab,
         ));
+  };
   }
 
-  Widget _buildOngoingChatTab(BuildContext context) {) {
-    return Obx(() {
+  Widget _buildOngoingChatTab(BuildContext contextreturn Obx(() {
       // Loading state
       if (controller.conversations.isEmpty &&
           controller.isLoadingConversations.value) {
         return Center(
-          child: ProgressBar(color: context.resources.color.colorPrimary),
+          child: ProgressBar(
+            color: context.resources.color.colorPrimary,
+          ),
         );
       }
 
@@ -86,8 +94,7 @@ class ChatScreen extends StatelessWidget {
         child: ListView.builder(
           controller: controller.conversationsScrollController,
           // padding: EdgeInsets.symmetric(horizontal: 16),
-          itemCount:
-              controller.conversations.length +
+          itemCount: controller.conversations.length +
               (controller.hasMoreConversations.value ? 1 : 0),
           itemBuilder: (context, index) {
             if (index == controller.conversations.length) {
@@ -121,7 +128,8 @@ class ChatScreen extends StatelessWidget {
           },
         ),
       );
-    })}
+    });
+  }
 
   Widget _buildActiveEmployersTab(BuildContext context) {
     return Obx(() {
