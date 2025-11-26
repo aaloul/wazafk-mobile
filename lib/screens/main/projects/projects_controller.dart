@@ -2,9 +2,11 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
 import 'package:wazafak_app/repository/favorite/favorite_jobs_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
 
 import '../../../model/FavoritesResponse.dart';
 import '../../../utils/Prefs.dart';
+import '../../../utils/utils.dart';
 
 class ProjectsController extends GetxController {
   var selectedTab = 'Ongoing Project'.obs;
@@ -12,10 +14,12 @@ class ProjectsController extends GetxController {
   // Repositories
   final _engagementsRepository = EngagementsListRepository();
   final _favoriteJobsRepository = FavoriteJobsRepository();
+  final _removeFavoriteJobRepository = RemoveFavoriteJobRepository();
 
   // State variables
   var isLoadingEngagements = false.obs;
   var isLoadingFavorites = false.obs;
+  var removingFavoriteHashcode = ''.obs;
   var ongoingEngagements = <Engagement>[].obs;
   var pendingEngagements = <Engagement>[].obs;
   var favorites = <FavoriteData>[].obs;
@@ -34,7 +38,7 @@ class ProjectsController extends GetxController {
       final response = await _engagementsRepository.getEngagements(
         filters: {
           'freelancer': Prefs.getId,
-          'flow': 'ONGOING'
+          'flow': 'ONGOING',
         }, // Assuming status 1 is for ongoing
       );
       if (response.success == true && response.data?.list != null) {
@@ -89,6 +93,39 @@ class ProjectsController extends GetxController {
       case 'Saved Jobs':
         fetchFavoriteJobs();
         break;
+    }
+  }
+
+  Future<void> toggleJobFavorite(String jobHashcode) async {
+    try {
+      removingFavoriteHashcode.value = jobHashcode;
+
+      final response = await _removeFavoriteJobRepository.removeFavoriteJob(
+        jobHashcode,
+      );
+
+      if (response.success == true) {
+        // Remove the job from the favorites list
+        favorites.removeWhere(
+              (favorite) => favorite.job?.hashcode == jobHashcode,
+        );
+
+        // Show success message
+        constants.showSnackBar(
+          'Job removed from favorites',
+          SnackBarStatus.SUCCESS,
+        );
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to remove favorite',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      print('Error toggling job favorite: $e');
+      constants.showSnackBar('Failed to remove favorite', SnackBarStatus.ERROR);
+    } finally {
+      removingFavoriteHashcode.value = '';
     }
   }
 

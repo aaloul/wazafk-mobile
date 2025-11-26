@@ -67,6 +67,17 @@ class AddressListWidget extends StatelessWidget {
             textColor: context.resources.color.colorGrey19,
             textAlign: TextAlign.center,
           ),
+
+          SizedBox(height: 8),
+
+          PrimaryOutlinedButton(
+            title: "+ Add New Address",
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            onPressed: () async {
+              Get.toNamed(RouteConstant.selectLocationScreen);
+            },
+          ),
         ],
       ),
     );

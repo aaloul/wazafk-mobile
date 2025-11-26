@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -10,9 +11,16 @@ import 'package:wazafak_app/utils/res/AppIcons.dart';
 import '../../../../../model/JobsResponse.dart';
 
 class ProjectsJobItem extends StatelessWidget {
-  const ProjectsJobItem({super.key, required this.job});
+  const ProjectsJobItem({
+    super.key,
+    required this.job,
+    this.onFavoriteToggle,
+    this.isRemoving = false,
+  });
 
   final Job job;
+  final Function(String)? onFavoriteToggle;
+  final bool isRemoving;
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +78,23 @@ class ProjectsJobItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Image.asset(
-                job.isFavorite ?? false
-                    ? AppIcons.banomarkOn
-                    : AppIcons.banomark,
-                width: 18,
-              ),
-            ],
+                isRemoving
+                    ? SizedBox(width: 18, height: 18, child: ProgressBar())
+                    : GestureDetector(
+                        onTap: () {
+                          if (onFavoriteToggle != null &&
+                              job.hashcode != null) {
+                            onFavoriteToggle!(job.hashcode!);
+                          }
+                        },
+                        child: Image.asset(
+                          job.isFavorite ?? false
+                              ? AppIcons.banomarkOn
+                              : AppIcons.banomark,
+                          width: 18,
+                        ),
+                      ),
+              ]],
           ),
           SizedBox(height: 8),
           PrimaryText(

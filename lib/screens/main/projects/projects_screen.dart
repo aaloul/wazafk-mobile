@@ -156,7 +156,13 @@ class ProjectsScreen extends StatelessWidget {
         itemCount: controller.favorites.length,
         itemBuilder: (context, index) {
           final job = controller.favorites[index].job!;
-          return ProjectsJobItem(job: job,);
+          return Obx(() =>
+              ProjectsJobItem(
+                job: job,
+                onFavoriteToggle: controller.toggleJobFavorite,
+                isRemoving: controller.removingFavoriteHashcode.value ==
+                    job.hashcode,
+              ));
         },
       ),
     );

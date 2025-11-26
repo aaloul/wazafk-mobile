@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
-import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/components/skeletons/my_package_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/profile/packages/packs_controller.dart';
@@ -32,7 +32,13 @@ class PacksScreen extends StatelessWidget {
                 child: Obx(() {
                   if (controller.isLoading.value &&
                       controller.packages.isEmpty) {
-                    return Center(child: ProgressBar());
+                    return ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: 5,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 10),
+                      itemBuilder: (context, index) => MyPackageItemSkeleton(),
+                    );
                   }
 
                   if (controller.packages.isEmpty) {

@@ -459,7 +459,7 @@ class ApplyJobScreen extends StatelessWidget {
                                                   BorderRadius.circular(8),
                                             ),
                                             child: Icon(
-                                              Icons.picture_as_pdf,
+                                              controller.getFileIcon(),
                                               color: context
                                                   .resources
                                                   .color

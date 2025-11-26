@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -23,6 +22,7 @@ class ApplyJobController extends GetxController {
   var cvFileBase64 = Rxn<String>();
   var cvFileName = Rxn<String>();
   var cvFileSize = Rxn<int>();
+  var cvFileExtension = Rxn<String>();
 
   final List<String> durationOptions = [
     '1',
@@ -71,35 +71,7 @@ class ApplyJobController extends GetxController {
         cvFile.value = file;
         cvFileName.value = result.files.single.name;
         cvFileSize.value = result.files.single.size;
-
-        // Convert to base64 with proper MIME type
-        final bytes = await file.readAsBytes();
-        final extension = result.files.single.extension?.toLowerCase();
-        String mimeType;
-
-        switch (extension) {
-          case 'pdf':
-            mimeType = 'application/pdf';
-            break;
-          case 'doc':
-            mimeType = 'application/msword';
-            break;
-          case 'docx':
-            mimeType =
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-            break;
-          case 'jpg':
-          case 'jpeg':
-            mimeType = 'image/jpeg';
-            break;
-          case 'png':
-            mimeType = 'image/png';
-            break;
-          default:
-            mimeType = 'application/octet-stream';
-        }
-
-        cvFileBase64.value = "data:$mimeType;base64,${base64Encode(bytes)}";
+        cvFileExtension.value = result.files.single.extension?.toLowerCase();
 
         constants.showSnackBar(
           'CV selected successfully',
@@ -117,6 +89,23 @@ class ApplyJobController extends GetxController {
     cvFileBase64.value = null;
     cvFileName.value = null;
     cvFileSize.value = null;
+    cvFileExtension.value = null;
+  }
+
+  IconData getFileIcon() {
+    switch (cvFileExtension.value) {
+      case 'pdf':
+        return Icons.picture_as_pdf;
+      case 'doc':
+      case 'docx':
+        return Icons.description;
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+        return Icons.image;
+      default:
+        return Icons.insert_drive_file;
+    }
   }
 
   String getFormattedFileSize(int bytes) {
@@ -170,14 +159,16 @@ class ApplyJobController extends GetxController {
         'services': [],
       };
 
-      // Add CV if provided (as base64)
-      if (cvFileBase64.value != null) {
-        data['freelancer_cv'] = cvFileBase64.value!;
-      } else {
+      // Don't include freelancer_cv in data map when using multipart upload
+      // It will be sent as a file instead
+      if (cvFile.value == null) {
         data['freelancer_cv'] = "";
       }
 
-      final response = await _submitEngagementRepository.submitEngagement(data);
+      final response = await _submitEngagementRepository.submitEngagement(
+        data,
+        cvFile: cvFile.value,
+      );
 
       if (response.success == true) {
         constants.showSnackBar(
