@@ -4,11 +4,10 @@ import '../../networking/services/engagement/accept_reject_engagement_service.da
 class AcceptRejectEngagementRepository {
   final _provider = AcceptRejectEngagementService();
 
-  Future<ApiResponse> acceptRejectEngagement(
-    String hashcode,
-    bool accept, {
-    String? reason,
+  Future<ApiResponse> acceptRejectEngagement({
+    required String hashcode,
+    required bool accept,
   }) async {
-    return _provider.acceptRejectEngagement(hashcode, accept, reason: reason);
+    return _provider.acceptRejectEngagement(hashcode: hashcode, accept: accept);
   }
 }

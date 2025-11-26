@@ -5,13 +5,12 @@ import '../../api_base_helper.dart';
 class AcceptRejectEngagementService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> acceptRejectEngagement(
-    String hashcode,
-    bool accept, {
-    String? reason,
-  }) async {
-    final Map<String, dynamic> body = {'hashcode': hashcode, 'accept': accept};
-    if (reason != null) body['reason'] = reason;
+  Future<ApiResponse> acceptRejectEngagement({required String hashcode,
+    required bool accept}) async {
+    final Map<String, dynamic> body = {
+      'hashcode': hashcode,
+      'accept_reject': accept ? 'A' : 'R'
+    };
     final response = await _helper.post(Endpoints.acceptRejectEngagement, body);
     return ApiResponse.fromJson(response);
   }
