@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/skeletons/project_item_skeleton.dart';
 import 'package:wazafak_app/components/tabs_widget.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/activity/components/favorite_freelancer_item.dart';
+import 'package:wazafak_app/screens/main/home/components/skeletons/home_freelancer_skeleton.dart';
 import 'package:wazafak_app/screens/main/projects/components/projects/project_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -73,7 +75,11 @@ class ActivityScreen extends StatelessWidget {
 
   Widget _buildOngoingProjects(BuildContext context) {
     if (controller.isLoadingEngagements.value) {
-      return Center(child: ProgressBar());
+      return ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: 5,
+        itemBuilder: (context, index) => ProjectItemSkeleton(),
+      );
     }
 
     if (controller.ongoingEngagements.isEmpty) {
@@ -99,7 +105,11 @@ class ActivityScreen extends StatelessWidget {
 
   Widget _buildPendingProjects(BuildContext context) {
     if (controller.isLoadingEngagements.value) {
-      return Center(child: ProgressBar());
+      return ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: 5,
+        itemBuilder: (context, index) => ProjectItemSkeleton(),
+      );
     }
 
     if (controller.pendingEngagements.isEmpty) {
@@ -125,7 +135,11 @@ class ActivityScreen extends StatelessWidget {
 
   Widget _buildSavedFavorites(BuildContext context) {
     if (controller.isLoadingFavorites.value) {
-      return Center(child: ProgressBar());
+      return ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: 5,
+        itemBuilder: (context, index) => HomeFreelancerSkeleton(),
+      );
     }
 
     if (controller.favorites.isEmpty) {

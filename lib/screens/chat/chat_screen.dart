@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/components/skeletons/conversation_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/chat/chat_controller.dart';
@@ -34,15 +34,15 @@ class ChatScreen extends StatelessWidget {
               _buildTabBar(context),
               SizedBox(height: 8),
               Expanded(
-                child: Obx(
-                  () => controller.selectedTab.value == "Ongoing Chat"
-                      ? _buildOngoingChatTab(context)
-                      : _buildActiveEmployersTab(context),
-                ),
+                child: Obx(() =>
+                controller.selectedTab.value == "Ongoing Chat"
+                    ? _buildOngoingChatTab(context)
+                    : _buildActiveEmployersTab(context)),
               ),
             ],
           ),
-        )),
+        ),
+      ),
     );
   }
 
@@ -52,17 +52,16 @@ class ChatScreen extends StatelessWidget {
           selectedTab: controller.selectedTab.value,
           onTabSelected: controller.changeTab,
         ));
-  };
   }
 
   Widget _buildOngoingChatTab(BuildContext context) {
-    return Obx((// Loading state
+    return Obx(() {
+      // Loading state
       if (controller.conversations.isEmpty &&
           controller.isLoadingConversations.value) {
-        return Center(
-          child: ProgressBar(
-            color: context.resources.color.colorPrimary,
-          ),
+        return ListView.builder(
+          itemCount: 5,
+          itemBuilder: (context, index) => ConversationItemSkeleton(),
         );
       }
 
@@ -135,10 +134,9 @@ class ChatScreen extends StatelessWidget {
     return Obx(() {
       // Loading state
       if (controller.contacts.isEmpty && controller.isLoading.value) {
-        return Center(
-          child: ProgressBar(
-            color: context.resources.color.colorPrimary,
-          ),
+        return ListView.builder(
+          itemCount: 5,
+          itemBuilder: (context, index) => ConversationItemSkeleton(),
         );
       }
 

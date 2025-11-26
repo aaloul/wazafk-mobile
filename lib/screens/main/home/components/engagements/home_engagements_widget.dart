@@ -6,6 +6,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../skeletons/home_engagement_skeleton.dart';
 import 'home_engagement_item.dart';
 
 class HomeEngagementsWidget extends StatelessWidget {
@@ -16,8 +17,39 @@ class HomeEngagementsWidget extends StatelessWidget {
     final controller = Get.find<HomeController>();
 
     return Obx(() {
-      if (controller.isLoadingEngagements.value) {
-        return SizedBox.shrink();
+      if (controller.isLoadingEngagements.value &&
+          controller.engagements.isEmpty) {
+        return SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: PrimaryText(
+                  text: 'Upcoming Tasks & Projects',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  textColor: context.resources.color.colorBlack,
+                ),
+              ),
+              SizedBox(height: 12),
+              CarouselSlider.builder(
+                itemCount: 2,
+                options: CarouselOptions(
+                  height: 193,
+                  autoPlay: false,
+                  enlargeCenterPage: false,
+                  viewportFraction: 0.80,
+                  enableInfiniteScroll: false,
+                ),
+                itemBuilder: (context, index, realIndex) {
+                  return HomeEngagementSkeleton();
+                },
+              ),
+            ],
+          ),
+        );
       }
 
       if (controller.engagements.isEmpty) {

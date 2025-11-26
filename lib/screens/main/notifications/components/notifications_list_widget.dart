@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/components/skeletons/notification_item_skeleton.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../notifications_controller.dart';
@@ -17,10 +18,10 @@ class NotificationsListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value && controller.notifications.isEmpty) {
-        return Center(
-          child: ProgressBar(
-            color: context.resources.color.colorPrimary,
-          ),
+        return ListView.builder(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          itemCount: 5,
+          itemBuilder: (context, index) => NotificationItemSkeleton(),
         );
       }
 

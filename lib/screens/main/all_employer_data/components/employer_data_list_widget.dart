@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_freelancer_item.dart';
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_package_item.dart';
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_service_item.dart';
+import 'package:wazafak_app/screens/main/home/components/skeletons/home_freelancer_skeleton.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../all_employer_data_controller.dart';
@@ -18,10 +19,10 @@ class EmployerDataListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value && controller.employerData.isEmpty) {
-        return Center(
-          child: ProgressBar(
-            color: context.resources.color.colorPrimary,
-          ),
+        return ListView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          itemCount: 5,
+          itemBuilder: (context, index) => HomeFreelancerSkeleton(),
         );
       }
 

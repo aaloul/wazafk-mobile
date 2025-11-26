@@ -13,28 +13,10 @@ class AllEngagementsItem extends StatelessWidget {
   final Engagement engagement;
 
   void _handleEngagementClick() {
-    if (engagement.type.toString() == 'SB') {
-      // Open service details
-      if (engagement.services != null && engagement.services!.isNotEmpty) {
-        Get.toNamed(
-          RouteConstant.serviceDetailsScreen,
-          arguments: engagement.services!.first,
-        );
-      }
-    } else if (engagement.type.toString() == 'PB') {
-      // Open package details
-      if (engagement.package != null) {
-        Get.toNamed(
-          RouteConstant.packageDetailsScreen,
-          arguments: engagement.package,
-        );
-      }
-    } else if (engagement.type.toString() == 'JA') {
-      // Open job details
-      if (engagement.job != null) {
-        Get.toNamed(RouteConstant.jobDetailsScreen, arguments: engagement.job);
-      }
-    }
+    Get.toNamed(
+      RouteConstant.engagementDetailsScreen,
+      arguments: engagement,
+    );
   }
 
   @override

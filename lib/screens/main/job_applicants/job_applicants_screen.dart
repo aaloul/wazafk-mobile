@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/components/skeletons/job_applicant_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/job_applicants/components/job_applicant_item.dart';
 import 'package:wazafak_app/screens/main/job_applicants/job_applicants_controller.dart';
@@ -24,7 +24,11 @@ class JobApplicantsScreen extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return Center(child: ProgressBar());
+                  return ListView.separated(
+                    itemCount: 5,
+                    separatorBuilder: (context, index) => SizedBox(height: 10),
+                    itemBuilder: (context, index) => JobApplicantItemSkeleton(),
+                  );
                 }
 
                 if (controller.applicants.isEmpty) {

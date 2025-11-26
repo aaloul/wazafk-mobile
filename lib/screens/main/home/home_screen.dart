@@ -20,40 +20,45 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.resources.color.background2,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              HomeHeader(),
-              SizedBox(height: 16),
+        child: RefreshIndicator(
+          onRefresh: controller.refreshHomeData,
+          color: context.resources.color.colorPrimary,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                HomeHeader(),
+                SizedBox(height: 16),
 
-              Obx(() {
-                if (controller.isFreelancerMode.value) {
-                  // Freelancer view: Statistics, Available Jobs, Engagements
-                  return Column(
-                    children: [
-                      HomeStatisticsWidget(),
-                      SizedBox(height: 16),
-                      HomeEngagementsWidget(),
-                      SizedBox(height: 16),
-                      HomeJobsWidget(),
-                      SizedBox(height: 16),
-                    ],
-                  );
-                } else {
-                  // Employer view: Categories (Services), Freelancers, Engagements
-                  return Column(
-                    children: [
-                      HomeCategoriesWidget(),
-                      SizedBox(height: 16),
-                      HomeEngagementsWidget(),
-                      SizedBox(height: 16),
-                      EmployerHomeDataWidget(),
-                      SizedBox(height: 16),
-                    ],
-                  );
-                }
-              }),
-            ],
+                Obx(() {
+                  if (controller.isFreelancerMode.value) {
+                    // Freelancer view: Statistics, Available Jobs, Engagements
+                    return Column(
+                      children: [
+                        HomeStatisticsWidget(),
+                        SizedBox(height: 16),
+                        HomeEngagementsWidget(),
+                        SizedBox(height: 16),
+                        HomeJobsWidget(),
+                        SizedBox(height: 16),
+                      ],
+                    );
+                  } else {
+                    // Employer view: Categories (Services), Freelancers, Engagements
+                    return Column(
+                      children: [
+                        HomeCategoriesWidget(),
+                        SizedBox(height: 16),
+                        HomeEngagementsWidget(),
+                        SizedBox(height: 16),
+                        EmployerHomeDataWidget(),
+                        SizedBox(height: 16),
+                      ],
+                    );
+                  }
+                }),
+              ],
+            ),
           ),
         ),
       ),

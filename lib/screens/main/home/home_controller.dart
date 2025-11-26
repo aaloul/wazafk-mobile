@@ -674,4 +674,18 @@ class HomeController extends GetxController {
   void onViewAllCategories() {
     Get.toNamed(RouteConstant.allCategoriesScreen);
   }
+
+  Future<void> refreshHomeData() async {
+    // Fetch all data concurrently
+    await Future.wait([
+      fetchProfile(),
+      fetchCategories(),
+      fetchJobCategories(),
+      fetchSkills(),
+      fetchAddresses(),
+      fetchWallet(),
+      fetchEngagements(),
+      if (isFreelancerMode.value) fetchJobs() else fetchEmployerHome(),
+    ]);
+  }
 }

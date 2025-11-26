@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../skeletons/home_category_skeleton.dart';
 import 'home_category_item.dart';
 
 class HomeCategoriesWidget extends StatelessWidget {
@@ -44,7 +44,15 @@ class HomeCategoriesWidget extends StatelessWidget {
           Obx(() {
             if (controller.isLoadingCategories.value &&
                 controller.categories.isEmpty) {
-              return SizedBox(height: 100, child: Center(child: ProgressBar()));
+              return SizedBox(
+                height: 108,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  separatorBuilder: (context, index) => SizedBox(width: 10),
+                  itemBuilder: (context, index) => HomeCategorySkeleton(),
+                ),
+              );
             }
 
             if (controller.categories.isEmpty) {

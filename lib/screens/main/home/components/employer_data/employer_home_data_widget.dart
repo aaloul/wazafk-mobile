@@ -5,6 +5,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../skeletons/home_freelancer_skeleton.dart';
 import 'home_freelancer_item.dart';
 import 'home_package_item.dart';
 import 'home_service_item.dart';
@@ -17,8 +18,30 @@ class EmployerHomeDataWidget extends StatelessWidget {
     final controller = Get.find<HomeController>();
 
     return Obx(() {
-      if (controller.isLoadingEmployerHome.value) {
-        return SizedBox.shrink();
+      if (controller.isLoadingEmployerHome.value &&
+          controller.employerData.isEmpty) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: PrimaryText(
+                text: 'Freelancer',
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                textColor: context.resources.color.colorBlack,
+              ),
+            ),
+            SizedBox(height: 12),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: 3,
+              itemBuilder: (context, index) => HomeFreelancerSkeleton(),
+            ),
+          ],
+        );
       }
 
       if (controller.employerData.isEmpty) {

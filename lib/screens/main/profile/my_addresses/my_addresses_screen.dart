@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
-import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/components/skeletons/my_address_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -26,8 +26,11 @@ class MyAddressesScreen extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return Center(
-                    child: ProgressBar(),
+                  return ListView.separated(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    itemCount: 5,
+                    separatorBuilder: (context, index) => SizedBox(height: 12),
+                    itemBuilder: (context, index) => MyAddressItemSkeleton(),
                   );
                 }
 
