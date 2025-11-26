@@ -94,7 +94,7 @@ class ProjectsJobItem extends StatelessWidget {
                           width: 18,
                         ),
                       ),
-              ]],
+            ],
           ),
           SizedBox(height: 8),
           PrimaryText(

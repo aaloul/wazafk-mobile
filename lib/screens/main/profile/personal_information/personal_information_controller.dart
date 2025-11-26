@@ -6,6 +6,8 @@ import 'package:wazafak_app/networking/services/member/profile_service.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../home/home_controller.dart';
+
 class PersonalInformationController extends GetxController {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -93,6 +95,8 @@ class PersonalInformationController extends GetxController {
         if (profileImage.value != null) {
           await updateProfileImage();
         }
+        final homeController = Get.find<HomeController>();
+        homeController.fetchProfile();
 
         constants.showSnackBar(
           response.message ?? 'Profile updated successfully',

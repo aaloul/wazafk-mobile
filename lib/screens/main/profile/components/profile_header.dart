@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../components/primary_network_image.dart';
@@ -6,9 +7,13 @@ import '../../../../components/primary_text.dart';
 import '../../../../utils/Prefs.dart';
 import '../../../../utils/res/AppIcons.dart';
 import '../../home/components/statistics/home_statistics_widget.dart';
+import '../../home/home_controller.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  ProfileHeader({super.key});
+
+  final controller = Get.find<HomeController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,8 @@ class ProfileHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              Container(
+              Obx(() =>
+                  Container(
                 width: 50,
                 height: 50,
                 padding: EdgeInsets.all(1),
@@ -33,11 +39,12 @@ class ProfileHeader extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(1000),
                   child: PrimaryNetworkImage(
-                    url: Prefs.getAvatar,
+                    url: controller.profileData.value?.image ?? Prefs.getAvatar,
                     width: double.infinity,
                     height: double.infinity,
                   ),
                 ),
+              ),
               ),
 
               SizedBox(width: 12,),

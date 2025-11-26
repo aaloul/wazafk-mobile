@@ -13,6 +13,8 @@ import 'package:wazafak_app/repository/favorite/remove_favorite_service_reposito
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../home/home_controller.dart';
+
 class ActivitiesController extends GetxController {
   var selectedTab = 'Project & Services'.obs;
 
@@ -128,6 +130,9 @@ class ActivitiesController extends GetxController {
                 (data) => data.member?.hashcode == member.hashcode,
           );
           favorites.refresh();
+
+          final controller = Get.find<HomeController>();
+          controller.refreshHomeData();
 
           constants.showSnackBar(
             response.message ?? 'Removed from favorites',

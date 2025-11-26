@@ -7,6 +7,7 @@ import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.d
 import '../../../model/FavoritesResponse.dart';
 import '../../../utils/Prefs.dart';
 import '../../../utils/utils.dart';
+import '../home/home_controller.dart';
 
 class ProjectsController extends GetxController {
   var selectedTab = 'Ongoing Project'.obs;
@@ -109,6 +110,9 @@ class ProjectsController extends GetxController {
         favorites.removeWhere(
               (favorite) => favorite.job?.hashcode == jobHashcode,
         );
+
+        final controller = Get.find<HomeController>();
+        controller.refreshHomeData();
 
         // Show success message
         constants.showSnackBar(
