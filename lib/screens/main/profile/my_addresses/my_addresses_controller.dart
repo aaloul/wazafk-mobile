@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/dialog/dialog_helper.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class MyAddressesController extends GetxController {
@@ -14,16 +15,18 @@ class MyAddressesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    isLoading.value = true;
+
     fetchAddresses();
   }
 
   Future<void> fetchAddresses() async {
     try {
-      isLoading.value = true;
       final response = await _repository.getAddresses();
 
       if (response.success == true && response.data != null) {
         addresses.value = response.data!;
+        Prefs.setAddresses(addresses.value);
       } else {
         constants.showSnackBar(
             response.message.toString(), SnackBarStatus.ERROR);

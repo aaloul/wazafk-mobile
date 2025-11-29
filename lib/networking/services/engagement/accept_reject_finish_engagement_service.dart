@@ -10,7 +10,10 @@ class AcceptRejectFinishEngagementService {
     bool accept, {
     String? reason,
   }) async {
-    final Map<String, dynamic> body = {'hashcode': hashcode, 'accept': accept};
+    final Map<String, dynamic> body = {
+      'hashcode': hashcode,
+      'accept_reject': accept ? 'A' : 'R'
+    };
     if (reason != null) body['reason'] = reason;
     final response = await _helper.post(
       Endpoints.acceptRejectFinishEngagement,

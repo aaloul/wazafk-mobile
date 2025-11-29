@@ -11,8 +11,11 @@ import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../../../components/outlined_button.dart';
 import '../../../components/top_header.dart';
-import 'components/negotiation_bottom_sheet.dart';
+import '../../../utils/Prefs.dart';
+import 'components/change_request_bottom_sheet.dart';
 import 'components/dispute_bottom_sheet.dart';
+import 'components/finish_engagement_bottom_sheet.dart';
+import 'components/negotiation_bottom_sheet.dart';
 
 class EngagementDetailsScreen extends StatelessWidget {
   const EngagementDetailsScreen({super.key});
@@ -50,7 +53,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                       color: context.resources.color.colorPrimary,
                     ),
                   ),
-                )}
+                );
+              }
 
                 final engagement = controller.engagement.value;
                 if (engagement == null) {
@@ -177,17 +181,21 @@ class EngagementDetailsScreen extends StatelessWidget {
                                               children: [
                                                 if (parentCategoryName !=
                                                     null)
-                                                  PrimaryText(
-                                                    text:
-                                                    "$parentCategoryName/",
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                    FontWeight.w400,
-                                                    textColor: context
-                                                        .resources
-                                                        .color
-                                                        .colorGrey,
+                                                  Expanded(
+                                                    child: PrimaryText(
+                                                      text:
+                                                      "$parentCategoryName/$categoryName",
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.w400,
+                                                      textColor: context
+                                                          .resources
+                                                          .color
+                                                          .colorGrey,
+                                                    ),
                                                   ),
+                                                if (parentCategoryName ==
+                                                    null)
                                                 PrimaryText(
                                                   text: categoryName ?? '',
                                                   fontSize: 12,
@@ -758,6 +766,320 @@ class EngagementDetailsScreen extends StatelessWidget {
             Obx(() {
               final engagement = controller.engagement.value;
               if (engagement?.status == 0) {
+                // Check if there's a pending change request
+                if (engagement?.pendingChangeRequest == 1) {
+                  // Check if current user is the requester
+                  final currentUserId = Prefs.getId;
+                  final changeRequests = engagement?.changeRequests;
+                  final isRequester = changeRequests != null &&
+                      changeRequests.isNotEmpty &&
+                      changeRequests.first.requesterHashcode == currentUserId;
+
+                  if (isRequester) {
+                    // Show waiting for reply message
+                    return Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: context.resources.color.colorWhite,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: Offset(0, -5),
+                          ),
+                        ],
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: context.resources.color.colorBlue4,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.hourglass_empty,
+                              color: context.resources.color.colorPrimary,
+                              size: 24,
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PrimaryText(
+                                    text: 'Waiting for Reply',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    textColor: context.resources.color
+                                        .colorGrey,
+                                  ),
+                                  SizedBox(height: 4),
+                                  PrimaryText(
+                                    text: 'Your change request is pending approval',
+                                    fontSize: 14,
+                                    textColor: context.resources.color
+                                        .colorGrey7,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    // Show View Changes button
+                    return Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: context.resources.color.colorWhite,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: Offset(0, -5),
+                          ),
+                        ],
+                      ),
+                      child: PrimaryButton(
+                        title: 'View Changes',
+                        onPressed: () {
+                          Get.bottomSheet(
+                            ChangeRequestBottomSheet(),
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                } else {
+                  // Determine if user can accept/reject based on engagement type
+                  final currentUserId = Prefs.getId;
+                  final engagementType = engagement?.type;
+                  bool canAcceptReject = false;
+
+                  if (engagementType == 'JA') {
+                    // Job Application: Client can accept/reject
+                    canAcceptReject =
+                        currentUserId == engagement?.clientHashcode;
+                  } else if (engagementType == 'SB' || engagementType == 'PB') {
+                    // Service/Package Booking: Freelancer can accept/reject
+                    canAcceptReject =
+                        currentUserId == engagement?.freelancerHashcode;
+                  }
+
+                  if (canAcceptReject) {
+                    // Check if there are any change requests
+                    final hasChangeRequests = engagement?.changeRequests !=
+                        null &&
+                        engagement!.changeRequests!.isNotEmpty;
+
+                    // Show Accept Request, Decline, and Negotiate buttons
+                    return Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: context.resources.color.colorWhite,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: Offset(0, -5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Obx(() {
+                            if (controller.isAccepting.value) {
+                              return Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: context.resources.color.colorPrimary,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: context.resources.color.colorWhite,
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return PrimaryButton(
+                              title: 'Accept Request',
+                              onPressed: controller.acceptEngagement,
+                            );
+                          }),
+
+                          SizedBox(height: 12),
+
+                          Obx(() {
+                            if (controller.isRejecting.value) {
+                              return Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: context.resources.color.colorRed,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: context.resources.color.colorWhite,
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return PrimaryOutlinedButton(
+                              title: 'Decline',
+                              onPressed: controller.rejectEngagement,
+                            );
+                          }),
+
+                          // Only show Negotiate button if there are no change requests
+                          if (!hasChangeRequests) ...[
+                            SizedBox(height: 12),
+                            PrimaryOutlinedButton(
+                              title: 'Negotiate',
+                              onPressed: () {
+                                Get.bottomSheet(
+                                  NegotiationBottomSheet(),
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                );
+                              },
+                            ),
+                          ],
+                        ],
+                      ),
+                    );
+                  } else {
+                    // Show waiting for reply message
+                    return Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: context.resources.color.colorWhite,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: Offset(0, -5),
+                          ),
+                        ],
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: context.resources.color.colorBlue4,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.hourglass_empty,
+                              color: context.resources.color.colorPrimary,
+                              size: 24,
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PrimaryText(
+                                    text: 'Waiting for Reply',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    textColor: context.resources.color
+                                        .colorGrey,
+                                  ),
+                                  SizedBox(height: 4),
+                                  PrimaryText(
+                                    text: 'Your engagement request is pending approval',
+                                    fontSize: 14,
+                                    textColor: context.resources.color
+                                        .colorGrey7,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                }
+              }
+              return SizedBox.shrink();
+            }),
+
+            // Finish Engagement button when status is 1 (accepted)
+            Obx(() {
+              final engagement = controller.engagement.value;
+              if (engagement?.status == 1) {
+                return Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: context.resources.color.colorWhite,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: Offset(0, -5),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      if(Prefs.getId ==
+                          engagement?.freelancerHashcode.toString() &&
+                          engagement?.hasDispute.toString() == '0')
+                        PrimaryButton(
+                          title: 'Finish Engagement',
+                          onPressed: () {
+                            Get.bottomSheet(
+                              FinishEngagementBottomSheet(),
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                            );
+                          },
+                        ),
+                      if(Prefs.getId ==
+                          engagement?.freelancerHashcode.toString())
+                        SizedBox(height: 12),
+
+                      PrimaryOutlinedButton(
+                        title: 'Submit Dispute',
+                        onPressed: () {
+                          Get.bottomSheet(
+                            DisputeBottomSheet(),
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return SizedBox.shrink();
+            }),
+
+            // Accept/Reject Finish Engagement buttons when status is 4
+            Obx(() {
+              final engagement = controller.engagement.value;
+              if (engagement?.status == 4 &&
+                  Prefs.getId == engagement?.clientHashcode.toString()) {
                 return Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -773,7 +1095,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Obx(() {
-                        if (controller.isAccepting.value) {
+                        if (controller.isAcceptingFinishEngagement.value) {
                           return Container(
                             height: 48,
                             decoration: BoxDecoration(
@@ -794,15 +1116,15 @@ class EngagementDetailsScreen extends StatelessWidget {
                         }
 
                         return PrimaryButton(
-                          title: 'Accept Request',
-                          onPressed: controller.acceptEngagement,
+                          title: 'Accept Finish',
+                          onPressed: controller.acceptFinishEngagement,
                         );
                       }),
 
                       SizedBox(height: 12),
 
                       Obx(() {
-                        if (controller.isRejecting.value) {
+                        if (controller.isRejectingFinishEngagement.value) {
                           return Container(
                             height: 48,
                             decoration: BoxDecoration(
@@ -823,24 +1145,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                         }
 
                         return PrimaryOutlinedButton(
-                          title: 'Decline',
-                          onPressed: controller.rejectEngagement,
+                          title: 'Reject Finish',
+                          onPressed: controller.rejectFinishEngagement,
                         );
                       }),
-
-                      SizedBox(height: 12),
-
-                      // Negotiate Button
-                      PrimaryOutlinedButton(
-                        title: 'Negotiate',
-                        onPressed: () {
-                          Get.bottomSheet(
-                            NegotiationBottomSheet(),
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                          );
-                        },
-                      ),
                     ],
                   ),
                 );
@@ -848,10 +1156,10 @@ class EngagementDetailsScreen extends StatelessWidget {
               return SizedBox.shrink();
             }),
 
-            // Submit Dispute button when status is 1 (accepted)
+            // Submit Dispute button when status is -3
             Obx(() {
               final engagement = controller.engagement.value;
-              if (engagement?.status == 1) {
+              if (engagement?.status == -3) {
                 return Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(

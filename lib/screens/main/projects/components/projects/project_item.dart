@@ -16,20 +16,8 @@ class ProjectItem extends StatelessWidget {
   final Engagement engagement;
 
   void _handleTap() {
-    // Navigate based on engagement type
-    if (engagement.type == 'SB' && engagement.services != null &&
-        engagement.services!.isNotEmpty) {
-      // Service Booking - navigate to service details
-      Get.toNamed(RouteConstant.serviceDetailsScreen,
-          arguments: engagement.services!.first);
-    } else if (engagement.type == 'PB' && engagement.package != null) {
-      // Package Booking - navigate to package details
-      Get.toNamed(
-          RouteConstant.packageDetailsScreen, arguments: engagement.package);
-    } else if (engagement.job != null) {
-      // Job - navigate to job details
-      Get.toNamed(RouteConstant.jobDetailsScreen, arguments: engagement.job);
-    }
+    // Navigate to engagement details screen
+    Get.toNamed(RouteConstant.engagementDetailsScreen, arguments: engagement);
   }
 
   @override

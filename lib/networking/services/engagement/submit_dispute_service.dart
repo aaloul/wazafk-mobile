@@ -9,7 +9,7 @@ class SubmitDisputeService {
     String hashcode,
     Map<String, dynamic> disputeData,
   ) async {
-    disputeData['hashcode'] = hashcode;
+    disputeData['engagement'] = hashcode;
     final response = await _helper.post(Endpoints.submitDispute, disputeData);
     return ApiResponse.fromJson(response);
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/skeletons/my_address_item_skeleton.dart';
@@ -16,75 +17,79 @@ class MyAddressesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(MyAddressesController());
 
-    return Scaffold(
-      backgroundColor: context.resources.color.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            TopHeader(hasBack: true, title: 'My Addresses'),
-            SizedBox(height: 16),
-            Expanded(
-              child: Obx(() {
-                if (controller.isLoading.value) {
-                  return ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    itemCount: 5,
-                    separatorBuilder: (context, index) => SizedBox(height: 12),
-                    itemBuilder: (context, index) => MyAddressItemSkeleton(),
-                  );
-                }
-
-                if (controller.addresses.isEmpty) {
-                  return Center(
-                    child: Text('No addresses found'),
-                  );
-                }
-
-                return ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  itemCount: controller.addresses.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final address = controller.addresses[index];
-                    return MyAddressItem(
-                      address: address,
-                      onClick: () {
-                        // Handle address click
-                      },
-                      onEditClick: () async {
-                        final result = await Get.toNamed(
-                          RouteConstant.selectLocationScreen,
-                          arguments: {
-                            'address': address
-                          },
-                        );
-                        if (result == true) {
-                          controller.fetchAddresses();
-                        }
-                      },
-                      onDeleteClick: () {
-                        if (address.hashcode != null) {
-                          controller.confirmDeleteAddress(address.hashcode!);
-                        }
-                      },
+    return FocusDetector(
+      onFocusGained: () {
+        controller.fetchAddresses();
+      },
+      child: Scaffold(
+        backgroundColor: context.resources.color.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              TopHeader(hasBack: true, title: 'My Addresses'),
+              SizedBox(height: 16),
+              Expanded(
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return ListView.separated(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      itemCount: 5,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 12),
+                      itemBuilder: (context, index) => MyAddressItemSkeleton(),
                     );
-                  },
-                );
-              }),
-            ),
-            SizedBox(height: 0),
+                  }
 
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: PrimaryButton(
-                  title: "Add New Address", onPressed: () async {
-                Get.toNamed(RouteConstant.selectLocationScreen);
-              }),
-            ),
+                  if (controller.addresses.isEmpty) {
+                    return Center(child: Text('No addresses found'));
+                  }
 
-            SizedBox(height: 20),
+                  rreturn ListView.separated(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    itemCount: controller.addresses.length,
+                    separatorBuilder: (context, index) => SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final address = controller.addresses[index];
+                      return MyAddressItem(
+                        address: address,
+                        onClick: () {
+                          // Handle address click
+                        },
+                        onEditClick: () async {
+                          final result = await Get.toNamed(
+                            RouteConstant.selectLocationScreen,
+                            arguments: {
+                              'address': address
+                            },
+                          );
+                          if (result == true) {
+                            controller.fetchAddresses();
+                          }
+                        },
+                        onDeleteClick: () {
+                          if (address.hashcode != null) {
+                            controller.confirmDeleteAddress(address.hashcode!);
+                          }
+                        },
+                      );
+                    },
+                  );
+                }),
+              ),
+              SizedBox(height: 0),
 
-          ],
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: PrimaryButton(
+                    title: "Add New Address", onPressed: () async {
+                  Get.toNamed(RouteConstant.selectLocationScreen);
+                }),
+              ),
+
+              SizedBox(height: 20),
+
+            ],
+          ),
         ),
       ),
     );

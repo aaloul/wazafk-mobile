@@ -9,7 +9,7 @@ class SubmitEngagementChangeRequestService {
     String hashcode,
     Map<String, dynamic> changes,
   ) async {
-    changes['hashcode'] = hashcode;
+    changes['engagement'] = hashcode;
     final response = await _helper.post(
       Endpoints.submitEngagementChangeRequest,
       changes,

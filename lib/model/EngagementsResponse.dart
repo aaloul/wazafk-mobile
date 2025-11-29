@@ -107,6 +107,7 @@ class Engagement {
   String? statusPendingAction;
   String? progress;
   String? remaining;
+  List<ChangeRequest>? changeRequests;
 
   Engagement({
     this.entityType,
@@ -152,6 +153,7 @@ class Engagement {
     this.statusPendingAction,
     this.progress,
     this.remaining,
+    this.changeRequests,
   });
 
   factory Engagement.fromJson(Map<String, dynamic> json) => Engagement(
@@ -203,6 +205,10 @@ class Engagement {
     statusPendingAction: json["status_pending_action"],
     progress: json["progress"],
     remaining: json["remaining"],
+    changeRequests: json["change_requests"] == null ? [] : List<
+        ChangeRequest>.from(
+        json["change_requests"]!.map((x) => ChangeRequest.fromJson(x))),
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -248,6 +254,103 @@ class Engagement {
     "status_pending_action": statusPendingAction,
     "progress": progress,
     "remaining": remaining,
+    "change_requests": changeRequests == null ? [] : List<dynamic>.from(
+        changeRequests!.map((x) => x.toJson())),
+
+  };
+}
+
+
+class ChangeRequest {
+  String? hashcode;
+  String? engagementHashcode;
+  String? requester;
+  String? requesterHashcode;
+  String? requesterFirstName;
+  String? requesterLastName;
+  String? receiverHashcode;
+  String? receiverFirstName;
+  String? receiverLastName;
+  String? changedFields;
+  int? estimatedHours;
+  DateTime? startDatetime;
+  DateTime? expiryDatetime;
+  dynamic unitPrice;
+  dynamic totalPrice;
+  dynamic profitAmount;
+  dynamic feesAmount;
+  DateTime? createdAt;
+  int? status;
+
+  ChangeRequest({
+    this.hashcode,
+    this.engagementHashcode,
+    this.requester,
+    this.requesterHashcode,
+    this.requesterFirstName,
+    this.requesterLastName,
+    this.receiverHashcode,
+    this.receiverFirstName,
+    this.receiverLastName,
+    this.changedFields,
+    this.estimatedHours,
+    this.startDatetime,
+    this.expiryDatetime,
+    this.unitPrice,
+    this.totalPrice,
+    this.profitAmount,
+    this.feesAmount,
+    this.createdAt,
+    this.status,
+  });
+
+  factory ChangeRequest.fromJson(Map<String, dynamic> json) =>
+      ChangeRequest(
+        hashcode: json["hashcode"],
+        engagementHashcode: json["engagement_hashcode"],
+        requester: json["requester"],
+        requesterHashcode: json["requester_hashcode"],
+        requesterFirstName: json["requester_first_name"],
+        requesterLastName: json["requester_last_name"],
+        receiverHashcode: json["receiver_hashcode"],
+        receiverFirstName: json["receiver_first_name"],
+        receiverLastName: json["receiver_last_name"],
+        changedFields: json["changed_fields"],
+        estimatedHours: json["estimated_hours"],
+        startDatetime: json["start_datetime"] == null ? null : DateTime.parse(
+            json["start_datetime"]),
+        expiryDatetime: json["expiry_datetime"] == null ? null : DateTime.parse(
+            json["expiry_datetime"]),
+        unitPrice: json["unit_price"],
+        totalPrice: json["total_price"],
+        profitAmount: json["profit_amount"],
+        feesAmount: json["fees_amount"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(
+            json["created_at"]),
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() =>
+      {
+        "hashcode": hashcode,
+        "engagement_hashcode": engagementHashcode,
+        "requester": requester,
+        "requester_hashcode": requesterHashcode,
+        "requester_first_name": requesterFirstName,
+        "requester_last_name": requesterLastName,
+        "receiver_hashcode": receiverHashcode,
+        "receiver_first_name": receiverFirstName,
+        "receiver_last_name": receiverLastName,
+        "changed_fields": changedFields,
+        "estimated_hours": estimatedHours,
+        "start_datetime": startDatetime?.toIso8601String(),
+        "expiry_datetime": expiryDatetime?.toIso8601String(),
+        "unit_price": unitPrice,
+        "total_price": totalPrice,
+        "profit_amount": profitAmount,
+        "fees_amount": feesAmount,
+        "created_at": createdAt?.toIso8601String(),
+        "status": status,
   };
 }
 

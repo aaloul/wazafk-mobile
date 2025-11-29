@@ -5,15 +5,13 @@ import '../../networking/services/engagement/accept_reject_engagement_change_req
 class AcceptRejectEngagementChangeRequestRepository {
   final _provider = AcceptRejectEngagementChangeRequestService();
 
-  Future<ApiResponse> acceptRejectEngagementChangeRequest(
-    String hashcode,
-    bool accept, {
-    String? reason,
+  Future<ApiResponse> acceptRejectEngagementChangeRequest({
+    required String hashcode,
+    required bool accept,
   }) async {
     return _provider.acceptRejectEngagementChangeRequest(
-      hashcode,
-      accept,
-      reason: reason,
+      hashcode: hashcode,
+      accept: accept,
     );
   }
 }

@@ -127,17 +127,21 @@ class BookServiceScreen extends StatelessWidget {
                                           Row(
                                             children: [
                                               if (parentCategoryName != null)
-                                                PrimaryText(
-                                                  text: "$parentCategoryName/",
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                  textColor: context
-                                                      .resources
-                                                      .color
-                                                      .colorGrey,
+                                                Expanded(
+                                                  child: PrimaryText(
+                                                    text:
+                                                        "$parentCategoryName/$categoryName",
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    textColor: context
+                                                        .resources
+                                                        .color
+                                                        .colorGrey,
+                                                  ),
                                                 ),
-                                              PrimaryText(
-                                                text: categoryName ?? '',
+                                              if (parentCategoryName == null)
+                                                PrimaryText(
+                                                  text: categoryName ?? '',
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                                 textColor: context
