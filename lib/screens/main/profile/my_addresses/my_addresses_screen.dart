@@ -44,7 +44,7 @@ class MyAddressesScreen extends StatelessWidget {
                     return Center(child: Text('No addresses found'));
                   }
 
-                  rreturn ListView.separated(
+                  return ListView.separated(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     itemCount: controller.addresses.length,
                     separatorBuilder: (context, index) => SizedBox(height: 12),

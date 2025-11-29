@@ -150,7 +150,8 @@ class EngagementDetailsController extends GetxController {
         SnackBarStatus.ERROR,
       );
     } finally {
-      isLoading.value = false}
+      isLoading.value = false;
+  }
   }
 
   Future<void> acceptEngagement() async {
