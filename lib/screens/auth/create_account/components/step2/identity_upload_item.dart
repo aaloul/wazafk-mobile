@@ -73,6 +73,7 @@ class IdentityUploadItem extends StatelessWidget {
               ),
               child: Container(
                 padding: EdgeInsets.all(16),
+                color: context.resources.color.background,
                 child: imagePath != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(10),

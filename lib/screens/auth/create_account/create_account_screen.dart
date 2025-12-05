@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/auth/create_account/components/step2/create_account_step_2.dart';
@@ -18,39 +19,57 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.resources.color.background,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TopHeader(title: "Create Account"),
-            SizedBox(height: 24),
+    return WillPopScope(
+      onWillPop: () async {
+        if (dataController.index.value == 0) {
+          SystemNavigator.pop();
+          return false;
+        } else {
+          dataController.index.value = dataController.index.value - 1;
 
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Obx(
-                      () =>
-                          CreateAccountSteps(index: dataController.index.value),
-                    ),
-                    SizedBox(height: 16),
+          return false;
+        }
+      },
+      child: Scaffold(
+        backgroundColor: context.resources.color.background,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopHeader(title: "Create Account", onBack: () {
+                if (dataController.index.value > 0) {
+                  dataController.index.value = dataController.index.value - 1;
+                }
+              },),
+              SizedBox(height: 24),
 
-                    Obx(
-                      () => dataController.index.value == 0
-                          ? CreateAccountStep1()
-                          : dataController.index.value == 1
-                          ? CreateAccountStep2()
-                          : CreateAccountStep3(),
-                    ),
-                  ],
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                            () =>
+                            CreateAccountSteps(index: dataController.index
+                                .value),
+                      ),
+                      SizedBox(height: 16),
+
+                      Obx(
+                            () =>
+                        dataController.index.value == 0
+                            ? CreateAccountStep1()
+                            : dataController.index.value == 1
+                            ? CreateAccountStep2()
+                            : CreateAccountStep3(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

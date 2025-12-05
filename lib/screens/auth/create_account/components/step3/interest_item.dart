@@ -26,7 +26,9 @@ class InterestItem extends StatelessWidget {
         child: PrimaryText(
           text: option.name.toString(),
           fontWeight: FontWeight.w500,
-          textColor: context.resources.color.colorWhite,
+          textColor: option.selected.value
+              ? context.resources.color.colorWhite
+              : context.resources.color.colorGrey,
         ),
       ),
     );

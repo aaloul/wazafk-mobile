@@ -163,7 +163,7 @@ class CreateAccountController extends GetxController {
         'last_name': lastNameController.text,
         'title': titleController.text,
         'mobile': mobile,
-        'document_type': selectedTab.value == "passport" ? "PASSPORT" : "ID",
+        'document_type': selectedTab.value == "passport" ? "PP" : "ID",
         'email': emailController.text,
         'password': passwordController.text,
         'gender': selectedGender.value == "Male" ? "M" : "F",

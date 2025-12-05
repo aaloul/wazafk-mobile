@@ -254,7 +254,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   }
 
   void _skipOnboarding() {
-    _completeOnboarding();
+    Get.offAllNamed(RouteConstant.phoneNumberScreen);
   }
 
   void _completeOnboarding() {

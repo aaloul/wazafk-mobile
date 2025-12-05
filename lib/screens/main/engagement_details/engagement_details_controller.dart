@@ -176,8 +176,8 @@ class EngagementDetailsController extends GetxController {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
 
-        // Go back to previous screen
-        Get.back(result: true);
+        // // Go back to previous screen
+        // Get.back(result: true);
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to accept engagement',
@@ -360,7 +360,7 @@ class EngagementDetailsController extends GetxController {
 
         // Close the bottom sheet and go back
         Get.back(); // Close bottom sheet
-        Get.back(result: true); // Go back to previous screen
+        // Get.back(result: true); // Go back to previous screen
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to submit negotiation',
@@ -423,7 +423,7 @@ class EngagementDetailsController extends GetxController {
 
         // Close the bottom sheet and go back
         Get.back(); // Close bottom sheet
-        Get.back(result: true); // Go back to previous screen
+        // Get.back(result: true); // Go back to previous screen
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to submit dispute',
@@ -634,7 +634,7 @@ class EngagementDetailsController extends GetxController {
         }
 
         // Go back to previous screen
-        Get.back(result: true);
+        // Get.back(result: true);
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to finish engagement',
@@ -677,7 +677,7 @@ class EngagementDetailsController extends GetxController {
         }
 
         // Go back to previous screen
-        Get.back(result: true);
+        // Get.back(result: true);
       } else {
         constants.showSnackBar(
           response.message ?? 'Failed to accept finish engagement',
