@@ -100,7 +100,12 @@ class PrimaryTextField extends StatelessWidget {
                 child: TextFormField(
                   textAlignVertical: TextAlignVertical.top,
                   enabled: enabled,
+                  textCapitalization: inputType == TextInputType.text
+                      ? TextCapitalization.sentences
+                      : TextCapitalization.none,
                   inputFormatters: <TextInputFormatter>[
+                    if (inputType == TextInputType.text)
+                      SentenceCapitalizationFormatter(),
                     if (inputType == TextInputType.name)
                       FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                     if (inputType == TextInputType.phone)
@@ -171,5 +176,39 @@ class PrimaryTextField extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+
+class SentenceCapitalizationFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
+      TextEditingValue newValue,) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    // Capitalize the first character
+    String text = newValue.text;
+    if (text.isNotEmpty) {
+      // Check if this is the first character or after a sentence-ending punctuation
+      bool shouldCapitalize = oldValue.text.isEmpty ||
+          (oldValue.text.isNotEmpty &&
+              RegExp(r'[.!?]\s*$').hasMatch(oldValue.text));
+
+      if (shouldCapitalize &&
+          text[text.length - 1] != text[text.length - 1].toUpperCase()) {
+        // Get the last character and capitalize it
+        String lastChar = text[text.length - 1];
+        String capitalizedChar = lastChar.toUpperCase();
+        text = text.substring(0, text.length - 1) + capitalizedChar;
+
+        return TextEditingValue(
+          text: text,
+          selection: newValue.selection,
+        );
+      }
+    }
+
+    return newValue;
   }
 }

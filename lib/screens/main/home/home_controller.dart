@@ -61,6 +61,7 @@ class HomeController extends GetxController {
   var engagements = <Engagement>[].obs;
   var employerData = <EmployerHomeData>[].obs;
   var walletHashcode = ''.obs;
+  var walletBalance = ''.obs;
   Rx<User?> profileData = Rx<User?>(null);
   var totalEarnings = ''.obs;
   var nbActiveJobs = 0.obs;
@@ -255,6 +256,7 @@ class HomeController extends GetxController {
 
       if (response.success == true && response.data != null) {
         walletHashcode.value = response.data!.hashcode ?? '';
+        walletBalance.value = response.data!.balance ?? '';
         Prefs.setWalletHashcode(response.data!.hashcode ?? '');
       } else {
         constants.showSnackBar(

@@ -12,8 +12,43 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import 'search_controller.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _searchFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+
+    // Auto-focus the search field after the widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _searchFocusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final controller = Get.find<SearchController>();
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.9) {
+      controller.loadMore();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +66,7 @@ class SearchScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 16),
               child: SearchWidget(
                 controller: controller.searchController,
+                focusNode: _searchFocusNode,
                 hint: 'Search jobs, services, packages...',
                 borderRadius: 0,
                 onTextChangedWithDelay: (text) {
@@ -119,9 +155,22 @@ class SearchScreen extends StatelessWidget {
                 }
 
                 return ListView.builder(
+                  controller: _scrollController,
                   padding: EdgeInsets.all(16),
-                  itemCount: controller.searchResults.length,
+                  itemCount: controller.searchResults.length +
+                      (controller.hasMorePages.value ? 1 : 0),
                   itemBuilder: (context, index) {
+                    // Show loading indicator at the bottom
+                    if (index == controller.searchResults.length) {
+                      return Obx(() =>
+                      controller.isLoadingMore.value
+                          ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Center(child: ProgressBar()),
+                      )
+                          : SizedBox.shrink());
+                    }
+
                     final item = controller.searchResults[index];
 
                     // Determine item type and return appropriate widget

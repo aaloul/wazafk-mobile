@@ -106,7 +106,7 @@ class Engagement {
   String? statusColor;
   String? statusPendingAction;
   String? progress;
-  String? remaining;
+  dynamic remaining;
   List<ChangeRequest>? changeRequests;
 
   Engagement({

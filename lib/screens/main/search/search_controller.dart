@@ -34,10 +34,16 @@ class SearchController extends GetxController {
 
   var searchQuery = ''.obs;
   var isLoading = false.obs;
+  var isLoadingMore = false.obs;
   var selectedCategory = Rxn<Category>();
 
   // Results for different types
   var searchResults = <SearchData>[].obs;
+
+  // Pagination
+  var currentPage = 1.obs;
+  var hasMorePages = true.obs;
+  var totalResults = 0.obs;
 
   bool get isFreelancerMode => Prefs.getUserMode == 'freelancer';
 
@@ -58,13 +64,21 @@ class SearchController extends GetxController {
 
     if (query.isEmpty) {
       searchResults.clear();
+      currentPage.value = 1;
+      hasMorePages.value = true;
+      totalResults.value = 0;
       return;
     }
 
     try {
       isLoading.value = true;
+      currentPage.value = 1; // Reset to first page
+      hasMorePages.value = true;
 
-      Map<String, String> filters = {'query': query};
+      Map<String, String> filters = {
+        'query': query,
+        'page': '1',
+      };
 
       // Add category filter if selected
       if (selectedCategory.value?.hashcode != null) {
@@ -78,9 +92,18 @@ class SearchController extends GetxController {
         );
 
         if (response.success == true && response.data != null) {
-          searchResults.value = response.data!;
+          searchResults.value = response.data?.records ?? [];
+          totalResults.value = response.data?.total ?? 0;
+
+          // Check if there are more pages
+          final currentPageNum = response.data?.page ?? 1;
+          final pageLimit = response.data?.pageLimit ?? 0;
+          hasMorePages.value = (searchResults.length < totalResults.value) &&
+              (pageLimit > 0 && searchResults.length >= pageLimit);
         } else {
           searchResults.clear();
+          hasMorePages.value = false;
+          totalResults.value = 0;
           if (response.message != null) {
             constants.showSnackBar(response.message!, SnackBarStatus.ERROR);
           }
@@ -92,9 +115,18 @@ class SearchController extends GetxController {
         );
 
         if (response.success == true && response.data != null) {
-          searchResults.value = response.data!;
+          searchResults.value = response.data?.records ?? [];
+          totalResults.value = response.data?.total ?? 0;
+
+          // Check if there are more pages
+          final currentPageNum = response.data?.page ?? 1;
+          final pageLimit = response.data?.pageLimit ?? 0;
+          hasMorePages.value = (searchResults.length < totalResults.value) &&
+              (pageLimit > 0 && searchResults.length >= pageLimit);
         } else {
           searchResults.clear();
+          hasMorePages.value = false;
+          totalResults.value = 0;
           if (response.message != null) {
             constants.showSnackBar(response.message!, SnackBarStatus.ERROR);
           }
@@ -105,6 +137,77 @@ class SearchController extends GetxController {
       print('Error searching: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> loadMore() async {
+    if (isLoadingMore.value || !hasMorePages.value ||
+        searchQuery.value.isEmpty) {
+      return;
+    }
+
+    try {
+      isLoadingMore.value = true;
+      currentPage.value++;
+
+      Map<String, String> filters = {
+        'query': searchQuery.value,
+        'page': currentPage.value.toString(),
+      };
+
+      // Add category filter if selected
+      if (selectedCategory.value?.hashcode != null) {
+        filters['category'] = selectedCategory.value!.hashcode!;
+      }
+
+      if (isFreelancerMode) {
+        // Freelancer mode: search for jobs
+        final response = await _freelancerSearchRepository.freelancerSearch(
+          filters: filters,
+        );
+
+        if (response.success == true && response.data != null) {
+          final newRecords = response.data?.records ?? [];
+          searchResults.addAll(newRecords);
+          totalResults.value = response.data?.total ?? 0;
+
+          // Check if there are more pages
+          final pageLimit = response.data?.pageLimit ?? 0;
+          hasMorePages.value = (searchResults.length < totalResults.value) &&
+              (pageLimit > 0 && newRecords.length >= pageLimit);
+        } else {
+          hasMorePages.value = false;
+          if (response.message != null) {
+            constants.showSnackBar(response.message!, SnackBarStatus.ERROR);
+          }
+        }
+      } else {
+        // Employer mode: search for services, packages, and freelancers
+        final response = await _employerSearchRepository.employerSearch(
+          filters: filters,
+        );
+
+        if (response.success == true && response.data != null) {
+          final newRecords = response.data?.records ?? [];
+          searchResults.addAll(newRecords);
+          totalResults.value = response.data?.total ?? 0;
+
+          // Check if there are more pages
+          final pageLimit = response.data?.pageLimit ?? 0;
+          hasMorePages.value = (searchResults.length < totalResults.value) &&
+              (pageLimit > 0 && newRecords.length >= pageLimit);
+        } else {
+          hasMorePages.value = false;
+          if (response.message != null) {
+            constants.showSnackBar(response.message!, SnackBarStatus.ERROR);
+          }
+        }
+      }
+    } catch (e) {
+      constants.showSnackBar('Error loading more: $e', SnackBarStatus.ERROR);
+      print('Error loading more: $e');
+    } finally {
+      isLoadingMore.value = false;
     }
   }
 

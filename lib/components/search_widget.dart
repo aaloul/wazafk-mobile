@@ -27,6 +27,7 @@ class SearchWidget extends StatelessWidget {
     this.type,
     this.borderRadius,
     this.onSearchSubmit,
+    this.focusNode,
   });
 
   TextEditingController? controller = TextEditingController();
@@ -46,6 +47,7 @@ class SearchWidget extends StatelessWidget {
   double? borderRadius;
   bool? showCloseButton;
   Function? onCloseClick;
+  FocusNode? focusNode;
 
   final _debouncer = Debouncer();
 
@@ -80,6 +82,7 @@ class SearchWidget extends StatelessWidget {
                   child: SizedBox(
                     height: height ?? 42,
                     child: TextFormField(
+                      focusNode: focusNode,
                       textAlignVertical: TextAlignVertical.top,
                       cursorColor: context.resources.color.colorPrimary,
                       onEditingComplete: () => onTextChangedWithDelay != null

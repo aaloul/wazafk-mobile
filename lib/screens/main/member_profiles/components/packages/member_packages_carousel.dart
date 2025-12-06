@@ -43,7 +43,7 @@ class _MemberPackagesCarouselState extends State<MemberPackagesCarousel> {
           SizedBox(height: 16),
           CarouselSlider(
             options: CarouselOptions(
-              height: 175,
+              height: 178,
               enlargeCenterPage: false,
               enableInfiniteScroll: false,
               viewportFraction: 0.60,

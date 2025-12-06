@@ -178,6 +178,7 @@ class ApplyJobController extends GetxController {
 
         // Go back to previous screen
         Get.back();
+        Get.back();
       } else {
         if (response.message != null) {
           constants.showSnackBar(response.message!, SnackBarStatus.ERROR);

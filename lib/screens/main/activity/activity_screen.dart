@@ -9,7 +9,6 @@ import 'package:wazafak_app/screens/main/home/components/skeletons/home_freelanc
 import 'package:wazafak_app/screens/main/projects/components/projects/project_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-import '../../../components/progress_bar.dart';
 import 'activities_controller.dart';
 import 'components/favorite_package_item.dart';
 import 'components/favorite_service_item.dart';
@@ -24,7 +23,9 @@ class ActivityScreen extends StatelessWidget {
     return FocusDetector(
       onFocusGained: () {
         // Refresh data when screen gains focus
-        controller.refreshCurrentTab();
+        controller.fetchOngoingEngagements(isLoading: false);
+        controller.fetchPendingEngagements(isLoading: false);
+        controller.fetchFavoriteJobs(isLoading: false);
       },
       child: Scaffold(
         backgroundColor: context.resources.color.background,

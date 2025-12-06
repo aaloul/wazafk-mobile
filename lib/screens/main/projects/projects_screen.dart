@@ -23,7 +23,9 @@ class ProjectsScreen extends StatelessWidget {
     return FocusDetector(
       onFocusGained: () {
         // Refresh data when screen gains focus
-        controller.refreshCurrentTab();
+        controller.fetchFavoriteJobs(isLoading: false);
+        controller.fetchOngoingEngagements(isLoading: false);
+        controller.fetchPendingEngagements(isLoading: false);
       },
       child: Scaffold(
         backgroundColor: context.resources.color.background,

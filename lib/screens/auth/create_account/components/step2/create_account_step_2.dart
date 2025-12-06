@@ -85,7 +85,9 @@ class CreateAccountStep2 extends StatelessWidget {
           ),
           SizedBox(height: 10),
 
-          PrimaryOutlinedButton(title: "Skip", onPressed: () {}),
+          PrimaryOutlinedButton(title: "Skip", onPressed: () {
+            dataController.index.value = 2;
+          }),
 
           SizedBox(height: 20),
         ],

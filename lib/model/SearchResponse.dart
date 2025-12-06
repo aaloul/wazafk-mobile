@@ -19,28 +19,66 @@ String employerHomeResponseToJson(SearchResponse data) =>
 class SearchResponse {
   bool? success;
   String? message;
-  List<SearchData>? data;
+  Data? data;
 
   SearchResponse({this.success, this.message, this.data});
 
   factory SearchResponse.fromJson(Map<String, dynamic> json) => SearchResponse(
     success: json["success"],
     message: json["message"],
-    data: json["data"] == null
-        ? []
-        : List<SearchData>.from(
-            json["data"]!.map((x) => SearchData.fromJson(x)),
-          ),
+    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
     "message": message,
-    "data": data == null
-        ? []
-        : List<dynamic>.from(data!.map((x) => x.toJson())),
+    "data": data?.toJson(),
+
   };
 }
+
+
+class Data {
+  int? page;
+  int? pageLimit;
+  dynamic prevIndices;
+  String? pageIndices;
+  int? total;
+  List<SearchData>? records;
+
+  Data({
+    this.page,
+    this.pageLimit,
+    this.prevIndices,
+    this.pageIndices,
+    this.total,
+    this.records,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(
+        page: json["page"],
+        pageLimit: json["page_limit"],
+        prevIndices: json["prev_indices"],
+        pageIndices: json["page_indices"],
+        total: json["total"],
+        records: json["records"] == null ? [] : List<SearchData>.from(
+            json["records"]!.map((x) => SearchData.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() =>
+      {
+        "page": page,
+        "page_limit": pageLimit,
+        "prev_indices": prevIndices,
+        "page_indices": pageIndices,
+        "total": total,
+        "records": records == null ? [] : List<dynamic>.from(
+            records!.map((x) => x.toJson())),
+      };
+}
+
 
 class SearchData {
   String? entityType;

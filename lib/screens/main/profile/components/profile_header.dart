@@ -50,12 +50,15 @@ class ProfileHeader extends StatelessWidget {
               SizedBox(width: 12,),
 
               Expanded(
-                child:
+                child: Obx(() =>
                 PrimaryText(
-                  text: "${Prefs.getFName} ${Prefs.getLName}",
+                  text: "${controller.profileData.value?.firstName ??
+                      Prefs.getFName} ${controller.profileData.value
+                      ?.lastName ?? Prefs.getLName}",
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   textColor: context.resources.color.colorWhite,),
+                ),
               ),
 
 
@@ -83,17 +86,21 @@ class ProfileHeader extends StatelessWidget {
 
           Row(
             children: [
-              StatisticsItem(
+              Obx(() =>
+                  StatisticsItem(
                 title: 'Total Earnings',
-                value: '\$834.12',
+                    value: '\$${controller.totalEarnings.value}',
                 textIcon: "\$",
                 icon: "",
               ),
+              ),
               SizedBox(width: 12),
-              StatisticsItem(
+              Obx(() =>
+                  StatisticsItem(
                 title: 'Wallet',
-                value: '\$10000.0',
+                    value: '\$${controller.walletBalance.value}',
                 icon: AppIcons.wallet,
+              ),
               ),
             ],
           ),

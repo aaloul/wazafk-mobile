@@ -42,9 +42,9 @@ class ActivitiesController extends GetxController {
     fetchFavoriteJobs();
   }
 
-  Future<void> fetchOngoingEngagements() async {
+  Future<void> fetchOngoingEngagements({bool? isLoading}) async {
     try {
-      isLoadingEngagements.value = true;
+      isLoadingEngagements.value = isLoading ?? true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
           'flow': 'ONGOING',
@@ -61,9 +61,9 @@ class ActivitiesController extends GetxController {
     }
   }
 
-  Future<void> fetchPendingEngagements() async {
+  Future<void> fetchPendingEngagements({bool? isLoading}) async {
     try {
-      isLoadingEngagements.value = true;
+      isLoadingEngagements.value = isLoading ?? true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
           'flow': 'PENDING',
@@ -80,9 +80,9 @@ class ActivitiesController extends GetxController {
     }
   }
 
-  Future<void> fetchFavoriteJobs() async {
+  Future<void> fetchFavoriteJobs({bool? isLoading}) async {
     try {
-      isLoadingFavorites.value = true;
+      isLoadingFavorites.value = isLoading ?? true;
       final response = await _favoritesRepository.getFavorites(type: 'M,S,P');
       favorites.value = response.data ?? [];
     } catch (e) {
