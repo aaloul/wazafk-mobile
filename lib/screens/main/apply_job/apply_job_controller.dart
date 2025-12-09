@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -73,6 +74,11 @@ class ApplyJobController extends GetxController {
         cvFileSize.value = result.files.single.size;
         cvFileExtension.value = result.files.single.extension?.toLowerCase();
 
+        // Convert file to base64 with appropriate MIME type
+        final bytes = await file.readAsBytes();
+        final mimeType = _getMimeType(cvFileExtension.value);
+        cvFileBase64.value = "data:$mimeType;base64,${base64Encode(bytes)}";
+
         constants.showSnackBar(
           'CV selected successfully',
           SnackBarStatus.SUCCESS,
@@ -90,6 +96,24 @@ class ApplyJobController extends GetxController {
     cvFileName.value = null;
     cvFileSize.value = null;
     cvFileExtension.value = null;
+  }
+
+  String _getMimeType(String? extension) {
+    switch (extension) {
+      case 'pdf':
+        return 'application/pdf';
+      case 'doc':
+        return 'application/msword';
+      case 'docx':
+        return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      default:
+        return 'application/octet-stream';
+    }
   }
 
   IconData getFileIcon() {
@@ -159,16 +183,14 @@ class ApplyJobController extends GetxController {
         'services': [],
       };
 
-      // Don't include freelancer_cv in data map when using multipart upload
-      // It will be sent as a file instead
-      if (cvFile.value == null) {
+      // Include CV as base64 if available
+      if (cvFileBase64.value != null) {
+        data['freelancer_cv'] = cvFileBase64.value!;
+      } else {
         data['freelancer_cv'] = "";
       }
 
-      final response = await _submitEngagementRepository.submitEngagement(
-        data,
-        cvFile: cvFile.value,
-      );
+      final response = await _submitEngagementRepository.submitEngagement(data);
 
       if (response.success == true) {
         constants.showSnackBar(
@@ -184,6 +206,8 @@ class ApplyJobController extends GetxController {
           constants.showSnackBar(response.message!, SnackBarStatus.ERROR);
         }
       }
+
+      print(cvFileBase64.value);
     } catch (e) {
       constants.showSnackBar(
         'Error submitting application: $e',

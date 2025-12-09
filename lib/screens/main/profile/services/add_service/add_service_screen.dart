@@ -12,7 +12,6 @@ import 'package:wazafak_app/screens/main/profile/services/add_service/components
 import 'package:wazafak_app/screens/main/profile/services/add_service/components/working_hours_bottom_sheet.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-import '../../../../../components/file_upload_item.dart';
 import '../../../../../components/multiline_labeled_text_field.dart';
 import '../../../../../components/primary_chooser.dart';
 import 'add_service_controller.dart';
@@ -214,104 +213,104 @@ class AddServiceScreen extends StatelessWidget {
 
                     SkillsChooseWidget(),
 
-                    SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "Portfolio",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-
-                    SizedBox(height: 8),
-
-                    Obx(
-                          () =>
-                          FileUploadItem(
-                            label: controller.portfolioImage.value != null ||
-                                controller.portfolioImageUrl.value != null
-                                ? 'Portfolio Selected'
-                                : 'Upload Portfolio',
-                            isMandatory: false,
-                            isOptional: false,
-                            onClick: () {
-                              controller.pickPortfolioImage(context);
-                            },
-                          ),
-                    ),
-
-                    // Show selected image (local file or URL)
-                    Obx(
-                          () {
-                        final hasLocalImage = controller.portfolioImage.value !=
-                            null;
-                        final hasUrlImage = controller.portfolioImageUrl
-                            .value != null;
-
-                        if (!hasLocalImage && !hasUrlImage) {
-                          return SizedBox.shrink();
-                        }
-
-                        return Container(
-                          margin: EdgeInsets.only(top: 8),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: hasLocalImage
-                                    ? Image.file(
-                                  controller.portfolioImage.value!,
-                                  height: 150,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                )
-                                    : Image.network(
-                                  controller.portfolioImageUrl.value!,
-                                  height: 150,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      height: 150,
-                                      color: context.resources.color.colorGrey8,
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.error_outline,
-                                          color: context.resources.color
-                                              .colorGrey,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    controller.removePortfolioImage();
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: context.resources.color.colorWhite,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 20,
-                                      color: context.resources.color
-                                          .colorPrimary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                    // SizedBox(height: 16),
+                    //
+                    // PrimaryText(
+                    //   text: "Portfolio",
+                    //   fontWeight: FontWeight.w900,
+                    //   fontSize: 16,
+                    //   textColor: context.resources.color.colorGrey,
+                    // ),
+                    //
+                    // SizedBox(height: 8),
+                    //
+                    // Obx(
+                    //       () =>
+                    //       FileUploadItem(
+                    //         label: controller.portfolioImage.value != null ||
+                    //             controller.portfolioImageUrl.value != null
+                    //             ? 'Portfolio Selected'
+                    //             : 'Upload Portfolio',
+                    //         isMandatory: false,
+                    //         isOptional: false,
+                    //         onClick: () {
+                    //           controller.pickPortfolioImage(context);
+                    //         },
+                    //       ),
+                    // ),
+                    //
+                    // // Show selected image (local file or URL)
+                    // Obx(
+                    //       () {
+                    //     final hasLocalImage = controller.portfolioImage.value !=
+                    //         null;
+                    //     final hasUrlImage = controller.portfolioImageUrl
+                    //         .value != null;
+                    //
+                    //     if (!hasLocalImage && !hasUrlImage) {
+                    //       return SizedBox.shrink();
+                    //     }
+                    //
+                    //     return Container(
+                    //       margin: EdgeInsets.only(top: 8),
+                    //       child: Stack(
+                    //         children: [
+                    //           ClipRRect(
+                    //             borderRadius: BorderRadius.circular(8),
+                    //             child: hasLocalImage
+                    //                 ? Image.file(
+                    //               controller.portfolioImage.value!,
+                    //               height: 150,
+                    //               width: double.infinity,
+                    //               fit: BoxFit.cover,
+                    //             )
+                    //                 : Image.network(
+                    //               controller.portfolioImageUrl.value!,
+                    //               height: 150,
+                    //               width: double.infinity,
+                    //               fit: BoxFit.cover,
+                    //               errorBuilder: (context, error, stackTrace) {
+                    //                 return Container(
+                    //                   height: 150,
+                    //                   color: context.resources.color.colorGrey8,
+                    //                   child: Center(
+                    //                     child: Icon(
+                    //                       Icons.error_outline,
+                    //                       color: context.resources.color
+                    //                           .colorGrey,
+                    //                     ),
+                    //                   ),
+                    //                 );
+                    //               },
+                    //             ),
+                    //           ),
+                    //           Positioned(
+                    //             top: 8,
+                    //             right: 8,
+                    //             child: GestureDetector(
+                    //               onTap: () {
+                    //                 controller.removePortfolioImage();
+                    //               },
+                    //               child: Container(
+                    //                 padding: EdgeInsets.all(4),
+                    //                 decoration: BoxDecoration(
+                    //                   color: context.resources.color.colorWhite,
+                    //                   shape: BoxShape.circle,
+                    //                 ),
+                    //                 child: Icon(
+                    //                   Icons.close,
+                    //                   size: 20,
+                    //                   color: context.resources.color
+                    //                       .colorPrimary,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
 
                     SizedBox(height: 16),
 

@@ -421,10 +421,10 @@ class AddServiceController extends GetxController {
         'availability': workingHoursData,
       };
 
-      // Add portfolio image if selected
-      if (portfolioImageBase64.value != null) {
-        data['image'] = portfolioImageBase64.value;
-      }
+      // // Add portfolio image if selected
+      // if (portfolioImageBase64.value != null) {
+      //   data['image'] = portfolioImageBase64.value;
+      // }
 
       final response = isEditMode.value
           ? await _saveServiceRepository.saveService(editServiceHashcode!, data)

@@ -49,7 +49,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                               Center(
                                 child: PrimaryText(
                                   text: service.title ?? '',
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w900,
                                   textColor: context.resources.color.colorGrey,
                                 ),
@@ -64,7 +64,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                         .parentCategoryName} / ${service
                                         .categoryName}"
                                         : service.categoryName.toString(),
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                     textColor: context.resources.color
                                         .colorGrey,

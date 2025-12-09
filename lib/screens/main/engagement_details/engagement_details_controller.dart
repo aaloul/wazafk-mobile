@@ -283,35 +283,16 @@ class EngagementDetailsController extends GetxController {
     // Validate fields
     if (negotiationPriceController.text
         .trim()
-        .isEmpty) {
-      constants.showSnackBar('Please enter a price', SnackBarStatus.ERROR);
-      return;
-    }
-
-    if (negotiationHoursController.text
+        .isEmpty && negotiationHoursController.text
+        .trim()
+        .isEmpty && negotiationRangeStart.value == null &&
+        negotiationMessageController.text
         .trim()
         .isEmpty) {
-      constants.showSnackBar(
-        'Please enter estimated hours',
-        SnackBarStatus.ERROR,
-      );
+      constants.showSnackBar('Please make a change', SnackBarStatus.ERROR);
       return;
     }
 
-    if (negotiationRangeStart.value == null) {
-      constants.showSnackBar(
-        'Please select a date range',
-        SnackBarStatus.ERROR,
-      );
-      return;
-    }
-
-    if (negotiationMessageController.text
-        .trim()
-        .isEmpty) {
-      constants.showSnackBar('Please enter a message', SnackBarStatus.ERROR);
-      return;
-    }
 
     try {
       isNegotiating.value = true;
@@ -328,12 +309,28 @@ class EngagementDetailsController extends GetxController {
       }
 
       Map<String, dynamic> data = {
-        'type': engagement.value!.type,
+        if(negotiationPriceController.text
+            .trim()
+            .isNotEmpty)
         'unit_price': negotiationPriceController.text,
-        'total_price': negotiationPriceController.text,
+        if(negotiationPriceController.text
+            .trim()
+            .isNotEmpty)
+          'total_price': negotiationPriceController.text,
+        if( negotiationHoursController.text
+            .trim()
+            .isNotEmpty)
         'estimated_hours': negotiationHoursController.text,
+        if(negotiationRangeStart.value != null)
         'start_datetime': startDateStr,
+        if(negotiationMessageController.text
+            .trim()
+            .isNotEmpty && isJob.value)
         'message_to_client': negotiationMessageController.text,
+        if(negotiationMessageController.text
+            .trim()
+            .isNotEmpty && !isJob.value)
+          'message_to_freelancer': negotiationMessageController.text,
       };
 
       // Add end date if available

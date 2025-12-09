@@ -288,15 +288,27 @@ class JobDetailsScreen extends StatelessWidget {
                             SizedBox(height: 20),
 
                             if (job.memberHashcode.toString() != Prefs.getId)
-                              PrimaryButton(
-                                title: "Apply Now",
-                                onPressed: () {
-                                  Get.toNamed(
-                                    RouteConstant.applyJobScreen,
-                                    arguments: job,
-                                  );
-                                },
-                              ),
+                              // Show View Engagement button if user has an engagement
+                              if (job.hasEngagement == 1)
+                                PrimaryButton(
+                                  title: "View Engagement",
+                                  onPressed: () {
+                                    Get.toNamed(
+                                      RouteConstant.engagementDetailsScreen,
+                                      arguments: job.hasEngagementHashcode,
+                                    );
+                                  },
+                                )
+                              else
+                                PrimaryButton(
+                                  title: "Apply Now",
+                                  onPressed: () {
+                                    Get.toNamed(
+                                      RouteConstant.applyJobScreen,
+                                      arguments: job,
+                                    );
+                                  },
+                                ),
 
                             if (job.memberHashcode.toString() == Prefs.getId)
                               PrimaryButton(

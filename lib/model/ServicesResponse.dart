@@ -67,7 +67,8 @@ class Service {
   String? categoryName;
   String? title;
   String? rating;
-  String? image;
+
+  // String? image;
   String? description;
   String? unitPrice;
   String? portfolio;
@@ -98,7 +99,7 @@ class Service {
     this.categoryName,
     this.title,
     this.rating,
-    this.image,
+    // this.image,
     this.description,
     this.unitPrice,
     this.portfolio,
@@ -128,7 +129,7 @@ class Service {
     categoryName: json["category_name"],
     title: json["title"],
     rating: json["rating"],
-    image: json["image"],
+    // image: json["image"],
     description: json["description"],
     unitPrice: json["unit_price"],
     portfolio: json["portfolio"],
@@ -168,7 +169,7 @@ class Service {
     "category_name": categoryName,
     "title": title,
     "rating": rating,
-    "image": image,
+    // "image": image,
     "description": description,
     "unit_price": unitPrice,
     "portfolio": portfolio,

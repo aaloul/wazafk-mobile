@@ -202,7 +202,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         freelancer: item.member!,
                       );
                     } else if (item.entityType == 'JOB' &&
-                        item.member != null) {
+                        item.job != null) {
                       return HomeJobItem(
                         job: item.job!,
                         onFavoriteToggle: (job) async {

@@ -88,12 +88,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                 : controller.isPackage.value
                                 ? controller.package.value!.title
                                 : controller.service.value!.title;
-                            final unitPrice = controller.isJob.value
-                                ? controller.job.value!.unitPrice
-                                : controller.isPackage.value
-                                ? (controller.package.value!.totalPrice ??
-                                controller.package.value!.unitPrice)
-                                : controller.service.value!.unitPrice;
+                            final unitPrice = controller.engagement.value
+                                ?.unitPrice ?? 'N/A';
                             final memberFirstName = controller.isJob.value
                                 ? controller.job.value!.memberFirstName
                                 : controller.isPackage.value
@@ -599,7 +595,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     SizedBox(width: 6),
                                     PrimaryText(
                                       text:
-                                      'Start: ${DateFormat('MMM dd, yyyy')
+                                      'Start: ${DateFormat(
+                                          'MMM dd, yyyy - hh:mm a')
                                           .format(engagement.startDatetime!)}',
                                       textColor:
                                       context.resources.color.colorGrey,
@@ -622,8 +619,32 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     SizedBox(width: 6),
                                     PrimaryText(
                                       text:
-                                      'Due: ${DateFormat('MMM dd, yyyy').format(
+                                      'Due: ${DateFormat(
+                                          'MMM dd, yyyy - hh:mm a').format(
                                           engagement.expiryDatetime!)}',
+                                      textColor:
+                                      context.resources.color.colorGrey,
+                                    ),
+                                  ],
+                                ),
+
+                              SizedBox(height: 8),
+
+                              // Estimated Hours
+                              if (engagement.estimatedHours != null)
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      AppIcons.clock,
+                                      width: 20,
+                                      color:
+                                      context.resources.color.colorGrey,
+                                    ),
+                                    SizedBox(width: 6),
+                                    PrimaryText(
+                                      text:
+                                      'Estimated Hours: ${engagement
+                                          .estimatedHours}',
                                       textColor:
                                       context.resources.color.colorGrey,
                                     ),

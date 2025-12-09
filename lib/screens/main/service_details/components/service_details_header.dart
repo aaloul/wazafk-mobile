@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -17,7 +16,7 @@ class ServiceDetailsHeader extends StatelessWidget {
     final controller = Get.find<ServiceDetailsController>();
     return SizedBox(
       width: double.infinity,
-      height: 210,
+      height: 170,
       child: Stack(
         children: [
           Positioned(
@@ -87,35 +86,35 @@ class ServiceDetailsHeader extends StatelessWidget {
             ),
           ),
 
-          Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 110,
-                  height: 110,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusGeometry.circular(14),
-                    border: Border.all(
-                      color: context.resources.color.background2,
-                      width: 5,
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(10),
-                    child: PrimaryNetworkImage(
-                      url: controller.service.value?.image.toString() ?? '',
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Positioned(
+          //   bottom: 0,
+          //   right: 0,
+          //   left: 0,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Container(
+          //         width: 110,
+          //         height: 110,
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadiusGeometry.circular(14),
+          //           border: Border.all(
+          //             color: context.resources.color.background2,
+          //             width: 5,
+          //           ),
+          //         ),
+          //         child: ClipRRect(
+          //           borderRadius: BorderRadiusGeometry.circular(10),
+          //           child: PrimaryNetworkImage(
+          //             url: controller.service.value?.image.toString() ?? '',
+          //             width: double.infinity,
+          //             height: double.infinity,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

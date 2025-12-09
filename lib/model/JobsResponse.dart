@@ -96,10 +96,14 @@ class Job {
   DateTime? createdAt;
   List<Skill>? skills;
   bool? isFavorite;
+  dynamic hasEngagement;
+  String? hasEngagementHashcode;
 
   var checked = false.obs;
 
   Job({
+    this.hasEngagement,
+    this.hasEngagementHashcode,
     this.entityType,
     this.hashcode,
     this.memberHashcode,
@@ -137,6 +141,8 @@ class Job {
   });
 
   factory Job.fromJson(Map<String, dynamic> json) => Job(
+    hasEngagement: json["has_engagement"],
+    hasEngagementHashcode: json["has_engagement_hashcode"],
     entityType: json["entity_type"],
     hashcode: json["hashcode"],
     isFavorite: json["is_favorite"],
@@ -178,6 +184,8 @@ class Job {
   );
 
   Map<String, dynamic> toJson() => {
+    "has_engagement": hasEngagement,
+    "has_engagement_hashcode": hasEngagementHashcode,
     "entity_type": entityType,
     "hashcode": hashcode,
     "is_favorite": isFavorite,
