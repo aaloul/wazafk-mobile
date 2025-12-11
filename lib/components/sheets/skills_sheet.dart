@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -9,11 +10,15 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 class SkillsSheet extends StatefulWidget {
   final List<Skill> selectedSkills;
   final Function(List<Skill>) onSkillsSelected;
+  final List<Skill>? availableSkills;
+  final bool isLoadingSkills;
 
   const SkillsSheet({
     super.key,
     required this.selectedSkills,
     required this.onSkillsSelected,
+    this.availableSkills,
+    this.isLoadingSkills = false,
   });
 
   @override
@@ -22,12 +27,20 @@ class SkillsSheet extends StatefulWidget {
 
 class _SkillsSheetState extends State<SkillsSheet> {
   late List<Skill> tempSelectedSkills;
-  final homeController = Get.find<HomeController>();
+  HomeController? homeController;
 
   @override
   void initState() {
     super.initState();
     tempSelectedSkills = List.from(widget.selectedSkills);
+    // Only try to find HomeController if availableSkills is not provided
+    if (widget.availableSkills == null) {
+      try {
+        homeController = Get.find<HomeController>();
+      } catch (e) {
+        // HomeController not found, will use empty list
+      }
+    }
   }
 
   bool isSkillSelected(Skill skill) {
@@ -42,6 +55,65 @@ class _SkillsSheetState extends State<SkillsSheet> {
         tempSelectedSkills.add(skill);
       }
     });
+  }
+
+  Widget _buildSkillsList(List<Skill> skills, bool isLoading,
+      BuildContext context) {
+    if (isLoading) {
+      return Center(
+        child: ProgressBar(
+          color: context.resources.color.colorPrimary,
+        ),
+      );
+    }
+
+    if (skills.isEmpty) {
+      return Center(
+        child: PrimaryText(
+          text: 'No skills available for this category',
+          textColor: context.resources.color.colorGrey8,
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: skills.map((skill) {
+          final isSelected = isSkillSelected(skill);
+          return GestureDetector(
+            onTap: () => toggleSkillSelection(skill),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? context.resources.color.colorPrimary
+                    : context.resources.color.colorWhite,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: isSelected
+                      ? context.resources.color.colorPrimary
+                      : context.resources.color.colorGrey2,
+                  width: 1,
+                ),
+              ),
+              child: PrimaryText(
+                text: skill.name ?? '',
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                textColor: isSelected
+                    ? context.resources.color.colorWhite
+                    : context.resources.color.colorGrey3,
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 
   @override
@@ -78,55 +150,8 @@ class _SkillsSheetState extends State<SkillsSheet> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: Obx(() {
-                if (homeController.skills.isEmpty) {
-                  return Center(
-                    child: PrimaryText(
-                      text: 'No skills available',
-                      textColor: context.resources.color.colorGrey8,
-                    ),
-                  );
-                }
-
-                return SingleChildScrollView(
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: homeController.skills.map((skill) {
-                      final isSelected = isSkillSelected(skill);
-                      return GestureDetector(
-                        onTap: () => toggleSkillSelection(skill),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? context.resources.color.colorPrimary
-                                : context.resources.color.colorWhite,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: isSelected
-                                  ? context.resources.color.colorPrimary
-                                  : context.resources.color.colorGrey2,
-                              width: 1,
-                            ),
-                          ),
-                          child: PrimaryText(
-                            text: skill.name ?? '',
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            textColor: isSelected
-                                ? context.resources.color.colorWhite
-                                : context.resources.color.colorGrey3,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                );
-              }),
+                child: _buildSkillsList(
+                    widget.availableSkills!, widget.isLoadingSkills, context)
             ),
             SafeArea(
               top: false,

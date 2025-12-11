@@ -177,10 +177,9 @@ class BookServiceController extends GetxController {
         'unit_price': price,
         'total_price': price,
         'work_location_type': workLocationType,
-        'message_to_client': notesController.text,
+        'message_to_freelancer': notesController.text,
         'description': "",
         'tasks_milestones': "",
-        'message_to_freelancer': "",
       };
 
       // Add service or package hashcode

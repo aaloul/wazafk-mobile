@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
+import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -44,6 +45,19 @@ class _HomeJobItemState extends State<HomeJobItem> {
     }
   }
 
+  String getWorkLocationTypeFullName(String? workLocationType) {
+    switch (workLocationType) {
+      case 'RMT':
+        return 'Remote';
+      case 'HYB':
+        return 'Hybrid';
+      case 'SIT':
+        return 'Onsite';
+      default:
+        return 'N/A';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -70,13 +84,14 @@ class _HomeJobItemState extends State<HomeJobItem> {
                 onTap: () {
                   if (widget.job.memberHashcode != null) {
                     Get.toNamed(
-                      RouteConstant.employerRateMemberScreen,
-                      arguments: {
-                        'memberHashcode': widget.job.memberHashcode,
-                        'memberImage': widget.job.memberImage,
-                        'memberName': '${widget.job.memberFirstName} ${widget
-                            .job.memberLastName}',
-                      },
+                        RouteConstant.employerMemberProfileScreen,
+                        arguments: User(
+                          hashcode: widget.job.memberHashcode,
+                          image: widget.job.memberImage,
+                          firstName: widget.job.memberFirstName,
+                          lastName: widget.job.memberLastName,
+                        )
+
                     );
                   }
                 },
@@ -201,7 +216,8 @@ class _HomeJobItemState extends State<HomeJobItem> {
               Image.asset(AppIcons.location, width: 18),
               SizedBox(width: 8),
               Expanded(child: PrimaryText(
-                  text: widget.job.workLocationType ?? "N/A")),
+                  text: getWorkLocationTypeFullName(
+                      widget.job.workLocationType))),
 
               PrimaryText(
                 text: "\$${widget.job.totalPrice}",

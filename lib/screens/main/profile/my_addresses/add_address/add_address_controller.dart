@@ -4,6 +4,8 @@ import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../home/home_controller.dart';
+
 class AddAddressController extends GetxController {
   final _repository = AddressesRepository();
 
@@ -74,6 +76,8 @@ class AddAddressController extends GetxController {
           : await _repository.addAddress(data);
 
       if (response.success == true) {
+        final controller = Get.put(HomeController());
+        controller.fetchAddresses();
         constants.showSnackBar(
           response.message ??
               (isEditMode.value

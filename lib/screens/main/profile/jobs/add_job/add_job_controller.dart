@@ -5,6 +5,7 @@ import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
+import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/job/add_job_repository.dart';
 import 'package:wazafak_app/repository/job/save_job_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
@@ -15,6 +16,7 @@ import '../../../../../utils/res/AppIcons.dart';
 
 class AddJobController extends GetxController {
   final _categoriesRepository = CategoriesRepository();
+  final _skillsRepository = SkillsRepository();
   final _addJobRepository = AddJobRepository();
   final _saveJobRepository = SaveJobRepository();
 
@@ -30,6 +32,8 @@ class AddJobController extends GetxController {
   var selectedSubcategory = Rxn<Category>();
   var subcategories = <Category>[].obs;
   var isLoadingSubcategories = false.obs;
+  var categorySkills = <Skill>[].obs;
+  var isLoadingSkills = false.obs;
   var selectedSkills = <Skill>[].obs;
   var selectedAddress = Rxn<Address>();
   var selectedJobType = Rxn<String>();
@@ -162,6 +166,8 @@ class AddJobController extends GetxController {
     // Load subcategories
     if (category.hashcode != null) {
       await loadSubcategories(category.hashcode!);
+      // Load skills for the main category
+      await loadSkillsByCategory(category.hashcode!);
     }
   }
 
@@ -183,8 +189,36 @@ class AddJobController extends GetxController {
     }
   }
 
-  void selectSubcategory(Category subcategory) {
+  Future<void> loadSkillsByCategory(String categoryHashcode) async {
+    try {
+      isLoadingSkills.value = true;
+      categorySkills.clear();
+
+      final response = await _skillsRepository.getSkills(
+        category: categoryHashcode,
+      );
+
+      if (response.success == true && response.data != null) {
+        categorySkills.value = response.data!.list ?? [];
+        print('Loaded ${categorySkills
+            .length} skills for category $categoryHashcode');
+      } else {
+        print('Failed to load skills: ${response.message}');
+      }
+    } catch (e) {
+      print('Error loading skills: $e');
+    } finally {
+      isLoadingSkills.value = false;
+    }
+  }
+
+  Future<void> selectSubcategory(Category subcategory) async {
     selectedSubcategory.value = subcategory;
+
+    // Load skills for the subcategory
+    if (subcategory.hashcode != null) {
+      await loadSkillsByCategory(subcategory.hashcode!);
+    }
   }
 
   void toggleSkill(Skill skill) {

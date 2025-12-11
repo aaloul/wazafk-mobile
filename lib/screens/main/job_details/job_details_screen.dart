@@ -27,6 +27,15 @@ class JobDetailsScreen extends StatelessWidget {
           children: [
             Expanded(
               child: Obx(() {
+                // Show loading indicator
+                if (controller.isLoading.value) {
+                  return Center(
+                    child: ProgressBar(
+                      color: context.resources.color.colorPrimary,
+                    ),
+                  );
+                }
+
                 final job = controller.job.value;
                 if (job == null) {
                   return Center(
@@ -51,6 +60,7 @@ class JobDetailsScreen extends StatelessWidget {
                         child: PrimaryText(
                           text: job.title ?? '',
                           fontSize: 20,
+                          textAlign: TextAlign.center,
                           fontWeight: FontWeight.w900,
                           textColor: context.resources.color.colorGrey,
                         ),

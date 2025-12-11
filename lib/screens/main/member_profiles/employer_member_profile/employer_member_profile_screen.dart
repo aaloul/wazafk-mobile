@@ -39,8 +39,9 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                 }
 
                 return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Obx(
+                    () => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MemberProfileHeader(
                         avatar: controller.user.value!.image.toString(),
@@ -63,8 +64,8 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                       // Category
                       Center(
                         child: PrimaryText(
-                          text: user.title,
-                          fontSize: 15,
+                            text: user.title ?? '',
+                            fontSize: 15,
                           fontWeight: FontWeight.w400,
                           textColor: context.resources.color.colorGrey,
                         ),
@@ -95,6 +96,7 @@ class EmployerMemberProfileScreen extends StatelessWidget {
 
                       SizedBox(height: 24),
                     ],
+                  ),
                   ),
                 );
               }),

@@ -23,6 +23,7 @@ class ProjectsController extends GetxController {
   var removingFavoriteHashcode = ''.obs;
   var ongoingEngagements = <Engagement>[].obs;
   var pendingEngagements = <Engagement>[].obs;
+  var completedEngagements = <Engagement>[].obs;
   var favorites = <FavoriteData>[].obs;
 
   @override
@@ -30,6 +31,7 @@ class ProjectsController extends GetxController {
     super.onInit();
     fetchOngoingEngagements();
     fetchPendingEngagements();
+    fetchCompletedEngagements();
     fetchFavoriteJobs();
   }
 
@@ -71,6 +73,25 @@ class ProjectsController extends GetxController {
     }
   }
 
+  Future<void> fetchCompletedEngagements({bool? isLoading}) async {
+    try {
+      isLoadingEngagements.value = isLoading ?? true;
+      final response = await _engagementsRepository.getEngagements(
+        filters: {
+          'status': '10',
+          'freelancer': Prefs.getId,
+        },
+      );
+      if (response.success == true && response.data?.list != null) {
+        completedEngagements.value = response.data!.list!;
+      }
+    } catch (e) {
+      print('Error fetching completed engagements: $e');
+    } finally {
+      isLoadingEngagements.value = false;
+    }
+  }
+
   Future<void> fetchFavoriteJobs({bool? isLoading}) async {
     try {
       isLoadingFavorites.value = isLoading ?? true;
@@ -90,6 +111,9 @@ class ProjectsController extends GetxController {
         break;
       case 'Pending':
         fetchPendingEngagements();
+        break;
+      case 'Closed/Paused':
+        fetchCompletedEngagements();
         break;
       case 'Saved Jobs':
         fetchFavoriteJobs();

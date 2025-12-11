@@ -25,6 +25,7 @@ class ActivityScreen extends StatelessWidget {
         // Refresh data when screen gains focus
         controller.fetchOngoingEngagements(isLoading: false);
         controller.fetchPendingEngagements(isLoading: false);
+        controller.fetchCompletedEngagements(isLoading: false);
         controller.fetchFavoriteJobs(isLoading: false);
       },
       child: Scaffold(
@@ -42,7 +43,12 @@ class ActivityScreen extends StatelessWidget {
               Obx(
                     () =>
                     TabsWidget(
-                      tabs: ['Project & Services', 'Pending', 'Pins'],
+                      tabs: [
+                        'Project & Services',
+                        'Pending',
+                        'Closed/Paused',
+                        'Pins'
+                      ],
                       onSelect: (tab) {
                         controller.selectedTab.value = tab;
                       },
@@ -67,6 +73,8 @@ class ActivityScreen extends StatelessWidget {
         return _buildOngoingProjects(context);
       case 'Pending':
         return _buildPendingProjects(context);
+      case 'Closed/Paused':
+        return _buildCompletedProjects(context);
       case 'Pins':
         return _buildSavedFavorites(context);
       default:
@@ -128,6 +136,36 @@ class ActivityScreen extends StatelessWidget {
         itemCount: controller.pendingEngagements.length,
         itemBuilder: (context, index) {
           final engagement = controller.pendingEngagements[index];
+          return ProjectItem(engagement: engagement,);
+        },
+      ),
+    );
+  }
+
+  Widget _buildCompletedProjects(BuildContext context) {
+    if (controller.isLoadingEngagements.value) {
+      return ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: 5,
+        itemBuilder: (context, index) => ProjectItemSkeleton(),
+      );
+    }
+
+    if (controller.completedEngagements.isEmpty) {
+      return Center(
+        child: Text(
+          'No completed projects',
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: controller.fetchCompletedEngagements,
+      child: ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: controller.completedEngagements.length,
+        itemBuilder: (context, index) {
+          final engagement = controller.completedEngagements[index];
           return ProjectItem(engagement: engagement,);
         },
       ),

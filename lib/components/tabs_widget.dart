@@ -18,6 +18,8 @@ class TabsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isScrollable = tabs.length > 3;
+
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: margin ?? 0),
@@ -26,60 +28,105 @@ class TabsWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(height: 4, color: context.resources.color.background2),
-          Row(
+          isScrollable
+              ? SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: _buildScrollableTabs(context),
+            ),
+          )
+              : Row(
             mainAxisSize: MainAxisSize.max,
-            children: [
-              ...tabs.map((tab) {
-                return Expanded(
-                  flex: 1,
-                  child: Row(
-                    children: [
-
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            onSelect(tab);
-                          },
-                          child: Container(
-                            height: 40,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(0),
-                              color: selectedTab == tab.toString()
-                                  ? context.resources.color.colorPrimary
-                                  : context.resources.color.colorWhite,
-                            ),
-                            child: Center(
-                              child: PrimaryText(
-                                textAlign: TextAlign.center,
-                                text: tab.toString(),
-                                textColor: selectedTab == tab.toString()
-                                    ? context.resources.color.colorWhite
-                                    : context.resources.color.colorGrey,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Container(
-                        width: .5,
-                        height: 20,
-                        color: context.resources.color.colorGrey,
-                      )
-
-                    ],
-                  ),
-                );
-              }),
-            ],
+            children: _buildExpandedTabs(context),
           ),
-
           Container(height: 8, color: context.resources.color.background2),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildExpandedTabs(BuildContext context) {
+    return tabs.map((tab) {
+      return Expanded(
+        flex: 1,
+        child: Row(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  onSelect(tab);
+                },
+                child: Container(
+                  height: 40,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                    color: selectedTab == tab.toString()
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorWhite,
+                  ),
+                  child: Center(
+                    child: PrimaryText(
+                      textAlign: TextAlign.center,
+                      text: tab.toString(),
+                      textColor: selectedTab == tab.toString()
+                          ? context.resources.color.colorWhite
+                          : context.resources.color.colorGrey,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: .5,
+              height: 20,
+              color: context.resources.color.colorGrey,
+            )
+          ],
+        ),
+      );
+    }).toList();
+  }
+
+  List<Widget> _buildScrollableTabs(BuildContext context) {
+    return tabs.map((tab) {
+      return Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              onSelect(tab);
+            },
+            child: Container(
+              height: 40,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(0),
+                color: selectedTab == tab.toString()
+                    ? context.resources.color.colorPrimary
+                    : context.resources.color.colorWhite,
+              ),
+              child: Center(
+                child: PrimaryText(
+                  textAlign: TextAlign.center,
+                  text: tab.toString(),
+                  textColor: selectedTab == tab.toString()
+                      ? context.resources.color.colorWhite
+                      : context.resources.color.colorGrey,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: .5,
+            height: 20,
+            color: context.resources.color.colorGrey,
+          )
+        ],
+      );
+    }).toList();
   }
 }

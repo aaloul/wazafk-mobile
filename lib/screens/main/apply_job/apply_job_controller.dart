@@ -174,7 +174,6 @@ class ApplyJobController extends GetxController {
         'message_to_client': descriptionController.text,
         'work_location_type': job.value!.workLocationType.toString(),
         'address': "",
-        'message_to_freelancer': "",
         'tasks_milestones': "",
         'description': "",
         'start_datetime': "",

@@ -48,6 +48,97 @@ class _HomePackageItemState extends State<HomePackageItem> {
     Get.toNamed(RouteConstant.packageDetailsScreen, arguments: widget.package);
   }
 
+  Widget _buildHorizontalGrid(BuildContext context) {
+    // Get all services
+    final List<Widget> allItems = [];
+
+    // Add services
+    if (widget.package.services != null) {
+      allItems.addAll(
+        widget.package.services!.map(
+          (service) => Container(
+            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+            decoration: BoxDecoration(
+              color: context.resources.color.colorWhite,
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(
+                color: context.resources.color.colorWhite,
+                width: 1,
+              ),
+            ),
+            child: PrimaryText(
+              text: service.title ?? '',
+              fontSize: 10,
+              fontWeight: FontWeight.w400,
+              textColor: context.resources.color.colorGrey8,
+              maxLines: 1,
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (allItems.isEmpty) {
+      return SizedBox.shrink();
+    }
+
+    // If 2 or fewer items, display in single row
+    if (allItems.length <= 2) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: allItems
+              .map(
+                (item) =>
+                    Padding(padding: EdgeInsets.only(right: 8), child: item),
+              )
+              .toList(),
+        ),
+      );
+    }
+
+    // Split items into 2 rows for more than 2 items
+    final List<Widget> row1 = [];
+    final List<Widget> row2 = [];
+
+    for (int i = 0; i < allItems.length; i++) {
+      if (i % 2 == 0) {
+        row1.add(allItems[i]);
+      } else {
+        row2.add(allItems[i]);
+      }
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (row1.isNotEmpty)
+            Row(
+              children: row1
+                  .map(
+                    (item) => Padding(
+                      padding: EdgeInsets.only(right: 8, bottom: 8),
+                      child: item,
+                    ),
+                  )
+                  .toList(),
+            ),
+          if (row2.isNotEmpty)
+            Row(
+              children: row2
+                  .map(
+                    (item) => Padding(
+                      padding: EdgeInsets.only(right: 8),
+                      child: item,
+                    ),
+                  )
+                  .toList(),
+            ),
+        ],
+      ),
+    );
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -85,6 +176,7 @@ class _HomePackageItemState extends State<HomePackageItem> {
                         text: widget.package.description ?? 'N/A',
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
+                        maxLines: 2,
                         textColor: context.resources.color.colorGrey8,
                       ),
                     ],
@@ -200,37 +292,7 @@ class _HomePackageItemState extends State<HomePackageItem> {
               ),
 
               SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  // Services
-                  if (widget.package.services != null)
-                    ...widget.package.services!.map(
-                      (service) => Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: context.resources.color.colorWhite,
-                          borderRadius: BorderRadius.circular(32),
-                          border: Border.all(
-                            color: context.resources.color.colorWhite,
-                            width: 1,
-                          ),
-                        ),
-                        child: PrimaryText(
-                          text: service.title ?? '',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          textColor: context.resources.color.colorGrey8,
-                          maxLines: 1,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+              _buildHorizontalGrid(context),
             ],
           ],
         ),

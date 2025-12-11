@@ -68,6 +68,8 @@ class Engagement {
   String? hashcode;
   String? type;
   String? clientHashcode;
+  String? clientRating;
+  String? freelancerRating;
   String? clientFirstName;
   String? clientTitle;
   String? clientLastName;
@@ -112,6 +114,8 @@ class Engagement {
   Engagement({
     this.entityType,
     this.hashcode,
+    this.clientRating,
+    this.freelancerRating,
     this.type,
     this.clientHashcode,
     this.clientFirstName,
@@ -160,6 +164,8 @@ class Engagement {
     entityType: json["entity_type"],
     hashcode: json["hashcode"],
     type: json["type"],
+    freelancerRating: json["freelancer_rating"],
+    clientRating: json["client_rating"],
     clientHashcode: json["client_hashcode"],
     clientFirstName: json["client_first_name"],
     clientTitle: json["client_title"],
@@ -215,6 +221,8 @@ class Engagement {
     "entity_type": entityType,
     "hashcode": hashcode,
     "type": type,
+    "client_rating": clientRating,
+    "freelancer_rating": freelancerRating,
     "client_title": clientTitle,
     "freelancer_title": freelancerTitle,
     "client_hashcode": clientHashcode,

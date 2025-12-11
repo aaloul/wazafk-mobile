@@ -2,10 +2,12 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_job_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
+import 'package:wazafak_app/repository/job/job_detail_repository.dart';
 import 'package:wazafak_app/repository/job/job_status_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class JobDetailsController extends GetxController {
+  final JobDetailRepository _jobDetailRepository = JobDetailRepository();
   final JobStatusRepository _jobStatusRepository = JobStatusRepository();
   final AddFavoriteJobRepository _addFavoriteJobRepository = AddFavoriteJobRepository();
   final RemoveFavoriteJobRepository _removeFavoriteJobRepository = RemoveFavoriteJobRepository();
@@ -19,10 +21,65 @@ class JobDetailsController extends GetxController {
   void onInit() {
     super.onInit();
 
-    // Get job from arguments
     final arguments = Get.arguments;
+
+    isLoading.value = true;
+
+    // Handle both Job object and String hashcode
     if (arguments != null && arguments is Job) {
       job.value = arguments;
+
+      // Fetch fresh details from API if hashcode is available
+      if (arguments.hashcode != null) {
+        getJobDetails(arguments.hashcode!);
+      } else {
+        isLoading.value = false;
+      }
+    } else if (arguments != null && arguments is String) {
+      // Hashcode passed directly
+      getJobDetails(arguments);
+    } else {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> getJobDetails(String hashcode) async {
+    try {
+      final response = await _jobDetailRepository.getJob(hashcode);
+
+      if (response.success == true && response.data != null) {
+        // Parse the job from response
+
+        final Job? jobData = response.data?.list?.first;
+
+        if (jobData != null) {
+          job.value = jobData;
+        } else {
+          constants.showSnackBar(
+            'Job details not found',
+            SnackBarStatus.ERROR,
+          );
+        }
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to load job details',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      print('Error fetching job details: $e');
+      constants.showSnackBar(
+        'Error loading job details',
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> refreshJobDetails() async {
+    if (job.value?.hashcode != null) {
+      await getJobDetails(job.value!.hashcode!);
     }
   }
 
@@ -45,14 +102,13 @@ class JobDetailsController extends GetxController {
       );
 
       if (response.success == true) {
-        // Update local job status
-        job.value!.status = 0;
-        job.refresh();
-
         constants.showSnackBar(
           response.message ?? 'Job disabled successfully',
           SnackBarStatus.SUCCESS,
         );
+
+        // Refresh job details to get updated status
+        await refreshJobDetails();
 
         // Go back after successful disable
         Get.back();
@@ -91,12 +147,12 @@ class JobDetailsController extends GetxController {
         );
 
         if (response.success == true) {
-          job.value!.isFavorite = false;
-          job.refresh();
           constants.showSnackBar(
             'Removed from favorites',
             SnackBarStatus.SUCCESS,
           );
+          // Refresh job details to get updated favorite status
+          await refreshJobDetails();
         } else {
           constants.showSnackBar(
             response.message ?? 'Failed to remove from favorites',
@@ -110,12 +166,12 @@ class JobDetailsController extends GetxController {
         );
 
         if (response.success == true) {
-          job.value!.isFavorite = true;
-          job.refresh();
           constants.showSnackBar(
             'Added to favorites',
             SnackBarStatus.SUCCESS,
           );
+          // Refresh job details to get updated favorite status
+          await refreshJobDetails();
         } else {
           constants.showSnackBar(
             response.message ?? 'Failed to add to favorites',

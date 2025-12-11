@@ -10,6 +10,8 @@ class SheetHelper {
     BuildContext context, {
     required List<Skill> selectedSkills,
     required Function(List<Skill>) onSkillsSelected,
+    List<Skill>? availableSkills,
+    bool isLoadingSkills = false,
   }) {
     showModalBottomSheet(
       context: context,
@@ -28,6 +30,8 @@ class SheetHelper {
             child: SkillsSheet(
               selectedSkills: selectedSkills,
               onSkillsSelected: onSkillsSelected,
+              availableSkills: availableSkills,
+              isLoadingSkills: isLoadingSkills,
             ),
           ),
         );
