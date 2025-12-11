@@ -55,6 +55,54 @@ class EngagementDetailsScreen extends StatelessWidget {
 
   }
 
+  void _showExpandedImage(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.black,
+          insetPadding: EdgeInsets.zero,
+          child: Stack(
+            children: [
+              // Full screen image with pinch to zoom
+              InteractiveViewer(
+                minScale: 0.5,
+                maxScale: 4.0,
+                child: Center(
+                  child: PrimaryNetworkImage(
+                    url: imageUrl,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
+              // Close button
+              Positioned(
+                top: 40,
+                right: 16,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(EngagementDetailsController());
@@ -759,13 +807,19 @@ class EngagementDetailsScreen extends StatelessWidget {
                               // Check if file is an image
                               if (_isImageFile(
                                   engagement.completedDeliverables!)) ...[
-                                // Display image
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: PrimaryNetworkImage(
-                                    url: engagement.completedDeliverables!,
-                                    width: double.infinity,
-                                    height: 250,
+                                // Display image with tap to expand
+                                GestureDetector(
+                                  onTap: () =>
+                                      _showExpandedImage(
+                                          context,
+                                          engagement.completedDeliverables!),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: PrimaryNetworkImage(
+                                      url: engagement.completedDeliverables!,
+                                      width: double.infinity,
+                                      height: 250,
+                                    ),
                                   ),
                                 ),
                               ] else
