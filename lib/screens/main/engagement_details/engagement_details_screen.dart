@@ -45,14 +45,14 @@ class EngagementDetailsScreen extends StatelessWidget {
   }
 
   Future<void> _openFileInBrowser(String url) async {
-    try {
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
-    } catch (e) {
-      print('Error opening file: $e');
+    print('urlurlurl');
+    print(url);
+
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
     }
+
   }
 
   @override
@@ -735,10 +735,9 @@ class EngagementDetailsScreen extends StatelessWidget {
                               SizedBox(height: 16),
                             ],
 
-                            // Completed Deliverables (for clients when status is 4)
-                            if (engagement.status == 4 &&
-                                Prefs.getId ==
-                                    engagement.clientHashcode.toString() &&
+                            // Completed Deliverables (when status is 4 or 10)
+                            if ((engagement.status == 4 ||
+                                engagement.status == 10) &&
                                 engagement.completedDeliverables != null &&
                                 engagement.completedDeliverables!
                                     .isNotEmpty) ...[
