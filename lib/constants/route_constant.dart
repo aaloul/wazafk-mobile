@@ -17,6 +17,7 @@ class RouteConstant {
   static const String personalInformationScreen =
       '/personal_information_screen';
   static const String myDocumentsScreen = '/my_documents_screen';
+  static const String uploadDocumentsScreen = '/upload_documents_screen';
   static const String myAddressesScreen = '/my_addresses_screen';
   static const String profileNotificationsScreen =
       '/profile_notifications_screen';

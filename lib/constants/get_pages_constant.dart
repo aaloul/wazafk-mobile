@@ -57,6 +57,7 @@ import '../screens/main/profile/working_days/working_days_screen.dart';
 import '../screens/main/search/search_screen.dart';
 import '../screens/main/service_details/service_details_screen.dart';
 import '../screens/main/subcategories/subcategories_screen.dart';
+import '../screens/main/upload_documents/upload_documents_screen.dart';
 
 List<GetPage> getPages = [
   GetPage(
@@ -136,6 +137,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.myDocumentsScreen,
     page: () => MyDocumentsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.uploadDocumentsScreen,
+    page: () => UploadDocumentsScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(

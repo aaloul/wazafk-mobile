@@ -41,6 +41,19 @@ class _AllJobsItemState extends State<AllJobsItem> {
     }
   }
 
+  String _getWorkLocationTypeName(String? code) {
+    switch (code) {
+      case 'RMT':
+        return 'Remote';
+      case 'HYB':
+        return 'Hybrid';
+      case 'SIT':
+        return 'Onsite';
+      default:
+        return code ?? 'N/A';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -202,7 +215,7 @@ class _AllJobsItemState extends State<AllJobsItem> {
                 SizedBox(width: 8),
                 Expanded(
                   child: PrimaryText(
-                    text: widget.job.workLocationType ?? "N/A",
+                    text: _getWorkLocationTypeName(widget.job.workLocationType),
                   ),
                 ),
                 PrimaryText(

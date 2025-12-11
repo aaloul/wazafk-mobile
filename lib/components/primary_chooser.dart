@@ -70,6 +70,9 @@ class PrimaryChooser extends StatelessWidget {
               child: CustomDropdown<String>(
                 hintText: text,
                 items: list,
+                canCloseOutsideBounds: false,
+                hideSelectedFieldWhenExpanded: false,
+                excludeSelected: false,
                 closedHeaderPadding: const EdgeInsets.symmetric(
                   vertical: 12,
                   horizontal: 8,
@@ -127,6 +130,8 @@ class PrimaryChooser extends StatelessWidget {
           if (isMultiSelect)
             CustomDropdown<String>.multiSelect(
               hintText: text,
+              canCloseOutsideBounds: false,
+              hideSelectedFieldWhenExpanded: false,
               closedHeaderPadding: const EdgeInsets.symmetric(
                 vertical: 12,
                 horizontal: 8,

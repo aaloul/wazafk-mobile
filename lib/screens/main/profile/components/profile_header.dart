@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../components/primary_network_image.dart';
@@ -77,6 +78,61 @@ class ProfileHeader extends StatelessWidget {
                       color: context.resources.color.colorWhite)),
             ],
           ),
+
+          // Verification Status
+          Obx(() {
+            final isVerified = controller.profileData.value?.idVerified == 1;
+            if (isVerified) {
+              return SizedBox.shrink();
+            }
+
+            return Container(
+              margin: EdgeInsets.only(top: 12),
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: context.resources.color.colorWhite.withOpacity(.15),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: context.resources.color.colorWhite,
+                    size: 20,
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: PrimaryText(
+                      text: 'Not Verified',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      textColor: context.resources.color.colorWhite,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteConstant.uploadDocumentsScreen);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: context.resources.color.colorWhite,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: PrimaryText(
+                        text: 'Verify Now',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        textColor: context.resources.color.colorPrimary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+
           Container(
             height: 1,
             width: double.infinity,

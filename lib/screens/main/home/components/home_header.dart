@@ -57,6 +57,40 @@ class HomeHeader extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       textColor: context.resources.color.colorWhite,
                     ),
+                    // Verification Status
+                    if ((controller.profileData.value?.idVerified ?? 0) == 0)
+                      GestureDetector(
+                        onDoubleTap: () {
+                          Get.toNamed(RouteConstant.uploadDocumentsScreen);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 4),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: context.resources.color.colorWhite
+                                .withOpacity(.2),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                color: context.resources.color.colorWhite,
+                                size: 10,
+                              ),
+                              SizedBox(width: 4),
+                              PrimaryText(
+                                text: 'Not Verified',
+                                fontSize: 9,
+                                fontWeight: FontWeight.w600,
+                                textColor: context.resources.color.colorWhite,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                   ],
                     )),
               ),
