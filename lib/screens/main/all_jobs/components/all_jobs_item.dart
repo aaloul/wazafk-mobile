@@ -10,6 +10,8 @@ import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
+import '../../../../model/LoginResponse.dart';
+
 class AllJobsItem extends StatefulWidget {
   const AllJobsItem({super.key, required this.job, this.onFavoriteToggle});
 
@@ -65,13 +67,15 @@ class _AllJobsItemState extends State<AllJobsItem> {
                   onTap: () {
                     if (widget.job.memberHashcode != null) {
                       Get.toNamed(
-                        RouteConstant.employerRateMemberScreen,
-                        arguments: {
-                          'memberHashcode': widget.job.memberHashcode,
-                          'memberImage': widget.job.memberImage,
-                          'memberName':
-                              '${widget.job.memberFirstName} ${widget.job.memberLastName}',
-                        },
+                          RouteConstant.employerMemberProfileScreen,
+                          arguments: User(
+                              hashcode: widget.job.memberHashcode,
+                              image: widget.job.memberImage,
+                              firstName: widget.job.memberFirstName,
+                              lastName: widget.job.memberLastName,
+                              title: ''
+                          )
+
                       );
                     }
                   },

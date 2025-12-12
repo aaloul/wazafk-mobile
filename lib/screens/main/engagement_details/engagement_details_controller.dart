@@ -1,14 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
+import 'package:wazafak_app/repository/account/face_match_repository.dart';
 import 'package:wazafak_app/repository/engagement/accept_reject_engagement_change_request_repository.dart';
 import 'package:wazafak_app/repository/engagement/accept_reject_engagement_repository.dart';
 import 'package:wazafak_app/repository/engagement/accept_reject_finish_engagement_repository.dart';
@@ -19,6 +23,7 @@ import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../repository/engagement/engagement_detail_repository.dart';
 import '../../../repository/engagement/submit_engagement_change_request_repository.dart';
+import 'components/finish_engagement_bottom_sheet.dart';
 
 class EngagementDetailsController extends GetxController {
   final _engagementDetailRepository = EngagementDetailRepository();
@@ -32,6 +37,7 @@ class EngagementDetailsController extends GetxController {
   final _finishEngagementRepository = FinishEngagementRepository();
   final _acceptRejectFinishEngagementRepository =
       AcceptRejectFinishEngagementRepository();
+  final _faceMatchRepository = FaceMatchRepository();
 
   final Rx<Engagement?> engagement = Rx<Engagement?>(null);
   final Rx<Service?> service = Rx<Service?>(null);
@@ -70,6 +76,16 @@ class EngagementDetailsController extends GetxController {
   var deliverableFileName = Rxn<String>();
   var deliverableFileSize = Rxn<int>();
   var deliverableFileExtension = Rxn<String>();
+
+  // Face match fields
+  var faceMatchImage = Rxn<XFile>();
+  var isVerifyingFaceMatch = false.obs;
+  CameraController? cameraController;
+  var isCameraInitialized = false.obs;
+  var isCameraInitializing = false.obs;
+
+  // Track the action after successful face verification
+  String? faceVerificationAction; // 'accept_finish', 'open_finish_sheet', 'accept_engagement', 'reject_engagement'
 
   @override
   void onInit() {
@@ -735,12 +751,198 @@ class EngagementDetailsController extends GetxController {
     }
   }
 
+  Future<void> initializeCamera() async {
+    try {
+      isCameraInitializing.value = true;
+
+      // Get available cameras
+      final cameras = await availableCameras();
+
+      // Find front camera
+      final frontCamera = cameras.firstWhere(
+            (camera) => camera.lensDirection == CameraLensDirection.front,
+        orElse: () => cameras.first,
+      );
+
+      // Initialize camera controller
+      cameraController = CameraController(
+        frontCamera,
+        ResolutionPreset.high,
+        enableAudio: false,
+        imageFormatGroup: ImageFormatGroup.jpeg,
+      );
+
+      await cameraController!.initialize();
+      isCameraInitialized.value = true;
+    } catch (e) {
+      constants.showSnackBar(
+        'Error initializing camera: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error initializing camera: $e');
+    } finally {
+      isCameraInitializing.value = false;
+    }
+  }
+
+  Future<void> takePictureFromCamera() async {
+    if (cameraController == null || !cameraController!.value.isInitialized) {
+      constants.showSnackBar(
+        'Camera not initialized',
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    try {
+      final image = await cameraController!.takePicture();
+      faceMatchImage.value = image;
+      constants.showSnackBar(
+        'Image captured successfully',
+        SnackBarStatus.SUCCESS,
+      );
+    } catch (e) {
+      constants.showSnackBar(
+        'Error capturing image: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error taking picture: $e');
+    }
+  }
+
+  void disposeCamera() {
+    cameraController?.dispose();
+    cameraController = null;
+    isCameraInitialized.value = false;
+  }
+
+  void retakePicture() {
+    faceMatchImage.value = null;
+  }
+
+  Future<void> captureFaceMatchImage(BuildContext context) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 80,
+      );
+
+      if (image != null) {
+        faceMatchImage.value = image;
+        constants.showSnackBar(
+          'Image captured successfully',
+          SnackBarStatus.SUCCESS,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error capturing image: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error capturing face match image: $e');
+    }
+  }
+
+  Future<String?> convertImageToBase64(XFile image) async {
+    try {
+      final bytes = await File(image.path).readAsBytes();
+      return "data:image/jpeg;base64,${base64Encode(bytes)}";
+    } catch (e) {
+      constants.showSnackBar(
+        'Error converting image: $e',
+        SnackBarStatus.ERROR,
+      );
+      return null;
+    }
+  }
+
+  Future<void> verifyFaceMatch() async {
+    if (faceMatchImage.value == null) {
+      constants.showSnackBar(
+        'Please capture an image first',
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    try {
+      isVerifyingFaceMatch.value = true;
+
+      // Convert image to base64
+      final base64Image = await convertImageToBase64(faceMatchImage.value!);
+      if (base64Image == null) {
+        constants.showSnackBar(
+          'Failed to process image',
+          SnackBarStatus.ERROR,
+        );
+        return;
+      }
+
+
+      // Call face match API
+      final response = await _faceMatchRepository.faceMatch({
+        'face': '$base64Image',
+      });
+
+      if (response.success == true) {
+        constants.showSnackBar(
+          'Face verified successfully',
+          SnackBarStatus.SUCCESS,
+        );
+
+        // Close the bottom sheet
+        if (Get.isBottomSheetOpen == true) {
+          Get.back();
+        }
+
+        // Handle different actions based on faceVerificationAction
+        if (faceVerificationAction == 'accept_finish') {
+          // Call accept finish engagement API
+          await acceptFinishEngagement();
+        } else if (faceVerificationAction == 'open_finish_sheet') {
+          // Open finish engagement bottom sheet
+          await Get.bottomSheet(
+            FinishEngagementBottomSheet(),
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+          );
+        } else if (faceVerificationAction == 'accept_engagement') {
+          // Call accept engagement API
+          await acceptEngagement();
+        } else if (faceVerificationAction == 'reject_engagement') {
+          // Call reject engagement API
+          await rejectEngagement();
+        }
+
+        // Clear the face match image and reset action
+        faceMatchImage.value = null;
+        faceVerificationAction = null;
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Face verification failed',
+          SnackBarStatus.ERROR,
+        );
+      }
+      print(base64Image);
+    } catch (e) {
+      print('Error verifying face match: $e');
+      constants.showSnackBar(
+        'Error verifying face match',
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isVerifyingFaceMatch.value = false;
+    }
+  }
+
   @override
   void onClose() {
     negotiationPriceController.dispose();
     negotiationHoursController.dispose();
     negotiationMessageController.dispose();
     disputeReasonController.dispose();
+    disposeCamera();
     super.onClose();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
@@ -14,8 +15,8 @@ import '../../../components/top_header.dart';
 import '../../../utils/Prefs.dart';
 import 'components/change_request_bottom_sheet.dart';
 import 'components/dispute_bottom_sheet.dart';
-import 'components/finish_engagement_bottom_sheet.dart';
 import 'components/negotiation_bottom_sheet.dart';
+import 'components/verify_face_match_bottom_sheet.dart';
 
 class EngagementDetailsScreen extends StatelessWidget {
   const EngagementDetailsScreen({super.key});
@@ -30,6 +31,27 @@ class EngagementDetailsScreen extends StatelessWidget {
         return 'Onsite';
       default:
         return code ?? 'N/A';
+    }
+  }
+
+  bool _isImageFile(String url) {
+    final extension = url
+        .toLowerCase()
+        .split('.')
+        .last
+        .split('?')
+        .first;
+    return ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].contains(extension);
+  }
+
+  Future<void> _openFileInBrowser(String url) async {
+    try {
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    } catch (e) {
+      print('Error opening file: $e');
     }
   }
 
@@ -712,6 +734,109 @@ class EngagementDetailsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 16),
                             ],
+
+                            // Completed Deliverables (for clients when status is 4)
+                            if (engagement.status == 4 &&
+                                Prefs.getId ==
+                                    engagement.clientHashcode.toString() &&
+                                engagement.completedDeliverables != null &&
+                                engagement.completedDeliverables!
+                                    .isNotEmpty) ...[
+                              Container(
+                                width: double.infinity,
+                                height: 1,
+                                color: context.resources.color.colorGrey
+                                    .withOpacity(.25),
+                                margin: EdgeInsets.only(bottom: 16),
+                              ),
+                              PrimaryText(
+                                text: 'Completed Deliverables',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                textColor: context.resources.color.colorGrey,
+                              ),
+                              SizedBox(height: 12),
+
+                              // Check if file is an image
+                              if (_isImageFile(
+                                  engagement.completedDeliverables!)) ...[
+                                // Display image
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: PrimaryNetworkImage(
+                                    url: engagement.completedDeliverables!,
+                                    width: double.infinity,
+                                    height: 250,
+                                  ),
+                                ),
+                              ] else
+                                ...[
+                                  // Display file with tap to open
+                                  GestureDetector(
+                                    onTap: () =>
+                                        _openFileInBrowser(
+                                            engagement.completedDeliverables!),
+                                    child: Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: context.resources.color
+                                            .colorBlue4,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: context.resources.color
+                                              .colorGrey4,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.attach_file,
+                                            color: context.resources.color
+                                                .colorPrimary,
+                                            size: 24,
+                                          ),
+                                          SizedBox(width: 12),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                PrimaryText(
+                                                  text: 'Deliverables File',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  textColor: context.resources
+                                                      .color.colorGrey,
+                                                ),
+                                                SizedBox(height: 4),
+                                                PrimaryText(
+                                                  text: engagement
+                                                      .completedDeliverables!
+                                                      .split('/').last,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                  textColor: context.resources
+                                                      .color.colorGrey7,
+                                                  maxLines: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Icon(
+                                            Icons.open_in_browser,
+                                            color: context.resources.color
+                                                .colorPrimary,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              SizedBox(height: 16),
+                            ],
                           ],
                         ),
                       ),
@@ -877,7 +1002,17 @@ class EngagementDetailsScreen extends StatelessWidget {
 
                             return PrimaryButton(
                               title: 'Accept Request',
-                              onPressed: controller.acceptEngagement,
+                              onPressed: () {
+                                // Set action for after face verification
+                                controller.faceVerificationAction =
+                                'accept_engagement';
+                                // Open face verification bottom sheet
+                                Get.bottomSheet(
+                                  VerifyFaceMatchBottomSheet(),
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                );
+                              },
                             );
                           }),
 
@@ -906,7 +1041,17 @@ class EngagementDetailsScreen extends StatelessWidget {
 
                             return PrimaryOutlinedButton(
                               title: 'Decline',
-                              onPressed: controller.rejectEngagement,
+                              onPressed: () {
+                                // Set action for after face verification
+                                controller.faceVerificationAction =
+                                'reject_engagement';
+                                // Open face verification bottom sheet
+                                Get.bottomSheet(
+                                  VerifyFaceMatchBottomSheet(),
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                );
+                              },
                             );
                           }),
 
@@ -1011,8 +1156,12 @@ class EngagementDetailsScreen extends StatelessWidget {
                         PrimaryButton(
                           title: 'Finish Engagement',
                           onPressed: () {
+                            // Set action for after face verification
+                            controller.faceVerificationAction =
+                            'open_finish_sheet';
+                            // Open face verification bottom sheet
                             Get.bottomSheet(
-                              FinishEngagementBottomSheet(),
+                              VerifyFaceMatchBottomSheet(),
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                             );
@@ -1081,7 +1230,16 @@ class EngagementDetailsScreen extends StatelessWidget {
 
                         return PrimaryButton(
                           title: 'Accept Finish',
-                          onPressed: controller.acceptFinishEngagement,
+                          onPressed: () {
+                            // Set action for after face verification
+                            controller.faceVerificationAction = 'accept_finish';
+                            // Open face verification bottom sheet
+                            Get.bottomSheet(
+                              VerifyFaceMatchBottomSheet(),
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                            );
+                          },
                         );
                       }),
 

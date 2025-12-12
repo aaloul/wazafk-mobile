@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
+import 'package:wazafak_app/repository/account/face_match_repository.dart';
 import 'package:wazafak_app/repository/engagement/submit_engagement_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -12,10 +17,18 @@ import 'package:wazafak_app/utils/utils.dart';
 class BookServiceController extends GetxController {
   final _addressesRepository = AddressesRepository();
   final _submitEngagementRepository = SubmitEngagementRepository();
+  final _faceMatchRepository = FaceMatchRepository();
 
   var service = Rx<Service?>(null);
   var package = Rx<Package?>(null);
   var isPackage = false.obs;
+
+  // Face match fields
+  var faceMatchImage = Rxn<XFile>();
+  var isVerifyingFaceMatch = false.obs;
+  CameraController? cameraController;
+  var isCameraInitialized = false.obs;
+  var isCameraInitializing = false.obs;
   var rangeStart = Rx<DateTime?>(null);
   var rangeEnd = Rx<DateTime?>(null);
   var focusedDay = DateTime.now().obs;
@@ -229,9 +242,152 @@ class BookServiceController extends GetxController {
     }
   }
 
+  Future<void> initializeCamera() async {
+    try {
+      isCameraInitializing.value = true;
+
+      // Get available cameras
+      final cameras = await availableCameras();
+
+      // Find front camera
+      final frontCamera = cameras.firstWhere(
+            (camera) => camera.lensDirection == CameraLensDirection.front,
+        orElse: () => cameras.first,
+      );
+
+      // Initialize camera controller
+      cameraController = CameraController(
+        frontCamera,
+        ResolutionPreset.high,
+        enableAudio: false,
+        imageFormatGroup: ImageFormatGroup.jpeg,
+      );
+
+      await cameraController!.initialize();
+      isCameraInitialized.value = true;
+    } catch (e) {
+      constants.showSnackBar(
+        'Error initializing camera: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error initializing camera: $e');
+    } finally {
+      isCameraInitializing.value = false;
+    }
+  }
+
+  Future<void> takePictureFromCamera() async {
+    if (cameraController == null || !cameraController!.value.isInitialized) {
+      constants.showSnackBar(
+        'Camera not initialized',
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    try {
+      final image = await cameraController!.takePicture();
+      faceMatchImage.value = image;
+      constants.showSnackBar(
+        'Image captured successfully',
+        SnackBarStatus.SUCCESS,
+      );
+    } catch (e) {
+      constants.showSnackBar(
+        'Error capturing image: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error taking picture: $e');
+    }
+  }
+
+  void disposeCamera() {
+    cameraController?.dispose();
+    cameraController = null;
+    isCameraInitialized.value = false;
+  }
+
+  void retakePicture() {
+    faceMatchImage.value = null;
+  }
+
+  Future<String?> convertImageToBase64(XFile image) async {
+    try {
+      final bytes = await File(image.path).readAsBytes();
+      return "data:image/jpeg;base64,${base64Encode(bytes)}";
+    } catch (e) {
+      constants.showSnackBar(
+        'Error converting image: $e',
+        SnackBarStatus.ERROR,
+      );
+      return null;
+    }
+  }
+
+  Future<void> verifyFaceMatchAndBook() async {
+    if (faceMatchImage.value == null) {
+      constants.showSnackBar(
+        'Please capture an image first',
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    try {
+      isVerifyingFaceMatch.value = true;
+
+      // Convert image to base64
+      final base64Image = await convertImageToBase64(faceMatchImage.value!);
+      if (base64Image == null) {
+        constants.showSnackBar(
+          'Failed to process image',
+          SnackBarStatus.ERROR,
+        );
+        return;
+      }
+
+      // Call face match API
+      final response = await _faceMatchRepository.faceMatch({
+        'face': '$base64Image',
+      });
+
+      if (response.success == true) {
+        constants.showSnackBar(
+          'Face verified successfully',
+          SnackBarStatus.SUCCESS,
+        );
+
+        // Close the bottom sheet
+        if (Get.isBottomSheetOpen == true) {
+          Get.back();
+        }
+
+        // Book the service
+        await bookService();
+
+        // Clear the face match image
+        faceMatchImage.value = null;
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Face verification failed',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      print('Error verifying face match: $e');
+      constants.showSnackBar(
+        'Error verifying face match',
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isVerifyingFaceMatch.value = false;
+    }
+  }
+
   @override
   void onClose() {
     notesController.dispose();
+    disposeCamera();
     super.onClose();
   }
 }

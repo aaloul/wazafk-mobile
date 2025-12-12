@@ -4,8 +4,9 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/skeletons/engagement_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/all_engagements/all_engagements_controller.dart';
-import 'package:wazafak_app/screens/main/all_engagements/components/all_engagements_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+
+import '../projects/components/projects/project_item.dart';
 
 class AllEngagementsScreen extends StatelessWidget {
   const AllEngagementsScreen({super.key});
@@ -87,7 +88,7 @@ class AllEngagementsScreen extends StatelessWidget {
                         }
 
                         final engagement = controller.engagements[index];
-                        return AllEngagementsItem(engagement: engagement);
+                        return ProjectItem(engagement: engagement);
                       },
                     ),
                   ),

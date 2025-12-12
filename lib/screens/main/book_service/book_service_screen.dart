@@ -11,9 +11,11 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import '../../../components/multiline_labeled_text_field.dart';
 import '../../../components/primary_network_image.dart';
 import '../../../utils/res/AppIcons.dart';
+import '../../../utils/utils.dart';
 import 'book_service_controller.dart';
 import 'components/address_list_widget.dart';
 import 'components/service_type_radio_widget.dart';
+import 'components/verify_face_match_book_service_bottom_sheet.dart';
 
 class BookServiceScreen extends StatelessWidget {
   const BookServiceScreen({super.key});
@@ -302,7 +304,48 @@ class BookServiceScreen extends StatelessWidget {
                       ? ProgressBar()
                       : PrimaryButton(
                           title: 'Book Now',
-                          onPressed: controller.bookService,
+                    onPressed: () {
+                      if (controller.service.value == null &&
+                          controller.package.value == null) {
+                        constants.showSnackBar(
+                          'Service/Package information not available',
+                          SnackBarStatus.ERROR,
+                        );
+                        return;
+                      }
+
+                      if (controller.rangeStart.value == null) {
+                        constants.showSnackBar(
+                          'Please select a date range',
+                          SnackBarStatus.ERROR,
+                        );
+                        return;
+                      }
+
+                      if (controller.selectedServiceType.value == null) {
+                        constants.showSnackBar(
+                          'Please select a service type',
+                          SnackBarStatus.ERROR,
+                        );
+                        return;
+                      }
+
+                      // Validate address only for Onsite service type
+                      if ((controller.selectedServiceType.value == 'Onsite' ||
+                          controller.selectedServiceType.value == 'Hybrid') &&
+                          controller.selectedAddress.value == null) {
+                        constants.showSnackBar(
+                            'Please select a location', SnackBarStatus.ERROR);
+                        return;
+                      }
+
+                      // Open face verification bottom sheet
+                      Get.bottomSheet(
+                        VerifyFaceMatchBookServiceBottomSheet(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                      );
+                    },
                         ),
                 ),
               ),

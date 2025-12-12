@@ -90,6 +90,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
                           image: widget.job.memberImage,
                           firstName: widget.job.memberFirstName,
                           lastName: widget.job.memberLastName,
+                            title: ''
                         )
 
                     );

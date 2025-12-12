@@ -64,7 +64,7 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                       // Category
                       Center(
                         child: PrimaryText(
-                            text: user.title ?? '',
+                            text: user.title ?? 'N/A',
                             fontSize: 15,
                           fontWeight: FontWeight.w400,
                           textColor: context.resources.color.colorGrey,

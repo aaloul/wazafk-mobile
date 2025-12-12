@@ -41,7 +41,7 @@ class User {
   String? entityType;
   String? hashcode;
   String? code;
-  dynamic title;
+  String? title;
   String? firstName;
   String? lastName;
   String? mobile;

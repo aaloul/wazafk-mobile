@@ -58,7 +58,7 @@ class _HomePackageItemState extends State<HomePackageItem> {
         widget.package.services!.map(
           (service) => Container(
             padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
+            ddecoration: BoxDecoration(
               color: context.resources.color.colorWhite,
               borderRadius: BorderRadius.circular(32),
               border: Border.all(
@@ -88,10 +88,11 @@ class _HomePackageItemState extends State<HomePackageItem> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: allItems
-              .map(
-                (item) =>
-                    Padding(padding: EdgeInsets.only(right: 8), child: item),
-              )
+              .map((item) =>
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: item,
+              ))
               .toList(),
         ),
       );
@@ -117,28 +118,28 @@ class _HomePackageItemState extends State<HomePackageItem> {
           if (row1.isNotEmpty)
             Row(
               children: row1
-                  .map(
-                    (item) => Padding(
-                      padding: EdgeInsets.only(right: 8, bottom: 8),
-                      child: item,
-                    ),
-                  )
+                  .map((item) =>
+                  Padding(
+                    padding: EdgeInsets.only(right: 8, bottom: 8),
+                    child: item,
+                  ))
                   .toList(),
             ),
           if (row2.isNotEmpty)
             Row(
               children: row2
-                  .map(
-                    (item) => Padding(
-                      padding: EdgeInsets.only(right: 8),
-                      child: item,
-                    ),
-                  )
+                  .map((item) =>
+                  Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: item,
+                  ))
                   .toList(),
             ),
         ],
       ),
     );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

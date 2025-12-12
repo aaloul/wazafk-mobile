@@ -12,7 +12,9 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../utils/res/AppIcons.dart';
+import '../../../utils/utils.dart';
 import 'apply_job_controller.dart';
+import 'components/verify_face_match_apply_job_bottom_sheet.dart';
 
 class ApplyJobScreen extends StatelessWidget {
   const ApplyJobScreen({super.key});
@@ -539,7 +541,43 @@ class ApplyJobScreen extends StatelessWidget {
 
                                     return PrimaryButton(
                                       title: 'Submit Application',
-                                      onPressed: controller.submitApplication,
+                                      onPressed: () {
+                                        // Validate form
+                                        if (controller.budgetController.text
+                                            .trim()
+                                            .isEmpty) {
+                                          constants.showSnackBar(
+                                              'Please enter your budget',
+                                              SnackBarStatus.ERROR);
+                                          return;
+                                        }
+
+                                        if (controller.selectedDuration.value ==
+                                            null) {
+                                          constants.showSnackBar(
+                                              'Please select a duration',
+                                              SnackBarStatus.ERROR);
+                                          return;
+                                        }
+
+                                        if (controller.descriptionController
+                                            .text
+                                            .trim()
+                                            .isEmpty) {
+                                          constants.showSnackBar(
+                                            'Please enter a description',
+                                            SnackBarStatus.ERROR,
+                                          );
+                                          return;
+                                        }
+
+                                        // Open face verification bottom sheet
+                                        Get.bottomSheet(
+                                          VerifyFaceMatchApplyJobBottomSheet(),
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                        );
+                                      },
                                     );
                                   }),
 
