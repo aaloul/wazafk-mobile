@@ -58,7 +58,7 @@ class _HomePackageItemState extends State<HomePackageItem> {
         widget.package.services!.map(
           (service) => Container(
             padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            ddecoration: BoxDecoration(
+            decoration: BoxDecoration(
               color: context.resources.color.colorWhite,
               borderRadius: BorderRadius.circular(32),
               border: Border.all(

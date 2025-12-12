@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -844,19 +843,6 @@ class EngagementDetailsController extends GetxController {
     }
   }
 
-  Future<String?> convertImageToBase64(XFile image) async {
-    try {
-      final bytes = await File(image.path).readAsBytes();
-      return "data:image/jpeg;base64,${base64Encode(bytes)}";
-    } catch (e) {
-      constants.showSnackBar(
-        'Error converting image: $e',
-        SnackBarStatus.ERROR,
-      );
-      return null;
-    }
-  }
-
   Future<void> verifyFaceMatch() async {
     if (faceMatchImage.value == null) {
       constants.showSnackBar(
@@ -869,21 +855,11 @@ class EngagementDetailsController extends GetxController {
     try {
       isVerifyingFaceMatch.value = true;
 
-      // Convert image to base64
-      final base64Image = await convertImageToBase64(faceMatchImage.value!);
-      if (base64Image == null) {
-        constants.showSnackBar(
-          'Failed to process image',
-          SnackBarStatus.ERROR,
-        );
-        return;
-      }
+      // Get the file from XFile
+      final imageFile = File(faceMatchImage.value!.path);
 
-
-      // Call face match API
-      final response = await _faceMatchRepository.faceMatch({
-        'face': '$base64Image',
-      });
+      // Call face match API with the file
+      final response = await _faceMatchRepository.faceMatch(imageFile);
 
       if (response.success == true) {
         constants.showSnackBar(
@@ -924,7 +900,6 @@ class EngagementDetailsController extends GetxController {
           SnackBarStatus.ERROR,
         );
       }
-      print(base64Image);
     } catch (e) {
       print('Error verifying face match: $e');
       constants.showSnackBar(

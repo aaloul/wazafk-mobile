@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -92,6 +93,14 @@ class MultilineLabeledTextField extends StatelessWidget {
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
               enabled: true,
+              textCapitalization: inputType == TextInputType.text
+                  ? TextCapitalization.sentences
+                  : TextCapitalization.none,
+              inputFormatters: <TextInputFormatter>[
+                if (inputType == TextInputType.text)
+                  SentenceCapitalizationFormatter(),
+
+              ],
               cursorColor: Theme.of(context).primaryColor,
               onEditingComplete: () => Utils().hideKeyboard(context),
               textAlign: TextAlign.start,
@@ -129,5 +138,39 @@ class MultilineLabeledTextField extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class SentenceCapitalizationFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
+      TextEditingValue newValue,) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    // Capitalize the first character
+    String text = newValue.text;
+    if (text.isNotEmpty) {
+      // Check if this is the first character or after a sentence-ending punctuation
+      bool shouldCapitalize = oldValue.text.isEmpty ||
+          (oldValue.text.isNotEmpty &&
+              RegExp(r'[.!?]\s*$').hasMatch(oldValue.text));
+
+      if (shouldCapitalize &&
+          text[text.length - 1] != text[text.length - 1].toUpperCase()) {
+        // Get the last character and capitalize it
+        String lastChar = text[text.length - 1];
+        String capitalizedChar = lastChar.toUpperCase();
+        text = text.substring(0, text.length - 1) + capitalizedChar;
+
+        return TextEditingValue(
+          text: text,
+          selection: newValue.selection,
+        );
+      }
+    }
+
+    return newValue;
   }
 }
