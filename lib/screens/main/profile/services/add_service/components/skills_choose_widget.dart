@@ -44,6 +44,8 @@ class SkillsChooseWidget extends StatelessWidget {
                   onSkillsSelected: (skills) {
                     controller.selectedSkills.value = skills;
                   },
+                  availableSkills: controller.availableSkills,
+                  isLoadingSkills: controller.isLoadingSkills.value,
                 );
               },
               child: DottedBorder(
@@ -122,6 +124,8 @@ class SkillsChooseWidget extends StatelessWidget {
                     onSkillsSelected: (skills) {
                       controller.selectedSkills.value = skills;
                     },
+                    availableSkills: controller.availableSkills,
+                    isLoadingSkills: controller.isLoadingSkills.value,
                   );
                 },
                 child: DottedBorder(

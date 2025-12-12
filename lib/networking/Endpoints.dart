@@ -122,6 +122,7 @@ class Endpoints {
   //RATING
   static const ratingCriteria = 'rating/ratingCriteria';
   static const rateMember = 'rating/rateMember';
+  static const rateBulk = 'rating/rateBulk';
   static const rateApp = 'rating/rateApp';
   static const memberRatings = 'rating/memberRatings';
 

@@ -12,6 +12,7 @@ import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/model/WorkingHoursModel.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
+import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/service/add_service_repository.dart';
 import 'package:wazafak_app/repository/service/save_service_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
@@ -22,6 +23,7 @@ class AddServiceController extends GetxController {
   final _repository = AddServiceRepository();
   final _saveServiceRepository = SaveServiceRepository();
   final _categoriesRepository = CategoriesRepository();
+  final _skillsRepository = SkillsRepository();
 
   final descController = TextEditingController();
   final titleController = TextEditingController();
@@ -37,6 +39,8 @@ class AddServiceController extends GetxController {
   var selectedSkills = <Skill>[].obs;
   var selectedAddresses = <Address>[].obs;
   var isLoading = false.obs;
+  var availableSkills = <Skill>[].obs;
+  var isLoadingSkills = false.obs;
 
   var workingHours = <WorkingHoursDay>[].obs;
 
@@ -168,6 +172,8 @@ class AddServiceController extends GetxController {
 
       if (category != null) {
         selectedCategory.value = category;
+        // Fetch skills for the selected category
+        await getSkills();
       }
     } else {
       final category = Prefs.getCategories.firstWhereOrNull(
@@ -183,6 +189,9 @@ class AddServiceController extends GetxController {
       selectedSubcategory.value = subcategories.firstWhereOrNull(
         (cat) => cat.hashcode == service.categoryHashcode,
       );
+
+      // Fetch skills for the selected subcategory
+      await getSkills();
     }
   }
 
@@ -238,17 +247,33 @@ class AddServiceController extends GetxController {
     selectedCategory.value = category;
     selectedSubcategory.value = null; // Reset subcategory when category changes
     subcategories.clear();
+    selectedSkills.clear(); // Clear selected skills when category changes
 
     // Fetch subcategories if category is selected
     if (category?.hashcode != null) {
       if (category?.hasSubCategories ?? false) {
         getSubcategories(category!.hashcode!);
+      } else {
+        // No subcategories, fetch skills directly based on main category
+        getSkills();
       }
+    } else {
+      // No category selected, clear available skills
+      availableSkills.clear();
     }
   }
 
   void selectSubcategory(Category? subcategory) {
     selectedSubcategory.value = subcategory;
+    selectedSkills.clear(); // Clear selected skills when subcategory changes
+
+    // Fetch skills based on selected subcategory
+    if (subcategory?.hashcode != null) {
+      getSkills();
+    } else {
+      // No subcategory selected, clear available skills
+      availableSkills.clear();
+    }
   }
 
   Future<void> getSubcategories(String parentHashcode) async {
@@ -269,6 +294,38 @@ class AddServiceController extends GetxController {
       subcategories.clear();
     } finally {
       isLoadingSubcategories.value = false;
+    }
+  }
+
+  Future<void> getSkills() async {
+    // Get the appropriate category hashcode
+    // Use subcategory if selected, otherwise use main category
+    final categoryHashcode = selectedSubcategory.value?.hashcode ??
+        selectedCategory.value?.hashcode;
+
+    if (categoryHashcode == null) {
+      // No category selected, clear skills
+      availableSkills.clear();
+      return;
+    }
+
+    try {
+      isLoadingSkills.value = true;
+
+      final response = await _skillsRepository.getSkills(
+        category: categoryHashcode,
+      );
+
+      if (response.success == true && response.data?.list != null) {
+        availableSkills.value = response.data!.list!;
+      } else {
+        availableSkills.clear();
+      }
+    } catch (e) {
+      print('Error fetching skills: $e');
+      availableSkills.clear();
+    } finally {
+      isLoadingSkills.value = false;
     }
   }
 
