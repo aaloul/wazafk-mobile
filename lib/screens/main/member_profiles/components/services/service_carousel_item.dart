@@ -98,8 +98,8 @@ class ServiceCarouselItem extends StatelessWidget {
             width: double.infinity,
             height: 40,
             child: PrimaryButton(
-              title: 'Book Now',
-              onPressed: onBookNow,
+                title: context.resources.strings.bookNow,
+                onPressed: onBookNow,
               fontSize: 14,
             ),
           ),

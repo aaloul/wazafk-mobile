@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'all_employer_data_controller.dart';
 import 'components/employer_data_list_widget.dart';
@@ -18,7 +19,10 @@ class AllEmployerDataScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(title: "Freelancers & Services"),
+            TopHeader(title: Resources
+                .of(context)
+                .strings
+                .freelancersAndServices),
             SizedBox(height: 8),
 
             // Obx(() => TabsWidget(

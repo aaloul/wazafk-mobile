@@ -11,6 +11,7 @@ import 'package:wazafak_app/model/InterestOptionsResponse.dart';
 import 'package:wazafak_app/repository/account/register_repository.dart';
 import 'package:wazafak_app/repository/app/interest_options_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../utils/utils.dart';
 
@@ -239,32 +240,52 @@ class CreateAccountController extends GetxController {
   void verifyStep1() {
     // Validate step 1 fields
     if (firstNameController.text.isEmpty) {
-      constants.showSnackBar('First name is required', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.firstNameRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
     if (lastNameController.text.isEmpty) {
-      constants.showSnackBar('Last name is required', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.lastNameRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
     if (titleController.text.isEmpty) {
-      constants.showSnackBar('Title is required', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.titleRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
     if (emailController.text.isEmpty) {
-      constants.showSnackBar('Email is required', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.emailRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
     if (passwordController.text.isEmpty) {
-      constants.showSnackBar('Password is required', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.passwordRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
     if (confirmPasswordController.text.isEmpty) {
       constants.showSnackBar(
-          'Confirm password is required', SnackBarStatus.ERROR);
+        Resources.of(Get.context!).strings.passwordRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
     if (passwordController.text != confirmPasswordController.text) {
-      constants.showSnackBar('Passwords do not match', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.passwordsDoNotMatch,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
 

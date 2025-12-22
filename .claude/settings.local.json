@@ -17,7 +17,9 @@
       "Bash(do sed -i \"s/Future<dynamic>/Future<ApiResponse>/g\" \"$file\")",
       "Bash(do sed -i 's/Future<dynamic>/Future<ApiResponse>/g' \"$file\")",
       "Bash(do sed -i 's/return response;/return TermsResponse.fromJson(response);/g' \"$file\")",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(do grep -q \"get $key\" lib/utils/res/strings/Strings.dart)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []

@@ -16,7 +16,10 @@ class PrivacySharingScreen extends StatelessWidget {
       backgroundColor: context.resources.color.background,
       body: SafeArea(
         child: Column(
-          children: [TopHeader(hasBack: true, title: 'Privacy & Sharing')],
+          children: [
+            TopHeader(hasBack: true,
+                title: context.resources.strings.privacyAndSharing)
+          ],
         ),
       ),
     );

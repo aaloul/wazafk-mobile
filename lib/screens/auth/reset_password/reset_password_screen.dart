@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/auth/reset_password/reset_password_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/labeled_text_field.dart';
 import '../../../components/primary_text.dart';
@@ -39,7 +40,10 @@ class ResetPasswordScreen extends StatelessWidget {
                 SizedBox(height: 32),
 
                 PrimaryText(
-                  text: "Enter New Password,",
+                  text: Resources
+                      .of(context)
+                      .strings
+                      .newPassword,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   textColor: context.resources.color.colorBlackMain,
@@ -49,8 +53,14 @@ class ResetPasswordScreen extends StatelessWidget {
                 SizedBox(height: 32),
 
                 LabeledTextFiled(
-                  label: 'New Password',
-                  hint: 'New Password',
+                  label: Resources
+                      .of(context)
+                      .strings
+                      .newPassword,
+                  hint: Resources
+                      .of(context)
+                      .strings
+                      .newPassword,
                   isPassword: true,
                   isMandatory: true,
                   inputType: TextInputType.visiblePassword,
@@ -58,8 +68,14 @@ class ResetPasswordScreen extends StatelessWidget {
                 ),
 
                 LabeledTextFiled(
-                  label: 'Confirm Password',
-                  hint: 'Confirm Password',
+                  label: Resources
+                      .of(context)
+                      .strings
+                      .confirmPassword,
+                  hint: Resources
+                      .of(context)
+                      .strings
+                      .confirmPassword,
                   isPassword: true,
                   isMandatory: true,
                   inputType: TextInputType.visiblePassword,
@@ -75,7 +91,10 @@ class ResetPasswordScreen extends StatelessWidget {
                   dataController.isLoading.value
                       ? ProgressBar()
                       : PrimaryButton(
-                    title: "Change Password",
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .resetMyPassword,
                     onPressed: () {
                       dataController.confirmPasswordReset();
                     },
@@ -90,7 +109,10 @@ class ResetPasswordScreen extends StatelessWidget {
                         Get.back();
                       },
                       child: PrimaryText(
-                        text: 'Back',
+                        text: Resources
+                            .of(context)
+                            .strings
+                            .back,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         textColor: context.resources.color.colorBlackMain,

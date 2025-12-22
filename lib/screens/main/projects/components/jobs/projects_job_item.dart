@@ -150,7 +150,8 @@ class ProjectsJobItem extends StatelessWidget {
 
               Image.asset(AppIcons.userCircle, width: 24),
               SizedBox(width: 2),
-              PrimaryText(text: "${job.nbApplicants} applications"),
+              PrimaryText(text: "${job.nbApplicants} ${context.resources.strings
+                  .applications}"),
             ],
           ),
 
@@ -165,7 +166,8 @@ class ProjectsJobItem extends StatelessWidget {
             children: [
               Image.asset(AppIcons.location, width: 18),
               SizedBox(width: 8),
-              Expanded(child: PrimaryText(text: job.workLocationType ?? "N/A")),
+              Expanded(child: PrimaryText(text: job.workLocationType ??
+                  context.resources.strings.notAvailable)),
 
               PrimaryText(
                 text: "\$${job.totalPrice}",

@@ -15,6 +15,7 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'personal_information_controller.dart';
 
@@ -30,7 +31,10 @@ class PersonalInformationScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Personal Information'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .personalInformation),
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
@@ -81,7 +85,10 @@ class PersonalInformationScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       PrimaryText(
-                        text: "Edit Profile Image",
+                        text: Resources
+                            .of(context)
+                            .strings
+                            .editProfileImage,
                         textColor: context.resources.color.colorGrey5,
                       ),
 
@@ -89,8 +96,14 @@ class PersonalInformationScreen extends StatelessWidget {
 
                       // First Name
                       LabeledTextFiled(
-                        label: "First Name",
-                        hint: "First Name",
+                        label: Resources
+                            .of(context)
+                            .strings
+                            .firstName,
+                        hint: Resources
+                            .of(context)
+                            .strings
+                            .firstName,
                         inputType: TextInputType.text,
                         isPassword: false,
                         isMandatory: true,
@@ -99,8 +112,14 @@ class PersonalInformationScreen extends StatelessWidget {
 
                       // Last Name
                       LabeledTextFiled(
-                        label: "Last Name",
-                        hint: "Last Name",
+                        label: Resources
+                            .of(context)
+                            .strings
+                            .lastName,
+                        hint: Resources
+                            .of(context)
+                            .strings
+                            .lastName,
                         inputType: TextInputType.text,
                         isPassword: false,
                         isMandatory: true,
@@ -109,8 +128,14 @@ class PersonalInformationScreen extends StatelessWidget {
 
                       // Title
                       LabeledTextFiled(
-                        label: "Title",
-                        hint: "Title",
+                        label: Resources
+                            .of(context)
+                            .strings
+                            .title,
+                        hint: Resources
+                            .of(context)
+                            .strings
+                            .title,
                         inputType: TextInputType.text,
                         isPassword: false,
                         isMandatory: true,
@@ -119,8 +144,14 @@ class PersonalInformationScreen extends StatelessWidget {
 
                       // Email
                       LabeledTextFiled(
-                        label: "Email Address",
-                        hint: "Email Address",
+                        label: Resources
+                            .of(context)
+                            .strings
+                            .emailAddress,
+                        hint: Resources
+                            .of(context)
+                            .strings
+                            .emailAddress,
                         inputType: TextInputType.emailAddress,
                         isPassword: false,
                         isMandatory: true,
@@ -130,8 +161,14 @@ class PersonalInformationScreen extends StatelessWidget {
                       // Gender
                       Obx(
                         () => PrimaryChooser(
-                          label: "Gender",
-                          text: "Gender",
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .gender,
+                          text: Resources
+                              .of(context)
+                              .strings
+                              .gender,
                           selected: controller.selectedGender.value.isNotEmpty
                               ? controller.selectedGender.value
                               : null,
@@ -157,14 +194,23 @@ class PersonalInformationScreen extends StatelessWidget {
                           onSelectDate: (d) {
                             controller.selectedDate.value = d;
                           },
-                          label: "Date of Birth",
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .dateOfBirth,
                         ),
                       ),
 
                       // Portfolio Link
                       LabeledTextFiled(
-                        label: "Portfolio Link",
-                        hint: "Portfolio Link",
+                        label: Resources
+                            .of(context)
+                            .strings
+                            .portfolioLink,
+                        hint: Resources
+                            .of(context)
+                            .strings
+                            .portfolioLink,
                         inputType: TextInputType.url,
                         isPassword: false,
                         isMandatory: false,
@@ -173,8 +219,14 @@ class PersonalInformationScreen extends StatelessWidget {
 
                       // About
                       MultilineLabeledTextField(
-                        label: "About",
-                        hint: "Tell us about yourself...",
+                        label: Resources
+                            .of(context)
+                            .strings
+                            .about,
+                        hint: Resources
+                            .of(context)
+                            .strings
+                            .tellUsAboutYourself,
                         inputType: TextInputType.multiline,
                         isPassword: false,
                         isMandatory: false,
@@ -199,7 +251,10 @@ class PersonalInformationScreen extends StatelessWidget {
                 () => controller.isLoading.value
                     ? ProgressBar()
                     : PrimaryButton(
-                        title: "Update Profile",
+                  title: Resources
+                      .of(context)
+                      .strings
+                      .updateProfile,
                         onPressed: () {
                           controller.updateProfile();
                         },

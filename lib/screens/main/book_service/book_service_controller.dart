@@ -11,6 +11,7 @@ import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/repository/account/face_match_repository.dart';
 import 'package:wazafak_app/repository/engagement/submit_engagement_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class BookServiceController extends GetxController {
@@ -111,7 +112,10 @@ class BookServiceController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error fetching addresses: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorFetchingAddresses(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error fetching addresses: $e');
@@ -234,7 +238,10 @@ class BookServiceController extends GetxController {
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error booking service: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorBookingService(e.toString()), SnackBarStatus.ERROR);
       print('Error booking service: $e');
     } finally {
       isLoading.value = false;
@@ -266,7 +273,10 @@ class BookServiceController extends GetxController {
       isCameraInitialized.value = true;
     } catch (e) {
       constants.showSnackBar(
-        'Error initializing camera: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorInitializingCamera(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error initializing camera: $e');
@@ -293,7 +303,10 @@ class BookServiceController extends GetxController {
       );
     } catch (e) {
       constants.showSnackBar(
-        'Error capturing image: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorCapturingImage(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error taking picture: $e');

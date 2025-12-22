@@ -16,7 +16,10 @@ class WayOfPaymentScreen extends StatelessWidget {
       backgroundColor: context.resources.color.background,
       body: SafeArea(
         child: Column(
-          children: [TopHeader(hasBack: true, title: 'Way of Payment')],
+          children: [
+            TopHeader(
+                hasBack: true, title: context.resources.strings.wayOfPayment)
+          ],
         ),
       ),
     );

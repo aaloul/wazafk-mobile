@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../components/outlined_button.dart';
 
@@ -42,7 +43,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PrimaryText(
-                    text: 'Change Request',
+                    text: context.resources.strings.changeRequest,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorGrey,
@@ -67,7 +68,10 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                 if (changeRequests == null || changeRequests.isEmpty) {
                   return Center(
                     child: PrimaryText(
-                      text: 'No change request details available',
+                      text: context
+                          .resources
+                          .strings
+                          .noChangeRequestDetailsAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),
@@ -86,7 +90,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                       if (changeRequest.requesterFirstName != null ||
                           changeRequest.requesterLastName != null) ...[
                         PrimaryText(
-                          text: 'Requested By',
+                          text: context.resources.strings.requestedBy,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           textColor: context.resources.color.colorGrey,
@@ -106,7 +110,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                       if (changeRequest.changedFields != null &&
                           changeRequest.changedFields!.isNotEmpty) ...[
                         PrimaryText(
-                          text: 'Changed Fields',
+                          text: context.resources.strings.changedFields,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           textColor: context.resources.color.colorGrey,
@@ -129,7 +133,8 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Current Price',
+                                    text:
+                                        context.resources.strings.currentPrice,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -157,7 +162,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'New Price',
+                                    text: context.resources.strings.newPrice,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -188,7 +193,8 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Current Total',
+                                    text:
+                                        context.resources.strings.currentTotal,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -217,7 +223,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'New Total',
+                                    text: context.resources.strings.newTotal,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -248,7 +254,8 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Current Hours',
+                                    text:
+                                        context.resources.strings.currentHours,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -277,7 +284,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'New Hours',
+                                    text: context.resources.strings.newHours,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -308,7 +315,10 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Current Start Date',
+                                    text: context
+                                        .resources
+                                        .strings
+                                        .currentStartDate,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -340,7 +350,8 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'New Start Date',
+                                    text:
+                                        context.resources.strings.newStartDate,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -373,7 +384,10 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Current Due Date',
+                                    text: context
+                                        .resources
+                                        .strings
+                                        .currentDueDate,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -405,7 +419,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'New Due Date',
+                                    text: context.resources.strings.newDueDate,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     textColor:
@@ -489,7 +503,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                     }
 
                     return PrimaryButton(
-                      title: 'Accept Change',
+                      title: Resources.of(context).strings.acceptChange,
                       onPressed: controller.acceptChangeRequest,
                     );
                   }),
@@ -518,7 +532,7 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                     }
 
                     return PrimaryOutlinedButton(
-                      title: 'Decline Change',
+                      title: Resources.of(context).strings.declineChange,
                       onPressed: controller.rejectChangeRequest,
                     );
                   }),

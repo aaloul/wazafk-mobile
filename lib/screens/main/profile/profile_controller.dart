@@ -6,6 +6,7 @@ import 'package:wazafak_app/repository/account/delete_account_repository.dart';
 import 'package:wazafak_app/repository/account/logout_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../model/SettingsModel.dart';
@@ -16,75 +17,127 @@ class ProfileController extends GetxController {
 
   var isLoading = false.obs;
   // Settings groups
-  final List<SettingsGroup> settingsGroups = [
+  List<SettingsGroup> get settingsGroups =>
+      [
     SettingsGroup(
-      title: 'Settings',
+      title: Resources
+          .of(Get.context!)
+          .strings
+          .settings,
       items: [
         SettingsModel(
-          title: 'Personal Information',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .personalInformation,
           icon: AppIcons.menuPersonalInfo,
           id: 0,
         ),
         SettingsModel(
-          title: 'My Documents',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .myDocuments,
           icon: AppIcons.menuDocuments,
           id: 1,
         ),
         SettingsModel(
-          title: 'My Addresses',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .myAddresses,
           icon: AppIcons.menuAddresses,
           id: 2,
         ),
         SettingsModel(
-          title: 'Notifications',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .notifications,
           icon: AppIcons.menuNotifications,
           id: 3,
         ),
         SettingsModel(
-          title: 'Login & Security',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .loginAndSecurity,
           icon: AppIcons.menuSecurity,
           id: 4,
         ),
         SettingsModel(
-          title: 'Payments & Earnings',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .paymentsAndEarnings,
           icon: AppIcons.menuEarnings,
           id: 5,
         ),
         SettingsModel(
-          title: 'Privacy & Sharing',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .privacyAndSharing,
           icon: AppIcons.menuPrivacy,
           id: 6,
         ),
         SettingsModel(
-          title: 'Change Language',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .changeLanguage,
           icon: AppIcons.menuLanguage,
           id: 7,
         ),
         SettingsModel(
-          title: 'Way of Payment',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .wayOfPayment,
           icon: AppIcons.menuPayment,
           id: 8,
         ),
         SettingsModel(
-          title: 'Working Days',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .workingDays,
           icon: AppIcons.menuWorkingDays,
           id: 9,
         ),
       ],
     ),
     SettingsGroup(
-      title: 'Rewards & Credits',
+      title: Resources
+          .of(Get.context!)
+          .strings
+          .rewardsAndCredits,
       items: [
-        SettingsModel(title: 'Share App', icon: AppIcons.menuShare, id: 10),
+        SettingsModel(title: Resources
+            .of(Get.context!)
+            .strings
+            .shareApp, icon: AppIcons.menuShare, id: 10),
       ],
     ),
     SettingsGroup(
-      title: 'Support',
+      title: Resources
+          .of(Get.context!)
+          .strings
+          .support,
       items: [
-        SettingsModel(title: 'About Us', icon: AppIcons.menuAbout, id: 11),
-        SettingsModel(title: 'Help Center', icon: AppIcons.menuHelp, id: 12),
+        SettingsModel(title: Resources
+            .of(Get.context!)
+            .strings
+            .aboutUs, icon: AppIcons.menuAbout, id: 11),
+        SettingsModel(title: Resources
+            .of(Get.context!)
+            .strings
+            .helpCenter, icon: AppIcons.menuHelp, id: 12),
         SettingsModel(
-          title: 'Give Us Feedback',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .giveUsFeedback,
           icon: AppIcons.menuFeedback,
           id: 13,
         ),
@@ -93,9 +146,15 @@ class ProfileController extends GetxController {
     SettingsGroup(
       title: '',
       items: [
-        SettingsModel(title: 'Logout', icon: AppIcons.menuLogout, id: 14),
+        SettingsModel(title: Resources
+            .of(Get.context!)
+            .strings
+            .logout, icon: AppIcons.menuLogout, id: 14),
         SettingsModel(
-          title: 'Delete Account',
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .deleteAccount,
           icon: AppIcons.menuDelete,
           id: 15,
         ),
@@ -159,9 +218,18 @@ class ProfileController extends GetxController {
   Future<void> logout() async {
     DialogHelper.showAgreementPopup(
       Get.context!,
-      'Are you sure you want to logout?',
-      'Logout',
-      'Cancel',
+      Resources
+          .of(Get.context!)
+          .strings
+          .areYouSureLogout,
+      Resources
+          .of(Get.context!)
+          .strings
+          .logout,
+      Resources
+          .of(Get.context!)
+          .strings
+          .cancel,
           () async {
         try {
           isLoading.value = true;
@@ -172,11 +240,18 @@ class ProfileController extends GetxController {
             Get.back();
             Get.offAllNamed(RouteConstant.phoneNumberScreen);
             constants.showSnackBar(
-                response.message ?? 'Logged out successfully',
+                response.message ?? Resources
+                    .of(Get.context!)
+                    .strings
+                    .loggedOutSuccessfully,
                 SnackBarStatus.SUCCESS);
           } else {
             constants.showSnackBar(
-                response.message ?? 'Logout failed', SnackBarStatus.ERROR);
+                response.message ?? Resources
+                    .of(Get.context!)
+                    .strings
+                    .logoutFailed,
+                SnackBarStatus.ERROR);
           }
         } catch (e) {
           constants.showSnackBar('Error: $e', SnackBarStatus.ERROR);
@@ -191,9 +266,18 @@ class ProfileController extends GetxController {
   Future<void> deleteAccount() async {
     DialogHelper.showAgreementPopup(
       Get.context!,
-      'Are you sure you want to delete your account? This action cannot be undone.',
-      'Delete',
-      'Cancel',
+      Resources
+          .of(Get.context!)
+          .strings
+          .areYouSureDeleteAccount,
+      Resources
+          .of(Get.context!)
+          .strings
+          .delete,
+      Resources
+          .of(Get.context!)
+          .strings
+          .cancel,
           () async {
         try {
           isLoading.value = true;
@@ -204,11 +288,17 @@ class ProfileController extends GetxController {
             Get.back();
             Get.offAllNamed(RouteConstant.phoneNumberScreen);
             constants.showSnackBar(
-                response.message ?? 'Account deleted successfully',
+                response.message ?? Resources
+                    .of(Get.context!)
+                    .strings
+                    .accountDeletedSuccessfully,
                 SnackBarStatus.SUCCESS);
           } else {
             constants.showSnackBar(
-                response.message ?? 'Failed to delete account',
+                response.message ?? Resources
+                    .of(Get.context!)
+                    .strings
+                    .failedToDeleteAccount,
                 SnackBarStatus.ERROR);
           }
         } catch (e) {

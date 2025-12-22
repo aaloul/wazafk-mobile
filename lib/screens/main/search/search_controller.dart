@@ -16,6 +16,7 @@ import 'package:wazafak_app/repository/favorite/remove_favorite_service_reposito
 import 'package:wazafak_app/repository/search/employer_search_repository.dart';
 import 'package:wazafak_app/repository/search/freelancer_search_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class SearchController extends GetxController {
@@ -133,7 +134,10 @@ class SearchController extends GetxController {
         }
       }
     } catch (e) {
-      constants.showSnackBar('Error searching: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorSearching(e.toString()), SnackBarStatus.ERROR);
       print('Error searching: $e');
     } finally {
       isLoading.value = false;
@@ -204,7 +208,10 @@ class SearchController extends GetxController {
         }
       }
     } catch (e) {
-      constants.showSnackBar('Error loading more: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingMore(e.toString()), SnackBarStatus.ERROR);
       print('Error loading more: $e');
     } finally {
       isLoadingMore.value = false;
@@ -265,7 +272,10 @@ class SearchController extends GetxController {
             searchResults.refresh(); // Notify listeners
           }
 
-          constants.showSnackBar('Added to favorites', SnackBarStatus.SUCCESS);
+          constants.showSnackBar(Resources
+              .of(Get.context!)
+              .strings
+              .addedToFavorites, SnackBarStatus.SUCCESS);
           return true;
         } else {
           constants.showSnackBar(

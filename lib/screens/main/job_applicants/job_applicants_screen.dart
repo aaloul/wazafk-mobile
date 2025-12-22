@@ -19,7 +19,8 @@ class JobApplicantsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Freelancers Applications'),
+            TopHeader(hasBack: true,
+                title: context.resources.strings.freelancersApplications),
             SizedBox(height: 24),
             Expanded(
               child: Obx(() {

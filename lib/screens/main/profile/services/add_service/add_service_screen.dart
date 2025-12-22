@@ -56,8 +56,8 @@ class AddServiceScreen extends StatelessWidget {
 
                     LabeledTextFiled(
                       controller: controller.titleController,
-                      hint: 'Title',
-                      label: 'Title',
+                      hint: context.resources.strings.title,
+                      label: context.resources.strings.title,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
@@ -65,8 +65,8 @@ class AddServiceScreen extends StatelessWidget {
 
                     MultilineLabeledTextField(
                       controller: controller.descController,
-                      label: 'Description',
-                      hint: 'Enter Your Description',
+                      label: context.resources.strings.description,
+                      hint: context.resources.strings.enterYourDescription,
                       maxLines: 20,
                       height: 100,
                       margin: 0,
@@ -99,8 +99,8 @@ class AddServiceScreen extends StatelessWidget {
                           );
 
                       return CategoryChooser(
-                        label: 'Category',
-                        text: 'Select Category',
+                        label: context.resources.strings.category,
+                        text: context.resources.strings.selectCategory,
                         isMandatory: true,
                         withArrow: true,
                         list: homeController.categories,
@@ -133,8 +133,10 @@ class AddServiceScreen extends StatelessWidget {
                                         );
 
                                     return CategoryChooser(
-                                      label: 'Subcategory',
-                                      text: 'Select Subcategory',
+                                      label: context.resources.strings
+                                          .subcategory,
+                                      text: context.resources.strings
+                                          .selectSubcategory,
                                       isMandatory: true,
                                       withArrow: true,
                                       list: controller.subcategories,
@@ -154,7 +156,7 @@ class AddServiceScreen extends StatelessWidget {
                     SizedBox(height: 12),
 
                     PrimaryText(
-                      text: "Hourly Rate *",
+                      text: "${context.resources.strings.hourlyRate} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -167,8 +169,8 @@ class AddServiceScreen extends StatelessWidget {
                         Expanded(
                           child: LabeledTextFiled(
                             controller: controller.hourlyRateController,
-                            hint: 'Amount in USD',
-                            label: 'Hourly Rate',
+                            hint: context.resources.strings.amountInUsd,
+                            label: context.resources.strings.hourlyRate,
                             isMandatory: true,
                             isPassword: false,
                             inputType: TextInputType.number,
@@ -198,9 +200,10 @@ class AddServiceScreen extends StatelessWidget {
                     ),
                     MultilineLabeledTextField(
                       controller: controller.workExperienceController,
-                      label: 'Enter Your Experience',
+                      label: context.resources.strings.enterYourExperience,
                       hint:
-                          'Brief Description of why you are a suitable candidate for this job',
+                      context.resources.strings
+                          .briefDescriptionSuitableCandidate,
                       maxLines: 20,
                       height: 100,
                       margin: 0,
@@ -331,8 +334,8 @@ class AddServiceScreen extends StatelessWidget {
                             selected);
 
                         return PrimaryChooser(
-                          label: 'Duration',
-                          text: 'Select Duration',
+                          label: context.resources.strings.duration,
+                          text: context.resources.strings.selectDuration,
                           isMandatory: true,
                           withArrow: true,
                           isMultiSelect: false,
@@ -353,8 +356,8 @@ class AddServiceScreen extends StatelessWidget {
                             selected);
 
                         return PrimaryChooser(
-                          label: 'Buffer Time',
-                          text: 'Select Buffer Time',
+                          label: context.resources.strings.bufferTime,
+                          text: context.resources.strings.selectBufferTime,
                           isMandatory: true,
                           withArrow: true,
                           isMultiSelect: false,

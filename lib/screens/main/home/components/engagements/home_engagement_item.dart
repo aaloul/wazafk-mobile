@@ -79,8 +79,9 @@ class HomeEngagementItem extends StatelessWidget {
                               text: engagement.workLocationType
                                   .toString()
                                   .isEmpty
-                                  ? "N/A"
-                                  : engagement.workLocationType ?? "N/A",
+                                  ? context.resources.strings.notAvailable
+                                  : engagement.workLocationType ??
+                                  context.resources.strings.notAvailable,
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey19,

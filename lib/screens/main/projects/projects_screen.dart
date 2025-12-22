@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/skeletons/project_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/projects/projects_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/tabs_widget.dart';
 import 'components/jobs/projects_job_item.dart';
@@ -35,7 +36,10 @@ class ProjectsScreen extends StatelessWidget {
             children: [
               TopHeader(
                 hasBack: false,
-                title: 'Projects',
+                title: Resources
+                    .of(context)
+                    .strings
+                    .projects,
 
               ),
 

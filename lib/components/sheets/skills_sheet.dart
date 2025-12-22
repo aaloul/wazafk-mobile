@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class SkillsSheet extends StatefulWidget {
   final List<Skill> selectedSkills;
@@ -70,7 +71,10 @@ class _SkillsSheetState extends State<SkillsSheet> {
     if (skills.isEmpty) {
       return Center(
         child: PrimaryText(
-          text: 'No skills available for this category',
+          text: Resources
+              .of(context)
+              .strings
+              .noSkillsAvailableForCategory,
           textColor: context.resources.color.colorGrey8,
         ),
       );
@@ -134,7 +138,10 @@ class _SkillsSheetState extends State<SkillsSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PrimaryText(
-                  text: "Select Skills",
+                  text: Resources
+                      .of(context)
+                      .strings
+                      .selectSkills,
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                   textColor: context.resources.color.colorGrey,
@@ -159,7 +166,10 @@ class _SkillsSheetState extends State<SkillsSheet> {
                 children: [
                   const SizedBox(height: 16),
                   PrimaryButton(
-                    title: 'Apply',
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .apply,
                     onPressed: () {
                       widget.onSkillsSelected(tempSelectedSkills);
                       Get.back();

@@ -7,6 +7,7 @@ import 'package:wazafak_app/screens/main/home/components/employer_data/home_pack
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_service_item.dart';
 import 'package:wazafak_app/screens/main/home/components/skeletons/home_freelancer_skeleton.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../all_employer_data_controller.dart';
 
@@ -38,14 +39,14 @@ class EmployerDataListWidget extends StatelessWidget {
               ),
               SizedBox(height: 16),
               PrimaryText(
-                text: "No data available",
+                text: Resources.of(context).strings.noDataAvailable,
                 fontSize: 16,
                 textColor: context.resources.color.colorGrey3,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(height: 8),
               PrimaryText(
-                text: "Try changing the filter or check back later",
+                text: Resources.of(context).strings.noDataAvailableCheckLater,
                 fontSize: 14,
                 textColor: context.resources.color.colorGrey3,
               ),

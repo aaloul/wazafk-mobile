@@ -25,6 +25,7 @@ import 'package:wazafak_app/repository/home/freelancer_home_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class HomeController extends GetxController {
@@ -418,7 +419,10 @@ class HomeController extends GetxController {
             jobs.refresh(); // Notify listeners
           }
 
-          constants.showSnackBar('Added to favorites', SnackBarStatus.SUCCESS);
+          constants.showSnackBar(Resources
+              .of(Get.context!)
+              .strings
+              .addedToFavorites, SnackBarStatus.SUCCESS);
           return true;
         } else {
           constants.showSnackBar(

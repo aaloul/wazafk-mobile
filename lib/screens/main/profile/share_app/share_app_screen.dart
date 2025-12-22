@@ -21,7 +21,8 @@ class ShareAppScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.resources.color.background,
       body: SafeArea(
-        child: Column(children: [TopHeader(hasBack: true, title: 'Share App'),
+        child: Column(children: [
+          TopHeader(hasBack: true, title: context.resources.strings.shareApp),
           SizedBox(height: 16,),
 
           Expanded(
@@ -83,7 +84,8 @@ class ShareAppScreen extends StatelessWidget {
 
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
-            child: PrimaryButton(title: "Invite a Friend", onPressed: () {
+            child: PrimaryButton(
+                title: context.resources.strings.inviteAFriend, onPressed: () {
               Get.toNamed(RouteConstant.inviteFriendsScreen);
             }),
           ),

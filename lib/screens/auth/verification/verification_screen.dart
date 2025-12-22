@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/auth/verification/verification_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/primary_text.dart';
 import 'components/verification_pin_widget.dart';
@@ -40,16 +41,18 @@ class VerificationScreen extends StatelessWidget {
 
                 SizedBox(height: 32),
 
-                PrimaryText(
-                  text: "Enter Verification Code",
-                  fontSize: 22,
+                PrimaryText((
+                  text: Resources.of(context).strings.enterVerificationCodefontSize: 22,
                   fontWeight: FontWeight.w700,
                   textColor: context.resources.color.colorBlackMain,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 4),
                 PrimaryText(
-                  text: "OTP Has been Sent to your Phone Number.",
+                  text: Resources
+                      .of(context)
+                      .strings
+                      .otpHasBeenSent,
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
                   textColor: context.resources.color.colorGrey,
@@ -70,7 +73,10 @@ class VerificationScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     PrimaryText(
-                      text: "Didn't Receive OTP?",
+                      text: Resources
+                          .of(context)
+                          .strings
+                          .didntReceiveOtp,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       textColor: context.resources.color.colorGrey3,
@@ -88,7 +94,10 @@ class VerificationScreen extends StatelessWidget {
                           width: 14,
                           height: 14,)
                             : PrimaryText(
-                          text: "Resend Code",
+                          text: Resources
+                              .of(context)
+                              .strings
+                              .resendCode,
                           fontSize: 14,
                           isUnderLined: true,
                           fontWeight: FontWeight.w500,
@@ -107,7 +116,10 @@ class VerificationScreen extends StatelessWidget {
                   dataController.isLoading.value
                       ? ProgressBar()
                       : PrimaryButton(
-                    title: "Verify",
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .verify,
                     onPressed: () {
                       dataController.verifyOTP();
                     },

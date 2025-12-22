@@ -6,6 +6,7 @@ import 'package:wazafak_app/screens/auth/splash/splash_screen.dart';
 import 'package:wazafak_app/utils/DismissKeyboard.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/pusher_manager.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'constants/get_pages_constant.dart';
 import 'constants/route_constant.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
     return ToastificationWrapper(
       child: DismissKeyboard(
         child: GetMaterialApp(
-          title: 'Wazafak',
+          title: Resources.of(context).strings.appTitle,
           debugShowCheckedModeBanner: false,
           locale: Locale(Prefs.getLanguage),
           getPages: getPages,

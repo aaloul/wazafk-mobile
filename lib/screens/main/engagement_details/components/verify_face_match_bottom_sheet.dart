@@ -7,6 +7,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class VerifyFaceMatchBottomSheet extends StatefulWidget {
@@ -67,7 +68,10 @@ class _VerifyFaceMatchBottomSheetState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PrimaryText(
-                    text: 'Verify Face Match',
+                    text: Resources
+                        .of(context)
+                        .strings
+                        .verifyFaceMatch,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorGrey,
@@ -93,7 +97,10 @@ class _VerifyFaceMatchBottomSheetState
 
                   // Info text
                   PrimaryText(
-                    text: 'Take a selfie to verify your identity',
+                    text: Resources
+                        .of(context)
+                        .strings
+                        .takeASelfieToVerify,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     textColor: context.resources.color.colorGrey,
@@ -147,7 +154,10 @@ class _VerifyFaceMatchBottomSheetState
                                   ),
                                   SizedBox(height: 16),
                                   PrimaryText(
-                                    text: 'Initializing camera...',
+                                    text: Resources
+                                        .of(context)
+                                        .strings
+                                        .initializingCamera,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     textColor:
@@ -180,7 +190,10 @@ class _VerifyFaceMatchBottomSheetState
                                   ),
                                   SizedBox(height: 16),
                                   PrimaryText(
-                                    text: 'Camera not available',
+                                    text: Resources
+                                        .of(context)
+                                        .strings
+                                        .cameraNotAvailable,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     textColor:
@@ -188,7 +201,10 @@ class _VerifyFaceMatchBottomSheetState
                                   ),
                                   SizedBox(height: 8),
                                   PrimaryText(
-                                    text: 'Please check camera permissions',
+                                    text: Resources
+                                        .of(context)
+                                        .strings
+                                        .pleaseCheckCameraPermissions,
                                     fontSize: 14,
                                     textColor:
                                         context.resources.color.colorGrey7,
@@ -263,7 +279,10 @@ class _VerifyFaceMatchBottomSheetState
                 return Opacity(
                   opacity: hasImage ? 1.0 : 0.5,
                   child: PrimaryButton(
-                    title: 'Verify & Continue',
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .verifyAndContinue,
                     onPressed: hasImage
                         ? controller.verifyFaceMatch
                         : () {

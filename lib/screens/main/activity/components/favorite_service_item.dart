@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../../utils/res/AppIcons.dart';
 
@@ -182,7 +183,10 @@ class _FavoriteServiceItemState extends State<FavoriteServiceItem> {
                 children: [
                   Expanded(
                     child: PrimaryText(
-                      text: 'Skills',
+                      text: Resources
+                          .of(context)
+                          .strings
+                          .skills,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       textColor: context.resources.color.colorBlack,

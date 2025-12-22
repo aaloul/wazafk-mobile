@@ -69,7 +69,8 @@ class EmployerRateMemberScreen extends StatelessWidget {
                           Center(
                             child: PrimaryText(
                               text: controller.memberProfile.value?.member
-                                  ?.title ?? "N/A",
+                                  ?.title ??
+                                  context.resources.strings.notAvailable,
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey,
@@ -204,8 +205,8 @@ class EmployerRateMemberScreen extends StatelessWidget {
                           // Comment Section
                           MultilineLabeledTextField(
                             controller: controller.commentController,
-                            label: 'Your Review',
-                            hint: 'Add your feedback',
+                            label: context.resources.strings.yourReview,
+                            hint: context.resources.strings.addYourFeedback,
                             maxLines: 10,
                             height: 120,
                             labelFontSize: 14,
@@ -231,7 +232,7 @@ class EmployerRateMemberScreen extends StatelessWidget {
                   : Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       child: PrimaryButton(
-                        title: "Submit Rating",
+                        title: context.resources.strings.submitRating,
                         onPressed: () {
                           controller.submitRating();
                         },

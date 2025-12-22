@@ -3,6 +3,7 @@ import 'package:wazafak_app/components/dialog/dialog_helper.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class MyAddressesController extends GetxController {
@@ -43,9 +44,18 @@ class MyAddressesController extends GetxController {
   void confirmDeleteAddress(String hashcode) {
     DialogHelper.showAgreementPopup(
       Get.context!,
-      'Are you sure you want to delete this address?',
-      'Delete',
-      'Cancel',
+      Resources
+          .of(Get.context!)
+          .strings
+          .areYouSureDeleteAddress,
+      Resources
+          .of(Get.context!)
+          .strings
+          .delete,
+      Resources
+          .of(Get.context!)
+          .strings
+          .cancel,
           () => deleteAddress(hashcode),
       isDeleting,
     );
@@ -59,12 +69,18 @@ class MyAddressesController extends GetxController {
       if (response.success == true) {
         Get.back(); // Close dialog
         constants.showSnackBar(
-            response.message ?? 'Address deleted successfully',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .addressDeletedSuccessfully,
             SnackBarStatus.SUCCESS);
         fetchAddresses();
       } else {
         constants.showSnackBar(
-            response.message ?? 'Failed to delete address',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToDeleteAddress,
             SnackBarStatus.ERROR);
       }
     } catch (e) {

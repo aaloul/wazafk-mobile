@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../../components/primary_button.dart';
 import '../../create_account_controller.dart';
@@ -30,7 +31,7 @@ class CreateAccountStep3 extends StatelessWidget {
             SizedBox(height: 12),
 
             PrimaryText(
-              text: "Choose Interest",
+              text: Resources.of(context).strings.chooseInterest,
               fontSize: 22,
               fontWeight: FontWeight.w700,
               textColor: context.resources.color.colorBlackMain,
@@ -38,7 +39,7 @@ class CreateAccountStep3 extends StatelessWidget {
             ),
             SizedBox(height: 4),
             PrimaryText(
-              text: "Choose up to 5 interests!.",
+              text: Resources.of(context).strings.chooseUpToFiveInterests,
               fontSize: 16,
               fontWeight: FontWeight.w900,
               textColor: context.resources.color.colorGrey,
@@ -93,7 +94,7 @@ class CreateAccountStep3 extends StatelessWidget {
               () => dataController.isRegistering.value
                   ? ProgressBar()
                   : PrimaryButton(
-                      title: "Start Your Journey",
+                      title: Resources.of(context).strings.startYourJourney,
                       onPressed: () {
                         dataController.verifyStep3();
                       },

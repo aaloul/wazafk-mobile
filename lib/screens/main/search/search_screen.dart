@@ -9,6 +9,7 @@ import 'package:wazafak_app/screens/main/home/components/employer_data/home_pack
 import 'package:wazafak_app/screens/main/home/components/employer_data/home_service_item.dart';
 import 'package:wazafak_app/screens/main/home/components/jobs/home_job_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'search_controller.dart';
 
@@ -59,7 +60,10 @@ class _SearchScreenState extends State<SearchScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Search'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .search),
 
             // Search bar
             Padding(
@@ -67,7 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
               child: SearchWidget(
                 controller: controller.searchController,
                 focusNode: _searchFocusNode,
-                hint: 'Search jobs, services, packages...',
+                hint: context.resources.strings.searchJobsServicesPackages,
                 borderRadius: 0,
                 onTextChangedWithDelay: (text) {
                   controller.search(text);
@@ -105,7 +109,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 32),
                           child: PrimaryText(
                             text:
-                                'Search for jobs, services, packages, or freelancers',
+                            Resources
+                                .of(context)
+                                .strings
+                                .searchJobsServicesPackages,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             textColor: context.resources.color.colorGrey,
@@ -133,7 +140,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         SizedBox(height: 16),
                         PrimaryText(
-                          text: 'No results found',
+                          text: context.resources.strings.noResultsFound,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           textColor: context.resources.color.colorGrey8,
@@ -142,7 +149,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 32),
                           child: PrimaryText(
-                            text: 'Try searching with different keywords',
+                            text: Resources
+                                .of(context)
+                                .strings
+                                .trySearchingDifferentKeywords,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             textColor: context.resources.color.colorGrey,

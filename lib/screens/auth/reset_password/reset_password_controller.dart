@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/repository/account/password_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../utils/utils.dart';
 
@@ -33,20 +34,26 @@ class ResetPasswordController extends GetxController {
 
   Future<void> confirmPasswordReset() async {
     if (newPasswordController.text.isEmpty) {
-      constants.showSnackBar('New password is required', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.newPasswordRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
 
     if (confirmPasswordController.text.isEmpty) {
       constants.showSnackBar(
-        'Confirm password is required',
+        Resources.of(Get.context!).strings.passwordRequired,
         SnackBarStatus.ERROR,
       );
       return;
     }
 
     if (newPasswordController.text != confirmPasswordController.text) {
-      constants.showSnackBar('Passwords do not match', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.passwordsDoNotMatch,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
 

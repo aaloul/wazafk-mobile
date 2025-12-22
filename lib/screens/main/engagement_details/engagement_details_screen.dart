@@ -9,6 +9,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/outlined_button.dart';
 import '../../../components/top_header.dart';
@@ -44,13 +45,16 @@ class EngagementDetailsScreen extends StatelessWidget {
     return ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].contains(extension);
   }
 
-  Future<void> _openFileInBrowser(String url) async {
+  Future<void> _openFileInBrowser(String url, BuildContext context) async {
     print('urlurlurl');
     print(url);
 
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw 'Could not launch $url';
+      throw Resources
+          .of(context)
+          .strings
+          .couldNotLaunchUrl(url);
     }
 
   }
@@ -112,7 +116,10 @@ class EngagementDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Engagement'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .engagement),
             SizedBox(height: 16),
 
             Obx(() {
@@ -131,7 +138,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                 return Expanded(
                   child: Center(
                     child: PrimaryText(
-                      text: 'No engagement details available',
+                      text: context.resources.strings
+                          .noEngagementDetailsAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),
@@ -283,7 +291,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2),
                                         PrimaryText(
-                                          text: 'Hourly Rate',
+                                          text: context.resources.strings
+                                              .hourlyRate,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           textColor:
@@ -382,7 +391,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     .skills!
                                     .isNotEmpty) ...[
                               PrimaryText(
-                                text: 'Skills',
+                                text: context.resources.strings.skills,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
@@ -435,7 +444,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                 engagement.job!.skills != null &&
                                 engagement.job!.skills!.isNotEmpty) ...[
                               PrimaryText(
-                                text: 'Skills',
+                                text: context.resources.strings.skills,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
@@ -482,7 +491,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                 engagement.package!.services != null &&
                                 engagement.package!.services!.isNotEmpty) ...[
                               PrimaryText(
-                                text: 'Services',
+                                text: context.resources.strings.services,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
@@ -688,14 +697,15 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     .isNotEmpty) ...[
                               // Description
                               PrimaryText(
-                                text: 'Description',
+                                text: context.resources.strings.description,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
                               ),
                               SizedBox(height: 4),
                               PrimaryText(
-                                text: engagement.description ?? "N/A",
+                                text: engagement.description ??
+                                    context.resources.strings.notAvailable,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 textColor: context.resources.color.colorGrey,
@@ -716,14 +726,15 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     .toString()
                                     .isNotEmpty) ...[
                               PrimaryText(
-                                text: 'Milestones',
+                                text: context.resources.strings.milestones,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
                               ),
                               SizedBox(height: 4),
                               PrimaryText(
-                                text: engagement.tasksMilestones ?? "N/A",
+                                text: engagement.tasksMilestones ??
+                                    context.resources.strings.notAvailable,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 textColor: context.resources.color.colorGrey,
@@ -746,14 +757,16 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     .toString()
                                     .isNotEmpty) ...[
                               PrimaryText(
-                                text: 'Message to Freelancer',
+                                text: context.resources.strings
+                                    .messageToFreelancer,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
                               ),
                               SizedBox(height: 4),
                               PrimaryText(
-                                text: engagement.messageToFreelancer ?? "N/A",
+                                text: engagement.messageToFreelancer ??
+                                    context.resources.strings.notAvailable,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 textColor: context.resources.color.colorGrey,
@@ -768,17 +781,100 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     .toString()
                                     .isNotEmpty) ...[
                               PrimaryText(
-                                text: 'Message to Client',
+                                text: context.resources.strings.messageToClient,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
                               ),
                               SizedBox(height: 4),
                               PrimaryText(
-                                text: engagement.messageToClient ?? "N/A",
+                                text: engagement.messageToClient ??
+                                    context.resources.strings.notAvailable,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 textColor: context.resources.color.colorGrey,
+                              ),
+                              SizedBox(height: 16),
+                            ],
+
+                            // CV for Job Applications
+                            if (engagement.type.toString() == 'JA' &&
+                                engagement.freelancerCv != null &&
+                                engagement.freelancerCv!.isNotEmpty) ...[
+                              Container(
+                                width: double.infinity,
+                                height: 1,
+                                color: context.resources.color.colorGrey
+                                    .withOpacity(.25),
+                                margin: EdgeInsets.only(bottom: 16),
+                              ),
+                              PrimaryText(
+                                text: context.resources.strings.uploadCv,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                textColor: context.resources.color.colorGrey,
+                              ),
+                              SizedBox(height: 12),
+                              GestureDetector(
+                                onTap: () =>
+                                    _openFileInBrowser(
+                                        engagement.freelancerCv!, context),
+                                child: Container(
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: context.resources.color.colorBlue4,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: context.resources.color.colorGrey4,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.description,
+                                        color:
+                                        context.resources.color.colorPrimary,
+                                        size: 24,
+                                      ),
+                                      SizedBox(width: 12),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            PrimaryText(
+                                              text: context.resources.strings
+                                                  .cvFile,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              textColor: context
+                                                  .resources.color.colorGrey,
+                                            ),
+                                            SizedBox(height: 4),
+                                            PrimaryText(
+                                              text: engagement.freelancerCv!
+                                                  .split('/')
+                                                  .last,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              textColor: context
+                                                  .resources.color.colorGrey7,
+                                              maxLines: 1,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Icon(
+                                        Icons.open_in_browser,
+                                        color:
+                                        context.resources.color.colorPrimary,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                               SizedBox(height: 16),
                             ],
@@ -797,7 +893,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                 margin: EdgeInsets.only(bottom: 16),
                               ),
                               PrimaryText(
-                                text: 'Completed Deliverables',
+                                text: context.resources.strings
+                                    .completedDeliverables,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
@@ -828,7 +925,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () =>
                                         _openFileInBrowser(
-                                            engagement.completedDeliverables!),
+                                            engagement.completedDeliverables!,
+                                            context),
                                     child: Container(
                                       padding: EdgeInsets.all(12),
                                       decoration: BoxDecoration(
@@ -856,7 +954,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                                   .start,
                                               children: [
                                                 PrimaryText(
-                                                  text: 'Deliverables File',
+                                                  text: context.resources
+                                                      .strings.deliverablesFile,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w600,
                                                   textColor: context.resources
@@ -948,7 +1047,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Waiting for Reply',
+                                    text: context.resources.strings
+                                        .waitingForReply,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                     textColor:
@@ -1054,7 +1154,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                             }
 
                             return PrimaryButton(
-                              title: 'Accept Request',
+                              title: Resources
+                                  .of(context)
+                                  .strings
+                                  .acceptRequest,
                               onPressed: () {
                                 // Set action for after face verification
                                 controller.faceVerificationAction =
@@ -1093,7 +1196,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                             }
 
                             return PrimaryOutlinedButton(
-                              title: 'Decline',
+                              title: Resources
+                                  .of(context)
+                                  .strings
+                                  .decline,
                               onPressed: () {
                                 // Set action for after face verification
                                 controller.faceVerificationAction =
@@ -1112,7 +1218,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                           if (!hasChangeRequests) ...[
                             SizedBox(height: 12),
                             PrimaryOutlinedButton(
-                              title: 'Negotiate',
+                              title: Resources
+                                  .of(context)
+                                  .strings
+                                  .negotiate,
                               onPressed: () {
                                 Get.bottomSheet(
                                   NegotiationBottomSheet(),
@@ -1158,7 +1267,8 @@ class EngagementDetailsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Waiting for Reply',
+                                    text: context.resources.strings
+                                        .waitingForReply,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                     textColor:
@@ -1207,7 +1317,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                               engagement?.freelancerHashcode.toString() &&
                           engagement?.hasDispute.toString() == '0')
                         PrimaryButton(
-                          title: 'Finish Engagement',
+                          title: Resources
+                              .of(context)
+                              .strings
+                              .finishEngagement,
                           onPressed: () {
                             // Set action for after face verification
                             controller.faceVerificationAction =
@@ -1225,7 +1338,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                         SizedBox(height: 12),
 
                       PrimaryOutlinedButton(
-                        title: 'Submit Dispute',
+                        title: Resources
+                            .of(context)
+                            .strings
+                            .submitDispute,
                         onPressed: () {
                           Get.bottomSheet(
                             DisputeBottomSheet(),
@@ -1282,7 +1398,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                         }
 
                         return PrimaryButton(
-                          title: 'Accept Finish',
+                          title: Resources
+                              .of(context)
+                              .strings
+                              .acceptFinish,
                           onPressed: () {
                             // Set action for after face verification
                             controller.faceVerificationAction = 'accept_finish';
@@ -1320,7 +1439,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                         }
 
                         return PrimaryOutlinedButton(
-                          title: 'Reject Finish',
+                          title: Resources
+                              .of(context)
+                              .strings
+                              .rejectFinish,
                           onPressed: controller.rejectFinishEngagement,
                         );
                       }),
@@ -1350,7 +1472,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       PrimaryButton(
-                        title: 'Submit Dispute',
+                        title: Resources
+                            .of(context)
+                            .strings
+                            .submitDispute,
                         onPressed: () {
                           Get.bottomSheet(
                             DisputeBottomSheet(),

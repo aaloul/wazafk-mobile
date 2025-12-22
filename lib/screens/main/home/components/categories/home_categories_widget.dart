@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../skeletons/home_category_skeleton.dart';
 import 'home_category_item.dart';
@@ -58,7 +59,10 @@ class HomeCategoriesWidget extends StatelessWidget {
             if (controller.categories.isEmpty) {
               return SizedBox(
                 height: 100,
-                child: Center(child: Text('No categories available')),
+                child: Center(child: Text(Resources
+                    .of(context)
+                    .strings
+                    .noCategoriesAvailable)),
               );
             }
 

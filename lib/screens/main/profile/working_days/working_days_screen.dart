@@ -16,7 +16,10 @@ class WorkingDaysScreen extends StatelessWidget {
       backgroundColor: context.resources.color.background,
       body: SafeArea(
         child: Column(
-          children: [TopHeader(hasBack: true, title: 'Working Days')],
+          children: [
+            TopHeader(
+                hasBack: true, title: context.resources.strings.workingDays)
+          ],
         ),
       ),
     );

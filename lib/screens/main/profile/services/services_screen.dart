@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/skeletons/my_service_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'components/item_my_service.dart';
 import 'services_controller.dart';
@@ -26,7 +27,10 @@ class ServicesScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: 'Services'),
+              TopHeader(hasBack: true, title: Resources
+                  .of(context)
+                  .strings
+                  .services),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -42,7 +46,10 @@ class ServicesScreen extends StatelessWidget {
                   }
 
                   if (controller.services.isEmpty) {
-                    return Center(child: Text('No services available'));
+                    return Center(child: Text(Resources
+                        .of(context)
+                        .strings
+                        .noServicesAvailable));
                   }
 
                   return ListView.separated(
@@ -66,7 +73,10 @@ class ServicesScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16),
                 child: PrimaryButton(
-                  title: "Create New Service",
+                  title: Resources
+                      .of(context)
+                      .strings
+                      .createNewService,
                   onPressed: () {
                     Get.toNamed(RouteConstant.addServiceScreen);
                   },

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as httpPackage;
 import 'package:pretty_http_logger/pretty_http_logger.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../utils/Prefs.dart';
 import '../utils/utils.dart';
@@ -24,7 +25,12 @@ class ApiBaseHelper {
       );
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException(
+        Resources
+            .of(Get.context!)
+            .strings
+            .noInternetConnection,
+      );
     }
     printWrapped(responseJson.toString());
 
@@ -40,7 +46,12 @@ class ApiBaseHelper {
       );
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException(
+        Resources
+            .of(Get.context!)
+            .strings
+            .noInternetConnection,
+      );
     }
     printWrapped(responseJson.toString());
 
@@ -57,7 +68,12 @@ class ApiBaseHelper {
       );
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException(
+        Resources
+            .of(Get.context!)
+            .strings
+            .noInternetConnection,
+      );
     }
     printWrapped(responseJson.toString());
     return responseJson;
@@ -73,7 +89,12 @@ class ApiBaseHelper {
       );
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException(
+        Resources
+            .of(Get.context!)
+            .strings
+            .noInternetConnection,
+      );
     }
     printWrapped(responseJson.toString());
     return responseJson;
@@ -89,7 +110,12 @@ class ApiBaseHelper {
       );
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException(
+        Resources
+            .of(Get.context!)
+            .strings
+            .noInternetConnection,
+      );
     }
     printWrapped(responseJson.toString());
     return responseJson;
@@ -104,7 +130,12 @@ class ApiBaseHelper {
       );
       apiResponse = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException(
+        Resources
+            .of(Get.context!)
+            .strings
+            .noInternetConnectionLowercase,
+      );
     }
     return apiResponse;
   }
@@ -112,11 +143,12 @@ class ApiBaseHelper {
   Future<dynamic> postMultipart(
     String url,
     Map<String, String> fields,
-    List<MultipartFile> files,
+      List<httpPackage.MultipartFile> files,
   ) async {
     var responseJson;
     try {
-      var request = MultipartRequest('POST', Uri.parse(Prefs.getEnvUrl + url));
+      var request = httpPackage.MultipartRequest(
+          'POST', Uri.parse(Prefs.getEnvUrl + url));
 
       // Add headers
       request.headers.addAll({
@@ -133,18 +165,23 @@ class ApiBaseHelper {
       request.files.addAll(files);
 
       var streamedResponse = await request.send();
-      var response = await Response.fromStream(streamedResponse);
+      var response = await httpPackage.Response.fromStream(streamedResponse);
 
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException(
+        Resources
+            .of(Get.context!)
+            .strings
+            .noInternetConnection,
+      );
     }
     printWrapped(responseJson.toString());
     return responseJson;
   }
 }
 
-dynamic _returnResponse(http.Response response) {
+dynamic _returnResponse(httpPackage.Response response) {
   switch (response.statusCode) {
     case 200:
       var responseJson = json.decode(response.body.toString());
@@ -168,7 +205,10 @@ dynamic _returnResponse(http.Response response) {
     case 500:
     default:
       throw FetchDataException(
-        'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorOccuredCommunication(response.statusCode.toString()),
       );
   }
 }

@@ -17,6 +17,7 @@ import 'package:wazafak_app/repository/service/add_service_repository.dart';
 import 'package:wazafak_app/repository/service/save_service_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class AddServiceController extends GetxController {
@@ -396,38 +397,59 @@ class AddServiceController extends GetxController {
 
   bool validateFields() {
     if (titleController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter title', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterTitle, SnackBarStatus.ERROR);
       return false;
     }
     if (descController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter Description', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterDescription, SnackBarStatus.ERROR);
       return false;
     }
     if (selectedAddresses.isEmpty) {
       constants.showSnackBar(
-        'Please select at least one address',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectAtLeastOneAddress,
         SnackBarStatus.ERROR,
       );
       return false;
     }
     if (selectedCategory.value == null) {
-      constants.showSnackBar('Please select category', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectCategory, SnackBarStatus.ERROR);
       return false;
     }
     if (hourlyRateController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter hourly rate', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterHourlyRate, SnackBarStatus.ERROR);
       return false;
     }
     if (workExperienceController.text.trim().isEmpty) {
       constants.showSnackBar(
-        'Please enter work experience',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseEnterWorkExperience,
         SnackBarStatus.ERROR,
       );
       return false;
     }
     if (selectedSkills.isEmpty) {
       constants.showSnackBar(
-        'Please select at least one skill',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectAtLeastOneSkill,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -490,11 +512,23 @@ class AddServiceController extends GetxController {
       if (response.success == true) {
         SuccessSheet.show(
             Get.context!,
-            title: isEditMode.value ? 'Service Updated' : 'Service Posted',
+            title: isEditMode.value ? Resources
+                .of(Get.context!)
+                .strings
+                .serviceUpdated : Resources
+                .of(Get.context!)
+                .strings
+                .servicePosted,
             image: AppIcons.servicePosted,
             description:
-            'Your service is now live! Keep an eye out for opportunities.',
-            buttonText: 'View Profile',
+            Resources
+                .of(Get.context!)
+                .strings
+                .yourServiceIsNowLive,
+            buttonText: Resources
+                .of(Get.context!)
+                .strings
+                .viewProfile,
             onButtonPressed: () {
               Navigator.pop(Get.context!);
             }
@@ -503,13 +537,22 @@ class AddServiceController extends GetxController {
         constants.showSnackBar(
           response.message ??
               (isEditMode.value
-                  ? 'Failed to update service'
-                  : 'Failed to add service'),
+                  ? Resources
+                  .of(Get.context!)
+                  .strings
+                  .failedToUpdateService
+                  : Resources
+                  .of(Get.context!)
+                  .strings
+                  .failedToAddService),
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error adding service: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorAddingServiceWithParam(e.toString()), SnackBarStatus.ERROR);
       print('Error adding service: $e');
     } finally {
       isLoading.value = false;

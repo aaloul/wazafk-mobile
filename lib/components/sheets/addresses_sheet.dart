@@ -7,6 +7,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class AddressesSheet extends StatefulWidget {
   final List<Address> selectedAddresses;
@@ -76,8 +77,14 @@ class _AddressesSheetState extends State<AddressesSheet> {
               children: [
                 PrimaryText(
                   text: widget.singleSelect
-                      ? "Select Address"
-                      : "Select Addresses",
+                      ? Resources
+                      .of(context)
+                      .strings
+                      .selectAddress
+                      : Resources
+                      .of(context)
+                      .strings
+                      .selectAddresses,
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                   textColor: context.resources.color.colorGrey,
@@ -106,14 +113,20 @@ class _AddressesSheetState extends State<AddressesSheet> {
                         ),
                         SizedBox(height: 8),
                         PrimaryText(
-                          text: 'No addresses available',
+                          text: Resources
+                              .of(context)
+                              .strings
+                              .noAddressesAvailable,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           textColor: context.resources.color.colorGrey8,
                         ),
                         SizedBox(height: 4),
                         PrimaryText(
-                          text: 'Please add an address from your profile',
+                          text: Resources
+                              .of(context)
+                              .strings
+                              .pleaseAddAddressFromProfile,
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           textColor: context.resources.color.colorGrey8,
@@ -121,7 +134,10 @@ class _AddressesSheetState extends State<AddressesSheet> {
                         ),
                         SizedBox(height: 16),
                         PrimaryOutlinedButton(
-                          title: "+ Add New Address",
+                          title: Resources
+                              .of(context)
+                              .strings
+                              .addNewAddress,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           onPressed: () async {
@@ -212,7 +228,10 @@ class _AddressesSheetState extends State<AddressesSheet> {
                     ),
                     SizedBox(height: 12),
                     PrimaryOutlinedButton(
-                      title: "+ Add New Address",
+                      title: Resources
+                          .of(context)
+                          .strings
+                          .addNewAddress,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       onPressed: () async {
@@ -229,7 +248,10 @@ class _AddressesSheetState extends State<AddressesSheet> {
                 children: [
                   const SizedBox(height: 16),
                   PrimaryButton(
-                    title: 'Apply',
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .apply,
                     onPressed: () {
                       widget.onAddressesSelected(tempSelectedAddresses);
                       Get.back();

@@ -6,6 +6,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/auth/login_password/login_password_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/labeled_text_field.dart';
 import '../../../components/primary_text.dart';
@@ -41,7 +42,7 @@ class LoginPasswordScreen extends StatelessWidget {
                 SizedBox(height: 24),
 
                 PrimaryText(
-                  text: "Welcome,",
+                  text: Resources.of(context).strings.welcome,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   textColor: context.resources.color.colorBlackMain,
@@ -69,7 +70,7 @@ class LoginPasswordScreen extends StatelessWidget {
                 SizedBox(height: 24),
 
                 LabeledTextFiled(
-                  label: 'Password',
+                  label: Resources.of(context).strings.password,
                   hint: '',
                   isPassword: true,
                   isMandatory: true,
@@ -81,7 +82,7 @@ class LoginPasswordScreen extends StatelessWidget {
                 Row(
                   children: [
                     PrimaryText(
-                      text: "Forget Your Password?",
+                      text: Resources.of(context).strings.forgetYourPassword,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       textColor: context.resources.color.colorGrey3,
@@ -99,7 +100,7 @@ class LoginPasswordScreen extends StatelessWidget {
                         );
                       },
                       child: PrimaryText(
-                        text: "Rest My Password",
+                        text: Resources.of(context).strings.resetMyPassword,
                         fontSize: 14,
                         isUnderLined: true,
                         fontWeight: FontWeight.w500,
@@ -116,7 +117,7 @@ class LoginPasswordScreen extends StatelessWidget {
                   () => dataController.isLoading.value
                       ? ProgressBar()
                       : PrimaryButton(
-                          title: "Login",
+                          title: Resources.of(context).strings.login,
                           onPressed: () {
                             dataController.login();
                           },
@@ -131,7 +132,7 @@ class LoginPasswordScreen extends StatelessWidget {
                         Get.back();
                       },
                       child: PrimaryText(
-                        text: 'Back',
+                        text: Resources.of(context).strings.back,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         textColor: context.resources.color.colorBlackMain,

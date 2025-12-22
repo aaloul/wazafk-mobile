@@ -16,7 +16,8 @@ class SavedLoginScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Saved Login'),
+            TopHeader(
+                hasBack: true, title: context.resources.strings.savedLogin),
             SizedBox(height: 16),
           ],
         ),

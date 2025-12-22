@@ -27,7 +27,9 @@ class MemberInfoWidget extends StatelessWidget {
           SizedBox(height: 4),
 
           PrimaryText(
-            text: user.info.toString().isEmpty ? 'N/A' : user.info ?? "N/A",
+            text: user.info.toString().isEmpty
+                ? context.resources.strings.notAvailable
+                : user.info ?? context.resources.strings.notAvailable,
             fontSize: 14,
             fontWeight: FontWeight.w400,
             textColor: context.resources.color.colorGrey,

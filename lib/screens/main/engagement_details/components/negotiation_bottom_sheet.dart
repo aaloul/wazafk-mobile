@@ -8,6 +8,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class NegotiationBottomSheet extends StatelessWidget {
   const NegotiationBottomSheet({super.key});
@@ -43,7 +44,7 @@ class NegotiationBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PrimaryText(
-                    text: 'Negotiate Terms',
+                    text: Resources.of(context).strings.negotiateTerms,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorGrey,
@@ -69,8 +70,8 @@ class NegotiationBottomSheet extends StatelessWidget {
                     // Price Field
                     LabeledTextFiled(
                       controller: controller.negotiationPriceController,
-                      label: 'Price',
-                      hint: 'Enter your price',
+                      label: Resources.of(context).strings.price,
+                      hint: Resources.of(context).strings.enterYourPrice,
                       inputType: TextInputType.numberWithOptions(decimal: true),
                       isPassword: false,
                       isMandatory: true,
@@ -82,8 +83,8 @@ class NegotiationBottomSheet extends StatelessWidget {
                     // Estimated Hours Field
                     LabeledTextFiled(
                       controller: controller.negotiationHoursController,
-                      label: 'Estimated Hours',
-                      hint: 'Enter estimated hours',
+                      label: Resources.of(context).strings.estimatedHours,
+                      hint: Resources.of(context).strings.enterEstimatedHours,
                       inputType: TextInputType.number,
                       isPassword: false,
                       isMandatory: true,
@@ -94,7 +95,7 @@ class NegotiationBottomSheet extends StatelessWidget {
 
                     // Calendar Section
                     PrimaryText(
-                      text: "Select Date Range",
+                      text: Resources.of(context).strings.selectDateRange,
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -202,8 +203,8 @@ class NegotiationBottomSheet extends StatelessWidget {
                     // Message Field
                     MultilineLabeledTextField(
                       controller: controller.negotiationMessageController,
-                      label: 'Message',
-                      hint: 'Enter your message...',
+                      label: Resources.of(context).strings.message,
+                      hint: Resources.of(context).strings.enterYourMessage,
                       maxLines: 20,
                       height: 120,
                       labelFontSize: 14,
@@ -233,7 +234,7 @@ class NegotiationBottomSheet extends StatelessWidget {
                 () => controller.isNegotiating.value
                     ? Center(child: ProgressBar())
                     : PrimaryButton(
-                        title: 'Submit Negotiation',
+                        title: Resources.of(context).strings.submitNegotiation,
                         onPressed: controller.submitNegotiation,
                       ),
               ),

@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/main/profile/packages/add_package/add_package_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class ServicesSelectionBottomSheet extends StatelessWidget {
   const ServicesSelectionBottomSheet({super.key});
@@ -252,7 +253,7 @@ class ServicesSelectionBottomSheet extends StatelessWidget {
                         : SizedBox.shrink(),
                   ),
                   PrimaryButton(
-                    title: 'Confirm Selection',
+                    title: Resources.of(context).strings.confirmSelection,
                     onPressed: () {
                       Navigator.pop(context);
                     },

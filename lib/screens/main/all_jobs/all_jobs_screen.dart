@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/all_jobs/all_jobs_controller.dart';
 import 'package:wazafak_app/screens/main/all_jobs/components/all_jobs_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class AllJobsScreen extends StatelessWidget {
   const AllJobsScreen({super.key});
@@ -19,7 +20,10 @@ class AllJobsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'All Jobs'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .allJobs),
             SizedBox(height: 16),
             Expanded(
               child: Obx(() {

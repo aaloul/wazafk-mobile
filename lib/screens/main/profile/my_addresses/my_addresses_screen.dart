@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/skeletons/my_address_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'components/my_address_item.dart';
 import 'my_addresses_controller.dart';
@@ -26,7 +27,10 @@ class MyAddressesScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: 'My Addresses'),
+              TopHeader(hasBack: true, title: Resources
+                  .of(context)
+                  .strings
+                  .myAddresses),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -41,7 +45,10 @@ class MyAddressesScreen extends StatelessWidget {
                   }
 
                   if (controller.addresses.isEmpty) {
-                    return Center(child: Text('No addresses found'));
+                    return Center(child: Text(Resources
+                        .of(context)
+                        .strings
+                        .noAddressesFound));
                   }
 
                   return ListView.separated(
@@ -81,7 +88,10 @@ class MyAddressesScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: PrimaryButton(
-                    title: "Add New Address", onPressed: () async {
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .addNewAddress, onPressed: () async {
                   Get.toNamed(RouteConstant.selectLocationScreen);
                 }),
               ),

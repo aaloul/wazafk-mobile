@@ -4,6 +4,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../../components/labeled_text_field.dart';
 import 'add_address_controller.dart';
@@ -24,8 +25,8 @@ class AddAddressScreen extends StatelessWidget {
               () => TopHeader(
                 hasBack: true,
                 title: controller.isEditMode.value
-                    ? 'Edit Address'
-                    : 'Add Address',
+                    ? Resources.of(context).strings.editAddress
+                    : Resources.of(context).strings.addAddress,
               ),
             ),
             SizedBox(height: 16),
@@ -37,48 +38,48 @@ class AddAddressScreen extends StatelessWidget {
                   children: [
                     LabeledTextFiled(
                       controller: controller.labelController,
-                      hint: 'Label',
-                      label: 'Label',
+                      hint: Resources.of(context).strings.label,
+                      label: Resources.of(context).strings.label,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
                     ),
                     LabeledTextFiled(
                       controller: controller.addressController,
-                      hint: 'Address',
-                      label: 'Address',
+                      hint: Resources.of(context).strings.address,
+                      label: Resources.of(context).strings.address,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
                     ),
                     LabeledTextFiled(
                       controller: controller.cityController,
-                      hint: 'City',
-                      label: 'City',
+                      hint: Resources.of(context).strings.city,
+                      label: Resources.of(context).strings.city,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
                     ),
                     LabeledTextFiled(
                       controller: controller.streetController,
-                      hint: 'Street',
-                      label: 'Street',
+                      hint: Resources.of(context).strings.street,
+                      label: Resources.of(context).strings.street,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
                     ),
                     LabeledTextFiled(
                       controller: controller.buildingController,
-                      hint: 'Building',
-                      label: 'Building',
+                      hint: Resources.of(context).strings.building,
+                      label: Resources.of(context).strings.building,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
                     ),
                     LabeledTextFiled(
                       controller: controller.apartmentController,
-                      hint: 'Apartment',
-                      label: 'Apartment',
+                      hint: Resources.of(context).strings.apartment,
+                      label: Resources.of(context).strings.apartment,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
@@ -96,8 +97,8 @@ class AddAddressScreen extends StatelessWidget {
                       margin: EdgeInsets.symmetric(horizontal: 20),
                       child: PrimaryButton(
                         title: controller.isEditMode.value
-                            ? "Save Address"
-                            : "Add Address",
+                            ? Resources.of(context).strings.saveAddress
+                            : Resources.of(context).strings.addAddress,
                         onPressed: () {
                           controller.saveAddress();
                         },

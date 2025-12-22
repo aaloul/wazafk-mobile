@@ -4,6 +4,7 @@ import 'package:wazafak_app/model/ContactsResponse.dart';
 import 'package:wazafak_app/model/CoversationsResponse.dart';
 import 'package:wazafak_app/repository/communication/contacts_repository.dart';
 import 'package:wazafak_app/repository/communication/coversations_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class ChatController extends GetxController {
   final ContactsRepository _repository = ContactsRepository();
@@ -122,15 +123,23 @@ class ChatController extends GetxController {
         }
       } else {
         hasError.value = true;
-        errorMessage.value = response.message ?? 'Failed to load contacts';
+        errorMessage.value = response.message ?? Resources
+            .of(Get.context!)
+            .strings
+            .failedToLoadContacts;
       }
     } catch (e) {
       print('Error loading contacts: $e');
       hasError.value = true;
-      errorMessage.value =
-          'Failed to load contacts. Please check your connection.';
+      errorMessage.value = Resources
+          .of(Get.context!)
+          .strings
+          .failedToLoadContacts;
       Get.snackbar(
-        'Error',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorLoadingData(''),
         errorMessage.value,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -189,7 +198,12 @@ class ChatController extends GetxController {
       name += ' ${contact.lastName!}';
     }
 
-    return name.trim().isEmpty ? 'Unknown' : name.trim();
+    return name
+        .trim()
+        .isEmpty ? Resources
+        .of(Get.context!)
+        .strings
+        .unknown : name.trim();
   }
 
   // Conversations methods
@@ -223,15 +237,23 @@ class ChatController extends GetxController {
       } else {
         hasConversationsError.value = true;
         conversationsErrorMessage.value =
-            response.message ?? 'Failed to load conversations';
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToLoadConversations;
       }
     } catch (e) {
       print('Error loading conversations: $e');
       hasConversationsError.value = true;
-      conversationsErrorMessage.value =
-          'Failed to load conversations. Please check your connection.';
+      conversationsErrorMessage.value = Resources
+          .of(Get.context!)
+          .strings
+          .failedToLoadConversations;
       Get.snackbar(
-        'Error',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorLoadingData(''),
         conversationsErrorMessage.value,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -293,7 +315,12 @@ class ChatController extends GetxController {
       name += ' ${conversation.lastName!}';
     }
 
-    return name.trim().isEmpty ? 'Unknown' : name.trim();
+    return name
+        .trim()
+        .isEmpty ? Resources
+        .of(Get.context!)
+        .strings
+        .unknown : name.trim();
   }
 
   String formatLastMessageTime(DateTime? dateTime) {
@@ -304,18 +331,33 @@ class ChatController extends GetxController {
 
     if (difference.inDays > 0) {
       if (difference.inDays == 1) {
-        return 'Yesterday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .yesterday;
       } else if (difference.inDays < 7) {
-        return '${difference.inDays}d ago';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .daysAgo(difference.inDays);
       } else {
         return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
       }
     } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
+      return Resources
+          .of(Get.context!)
+          .strings
+          .hoursAgo(difference.inHours);
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}m ago';
+      return Resources
+          .of(Get.context!)
+          .strings
+          .minutesAgo(difference.inMinutes);
     } else {
-      return 'Just now';
+      return Resources
+          .of(Get.context!)
+          .strings
+          .justNow;
     }
   }
 }

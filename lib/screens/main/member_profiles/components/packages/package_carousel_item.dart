@@ -109,7 +109,7 @@ class PackageCarouselItem extends StatelessWidget {
               width: double.infinity,
               height: 40,
               child: PrimaryButton(
-                title: 'Book Now',
+                title: context.resources.strings.bookNow,
                 onPressed: onBookNow,
                 fontSize: 14,
               ),

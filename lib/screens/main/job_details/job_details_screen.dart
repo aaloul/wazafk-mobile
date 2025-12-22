@@ -40,7 +40,7 @@ class JobDetailsScreen extends StatelessWidget {
                 if (job == null) {
                   return Center(
                     child: PrimaryText(
-                      text: 'No job details available',
+                      text: context.resources.strings.noJobDetailsAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),
@@ -97,7 +97,7 @@ class JobDetailsScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4),
                                 PrimaryText(
-                                  text: 'Applicants',
+                                  text: context.resources.strings.applicants,
                                   fontSize: 14,
                                   textColor: context.resources.color.colorGrey,
                                 ),
@@ -123,7 +123,7 @@ class JobDetailsScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4),
                                 PrimaryText(
-                                  text: 'Hourly Rate',
+                                  text: context.resources.strings.hourlyRate,
                                   fontSize: 14,
                                   textColor: context.resources.color.colorGrey,
                                 ),
@@ -151,7 +151,7 @@ class JobDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PrimaryText(
-                              text: 'Overview',
+                              text: context.resources.strings.overview,
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
                               textColor: context.resources.color.colorGrey,
@@ -160,7 +160,9 @@ class JobDetailsScreen extends StatelessWidget {
                             SizedBox(height: 4),
 
                             PrimaryText(
-                              text: job.overview ?? "N/A",
+                              text:
+                                  job.overview ??
+                                  context.resources.strings.notAvailable,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey,
@@ -177,7 +179,9 @@ class JobDetailsScreen extends StatelessWidget {
                                 ),
                                 SizedBox(width: 6),
                                 PrimaryText(
-                                  text: job.address?.city ?? "N/A",
+                                  text:
+                                      job.address?.city ??
+                                      context.resources.strings.notAvailable,
                                   textColor: context.resources.color.colorGrey,
                                 ),
                               ],
@@ -226,7 +230,7 @@ class JobDetailsScreen extends StatelessWidget {
                             if (job.skills != null &&
                                 job.skills!.isNotEmpty) ...[
                               PrimaryText(
-                                text: 'Skills',
+                                text: context.resources.strings.skills,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 textColor: context.resources.color.colorGrey,
@@ -262,7 +266,7 @@ class JobDetailsScreen extends StatelessWidget {
                             ],
 
                             PrimaryText(
-                              text: 'Responsibilities',
+                              text: context.resources.strings.responsibilities,
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
                               textColor: context.resources.color.colorGrey,
@@ -271,7 +275,9 @@ class JobDetailsScreen extends StatelessWidget {
                             SizedBox(height: 4),
 
                             PrimaryText(
-                              text: job.responsibilities ?? "N/A",
+                              text:
+                                  job.responsibilities ??
+                                  context.resources.strings.notAvailable,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey,
@@ -280,7 +286,7 @@ class JobDetailsScreen extends StatelessWidget {
                             SizedBox(height: 16),
 
                             PrimaryText(
-                              text: 'Requirements',
+                              text: context.resources.strings.requirements,
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
                               textColor: context.resources.color.colorGrey,
@@ -289,7 +295,9 @@ class JobDetailsScreen extends StatelessWidget {
                             SizedBox(height: 4),
 
                             PrimaryText(
-                              text: job.requirememts ?? "N/A",
+                              text:
+                                  job.requirememts ??
+                                  context.resources.strings.notAvailable,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey,
@@ -301,7 +309,8 @@ class JobDetailsScreen extends StatelessWidget {
                               // Show View Engagement button if user has an engagement
                               if (job.hasEngagement == 1)
                                 PrimaryButton(
-                                  title: "View Engagement",
+                                  title:
+                                      context.resources.strings.viewEngagement,
                                   onPressed: () {
                                     Get.toNamed(
                                       RouteConstant.engagementDetailsScreen,
@@ -311,7 +320,7 @@ class JobDetailsScreen extends StatelessWidget {
                                 )
                               else
                                 PrimaryButton(
-                                  title: "Apply Now",
+                                  title: context.resources.strings.applyNow,
                                   onPressed: () {
                                     Get.toNamed(
                                       RouteConstant.applyJobScreen,
@@ -322,7 +331,8 @@ class JobDetailsScreen extends StatelessWidget {
 
                             if (job.memberHashcode.toString() == Prefs.getId)
                               PrimaryButton(
-                                title: "View Applications",
+                                title:
+                                    context.resources.strings.viewApplications,
                                 onPressed: () {
                                   if (job.hashcode != null) {
                                     Get.toNamed(
@@ -348,8 +358,11 @@ class JobDetailsScreen extends StatelessWidget {
                                       ),
                                     )
                                   : PrimaryOutlinedButton(
-                                      title: "Disable Task",
-                                      onPressed: () {
+                                        title: context
+                                            .resources
+                                            .strings
+                                            .disableTask,
+                                        onPressed: () {
                                         controller.disableJob();
                                       },
                                     ),

@@ -153,7 +153,8 @@ class RecentTransactionItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: PrimaryText(
-                text: "${transaction.amount ?? "N/A"} USD",
+                text:
+                    "${transaction.amount ?? context.resources.strings.notAvailable} USD",
                 fontWeight: FontWeight.w500,
                 fontSize: 13,
                 textColor: context.resources.color.colorBlack2,
@@ -163,7 +164,9 @@ class RecentTransactionItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: PrimaryText(
-                text: transaction.reason ?? "N/A",
+                text:
+                    transaction.reason ??
+                    context.resources.strings.notAvailable,
                 fontWeight: FontWeight.w500,
                 fontSize: 13,
                 textColor: context.resources.color.colorBlack2,

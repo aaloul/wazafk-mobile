@@ -7,6 +7,7 @@ import 'package:wazafak_app/components/labeled_text_field.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../../components/date_chooser.dart';
 import '../../../../../components/primary_button.dart';
@@ -52,39 +53,66 @@ class CreateAccountStep1 extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   PrimaryText(
-                    text: "Add Profile Image",
+                    text: Resources
+                        .of(context)
+                        .strings
+                        .addProfileImage,
                     textColor: context.resources.color.colorGrey5,
                   ),
 
                   SizedBox(height: 16),
 
                   LabeledTextFiled(
-                    label: "First Name",
-                    hint: "First Name",
+                    label: Resources
+                        .of(context)
+                        .strings
+                        .firstName,
+                    hint: Resources
+                        .of(context)
+                        .strings
+                        .firstName,
                     inputType: TextInputType.text,
                     isPassword: false,
                     isMandatory: true,
                     controller: dataController.firstNameController,
                   ),
                   LabeledTextFiled(
-                    label: "Last Name",
-                    hint: "Last Name",
+                    label: Resources
+                        .of(context)
+                        .strings
+                        .lastName,
+                    hint: Resources
+                        .of(context)
+                        .strings
+                        .lastName,
                     inputType: TextInputType.text,
                     isPassword: false,
                     isMandatory: true,
                     controller: dataController.lastNameController,
                   ),
                   LabeledTextFiled(
-                    label: "Title",
-                    hint: "Title",
+                    label: Resources
+                        .of(context)
+                        .strings
+                        .title,
+                    hint: Resources
+                        .of(context)
+                        .strings
+                        .title,
                     inputType: TextInputType.text,
                     isPassword: false,
                     isMandatory: true,
                     controller: dataController.titleController,
                   ),
                   LabeledTextFiled(
-                    label: "Email Address",
-                    hint: "Email Address",
+                    label: Resources
+                        .of(context)
+                        .strings
+                        .emailAddress,
+                    hint: Resources
+                        .of(context)
+                        .strings
+                        .emailAddress,
                     inputType: TextInputType.emailAddress,
                     isPassword: false,
                     isMandatory: true,
@@ -93,8 +121,14 @@ class CreateAccountStep1 extends StatelessWidget {
 
                   Obx(
                     () => PrimaryChooser(
-                      label: "Gender",
-                      text: "Gender",
+                      label: Resources
+                          .of(context)
+                          .strings
+                          .gender,
+                      text: Resources
+                          .of(context)
+                          .strings
+                          .gender,
                       selected: dataController.selectedGender.value,
                       onSelect: (value) {
                         dataController.selectedGender.value = value;
@@ -117,20 +151,35 @@ class CreateAccountStep1 extends StatelessWidget {
                       onSelectDate: (d) {
                         dataController.selectedDate.value = d;
                       },
-                      label: "Date of Birth",
+                      label: Resources
+                          .of(context)
+                          .strings
+                          .dateOfBirth,
                     ),
                   ),
                   LabeledTextFiled(
-                    label: "Password",
-                    hint: "New Password",
+                    label: Resources
+                        .of(context)
+                        .strings
+                        .password,
+                    hint: Resources
+                        .of(context)
+                        .strings
+                        .newPassword,
                     inputType: TextInputType.visiblePassword,
                     isPassword: true,
                     isMandatory: true,
                     controller: dataController.passwordController,
                   ),
                   LabeledTextFiled(
-                    label: "Confirm Password",
-                    hint: "Confirm Password",
+                    label: Resources
+                        .of(context)
+                        .strings
+                        .confirmPassword,
+                    hint: Resources
+                        .of(context)
+                        .strings
+                        .confirmPassword,
                     inputType: TextInputType.visiblePassword,
                     isPassword: true,
                     isMandatory: true,
@@ -146,7 +195,10 @@ class CreateAccountStep1 extends StatelessWidget {
           SizedBox(height: 16),
 
           PrimaryButton(
-            title: "Next",
+            title: Resources
+                .of(context)
+                .strings
+                .next,
             onPressed: () {
               dataController.verifyStep1();
             },

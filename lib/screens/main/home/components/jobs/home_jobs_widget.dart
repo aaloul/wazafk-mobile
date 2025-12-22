@@ -4,6 +4,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../skeletons/home_job_skeleton.dart';
 import 'home_job_item.dart';
@@ -56,7 +57,10 @@ class HomeJobsWidget extends StatelessWidget {
             if (controller.jobs.isEmpty) {
               return SizedBox(
                 height: 100,
-                child: Center(child: Text('No jobs available')),
+                child: Center(child: Text(Resources
+                    .of(context)
+                    .strings
+                    .noJobsAvailable)),
               );
             }
 

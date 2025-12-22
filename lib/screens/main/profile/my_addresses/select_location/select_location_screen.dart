@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'select_location_controller.dart';
 
@@ -20,7 +21,10 @@ class SelectLocationScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Select Location'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .selectLocation),
             Expanded(
               child: Obx(
                 () => controller.isLoading.value
@@ -108,7 +112,10 @@ class SelectLocationScreen extends StatelessWidget {
                             right: 20,
                             left: 20,
                             child: PrimaryButton(
-                              title: "Confirm",
+                              title: Resources
+                                  .of(context)
+                                  .strings
+                                  .confirm,
                               onPressed: controller.saveLocation,
                             ),
                           ),

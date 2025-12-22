@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../../utils/res/AppIcons.dart';
 import '../../../../components/progress_bar.dart';
@@ -148,7 +149,10 @@ class _FavoriteFreelancerItemState extends State<FavoriteFreelancerItem> {
 
                     SizedBox(height: 12),
                     PrimaryText(
-                      text: 'Services & Packages',
+                      text: Resources
+                          .of(context)
+                          .strings
+                          .servicesAndPackages,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       textColor: context.resources.color.colorBlue3,

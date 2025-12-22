@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../../components/primary_text.dart';
 
@@ -48,7 +49,7 @@ class IdentityUploadItem extends StatelessWidget {
             if (isOptional ?? false)
               Flexible(
                 child: PrimaryText(
-                  text: '(optional)',
+                  text: Resources.of(context).strings.optional,
                   textColor: context.resources.color.colorGrey3,
                   fontWeight: FontWeight.w400,
                   maxLines: 1,
@@ -92,7 +93,7 @@ class IdentityUploadItem extends StatelessWidget {
                             Image.asset(AppIcons.scan, width: 42),
                             SizedBox(height: 6),
                             PrimaryText(
-                              text: "Tap to Scan",
+                              text: Resources.of(context).strings.tapToScan,
                               fontWeight: FontWeight.w500,
                               textColor: context.resources.color.colorGrey3,
                             ),

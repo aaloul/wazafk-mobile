@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/auth/create_account/components/step2/create_account_step_2.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'components/create_account_steps.dart';
 import 'components/step1/create_account_step_1.dart';
@@ -36,7 +37,10 @@ class CreateAccountScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TopHeader(title: "Create Account", onBack: () {
+              TopHeader(title: Resources
+                  .of(context)
+                  .strings
+                  .createAccount, onBack: () {
                 if (dataController.index.value > 0) {
                   dataController.index.value = dataController.index.value - 1;
                 }

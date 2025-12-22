@@ -11,6 +11,7 @@ import 'package:wazafak_app/screens/chat/components/contact_list_item.dart';
 import 'package:wazafak_app/screens/chat/components/conversation_list_item.dart';
 import 'package:wazafak_app/screens/chat/components/empty_state_view.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
@@ -29,13 +30,19 @@ class ChatScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TopHeader(title: "Chat"),
+              TopHeader(title: Resources
+                  .of(context)
+                  .strings
+                  .chat),
               SizedBox(height: 8),
               _buildTabBar(context),
               SizedBox(height: 8),
               Expanded(
                 child: Obx(() =>
-                controller.selectedTab.value == "Ongoing Chat"
+                controller.selectedTab.value == Resources
+                    .of(context)
+                    .strings
+                    .ongoingChat
                     ? _buildOngoingChatTab(context)
                     : _buildActiveEmployersTab(context)),
               ),
@@ -81,7 +88,10 @@ class ChatScreen extends StatelessWidget {
       if (controller.conversations.isEmpty &&
           !controller.isLoadingConversations.value) {
         return EmptyStateView(
-          message: "No ongoing chats",
+          message: Resources
+              .of(context)
+              .strings
+              .noOngoingChats,
           icon: Icons.chat_bubble_outline,
         );
       }
@@ -155,7 +165,10 @@ class ChatScreen extends StatelessWidget {
       // Empty state
       if (controller.contacts.isEmpty && !controller.isLoading.value) {
         return EmptyStateView(
-          message: "No active employers",
+          message: Resources
+              .of(context)
+              .strings
+              .noActiveEmployers,
           icon: Icons.people_outline,
         );
       }

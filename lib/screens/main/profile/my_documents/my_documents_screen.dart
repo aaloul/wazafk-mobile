@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'components/my_document_item.dart';
 import 'my_documents_controller.dart';
@@ -19,7 +20,10 @@ class MyDocumentsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'My Documents'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .myDocuments),
             SizedBox(height: 16,),
             Expanded(
               child: Obx(() {
@@ -31,7 +35,10 @@ class MyDocumentsScreen extends StatelessWidget {
 
                 if (controller.documents.isEmpty) {
                   return Center(
-                    child: Text('No documents found'),
+                    child: Text(Resources
+                        .of(context)
+                        .strings
+                        .noDocumentsFound),
                   );
                 }
 

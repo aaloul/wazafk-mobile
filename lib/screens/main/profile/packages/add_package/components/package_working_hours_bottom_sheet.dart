@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/profile/packages/add_package/add_package_controller.dart';
 import 'package:wazafak_app/screens/main/profile/services/add_service/components/working_hours_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class PackageWorkingHoursBottomSheet extends StatelessWidget {
   const PackageWorkingHoursBottomSheet({super.key});
@@ -125,7 +126,7 @@ class PackageWorkingHoursBottomSheet extends StatelessWidget {
             child: SafeArea(
               top: false,
               child: PrimaryButton(
-                title: 'Save Working Hours',
+                title: Resources.of(context).strings.saveWorkingHours,
                 onPressed: () {
                   Navigator.pop(context);
                 },

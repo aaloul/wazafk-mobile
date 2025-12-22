@@ -4,6 +4,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/NotificationsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class NotificationDetailsSheet {
   static Future<void> show(
@@ -84,7 +85,7 @@ class NotificationDetailsSheet {
 
                   // Action Buttons
                   PrimaryButton(
-                    title: "Close",
+                    title: Resources.of(context).strings.close,
                     onPressed: () {
                       Navigator.pop(context);
                       onMarkAsRead?.call();

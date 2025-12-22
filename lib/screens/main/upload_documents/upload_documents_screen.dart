@@ -21,7 +21,7 @@ class UploadDocumentsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(title: 'Verify Your Identity'),
+            TopHeader(title: context.resources.strings.verifyYourIdentity),
             SizedBox(height: 16),
 
             Padding(
@@ -30,15 +30,14 @@ class UploadDocumentsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PrimaryText(
-                    text: 'Upload your documents',
+                    text: context.resources.strings.uploadYourDocuments,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorGrey,
                   ),
                   SizedBox(height: 8),
                   PrimaryText(
-                    text:
-                        'Please upload a clear photo of your identity documents to verify your account',
+                    text: context.resources.strings.uploadClearPhotoOfIdentity,
                     fontSize: 14,
                     textColor: context.resources.color.colorGrey7,
                   ),
@@ -65,7 +64,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                 child: Obx(
                   () => controller.selectedTab.value == "passport"
                       ? IdentityUploadItem(
-                          label: 'Passport',
+                          label: context.resources.strings.passport,
                           isMandatory: true,
                           isOptional: false,
                           onClick: () {
@@ -76,7 +75,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                       : Column(
                           children: [
                             IdentityUploadItem(
-                              label: 'Front ID',
+                              label: context.resources.strings.frontId,
                               isMandatory: true,
                               isOptional: false,
                               onClick: () {
@@ -89,7 +88,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 12),
                             IdentityUploadItem(
-                              label: 'Back ID',
+                              label: context.resources.strings.backId,
                               isMandatory: true,
                               isOptional: false,
                               onClick: () {
@@ -114,7 +113,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                 }
 
                 return PrimaryButton(
-                  title: "Upload & Verify",
+                  title: context.resources.strings.uploadAndVerify,
                   onPressed: controller.uploadDocuments,
                 );
               }),

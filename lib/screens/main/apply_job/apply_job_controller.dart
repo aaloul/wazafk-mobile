@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/repository/account/face_match_repository.dart';
 import 'package:wazafak_app/repository/engagement/submit_engagement_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class ApplyJobController extends GetxController {
@@ -216,7 +217,13 @@ class ApplyJobController extends GetxController {
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error selecting CV: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorSelectingCv(e.toString()),
+        SnackBarStatus.ERROR,
+      );
       print('Error picking CV: $e');
     }
   }
@@ -276,18 +283,33 @@ class ApplyJobController extends GetxController {
   Future<void> submitApplication() async {
     // Validate form
     if (budgetController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter your budget', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseEnterYourBudget,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
 
     if (selectedDuration.value == null) {
-      constants.showSnackBar('Please select a duration', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectDuration,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
 
     if (descriptionController.text.trim().isEmpty) {
       constants.showSnackBar(
-        'Please enter a description',
+        Resources
+            .of(Get.context!)
+            .strings
+            .enterYourMessage,
         SnackBarStatus.ERROR,
       );
       return;

@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class DisputeBottomSheet extends StatelessWidget {
   const DisputeBottomSheet({super.key});
@@ -41,7 +42,7 @@ class DisputeBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PrimaryText(
-                    text: 'Submit Dispute',
+                    text: Resources.of(context).strings.submitDispute,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorGrey,
@@ -77,8 +78,8 @@ class DisputeBottomSheet extends StatelessWidget {
                     // Reason Description Field
                     MultilineLabeledTextField(
                       controller: controller.disputeReasonController,
-                      label: 'Reason',
-                      hint: 'Enter the reason for dispute...',
+                      label: Resources.of(context).strings.reason,
+                      hint: Resources.of(context).strings.enterReasonForDispute,
                       maxLines: 20,
                       height: 200,
                       labelFontSize: 14,
@@ -108,7 +109,7 @@ class DisputeBottomSheet extends StatelessWidget {
                 () => controller.isSubmittingDispute.value
                     ? Center(child: ProgressBar())
                     : PrimaryButton(
-                        title: 'Submit Dispute',
+                        title: Resources.of(context).strings.submitDispute,
                         onPressed: controller.submitDispute,
                       ),
               ),

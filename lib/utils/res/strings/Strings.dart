@@ -1,4 +1,904 @@
 /// Interface strings
 abstract class Strings {
+  // Auth Screens
   String get login;
+
+  String get createAccount;
+
+  String get welcome;
+
+  String get forgetYourPassword;
+
+  String get resetMyPassword;
+
+  String get verifyYourIdentity;
+
+  String get startYourJourney;
+
+  String get uploadAndVerify;
+
+  String get verifyAndContinue;
+
+  String get verifyAndApply;
+
+  String get verify;
+
+  // Form Labels
+  String get firstName;
+
+  String get lastName;
+
+  String get title;
+
+  String get emailAddress;
+
+  String get password;
+
+  String get confirmPassword;
+
+  String get newPassword;
+
+  String get oldPassword;
+
+  String get gender;
+
+  String get dateOfBirth;
+
+  String get phoneNumber;
+
+  String get duration;
+
+  String get messageToEmployer;
+
+  String get messageToClient;
+
+  String get messageToFreelancer;
+
+  String get yourReview;
+
+  String get passport;
+
+  String get frontId;
+
+  String get backId;
+
+  String get label;
+
+  String get address;
+
+  String get city;
+
+  String get street;
+
+  String get building;
+
+  String get apartment;
+
+  String get category;
+
+  String get subcategory;
+
+  String get hourlyRate;
+
+  String get overview;
+
+  String get responsibilities;
+
+  String get requirements;
+
+  String get message;
+
+  String get portfolioLink;
+
+  String get about;
+
+  String get tellUsAboutYourself;
+
+  // Form Hints
+  String get amountInUsd;
+
+  String get briefDescription;
+
+  String get enterYourPrice;
+
+  String get enterEstimatedHours;
+
+  String get enterTheReasonForDispute;
+
+  String get enterYourMessage;
+
+  String get searchJobsServicesPackages;
+
+  String get searchCategories;
+
+  String get searchSubcategories;
+
+  String get addYourFeedback;
+
+  String get startTypingToSearch;
+
+  String get chooseLocation;
+
+  String get selectExpiryDate;
+
+  String get selectExpiryTime;
+
+  String get selectServices;
+
+  String get selectTime;
+
+  // Button Labels
+  String get back;
+
+  String get next;
+
+  String get continueBtn;
+
+  String get close;
+
+  String get acceptRequest;
+
+  String get decline;
+
+  String get negotiate;
+
+  String get finishEngagement;
+
+  String get submitDispute;
+
+  String get acceptFinish;
+
+  String get rejectFinish;
+
+  String get submitNegotiation;
+
+  String get acceptChange;
+
+  String get declineChange;
+
+  String get bookNow;
+
+  String get submitApplication;
+
+  String get addNewAddress;
+
+  String get applyNow;
+
+  String get logout;
+
+  String get delete;
+
+  String get cancel;
+
+  String get createNewJob;
+
+  String get editAddress;
+
+  String get addAddress;
+
+  String get saveAddress;
+
+  String get createNewPack;
+
+  String get createNewService;
+
+  String get updateProfile;
+
+  String get jobUpdated;
+
+  String get jobPosted;
+
+  String get editProfileImage;
+
+  // Navigation & Screen Titles
+  String get engagement;
+
+  String get chat;
+
+  String get notifications;
+
+  String get allCategories;
+
+  String get selectPortal;
+
+  String get allJobs;
+
+  String get allEngagements;
+
+  String get services;
+
+  // Validation Messages
+  String get firstNameRequired;
+
+  String get lastNameRequired;
+
+  String get titleRequired;
+
+  String get emailRequired;
+
+  String get passwordRequired;
+
+  String get newPasswordRequired;
+
+  String get passwordsDoNotMatch;
+
+  String get pleaseEnterValidOtp;
+
+  String get pleaseEnterJobTitle;
+
+  String get pleaseSelectLocation;
+
+  String get pleaseSelectCategory;
+
+  String get pleaseSelectJobType;
+
+  String get pleaseEnterHourlyRate;
+
+  String get pleaseEnterOverview;
+
+  String get pleaseEnterRequirements;
+
+  String get pleaseSelectRating;
+
+  String get pleaseEnterLabel;
+
+  String get pleaseEnterAddress;
+
+  String get pleaseEnterStreet;
+
+  String get pleaseEnterBuilding;
+
+  String get pleaseMakeChange;
+
+  String get pleaseSelectDuration;
+
+  String get pleaseEnterYourBudget;
+
+  String get pleaseSelectStartDate;
+
+  String get pleaseSelectStartTime;
+
+  String get pleaseSelectAtLeastOneSkill;
+
+  String get pleaseEnterResponsibilities;
+
+  String get pleaseEnterTitle;
+
+  String get pleaseEnterDescription;
+
+  String get pleaseEnterUnitPrice;
+
+  String get pleaseEnterTotalPrice;
+
+  String get pleaseSelectAtLeastOneAddress;
+
+  String get pleaseEnterWorkExperience;
+
+  // Success Messages
+  String get addedToFavorites;
+
+  String get removedFromFavorites;
+
+  String get addressDeletedSuccessfully;
+
+  String get accountDeletedSuccessfully;
+
+  String get loggedOutSuccessfully;
+
+  String get yourJobIsNowLive;
+
+  String get yourPackageIsNowLive;
+
+  String get yourServiceIsNowLive;
+
+  String get packageUpdated;
+
+  String get packagePosted;
+
+  String get serviceUpdated;
+
+  String get servicePosted;
+
+  String get viewProfile;
+
+  // Error Messages
+  String errorLoadingJobs(String error);
+
+  String errorLoadingSkills(String error);
+
+  String errorLoadingWallet(String error);
+
+  String errorLoadingProfile(String error);
+
+  String errorLoadingFaqs(String error);
+
+  String errorLoadingData(String error);
+
+  String errorSearching(String error);
+
+  String errorLoadingMore(String error);
+
+  String errorBookingService(String error);
+
+  String errorDisablingJob(String error);
+
+  String errorSelectingCv(String error);
+
+  String errorCapturingImage(String error);
+
+  String errorSelectingImage(String error);
+
+  String errorSelectingFile(String error);
+
+  String get errorSubmittingDispute;
+
+  String get failedToRemoveFavorite;
+
+  String get failedToLoadContacts;
+
+  String get failedToLoadConversations;
+
+  String get failedToDeleteAddress;
+
+  String get failedToDeleteAccount;
+
+  String get logoutFailed;
+
+  String get noInternetConnection;
+
+  String get errorUpdatingJob;
+
+  String get errorPostingJob;
+
+  String errorUpdatingJobWithParam(String error);
+
+  String errorPostingJobWithParam(String error);
+
+  String get failedToUpdatePackage;
+
+  String get failedToAddPackage;
+
+  String errorAddingPackageWithParam(String error);
+
+  String get failedToUpdateService;
+
+  String get failedToAddService;
+
+  String errorAddingServiceWithParam(String error);
+
+  // Network Error Messages
+  String errorDuringCommunication(String error);
+
+  String invalidRequest(String error);
+
+  String unauthorised(String error);
+
+  String invalidInput(String error);
+
+  String couldNotLaunchUrl(String url);
+
+  // Empty States
+  String get noCategoriesAvailable;
+
+  String get noJobsAvailable;
+
+  String get noServicesAvailable;
+
+  String get noPackagesAvailable;
+
+  String get noAddressesFound;
+
+  String get noDocumentsFound;
+
+  String get noContentAvailable;
+
+  String get noFaqsAvailable;
+
+  String get noResultsFound;
+
+  String get noDataAvailable;
+
+  String get noChangeRequestDetailsAvailable;
+
+  String get noEngagementDetailsAvailable;
+
+  String get noApplicantsYet;
+
+  String get noJobDetailsAvailable;
+
+  String get noNotificationsYet;
+
+  String get noPackageDetailsAvailable;
+
+  String get noProfileDetailsAvailable;
+
+  String get noRatingCriteriaAvailable;
+
+  String get noServiceDetailsAvailable;
+
+  String get noSkillsAddedYet;
+
+  String get applicationsWillAppearHere;
+
+  String get trySearchingWithDifferentKeywords;
+
+  // Dialog Messages
+  String get areYouSureLogout;
+
+  String get areYouSureDeleteAccount;
+
+  String get areYouSureDeleteAddress;
+
+  // UI Component Text
+  String get addProfileImage;
+
+  String get applications;
+
+  String get totalTransactions;
+
+  String get totalPayout;
+
+  String get today;
+
+  String get yesterday;
+
+  String daysAgo(int days);
+
+  String hoursAgo(int hours);
+
+  String minutesAgo(int minutes);
+
+  String get justNow;
+
+  String get unknown;
+
+  String get notAvailable;
+
+  String get done;
+
+  String get rating;
+
+  String get location;
+
+  String get date;
+
+  String get applicants;
+
+  String get completedJobs;
+
+  String get jobsPosted;
+
+  String get availableJobs;
+
+  String get jobType;
+
+  String get startTime;
+
+  String get startDate;
+
+  String get expiryDate;
+
+  String get expiryTime;
+
+  String get serviceType;
+
+  String get recentTransactions;
+
+  String get remaining;
+
+  String get totalValue;
+
+  String get sortBy;
+
+  String get viewAll;
+
+  String get verifyNow;
+
+  String get notVerified;
+
+  String get freelancerHired;
+
+  String memberSince(String year);
+
+  // Additional Engagement Strings
+  String get negotiateTerms;
+
+  String get reason;
+
+  String get enterReasonForDispute;
+
+  String get booking;
+
+  String get milestones;
+
+  String get changeRequest;
+
+  String get requestedBy;
+
+  String get changedFields;
+
+  String get currentPrice;
+
+  String get newPrice;
+
+  String get currentTotal;
+
+  String get newTotal;
+
+  String get currentHours;
+
+  String get newHours;
+
+  String get currentStartDate;
+
+  String get newStartDate;
+
+  String get currentDueDate;
+
+  String get newDueDate;
+
+  String get engagementDetails;
+
+  String get uploadDeliverables;
+
+  String get pleaseUploadCompletedWorkDeliverables;
+
+  String get tapToUploadFile;
+
+  String get cvFile;
+
+  String get completedDeliverables;
+
+  String get deliverablesFile;
+
+  String get waitingForReply;
+
+  String get upcomingTasksAndProjects;
+
+  // Additional Error Messages
+  String errorFetchingAddresses(String error);
+
+  String errorInitializingCamera(String error);
+
+  String get noCategoriesFound;
+
+  // App Title
+  String get appTitle;
+
+  // Phone Number & Verification
+  String get loginRegister;
+
+  String get messageAndDateRates;
+
+  String get termsOfUse;
+
+  String get and;
+
+  String get privacyPolicy;
+
+  String get enterVerificationCode;
+
+  String get otpHasBeenSent;
+
+  String get didntReceiveOtp;
+
+  String get resendCode;
+
+  // Portal Selection
+  String get freelancerPortal;
+
+  String get employerPortal;
+
+  // Onboarding
+  String get skip;
+
+  // Main Navigation
+  String get home;
+
+  String get projects;
+
+  String get myJobs;
+
+  String get activity;
+
+  String get profile;
+
+  // Chat
+  String get ongoingChat;
+
+  String get activeEmployers;
+
+  String get noOngoingChats;
+
+  String get noActiveEmployers;
+
+  // Search
+  String get search;
+
+  String get searchJobsProjects;
+
+  String get trySearchingDifferentKeywords;
+
+  // Subcategories
+  String get noSubcategoriesFound;
+
+  // Job Application
+  String get jobDetailsNotAvailable;
+
+  String get amountRequiredForThisJob;
+
+  String get perHour;
+
+  String get youllReceive;
+
+  String get profit;
+
+  String get applicationCommissionFees;
+
+  String get howLongWillItTake;
+
+  String get selectDuration;
+
+  String get hours;
+
+  String get description;
+
+  String get attachments;
+
+  String get cvSelected;
+
+  String get uploadCv;
+
+  String get briefDescriptionSuitableCandidate;
+
+  // Engagement Details
+  String get viewEngagement;
+
+  String get viewApplications;
+
+  String get disableTask;
+
+  String get viewChanges;
+
+  String get submitAndFinish;
+
+  String get price;
+
+  String get estimatedHours;
+
+  String get selectDateRange;
+
+  String get verifyFaceMatch;
+
+  String get takeASelfieToVerify;
+
+  String get initializingCamera;
+
+  String get cameraNotAvailable;
+
+  String get pleaseCheckCameraPermissions;
+
+  // Create Account Steps
+  String get chooseInterest;
+
+  String get chooseUpToFiveInterests;
+
+  String get personalId;
+
+  String get tapToScan;
+
+  String get optional;
+
+  // Upload Documents
+  String get uploadYourDocuments;
+
+  String get uploadClearPhotoOfIdentity;
+
+  // Rating
+  String get submitRating;
+
+  // Package/Service Forms
+  String get enterPackageDescription;
+
+  String get enterYourDescription;
+
+  String get unitPrice;
+
+  String get totalPrice;
+
+  String get bufferTime;
+
+  String get enterYourExperience;
+
+  String get selectCategory;
+
+  String get selectSubcategory;
+
+  String get selectBufferTime;
+
+  String get packDetails;
+
+  String get coverImage;
+
+  String get areasYouCover;
+
+  String get availability;
+
+  String get generalDetails;
+
+  // Password
+  String get changePassword;
+
+  // Skills Sheet
+  String get apply;
+
+  String get noSkillsAvailableForCategory;
+
+  String get selectSkills;
+
+  // Address Sheet
+  String get selectAddress;
+
+  String get selectAddresses;
+
+  String get noAddressesAvailable;
+
+  String get pleaseAddAddressFromProfile;
+
+  // Activity
+  String get servicesAndPackages;
+
+  String get skills;
+
+  // Profile Settings Menu
+  String get settings;
+
+  String get personalInformation;
+
+  String get myDocuments;
+
+  String get packs;
+
+  String get myAddresses;
+
+  String get loginAndSecurity;
+
+  String get paymentsAndEarnings;
+
+  String get privacyAndSharing;
+
+  String get changeLanguage;
+
+  String get wayOfPayment;
+
+  String get workingDays;
+
+  String get rewardsAndCredits;
+
+  String get shareApp;
+
+  String get support;
+
+  String get aboutUs;
+
+  String get helpCenter;
+
+  String get giveUsFeedback;
+
+  String get deleteAccount;
+
+  // Login & Security
+  String get savedLogin;
+
+  String get whereYoureLoggedIn;
+
+  String get loginAlerts;
+
+  String get passwordAndSecurity;
+
+  String get securityChecks;
+
+  // Notifications
+  String get notificationsOption;
+
+  String get generalNotification;
+
+  String get sound;
+
+  String get vibrate;
+
+  String get systemAndServicesUpdate;
+
+  String get appUpdates;
+
+  String get billReminder;
+
+  String get promotion;
+
+  String get discountAvailable;
+
+  String get paymentRequest;
+
+  String get other;
+
+  String get newJobsAvailable;
+
+  String get newTalentsAvailable;
+
+  // Statistics
+  String get totalEarnings;
+
+  String get activeJobs;
+
+  String get completed;
+
+  String get successRate;
+
+  String get wallet;
+
+  // Job Details
+  String get freelancersApplications;
+
+  // Service/Package Details
+  String get bookPackage;
+
+  // Invite Friends
+  String get inviteAFriend;
+
+  String get byEmailAddress;
+
+  String get byWhatsapp;
+
+  String get download;
+
+  String get enterEmailAssociatedWithAccount;
+
+  String get verification;
+
+  String get hiredOrWorked;
+
+  String get inviteFriendAndGet;
+
+  String get rateUsAndLeaveFeedback;
+
+  // Working Hours
+  String get saveWorkingHours;
+
+  // Services Selection
+  String get confirmSelection;
+
+  // Image Source
+  String get selectImageSource;
+
+  String get camera;
+
+  String get takeANewPhoto;
+
+  String get gallery;
+
+  String get chooseFromGallery;
+
+  // Location
+  String get selectLocation;
+
+  String get confirm;
+
+  // Apply Language
+  String get applyLanguage;
+
+  // Empty States & Retry
+  String get retry;
+
+  String get noDataAvailableCheckLater;
+
+  // Freelancers & Services
+  String get freelancersAndServices;
+
+  // Verify & Book
+  String get verifyAndBook;
+
+  // Other
+  String errorOccuredCommunication(String statusCode);
+
+  String get noInternetConnectionLowercase;
 }

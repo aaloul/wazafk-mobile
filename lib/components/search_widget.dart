@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/utils/extentions.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../utils/res/AppIcons.dart';
 import '../utils/utils.dart';
@@ -127,7 +128,9 @@ class SearchWidget extends StatelessWidget {
                         ),
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
-                        hintText: hint ?? "Search jobs, Projects",
+                        hintText:
+                            hint ??
+                            Resources.of(context).strings.searchJobsProjects,
                         hintStyle: TextStyle(
                           color: context.resources.color.colorGrey7,
                           fontWeight: FontWeight.w400,

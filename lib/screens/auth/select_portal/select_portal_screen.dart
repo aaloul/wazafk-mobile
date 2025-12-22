@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 import '../../../components/top_header.dart';
@@ -19,7 +20,10 @@ class SelectPortalScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TopHeader(title: "Select Portal"),
+            TopHeader(title: Resources
+                .of(context)
+                .strings
+                .selectPortal),
             SizedBox(height: 24),
 
             Expanded(
@@ -29,7 +33,10 @@ class SelectPortalScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PortalItem(
-                      title: 'Freelancer Portal',
+                      title: Resources
+                          .of(context)
+                          .strings
+                          .freelancerPortal,
                       onClick: () {
                         Prefs.setUserMode('freelancer');
                         Get.offAllNamed(RouteConstant.mainNavigationScreen);
@@ -40,7 +47,10 @@ class SelectPortalScreen extends StatelessWidget {
                     SizedBox(height: 10),
 
                     PortalItem(
-                      title: 'Employer Portal',
+                      title: Resources
+                          .of(context)
+                          .strings
+                          .employerPortal,
                       onClick: () {
                         Prefs.setUserMode('employer');
                         Get.offAllNamed(RouteConstant.mainNavigationScreen);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class ImageSourceBottomSheet {
   static Future<XFile?> show(BuildContext context) async {
@@ -37,7 +38,7 @@ class ImageSourceBottomSheet {
 
               // Title
               PrimaryText(
-                text: 'Select Image Source',
+                text: Resources.of(context).strings.selectImageSource,
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 textColor: context.resources.color.colorPrimary,
@@ -62,13 +63,13 @@ class ImageSourceBottomSheet {
                   ),
                 ),
                 title: PrimaryText(
-                  text: 'Camera',
+                  text: Resources.of(context).strings.camera,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   textColor: context.resources.color.colorPrimary,
                 ),
                 subtitle: PrimaryText(
-                  text: 'Take a new photo',
+                  text: Resources.of(context).strings.takeANewPhoto,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   textColor: context.resources.color.colorGrey,
@@ -102,13 +103,13 @@ class ImageSourceBottomSheet {
                   ),
                 ),
                 title: PrimaryText(
-                  text: 'Gallery',
+                  text: Resources.of(context).strings.gallery,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   textColor: context.resources.color.colorPrimary,
                 ),
                 subtitle: PrimaryText(
-                  text: 'Choose from gallery',
+                  text: Resources.of(context).strings.chooseFromGallery,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   textColor: context.resources.color.colorGrey,
@@ -136,7 +137,7 @@ class ImageSourceBottomSheet {
                     ),
                   ),
                   child: PrimaryText(
-                    text: 'Cancel',
+                    text: Resources.of(context).strings.cancel,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     textColor: context.resources.color.colorGrey,

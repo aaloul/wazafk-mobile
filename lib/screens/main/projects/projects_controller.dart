@@ -6,6 +6,7 @@ import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.d
 
 import '../../../model/FavoritesResponse.dart';
 import '../../../utils/Prefs.dart';
+import '../../../utils/res/Resources.dart';
 import '../../../utils/utils.dart';
 import '../home/home_controller.dart';
 
@@ -139,19 +140,20 @@ class ProjectsController extends GetxController {
         controller.refreshHomeData();
 
         // Show success message
-        constants.showSnackBar(
-          'Job removed from favorites',
-          SnackBarStatus.SUCCESS,
+        constants.showSnackBar(esources.of(Get.context!).strings.removedFromFavorites,
+          SSnackBarStatus.SUCCESS,
         );
       } else {
-        constants.showSnackBar(
-          response.message ?? 'Failed to remove favorite',
-          SnackBarStatus.ERROR,
+        constants.showSnackBar(esponse.message ??
+              Resources.of(Get.context!).strings.failedToRemoveFavorite,
+          SSnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      print('Error toggling job favorite: $e');
-      constants.showSnackBar('Failed to remove favorite', SnackBarStatus.ERROR);
+      print('Error toggling job favorite: $e');onstants.showSnackBar(
+        Resources.of(Get.context!).strings.failedToRemoveFavorite,
+        SnackBarStatus.ERROR,
+      );
     } finally {
       removingFavoriteHashcode.value = '';
     }

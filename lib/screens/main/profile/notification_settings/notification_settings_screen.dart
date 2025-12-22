@@ -20,7 +20,7 @@ class NotificationSettingsScreen extends StatelessWidget {
           children: [
             TopHeader(
               hasBack: true,
-              title: 'Notifications Option',
+              title: context.resources.strings.notificationsOption,
             ),
             SizedBox(height: 8,),
 

@@ -8,6 +8,7 @@ import 'package:wazafak_app/screens/main/activity/components/favorite_freelancer
 import 'package:wazafak_app/screens/main/home/components/skeletons/home_freelancer_skeleton.dart';
 import 'package:wazafak_app/screens/main/projects/components/projects/project_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'activities_controller.dart';
 import 'components/favorite_package_item.dart';
@@ -35,7 +36,10 @@ class ActivityScreen extends StatelessWidget {
             children: [
               TopHeader(
                 hasBack: false,
-                title: 'Activity',
+                title: Resources
+                    .of(context)
+                    .strings
+                    .activity,
 
               ),
 

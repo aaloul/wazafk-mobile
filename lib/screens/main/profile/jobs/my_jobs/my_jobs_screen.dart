@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/skeletons/my_job_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'components/item_my_job.dart';
 import 'my_jobs_controller.dart';
@@ -26,7 +27,10 @@ class MyJobsScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: false, title: 'My Jobs'),
+              TopHeader(hasBack: false, title: Resources
+                  .of(context)
+                  .strings
+                  .myJobs),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -41,7 +45,10 @@ class MyJobsScreen extends StatelessWidget {
                   }
 
                   if (controller.jobs.isEmpty) {
-                    return Center(child: Text('No jobs available'));
+                    return Center(child: Text(Resources
+                        .of(context)
+                        .strings
+                        .noJobsAvailable));
                   }
 
                   return ListView.separated(
@@ -64,7 +71,10 @@ class MyJobsScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16),
                 child: PrimaryButton(
-                  title: "Create New Job",
+                  title: Resources
+                      .of(context)
+                      .strings
+                      .createNewJob,
                   onPressed: () {
                     Get.toNamed(RouteConstant.addJobScreen);
                   },

@@ -16,7 +16,8 @@ class WhereLoggedInScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: "Where You're Logged In"),
+            TopHeader(hasBack: true,
+                title: context.resources.strings.whereYoureLoggedIn),
             SizedBox(height: 16),
             // Expanded(
             //   child: Obx(() {

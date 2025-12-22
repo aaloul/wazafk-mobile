@@ -4,6 +4,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/skeletons/category_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/search_widget.dart';
 import 'components/sub_category_item.dart';
@@ -37,7 +38,10 @@ class SubcategoriesScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: SearchWidget(
-                hint: 'Search subcategories...',
+                hint: Resources
+                    .of(context)
+                    .strings
+                    .searchSubcategories,
                 borderRadius: 0,
                 onTextChangedWithDelay: (text) {
                   controller.searchSubcategories(text);
@@ -71,8 +75,14 @@ class SubcategoriesScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         PrimaryText(
                           text: controller.searchQuery.value.isEmpty
-                              ? 'No subcategories found'
-                              : 'No results found',
+                              ? Resources
+                              .of(context)
+                              .strings
+                              .noSubcategoriesFound
+                              : Resources
+                              .of(context)
+                              .strings
+                              .noResultsFound,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           textColor: context.resources.color.colorGrey8,
@@ -82,7 +92,10 @@ class SubcategoriesScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 32),
                             child: PrimaryText(
-                              text: 'Try searching with different keywords',
+                              text: Resources
+                                  .of(context)
+                                  .strings
+                                  .trySearchingDifferentKeywords,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey,

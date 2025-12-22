@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/repository/account/login_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../utils/utils.dart';
 
@@ -28,7 +29,13 @@ class LoginPasswordController extends GetxController {
 
   Future<void> login() async {
     if (passwordController.text.isEmpty) {
-      constants.showSnackBar('Password is required', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources
+            .of(Get.context!)
+            .strings
+            .passwordRequired,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
 
@@ -47,7 +54,10 @@ class LoginPasswordController extends GetxController {
         );
       } else {
         constants.showSnackBar(
-          response.message ?? 'Login failed',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .login,
           SnackBarStatus.ERROR,
         );
       }

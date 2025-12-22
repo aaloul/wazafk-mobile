@@ -6,6 +6,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import '../../components/primary_text_field.dart';
 import '../../components/top_header.dart';
 import '../../utils/res/AppIcons.dart';
+import '../../utils/res/Resources.dart';
 import 'components/messages_shimmer.dart';
 import 'components/messages_widget.dart';
 
@@ -111,7 +112,10 @@ class _ConversationMessagesScreenState
                               Expanded(
                                 child: PrimaryTextField(
                                   controller: dataController.messageController,
-                                  hint: "Message",
+                                  hint: Resources
+                                      .of(context)
+                                      .strings
+                                      .message,
                                   borderRadius: 36,
                                   borderColor:
                                       context.resources.color.background2,

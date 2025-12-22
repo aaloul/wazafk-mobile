@@ -20,7 +20,8 @@ class ChangeLanguageScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Change Language'),
+            TopHeader(
+                hasBack: true, title: context.resources.strings.changeLanguage),
             SizedBox(height: 16),
             Expanded(
               child: ListView.separated(
@@ -50,7 +51,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                   : Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       child: PrimaryButton(
-                        title: "Apply Language",
+                        title: context.resources.strings.applyLanguage,
                         onPressed: () {
                           controller.changeLanguage(
                             controller.selectedLanguage.value,

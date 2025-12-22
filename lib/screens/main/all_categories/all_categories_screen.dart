@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/skeletons/category_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/search_widget.dart';
 import '../subcategories/components/sub_category_item.dart';
@@ -22,13 +22,19 @@ class AllCategoriesScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'All Categories'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .allCategories),
 
             // Search bar
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: SearchWidget(
-                hint: 'Search categories...',
+                hint: Resources
+                    .of(context)
+                    .strings
+                    .searchCategories,
                 borderRadius: 0,
                 onTextChangedWithDelay: (text) {
                   controller.searchCategories(text);
@@ -62,8 +68,14 @@ class AllCategoriesScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         PrimaryText(
                           text: controller.searchQuery.value.isEmpty
-                              ? 'No categories found'
-                              : 'No results found',
+                              ? Resources
+                              .of(context)
+                              .strings
+                              .noCategoriesFound
+                              : Resources
+                              .of(context)
+                              .strings
+                              .noResultsFound,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           textColor: context.resources.color.colorGrey8,

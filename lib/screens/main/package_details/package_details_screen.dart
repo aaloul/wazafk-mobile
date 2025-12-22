@@ -96,7 +96,8 @@ class PackageDetailsScreen extends StatelessWidget {
                                   SizedBox(height: 4),
 
                                   PrimaryText(
-                                    text: package.description ?? "N/A",
+                                    text: package.description ??
+                                        context.resources.strings.notAvailable,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                     textColor: context.resources.color
@@ -132,7 +133,7 @@ class PackageDetailsScreen extends StatelessWidget {
                       Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: PrimaryButton(
-                        title: 'Book Package',
+                        title: context.resources.strings.bookPackage,
                         onPressed: () {
                           Get.toNamed(
                             RouteConstant.bookServiceScreen,

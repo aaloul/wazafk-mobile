@@ -16,11 +16,12 @@ class InviteFriendsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Invite a Friend'),
+            TopHeader(
+                hasBack: true, title: context.resources.strings.inviteAFriend),
             SizedBox(height: 16),
 
             InviteFriendItem(
-              title: 'By e-mail Address',
+              title: context.resources.strings.byEmailAddress,
               onClick: () {},
               color: HexColor("#CDE9EE"),
               border: HexColor("#CDE9EE"),
@@ -29,7 +30,7 @@ class InviteFriendsScreen extends StatelessWidget {
 
             SizedBox(height: 10),
             InviteFriendItem(
-              title: 'By WhatsApp',
+              title: context.resources.strings.byWhatsapp,
               onClick: () {},
               color: HexColor("#E7F3EE"),
               border: HexColor("#E7F3EE"),

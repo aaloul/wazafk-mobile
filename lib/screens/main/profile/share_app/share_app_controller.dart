@@ -1,28 +1,26 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../model/SettingsModel.dart';
 import '../../../../utils/res/AppIcons.dart';
 
 class ShareAppController extends GetxController {
-  final List<SettingsModel> settingItems = [
+  List<SettingsModel> get settingItems => [
     SettingsModel(
-      title: 'Download',
-      desc:
-          "Enter the email associated with your account and we’ll send an email with code to reset your password. ",
+      title: Resources.of(Get.context!).strings.download,
+      desc: Resources.of(Get.context!).strings.enterEmailAssociatedWithAccount,
       icon: AppIcons.shareDownload,
       id: 0,
     ),
     SettingsModel(
-      title: 'Verification',
-      desc:
-          "Enter the email associated with your account and we’ll send an email with code to reset your password. ",
+      title: Resources.of(Get.context!).strings.verification,
+      desc: Resources.of(Get.context!).strings.enterEmailAssociatedWithAccount,
       icon: AppIcons.shareVerification,
       id: 1,
     ),
     SettingsModel(
-      title: 'Hired or Worked',
-      desc:
-          "Enter the email associated with your account and we’ll send an email with code to reset your password.",
+      title: Resources.of(Get.context!).strings.hiredOrWorked,
+      desc: Resources.of(Get.context!).strings.enterEmailAssociatedWithAccount,
       icon: AppIcons.shareHired,
       id: 2,
     ),

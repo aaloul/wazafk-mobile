@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'Prefs.dart';
 
@@ -166,7 +167,7 @@ class Utils {
 String getErrorMessage(String e) {
   if (e.contains('ClientException with SocketException') ||
       e.contains('Failed host lookup')) {
-    return "No Internet Connection!";
+    return Resources.of(Get.context!).strings.noInternetConnection;
   } else if (e.toString().toLowerCase() == 'unauthorized') {
     Prefs.clearUser();
     // Get.offAllNamed(RouteConstant.LoginScreen);

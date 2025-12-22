@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class IdentityTabBar extends StatelessWidget {
   const IdentityTabBar({
@@ -42,7 +43,7 @@ class IdentityTabBar extends StatelessWidget {
                 ),
                 child: Center(
                   child: PrimaryText(
-                    text: "Personal ID",
+                    text: Resources.of(context).strings.personalId,
                     fontWeight: FontWeight.w500,
                     textColor: selected == "personal_id"
                         ? context.resources.color.colorWhite
@@ -70,7 +71,7 @@ class IdentityTabBar extends StatelessWidget {
                 ),
                 child: Center(
                   child: PrimaryText(
-                    text: "Passport",
+                    text: Resources.of(context).strings.passport,
                     fontWeight: FontWeight.w500,
                     textColor: selected != "personal_id"
                         ? context.resources.color.colorWhite

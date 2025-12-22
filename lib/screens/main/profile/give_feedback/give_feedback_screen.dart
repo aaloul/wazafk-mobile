@@ -23,7 +23,8 @@ class GiveFeedbackScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Give Us Feedback'),
+            TopHeader(
+                hasBack: true, title: context.resources.strings.giveUsFeedback),
             SizedBox(height: 8),
             Expanded(
               child: SingleChildScrollView(
@@ -80,8 +81,8 @@ class GiveFeedbackScreen extends StatelessWidget {
                       SizedBox(height: 8),
                       MultilineLabeledTextField(
                         controller: controller.feedbackController,
-                        label: 'Your Review',
-                        hint: 'Add your feedback',
+                        label: context.resources.strings.yourReview,
+                        hint: context.resources.strings.addYourFeedback,
                         maxLines: 20,
                         height: 120,
                         inputType: TextInputType.text,
@@ -100,7 +101,7 @@ class GiveFeedbackScreen extends StatelessWidget {
                   : Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       child: PrimaryButton(
-                        title: "Submit",
+                        title: context.resources.strings.submitApplication,
                         onPressed: () {
                           controller.submitFeedback();
                         },

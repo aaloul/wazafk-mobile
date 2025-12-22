@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class ChatTabBar extends StatelessWidget {
   const ChatTabBar({
@@ -23,20 +24,23 @@ class ChatTabBar extends StatelessWidget {
           Expanded(
             flex: 1,
             child: GestureDetector(
-              onTap: () => onTabSelected("Ongoing Chat"),
+              onTap: () =>
+                  onTabSelected(Resources.of(context).strings.ongoingChat),
               child: Container(
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: selectedTab == "Ongoing Chat"
+                  color:
+                      selectedTab == Resources.of(context).strings.ongoingChat
                       ? context.resources.color.colorPrimary
                       : context.resources.color.colorWhite,
                 ),
                 child: Center(
                   child: PrimaryText(
-                    text: "Ongoing Chat",
+                    text: Resources.of(context).strings.ongoingChat,
                     fontWeight: FontWeight.w500,
-                    textColor: selectedTab == "Ongoing Chat"
+                    textColor:
+                        selectedTab == Resources.of(context).strings.ongoingChat
                         ? context.resources.color.colorWhite
                         : context.resources.color.colorGrey3,
                   ),
@@ -47,20 +51,25 @@ class ChatTabBar extends StatelessWidget {
           Expanded(
             flex: 1,
             child: GestureDetector(
-              onTap: () => onTabSelected("Active Employers"),
+              onTap: () =>
+                  onTabSelected(Resources.of(context).strings.activeEmployers),
               child: Container(
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: selectedTab == "Active Employers"
+                  color:
+                      selectedTab ==
+                          Resources.of(context).strings.activeEmployers
                       ? context.resources.color.colorPrimary
                       : context.resources.color.colorWhite,
                 ),
                 child: Center(
                   child: PrimaryText(
-                    text: "Active Employers",
+                    text: Resources.of(context).strings.activeEmployers,
                     fontWeight: FontWeight.w500,
-                    textColor: selectedTab == "Active Employers"
+                    textColor:
+                        selectedTab ==
+                            Resources.of(context).strings.activeEmployers
                         ? context.resources.color.colorWhite
                         : context.resources.color.colorGrey3,
                   ),

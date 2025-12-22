@@ -20,7 +20,8 @@ class HelpCenterScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TopHeader(hasBack: true, title: 'Help Center'),
+            TopHeader(
+                hasBack: true, title: context.resources.strings.helpCenter),
             SizedBox(height: 20),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),

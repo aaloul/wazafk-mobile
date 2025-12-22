@@ -20,7 +20,8 @@ class ChangePasswordScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Change Password'),
+            TopHeader(
+                hasBack: true, title: context.resources.strings.changePassword),
             SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
@@ -30,24 +31,24 @@ class ChangePasswordScreen extends StatelessWidget {
                   children: [
                     LabeledTextFiled(
                       controller: controller.currentPasswordController,
-                      hint: 'Old Password',
-                      label: 'Old Password',
+                      hint: context.resources.strings.oldPassword,
+                      label: context.resources.strings.oldPassword,
                       isMandatory: true,
                       isPassword: true,
                       inputType: TextInputType.visiblePassword,
                     ),
                     LabeledTextFiled(
                       controller: controller.newPasswordController,
-                      hint: 'New Password',
-                      label: 'New Password',
+                      hint: context.resources.strings.newPassword,
+                      label: context.resources.strings.newPassword,
                       isMandatory: true,
                       isPassword: true,
                       inputType: TextInputType.visiblePassword,
                     ),
                     LabeledTextFiled(
                       controller: controller.confirmPasswordController,
-                      hint: 'Confirm Password',
-                      label: 'Confirm Password',
+                      hint: context.resources.strings.confirmPassword,
+                      label: context.resources.strings.confirmPassword,
                       isMandatory: true,
                       isPassword: true,
                       inputType: TextInputType.visiblePassword,
@@ -64,7 +65,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   : Container(
                       margin: EdgeInsets.symmetric(horizontal: 20),
                       child: PrimaryButton(
-                        title: "Change Password",
+                        title: context.resources.strings.changePassword,
                         onPressed: () {
                           controller.changePassword();
                         },

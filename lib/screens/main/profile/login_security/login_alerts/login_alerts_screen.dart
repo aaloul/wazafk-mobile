@@ -17,7 +17,8 @@ class LoginAlertsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'Login Alerts'),
+            TopHeader(
+                hasBack: true, title: context.resources.strings.loginAlerts),
             SizedBox(height: 16),
           ],
         ),

@@ -18,6 +18,7 @@ import 'package:wazafak_app/repository/engagement/accept_reject_finish_engagemen
 import 'package:wazafak_app/repository/engagement/finish_engagement_repository.dart';
 import 'package:wazafak_app/repository/engagement/submit_dispute_repository.dart';
 import 'package:wazafak_app/repository/engagement/submit_engagement_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../repository/engagement/engagement_detail_repository.dart';
@@ -304,7 +305,10 @@ class EngagementDetailsController extends GetxController {
         negotiationMessageController.text
         .trim()
         .isEmpty) {
-      constants.showSnackBar('Please make a change', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseMakeChange, SnackBarStatus.ERROR);
       return;
     }
 
@@ -444,7 +448,10 @@ class EngagementDetailsController extends GetxController {
       }
     } catch (e) {
       print('Error submitting dispute: $e');
-      constants.showSnackBar('Error submitting dispute', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorSubmittingDispute, SnackBarStatus.ERROR);
     } finally {
       isSubmittingDispute.value = false;
     }

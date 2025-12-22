@@ -7,6 +7,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/book_service/components/select_date_calendar_widget.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/multiline_labeled_text_field.dart';
 import '../../../components/primary_network_image.dart';
@@ -33,7 +34,10 @@ class BookServiceScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: 'Booking'),
+              TopHeader(hasBack: true, title: Resources
+                  .of(context)
+                  .strings
+                  .booking),
               SizedBox(height: 16),
 
               Expanded(
@@ -280,8 +284,14 @@ class BookServiceScreen extends StatelessWidget {
                       // Description
                       MultilineLabeledTextField(
                         controller: controller.notesController,
-                        label: 'Message To Client',
-                        hint: 'Brief Description ...',
+                        label: Resources
+                            .of(context)
+                            .strings
+                            .messageToClient,
+                        hint: Resources
+                            .of(context)
+                            .strings
+                            .briefDescription,
                         maxLines: 20,
                         height: 100,
                         labelFontSize: 14,
@@ -303,7 +313,10 @@ class BookServiceScreen extends StatelessWidget {
                   () => controller.isLoading.value
                       ? ProgressBar()
                       : PrimaryButton(
-                          title: 'Book Now',
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .bookNow,
                     onPressed: () {
                       if (controller.service.value == null &&
                           controller.package.value == null) {

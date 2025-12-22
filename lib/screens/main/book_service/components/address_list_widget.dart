@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/screens/main/book_service/book_service_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../constants/route_constant.dart';
 
@@ -71,7 +72,7 @@ class AddressListWidget extends StatelessWidget {
           SizedBox(height: 8),
 
           PrimaryOutlinedButton(
-            title: "+ Add New Address",
+            title: Resources.of(context).strings.addNewAddress,
             fontSize: 16,
             fontWeight: FontWeight.w500,
             onPressed: () async {
@@ -115,7 +116,7 @@ class AddressListWidget extends StatelessWidget {
         SizedBox(height: 8),
 
         PrimaryOutlinedButton(
-          title: "+ Add New Address",
+          title: Resources.of(context).strings.addNewAddress,
           fontSize: 16,
           fontWeight: FontWeight.w500,
           onPressed: () async {

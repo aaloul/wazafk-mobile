@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/skeletons/engagement_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/all_engagements/all_engagements_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../projects/components/projects/project_item.dart';
 
@@ -20,7 +21,10 @@ class AllEngagementsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: 'All Engagements'),
+            TopHeader(hasBack: true, title: Resources
+                .of(context)
+                .strings
+                .allEngagements),
             SizedBox(height: 16),
             Expanded(
               child: Obx(() {

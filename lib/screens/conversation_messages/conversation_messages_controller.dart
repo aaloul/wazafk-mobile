@@ -12,6 +12,7 @@ import '../../repository/communication/conversation_messages_repository.dart';
 import '../../repository/communication/send_message_repository.dart';
 import '../../utils/Prefs.dart';
 import '../../utils/pusher_manager.dart';
+import '../../utils/res/Resources.dart';
 import '../../utils/utils.dart';
 
 class ConversationMessagesController extends GetxController {
@@ -81,9 +82,15 @@ class ConversationMessagesController extends GetxController {
         ) {
           DateTime time = message.createdAt!;
           if (time.day == DateTime.now().day) {
-            return "Today";
+            return Resources
+                .of(Get.context!)
+                .strings
+                .today;
           } else if (time.day == DateTime.now().day - 1) {
-            return "Yesterday";
+            return Resources
+                .of(Get.context!)
+                .strings
+                .yesterday;
           }
           return "${time.day}-${time.month}-${time.year}";
         });
@@ -146,7 +153,10 @@ class ConversationMessagesController extends GetxController {
       isSendLoading(false);
     } catch (e) {
       isSendLoading(false);
-      constants.showSnackBar("No Internet Connection!", SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .noInternetConnection, SnackBarStatus.ERROR);
     }
   }
 
@@ -246,9 +256,15 @@ class ConversationMessagesController extends GetxController {
     ) {
       DateTime time = message.createdAt!;
       if (time.day == DateTime.now().day) {
-        return 'Today';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .today;
       } else if (time.day == DateTime.now().day - 1) {
-        return 'Yesterday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .yesterday;
       }
       return "${time.day}-${time.month}-${time.year}";
     });

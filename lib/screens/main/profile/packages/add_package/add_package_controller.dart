@@ -11,6 +11,7 @@ import 'package:wazafak_app/model/WorkingHoursModel.dart';
 import 'package:wazafak_app/repository/package/add_package_repository.dart';
 import 'package:wazafak_app/repository/package/save_package_repository.dart';
 import 'package:wazafak_app/repository/service/services_list_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../../components/sheets/success_sheet.dart';
@@ -326,19 +327,31 @@ class AddPackageController extends GetxController {
 
   bool validateFields() {
     if (titleController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter title', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterTitle, SnackBarStatus.ERROR);
       return false;
     }
     if (descController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter description', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterDescription, SnackBarStatus.ERROR);
       return false;
     }
     if (unitPriceController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter unit price', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterUnitPrice, SnackBarStatus.ERROR);
       return false;
     }
     if (totalPriceController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter total price', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterTotalPrice, SnackBarStatus.ERROR);
       return false;
     }
 
@@ -392,11 +405,23 @@ class AddPackageController extends GetxController {
       if (response.success == true) {
         SuccessSheet.show(
             Get.context!,
-            title: isEditMode.value ? 'Package Updated' : 'Package Posted',
+            title: isEditMode.value ? Resources
+                .of(Get.context!)
+                .strings
+                .packageUpdated : Resources
+                .of(Get.context!)
+                .strings
+                .packagePosted,
             image: AppIcons.servicePosted,
             description:
-            'Your Package is now live! Keep an eye out for opportunities.',
-            buttonText: 'View Profile',
+            Resources
+                .of(Get.context!)
+                .strings
+                .yourPackageIsNowLive,
+            buttonText: Resources
+                .of(Get.context!)
+                .strings
+                .viewProfile,
             onButtonPressed: () {
               Navigator.pop(Get.context!);
             }
@@ -405,13 +430,22 @@ class AddPackageController extends GetxController {
         constants.showSnackBar(
           response.message ??
               (isEditMode.value
-                  ? 'Failed to update package'
-                  : 'Failed to add package'),
+                  ? Resources
+                  .of(Get.context!)
+                  .strings
+                  .failedToUpdatePackage
+                  : Resources
+                  .of(Get.context!)
+                  .strings
+                  .failedToAddPackage),
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error adding package: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorAddingPackageWithParam(e.toString()), SnackBarStatus.ERROR);
       print('Error adding package: $e');
     } finally {
       isLoading.value = false;

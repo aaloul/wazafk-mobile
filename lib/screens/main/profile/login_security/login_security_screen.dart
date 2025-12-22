@@ -23,7 +23,8 @@ class LoginSecurityScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TopHeader(hasBack: true, title: 'Login & Security'),
+            TopHeader(hasBack: true,
+                title: context.resources.strings.loginAndSecurity),
             SizedBox(height: 24),
 
             Container(
@@ -39,7 +40,7 @@ class LoginSecurityScreen extends StatelessWidget {
             SizedBox(height: 16),
 
             LoginSecurityItem(
-              title: 'Change Password',
+              title: context.resources.strings.changePassword,
               onClick: () {
                 Get.toNamed(RouteConstant.changePasswordScreen);
               },
@@ -51,7 +52,7 @@ class LoginSecurityScreen extends StatelessWidget {
             SizedBox(height: 8),
 
             LoginSecurityItem(
-              title: 'Saved Login',
+              title: context.resources.strings.savedLogin,
               onClick: () {
                 Get.toNamed(RouteConstant.savedLoginScreen);
               },
@@ -74,7 +75,7 @@ class LoginSecurityScreen extends StatelessWidget {
             SizedBox(height: 16),
 
             LoginSecurityItem(
-              title: 'Where you\'re logged in',
+              title: context.resources.strings.whereYoureLoggedIn,
               onClick: () {
                 Get.toNamed(RouteConstant.whereLoggedInScreen);
               },
@@ -86,7 +87,7 @@ class LoginSecurityScreen extends StatelessWidget {
             SizedBox(height: 8),
 
             LoginSecurityItem(
-              title: 'Login Alerts',
+              title: context.resources.strings.loginAlerts,
               onClick: () {
                 Get.toNamed(RouteConstant.loginAlertsScreen);
               },

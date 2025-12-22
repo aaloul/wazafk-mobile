@@ -61,8 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                       SizedBox(height: 20),
 
                       LargeMenuItem(
-                        title: 'Services',
-                        onClick: () {
+                      title: context.resources.strings.allCategories,
+                      onClick: () {
                           controller.navigateToServices();
                         },
                         color: HexColor("#CDE9EE"),
@@ -72,8 +72,8 @@ class _ProfileScreenState extends State<ProfileScreen>
 
                       SizedBox(height: 10),
                       LargeMenuItem(
-                        title: 'Packs',
-                        onClick: () {
+                      title: context.resources.strings.packs,
+                      onClick: () {
                           controller.navigateToPacks();
                         },
                         color: HexColor("#E7F3EE"),

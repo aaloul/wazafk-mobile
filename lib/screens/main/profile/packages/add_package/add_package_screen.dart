@@ -53,8 +53,8 @@ class AddPackageScreen extends StatelessWidget {
 
                     LabeledTextFiled(
                       controller: controller.titleController,
-                      hint: 'Title',
-                      label: 'Title',
+                      hint: context.resources.strings.title,
+                      label: context.resources.strings.title,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
@@ -62,8 +62,8 @@ class AddPackageScreen extends StatelessWidget {
 
                     MultilineLabeledTextField(
                       controller: controller.descController,
-                      label: 'Description',
-                      hint: 'Enter Package Description',
+                      label: context.resources.strings.description,
+                      hint: context.resources.strings.enterPackageDescription,
                       maxLines: 20,
                       height: 100,
                       margin: 0,
@@ -156,8 +156,8 @@ class AddPackageScreen extends StatelessWidget {
 
                     LabeledTextFiled(
                       controller: controller.unitPriceController,
-                      hint: 'Unit Price',
-                      label: 'Unit Price',
+                      hint: context.resources.strings.unitPrice,
+                      label: context.resources.strings.unitPrice,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.number,
@@ -165,8 +165,8 @@ class AddPackageScreen extends StatelessWidget {
 
                     LabeledTextFiled(
                       controller: controller.totalPriceController,
-                      hint: 'Total Price',
-                      label: 'Total Price',
+                      hint: context.resources.strings.totalPrice,
+                      label: context.resources.strings.totalPrice,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.number,
@@ -190,8 +190,8 @@ class AddPackageScreen extends StatelessWidget {
                       );
 
                       return PrimaryChooser(
-                        label: 'Duration',
-                        text: 'Select Duration',
+                        label: context.resources.strings.duration,
+                        text: context.resources.strings.selectDuration,
                         isMandatory: true,
                         withArrow: true,
                         isMultiSelect: false,
@@ -210,8 +210,8 @@ class AddPackageScreen extends StatelessWidget {
                       );
 
                       return PrimaryChooser(
-                        label: 'Buffer Time',
-                        text: 'Select Buffer Time',
+                        label: context.resources.strings.bufferTime,
+                        text: context.resources.strings.selectBufferTime,
                         isMandatory: true,
                         withArrow: true,
                         isMultiSelect: false,

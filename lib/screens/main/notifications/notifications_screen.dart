@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/tabs_widget.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'components/notifications_list_widget.dart';
 import 'notifications_controller.dart';
@@ -19,7 +20,7 @@ class NotificationsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(title: "Notifications"),
+            TopHeader(title: Resources.of(context).strings.notifications),
             SizedBox(height: 8),
 
             Obx(

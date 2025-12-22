@@ -161,7 +161,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                                     SizedBox(height: 4),
 
                                     PrimaryText(
-                                      text: service.experience ?? "N/A",
+                                      text: service.experience ??
+                                          context.resources.strings
+                                              .notAvailable,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       textColor: context.resources.color
@@ -245,7 +247,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: PrimaryButton(
-                          title: 'Book Now',
+                          title: context.resources.strings.bookNow,
                           onPressed: () {
                             Get.toNamed(
                               RouteConstant.bookServiceScreen,

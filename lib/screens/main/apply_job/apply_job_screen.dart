@@ -36,7 +36,7 @@ class ApplyJobScreen extends StatelessWidget {
               job == null
                   ? Center(
                       child: PrimaryText(
-                        text: 'Job details not available',
+                        text: context.resources.strings.jobDetailsNotAvailable,
                         fontSize: 14,
                         textColor: context.resources.color.colorGrey,
                       ),
@@ -164,7 +164,8 @@ class ApplyJobScreen extends StatelessWidget {
                                       ),
                                       SizedBox(height: 2),
                                       PrimaryText(
-                                        text: 'Hourly Rate',
+                                        text: context.resources.strings
+                                            .hourlyRate,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         textColor:
@@ -184,7 +185,8 @@ class ApplyJobScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: "Amount Required for This Job",
+                                    text: context.resources.strings
+                                        .amountRequiredForThisJob,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
                                     textColor:
@@ -200,7 +202,8 @@ class ApplyJobScreen extends StatelessWidget {
                                         child: PrimaryTextField(
                                           controller:
                                               controller.budgetController,
-                                          hint: 'Amount in USD',
+                                          hint: context.resources.strings
+                                              .amountInUsd,
                                           fontSize: 12,
                                           inputType: TextInputType.number,
                                         ),
@@ -208,7 +211,7 @@ class ApplyJobScreen extends StatelessWidget {
 
                                       SizedBox(width: 8),
                                       PrimaryText(
-                                        text: "/ Hour",
+                                        text: context.resources.strings.perHour,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w900,
                                         textColor:
@@ -240,7 +243,8 @@ class ApplyJobScreen extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               PrimaryText(
-                                                text: 'You’ll Receive',
+                                                text: context.resources.strings
+                                                    .youllReceive,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w900,
                                                 textColor: context
@@ -249,7 +253,8 @@ class ApplyJobScreen extends StatelessWidget {
                                                     .colorGrey,
                                               ),
                                               PrimaryText(
-                                                text: '(Profit)',
+                                                text: context.resources.strings
+                                                    .profit,
                                                 fontSize: 10,
                                                 fontWeight: FontWeight.w400,
                                                 textColor: context
@@ -292,18 +297,10 @@ class ApplyJobScreen extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               PrimaryText(
-                                                text: '10% Application',
+                                                text: context.resources.strings
+                                                    .applicationCommissionFees,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w900,
-                                                textColor: context
-                                                    .resources
-                                                    .color
-                                                    .colorGrey,
-                                              ),
-                                              PrimaryText(
-                                                text: 'Commission Fees',
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w400,
                                                 textColor: context
                                                     .resources
                                                     .color
@@ -329,7 +326,8 @@ class ApplyJobScreen extends StatelessWidget {
                                   SizedBox(height: 16),
 
                                   PrimaryText(
-                                    text: "How long Will It Take?",
+                                    text: context.resources.strings
+                                        .howLongWillItTake,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
                                     textColor:
@@ -343,8 +341,10 @@ class ApplyJobScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: PrimaryChooser(
-                                          label: 'Duration',
-                                          text: 'Select duration',
+                                          label: context.resources.strings
+                                              .duration,
+                                          text: context.resources.strings
+                                              .selectDuration,
                                           isMandatory: true,
                                           withArrow: true,
                                           isMultiSelect: false,
@@ -361,7 +361,7 @@ class ApplyJobScreen extends StatelessWidget {
                                       Container(
                                         margin: EdgeInsets.only(top: 24),
                                         child: PrimaryText(
-                                          text: "Hours",
+                                          text: context.resources.strings.hours,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w900,
                                           textColor:
@@ -374,7 +374,7 @@ class ApplyJobScreen extends StatelessWidget {
                                   SizedBox(height: 16),
 
                                   PrimaryText(
-                                    text: "Description",
+                                    text: context.resources.strings.description,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
                                     textColor:
@@ -385,9 +385,11 @@ class ApplyJobScreen extends StatelessWidget {
                                   MultilineLabeledTextField(
                                     controller:
                                         controller.descriptionController,
-                                    label: 'Message To Employer',
+                                    label: context.resources.strings
+                                        .messageToEmployer,
                                     hint:
-                                        'Brief Description of why you are a suitable candidate for this job',
+                                    context.resources.strings
+                                        .briefDescriptionSuitableCandidate,
                                     maxLines: 20,
                                     height: 100,
                                     labelFontSize: 14,
@@ -401,7 +403,7 @@ class ApplyJobScreen extends StatelessWidget {
                                   SizedBox(height: 16),
 
                                   PrimaryText(
-                                    text: "Attachments",
+                                    text: context.resources.strings.attachments,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
                                     textColor:
@@ -414,8 +416,8 @@ class ApplyJobScreen extends StatelessWidget {
                                   Obx(
                                     () => FileUploadItem(
                                       label: controller.cvFile.value != null
-                                          ? 'CV Selected'
-                                          : 'Upload CV',
+                                          ? context.resources.strings.cvSelected
+                                          : context.resources.strings.uploadCv,
                                       isMandatory: true,
                                       isOptional: false,
                                       onClick: () {

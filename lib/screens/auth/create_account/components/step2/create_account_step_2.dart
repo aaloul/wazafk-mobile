@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../../components/outlined_button.dart';
 import '../../../../../components/primary_button.dart';
@@ -35,7 +36,10 @@ class CreateAccountStep2 extends StatelessWidget {
               child: Obx(
                 () => dataController.selectedTab.value == "passport"
                     ? IdentityUploadItem(
-                        label: 'Passport',
+                  label: Resources
+                      .of(context)
+                      .strings
+                      .passport,
                         isMandatory: false,
                         isOptional: false,
                         onClick: () {
@@ -47,7 +51,10 @@ class CreateAccountStep2 extends StatelessWidget {
                     : Column(
                         children: [
                           IdentityUploadItem(
-                            label: 'Front ID',
+                            label: Resources
+                                .of(context)
+                                .strings
+                                .frontId,
                             isMandatory: false,
                             isOptional: false,
                             onClick: () {
@@ -60,7 +67,10 @@ class CreateAccountStep2 extends StatelessWidget {
                           SizedBox(height: 12),
 
                           IdentityUploadItem(
-                            label: 'Back ID',
+                            label: Resources
+                                .of(context)
+                                .strings
+                                .backId,
                             isMandatory: false,
                             isOptional: false,
                             onClick: () {
@@ -78,14 +88,20 @@ class CreateAccountStep2 extends StatelessWidget {
           SizedBox(height: 24),
 
           PrimaryButton(
-            title: "Next",
+            title: Resources
+                .of(context)
+                .strings
+                .next,
             onPressed: () {
               dataController.verifyStep2();
             },
           ),
           SizedBox(height: 10),
 
-          PrimaryOutlinedButton(title: "Skip", onPressed: () {
+          PrimaryOutlinedButton(title: Resources
+              .of(context)
+              .strings
+              .skip, onPressed: () {
             dataController.index.value = 2;
           }),
 

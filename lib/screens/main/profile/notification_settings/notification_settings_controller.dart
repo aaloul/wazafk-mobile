@@ -1,25 +1,25 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../../model/SettingsModel.dart';
 
 class NotificationSettingsController extends GetxController {
-
-  final List<SettingsGroup> settingsGroups = [
+  List<SettingsGroup> get settingsGroups => [
     SettingsGroup(
-      title: 'Settings',
+      title: Resources.of(Get.context!).strings.settings,
       items: [
         SettingsModel(
-          title: 'General Notification',
+          title: Resources.of(Get.context!).strings.generalNotification,
           icon: "",
           id: 0,
         ),
         SettingsModel(
-          title: 'Sound',
+          title: Resources.of(Get.context!).strings.sound,
           icon: "",
           id: 1,
         ),
         SettingsModel(
-          title: 'vibrate',
+          title: Resources.of(Get.context!).strings.vibrate,
           icon: "",
           id: 2,
         ),
@@ -27,30 +27,30 @@ class NotificationSettingsController extends GetxController {
       ],
     ),
     SettingsGroup(
-      title: 'System & Services Update',
+      title: Resources.of(Get.context!).strings.systemAndServicesUpdate,
       items: [
         SettingsModel(
-          title: 'App Updates',
+          title: Resources.of(Get.context!).strings.appUpdates,
           icon: "",
           id: 3,
         ),
         SettingsModel(
-          title: 'Bill Reminder',
+          title: Resources.of(Get.context!).strings.billReminder,
           icon: "",
           id: 4,
         ),
         SettingsModel(
-          title: 'Promotion',
+          title: Resources.of(Get.context!).strings.promotion,
           icon: "",
           id: 5,
         ),
         SettingsModel(
-          title: 'Discount Available',
+          title: Resources.of(Get.context!).strings.discountAvailable,
           icon: "",
           id: 6,
         ),
         SettingsModel(
-          title: 'Payment Request',
+          title: Resources.of(Get.context!).strings.paymentRequest,
           icon: "",
           id: 7,
         ),
@@ -58,15 +58,15 @@ class NotificationSettingsController extends GetxController {
       ],
     ),
     SettingsGroup(
-      title: 'Other',
+      title: Resources.of(Get.context!).strings.other,
       items: [
         SettingsModel(
-          title: 'New Jobs Available',
+          title: Resources.of(Get.context!).strings.newJobsAvailable,
           icon: "",
           id: 8,
         ),
         SettingsModel(
-          title: 'New Talents Available',
+          title: Resources.of(Get.context!).strings.newTalentsAvailable,
           icon: "",
           id: 9,
         ),

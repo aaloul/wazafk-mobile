@@ -201,7 +201,9 @@ class _HomeJobItemState extends State<HomeJobItem> {
 
               Image.asset(AppIcons.userCircle, width: 24),
               SizedBox(width: 2),
-              PrimaryText(text: "${widget.job.nbApplicants} applications"),
+              PrimaryText(
+                  text: "${widget.job.nbApplicants} ${context.resources.strings
+                      .applications}"),
             ],
           ),
 

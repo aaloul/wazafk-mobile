@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/repository/account/otp_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../utils/utils.dart';
 
@@ -26,7 +27,13 @@ class VerificationController extends GetxController {
 
   Future<void> verifyOTP() async {
     if (otp.value.isEmpty || otp.value.length < 4) {
-      constants.showSnackBar('Please enter valid OTP', SnackBarStatus.ERROR);
+      constants.showSnackBar(
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseEnterValidOtp,
+        SnackBarStatus.ERROR,
+      );
       return;
     }
 

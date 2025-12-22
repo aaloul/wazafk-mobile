@@ -41,7 +41,8 @@ class MyDocumentItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PrimaryText(
-                    text: document.type ?? "N/A",
+                    text:
+                        document.type ?? context.resources.strings.notAvailable,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     textColor: context.resources.color.colorGrey,
@@ -54,7 +55,9 @@ class MyDocumentItem extends StatelessWidget {
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     child: PrimaryText(
-                      text: document.status.toString() ?? "N/A",
+                      text:
+                          document.status.toString() ??
+                          context.resources.strings.notAvailable,
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
                       textColor: context.resources.color.colorWhite,

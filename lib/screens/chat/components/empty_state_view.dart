@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class EmptyStateView extends StatelessWidget {
   const EmptyStateView({
@@ -42,7 +43,7 @@ class EmptyStateView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: PrimaryText(
-                  text: "Retry",
+                  text: Resources.of(context).strings.retry,
                   textColor: context.resources.color.colorWhite,
                   fontWeight: FontWeight.w600,
                 ),

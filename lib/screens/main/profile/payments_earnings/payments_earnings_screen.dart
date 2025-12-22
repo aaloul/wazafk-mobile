@@ -58,7 +58,8 @@ class PaymentsEarningsScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           children: [
 
-                            PrimaryText(text: "Total Transactions",
+                            PrimaryText(
+                              text: context.resources.strings.totalTransactions,
                               fontWeight: FontWeight.w900,
                               fontSize: 16,
                               textColor: context.resources.color.colorGrey,),
@@ -93,7 +94,8 @@ class PaymentsEarningsScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           children: [
 
-                            PrimaryText(text: "Total Payout",
+                            PrimaryText(
+                              text: context.resources.strings.totalPayout,
                               fontWeight: FontWeight.w900,
                               fontSize: 15,
                               textColor: context.resources.color.colorGrey,),

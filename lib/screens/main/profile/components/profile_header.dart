@@ -144,7 +144,7 @@ class ProfileHeader extends StatelessWidget {
             children: [
               Obx(() =>
                   StatisticsItem(
-                title: 'Total Earnings',
+                    title: context.resources.strings.totalEarnings,
                     value: '\$${controller.totalEarnings.value}',
                 textIcon: "\$",
                 icon: "",
@@ -153,7 +153,7 @@ class ProfileHeader extends StatelessWidget {
               SizedBox(width: 12),
               Obx(() =>
                   StatisticsItem(
-                title: 'Wallet',
+                    title: context.resources.strings.wallet,
                     value: '\$${controller.walletBalance.value}',
                 icon: AppIcons.wallet,
               ),

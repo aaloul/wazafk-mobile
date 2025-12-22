@@ -10,6 +10,7 @@ import 'package:wazafak_app/repository/favorite/favorites_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_package_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_service_repository.dart';
 import 'package:wazafak_app/repository/home/employer_home_repository.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class AllEmployerDataController extends GetxController {
@@ -248,7 +249,10 @@ class AllEmployerDataController extends GetxController {
             employerData.refresh();
           }
 
-          constants.showSnackBar('Added to favorites', SnackBarStatus.SUCCESS);
+          constants.showSnackBar(Resources
+              .of(Get.context!)
+              .strings
+              .addedToFavorites, SnackBarStatus.SUCCESS);
           return true;
         } else {
           constants.showSnackBar(
@@ -319,7 +323,10 @@ class AllEmployerDataController extends GetxController {
             employerData.refresh();
           }
 
-          constants.showSnackBar('Added to favorites', SnackBarStatus.SUCCESS);
+          constants.showSnackBar(Resources
+              .of(Get.context!)
+              .strings
+              .addedToFavorites, SnackBarStatus.SUCCESS);
           return true;
         } else {
           constants.showSnackBar(
@@ -390,7 +397,10 @@ class AllEmployerDataController extends GetxController {
             employerData.refresh();
           }
 
-          constants.showSnackBar('Added to favorites', SnackBarStatus.SUCCESS);
+          constants.showSnackBar(Resources
+              .of(Get.context!)
+              .strings
+              .addedToFavorites, SnackBarStatus.SUCCESS);
           return true;
         } else {
           constants.showSnackBar(

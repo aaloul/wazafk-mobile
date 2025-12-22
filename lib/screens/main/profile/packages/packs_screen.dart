@@ -7,6 +7,7 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/profile/packages/packs_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'components/item_my_package.dart';
 
@@ -26,7 +27,10 @@ class PacksScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: 'Packs'),
+              TopHeader(hasBack: true, title: Resources
+                  .of(context)
+                  .strings
+                  .packs),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -42,7 +46,10 @@ class PacksScreen extends StatelessWidget {
                   }
 
                   if (controller.packages.isEmpty) {
-                    return Center(child: Text('No packages available'));
+                    return Center(child: Text(Resources
+                        .of(context)
+                        .strings
+                        .noPackagesAvailable));
                   }
 
                   return ListView.separated(
@@ -66,7 +73,10 @@ class PacksScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16),
                 child: PrimaryButton(
-                  title: "Create New Pack",
+                  title: Resources
+                      .of(context)
+                      .strings
+                      .createNewPack,
                   onPressed: () async {
                     Get.toNamed(RouteConstant.addPackageScreen);
                   },

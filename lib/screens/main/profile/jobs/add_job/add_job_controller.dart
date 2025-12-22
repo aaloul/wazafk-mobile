@@ -9,6 +9,7 @@ import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/job/add_job_repository.dart';
 import 'package:wazafak_app/repository/job/save_job_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../../components/sheets/success_sheet.dart';
@@ -260,18 +261,27 @@ class AddJobController extends GetxController {
   Future<void> addJob() async {
     // Validate form
     if (titleController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter job title', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterJobTitle, SnackBarStatus.ERROR);
       return;
     }
 
     if (selectedAddress.value == null) {
-      constants.showSnackBar('Please select a location', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectLocation, SnackBarStatus.ERROR);
       return;
     }
 
     if (selectedCategory.value == null) {
       print('Validation failed: selectedCategory is null');
-      constants.showSnackBar('Please select a category', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectCategory, SnackBarStatus.ERROR);
       return;
     }
 
@@ -280,13 +290,19 @@ class AddJobController extends GetxController {
     );
 
     if (selectedJobType.value == null) {
-      constants.showSnackBar('Please select a job type', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectJobType, SnackBarStatus.ERROR);
       return;
     }
 
     if (selectedDate.value == null) {
       constants.showSnackBar(
-        'Please select a start date',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectStartDate,
         SnackBarStatus.ERROR,
       );
       return;
@@ -294,40 +310,58 @@ class AddJobController extends GetxController {
 
     if (selectedTime.value == null) {
       constants.showSnackBar(
-        'Please select a start time',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectStartTime,
         SnackBarStatus.ERROR,
       );
       return;
     }
 
     if (hourlyRateController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter hourly rate', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterHourlyRate, SnackBarStatus.ERROR);
       return;
     }
 
     if (selectedSkills.isEmpty) {
       constants.showSnackBar(
-        'Please select at least one skill',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectAtLeastOneSkill,
         SnackBarStatus.ERROR,
       );
       return;
     }
 
     if (overviewController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter overview', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterOverview, SnackBarStatus.ERROR);
       return;
     }
 
     if (responsibilitiesController.text.trim().isEmpty) {
       constants.showSnackBar(
-        'Please enter responsibilities',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseEnterResponsibilities,
         SnackBarStatus.ERROR,
       );
       return;
     }
 
     if (requirementsController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter requirements', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterRequirements, SnackBarStatus.ERROR);
       return;
     }
 
@@ -406,11 +440,23 @@ class AddJobController extends GetxController {
       if (response.success == true) {
         SuccessSheet.show(
             Get.context!,
-            title: isEditMode ? 'Job Updated' : 'Job Posted',
+            title: isEditMode ? Resources
+                .of(Get.context!)
+                .strings
+                .jobUpdated : Resources
+                .of(Get.context!)
+                .strings
+                .jobPosted,
             image: AppIcons.servicePosted,
             description:
-            'Your Job is now live! Keep an eye out for opportunities.',
-            buttonText: 'View Profile',
+            Resources
+                .of(Get.context!)
+                .strings
+                .yourJobIsNowLive,
+            buttonText: Resources
+                .of(Get.context!)
+                .strings
+                .viewProfile,
             onButtonPressed: () {
               Navigator.pop(Get.context!);
             }
@@ -418,13 +464,25 @@ class AddJobController extends GetxController {
       } else {
         constants.showSnackBar(
           response.message ??
-              (editingJob != null ? 'Error updating job' : 'Error posting job'),
+              (editingJob != null ? Resources
+                  .of(Get.context!)
+                  .strings
+                  .errorUpdatingJob : Resources
+                  .of(Get.context!)
+                  .strings
+                  .errorPostingJob),
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        editingJob != null ? 'Error updating job: $e' : 'Error posting job: $e',
+        editingJob != null ? Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingJobWithParam(e.toString()) : Resources
+            .of(Get.context!)
+            .strings
+            .errorPostingJobWithParam(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {

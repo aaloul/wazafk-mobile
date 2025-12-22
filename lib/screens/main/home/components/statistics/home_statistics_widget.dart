@@ -28,14 +28,14 @@ class HomeStatisticsWidget extends StatelessWidget {
             Row(
               children: [
                 StatisticsItem(
-                  title: 'Total Earnings',
+                  title: context.resources.strings.totalEarnings,
                   value: '\$${controller.totalEarnings.value}',
                   textIcon: "\$",
                   icon: "",
                 ),
                 SizedBox(width: 10),
                 StatisticsItem(
-                  title: 'Active Jobs',
+                  title: context.resources.strings.activeJobs,
                   value: '${controller.nbActiveJobs.value}',
                   icon: AppIcons.time,
                 ),
@@ -46,14 +46,14 @@ class HomeStatisticsWidget extends StatelessWidget {
                 Row(
                   children: [
                     StatisticsItem(
-                      title: 'Completed',
-                      value: '${controller.nbCompletedJobs.value}',
+                  title: context.resources.strings.completed,
+                  value: '${controller.nbCompletedJobs.value}',
                       icon: AppIcons.completed,
                     ),
                     SizedBox(width: 10),
                     StatisticsItem(
-                      title: 'Success Rate',
-                      value: '${controller.successRate.value}%',
+                  title: context.resources.strings.successRate,
+                  value: '${controller.successRate.value}%',
                       icon: AppIcons.chart,
                     ),
                   ],

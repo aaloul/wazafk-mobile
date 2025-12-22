@@ -4,6 +4,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class FinishEngagementBottomSheet extends StatelessWidget {
   const FinishEngagementBottomSheet({super.key});
@@ -39,7 +40,7 @@ class FinishEngagementBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PrimaryText(
-                    text: 'Finish Engagement',
+                    text: context.resources.strings.finishEngagement,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorGrey,
@@ -63,14 +64,17 @@ class FinishEngagementBottomSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PrimaryText(
-                      text: 'Upload Deliverables',
+                      text: context.resources.strings.uploadDeliverables,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       textColor: context.resources.color.colorGrey,
                     ),
                     SizedBox(height: 8),
                     PrimaryText(
-                      text: 'Please upload the completed work deliverables',
+                      text: context
+                          .resources
+                          .strings
+                          .pleaseUploadCompletedWorkDeliverables,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey7,
                     ),
@@ -157,7 +161,10 @@ class FinishEngagementBottomSheet extends StatelessWidget {
                                     ),
                                     SizedBox(height: 8),
                                     PrimaryText(
-                                      text: 'Tap to upload file',
+                                      text: context
+                                          .resources
+                                          .strings
+                                          .tapToUploadFile,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
                                       textColor:
@@ -221,7 +228,7 @@ class FinishEngagementBottomSheet extends StatelessWidget {
                 }
 
                 return PrimaryButton(
-                  title: 'Submit & Finish',
+                  title: Resources.of(context).strings.submitAndFinish,
                   onPressed: controller.finishEngagement,
                 );
               }),

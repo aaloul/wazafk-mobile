@@ -10,6 +10,7 @@ import 'package:wazafak_app/screens/main/projects/projects_screen.dart';
 import 'package:wazafak_app/screens/main/search/search_screen.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -158,7 +159,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           width: 22,
           color: context.resources.color.colorPrimary,
         ),
-        label: 'Home',
+        label: Resources
+            .of(context)
+            .strings
+            .home,
       ),
       BottomNavigationBarItem(
         icon: Image.asset(
@@ -171,7 +175,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           width: 22,
           color: context.resources.color.colorPrimary,
         ),
-        label: isFreelancerMode ? 'Projects' : 'My Jobs',
+        label: isFreelancerMode ? Resources
+            .of(context)
+            .strings
+            .projects : Resources
+            .of(context)
+            .strings
+            .myJobs,
       ),
       BottomNavigationBarItem(
         icon: Image.asset(
@@ -184,7 +194,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           width: 22,
           color: context.resources.color.colorPrimary,
         ),
-        label: 'Search',
+        label: Resources
+            .of(context)
+            .strings
+            .search,
       ),
     ];
 
@@ -202,7 +215,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             width: 22,
             color: context.resources.color.colorPrimary,
           ),
-          label: 'Activity',
+          label: Resources
+              .of(context)
+              .strings
+              .activity,
         ),
       );
     }
@@ -220,7 +236,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           width: 22,
           color: context.resources.color.colorPrimary,
         ),
-        label: 'Profile',
+        label: Resources
+            .of(context)
+            .strings
+            .profile,
       ),
     );
 

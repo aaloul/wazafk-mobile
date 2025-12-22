@@ -6,8 +6,8 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/auth/phone_number/phone_number_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
-import '../../../components/labeled_text_field.dart';
 import '../../../components/phone_text_field.dart';
 import '../../../components/primary_text.dart';
 
@@ -40,7 +40,10 @@ class PhoneNumberScreen extends StatelessWidget {
                 SizedBox(height: 32),
 
                 PrimaryText(
-                  text: "Login/Register",
+                  text: Resources
+                      .of(context)
+                      .strings
+                      .loginRegister,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   textColor: context.resources.color.colorBlackMain,
@@ -49,7 +52,10 @@ class PhoneNumberScreen extends StatelessWidget {
 
                 SizedBox(height: 24),
                 PhoneTextFiled(
-                  hint: 'Phone Number',
+                  hint: Resources
+                      .of(context)
+                      .strings
+                      .phoneNumber,
                   controller: dataController.phoneController,
                   onCCChanged: (cc) {
                     dataController.cc = cc;
@@ -70,7 +76,10 @@ class PhoneNumberScreen extends StatelessWidget {
                   onTap: () {},
                   child: Text.rich(
                     TextSpan(
-                        text: "Message and date rates may apply. By continuing, you agree to our ",
+                        text: Resources
+                            .of(context)
+                            .strings
+                            .messageAndDateRates,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -86,7 +95,10 @@ class PhoneNumberScreen extends StatelessWidget {
                                 );
                               },
                               child: Text(
-                                "Terms of Use",
+                                Resources
+                                    .of(context)
+                                    .strings
+                                    .termsOfUse,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -99,7 +111,10 @@ class PhoneNumberScreen extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: " and ",
+                            text: Resources
+                                .of(context)
+                                .strings
+                                .and,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -115,7 +130,10 @@ class PhoneNumberScreen extends StatelessWidget {
                                 );
                               },
                               child: Text(
-                                "Privacy Policy",
+                                Resources
+                                    .of(context)
+                                    .strings
+                                    .privacyPolicy,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -136,7 +154,10 @@ class PhoneNumberScreen extends StatelessWidget {
 
                 Obx(() =>
                 dataController.isLoading.value ? ProgressBar() : PrimaryButton(
-                    title: "Continue", onPressed: () {
+                    title: Resources
+                        .of(context)
+                        .strings
+                        .continueBtn, onPressed: () {
                   dataController.checkMemberExists();
                 }),),
                 SizedBox(height: 20),

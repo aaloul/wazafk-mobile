@@ -8,6 +8,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../model/BannersResponse.dart';
 
@@ -227,7 +228,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       child: TextButton(
                         onPressed: _skipOnboarding,
                         child: PrimaryText(
-                          text: 'Skip',
+                          text: Resources.of(context).strings.skip,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           textColor: context.resources.color.colorBlackMain,

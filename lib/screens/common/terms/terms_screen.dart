@@ -64,7 +64,7 @@ class TermsScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
                           child: PrimaryText(
-                            text: 'No content available',
+                            text: context.resources.strings.noContentAvailable,
                             textColor: context.resources.color.colorGrey,
                             fontSize: 16,
                           ),
@@ -93,7 +93,7 @@ class TermsScreen extends StatelessWidget {
 
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
-              child: PrimaryButton(title: "Close",
+              child: PrimaryButton(title: context.resources.strings.close,
                   onPressed: () {
                     Navigator.pop(Get.context!);
                   }),
