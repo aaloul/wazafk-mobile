@@ -130,6 +130,12 @@ class ArabicStrings extends Strings {
   String get requirements => "المتطلبات";
 
   @override
+  String get workExperience => "الخبرة العملية";
+
+  @override
+  String get workingHours => "ساعات العمل";
+
+  @override
   String get message => "الرسالة";
 
   @override
@@ -253,6 +259,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get cancel => "إلغاء";
+
+  @override
+  String get add => "إضافة";
 
   @override
   String get createNewJob => "إنشاء وظيفة جديدة";
@@ -618,6 +627,9 @@ class ArabicStrings extends Strings {
   String get noNotificationsYet => "لا توجد إشعارات بعد";
 
   @override
+  String get notificationsDescription => "ستشاهد الإشعارات هنا عند استلامها";
+
+  @override
   String get noPackageDetailsAvailable => "لا توجد تفاصيل باقة متاحة";
 
   @override
@@ -692,6 +704,9 @@ class ArabicStrings extends Strings {
   String get done => "تم";
 
   @override
+  String get amount => "المبلغ";
+
+  @override
   String get rating => "التقييم";
 
   @override
@@ -753,6 +768,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get freelancerHired => "تم تعيين مستقل";
+
+  @override
+  String get freelancer => "مستقل";
 
   @override
   String memberSince(String year) => "عضو منذ $year";
@@ -1093,6 +1111,10 @@ class ArabicStrings extends Strings {
   @override
   String get generalDetails => "التفاصيل العامة";
 
+  @override
+  String get skillsAdditionNote =>
+      "يمكنك إضافة 2 والباقي سيتم تحصيل رسوم عليه.";
+
   // Password
   @override
   String get changePassword => "تغيير كلمة المرور";
@@ -1126,6 +1148,18 @@ class ArabicStrings extends Strings {
 
   @override
   String get skills => "المهارات";
+
+  @override
+  String get workHistory => "سجل العمل";
+
+  @override
+  String get workPackages => "باقات العمل";
+
+  @override
+  String get jobDetails => "تفاصيل الوظيفة";
+
+  @override
+  String get howCanWeHelpYou => "كيف يمكننا مساعدتك؟";
 
   // Profile Settings Menu
   @override
@@ -1291,6 +1325,12 @@ class ArabicStrings extends Strings {
 
   @override
   String get rateUsAndLeaveFeedback => "قيمنا واترك تعليقك";
+
+  @override
+  String get yourOpinionMatters => "رأيك يهمنا!";
+
+  @override
+  String get yourRating => "تقييمك";
 
   // Working Hours
   @override

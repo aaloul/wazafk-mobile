@@ -18,7 +18,7 @@ class MemberSkillsWidget extends StatelessWidget {
         children: [
           // Skills Section
           PrimaryText(
-            text: 'Skills',
+            text: context.resources.strings.skills,
             fontSize: 16,
             fontWeight: FontWeight.w900,
             textColor: context.resources.color.colorGrey,
@@ -30,7 +30,7 @@ class MemberSkillsWidget extends StatelessWidget {
             builder: (context) {
               if (skills.isEmpty) {
                 return PrimaryText(
-                  text: 'No skills added yet',
+                  text: context.resources.strings.noSkillsAddedYet,
                   fontSize: 14,
                   textColor: context.resources.color.colorGrey,
                 );

@@ -72,7 +72,7 @@ class SelectDateCalendarWidget extends StatelessWidget {
         SizedBox(height: 16),
 
         PrimaryText(
-          text: "Date",
+          text: context.resources.strings.date,
           fontWeight: FontWeight.w900,
           fontSize: 16,
           textColor: context.resources.color.colorGrey,

@@ -24,7 +24,7 @@ class AddJobController extends GetxController {
   Job? editingJob;
 
   final titleController = TextEditingController();
-  final hourlyRateController = TextEditingController();
+  final totalPriceController = TextEditingController();
   final overviewController = TextEditingController();
   final responsibilitiesController = TextEditingController();
   final requirementsController = TextEditingController();
@@ -69,7 +69,7 @@ class AddJobController extends GetxController {
 
     // Populate text fields
     titleController.text = editingJob!.title ?? '';
-    hourlyRateController.text = editingJob!.unitPrice ?? '';
+    totalPriceController.text = editingJob!.totalPrice ?? '';
     overviewController.text = editingJob!.overview ?? '';
     responsibilitiesController.text = editingJob!.responsibilities ?? '';
     requirementsController.text = editingJob!.requirememts ?? '';
@@ -148,7 +148,7 @@ class AddJobController extends GetxController {
   @override
   void onClose() {
     titleController.dispose();
-    hourlyRateController.dispose();
+    totalPriceController.dispose();
     overviewController.dispose();
     responsibilitiesController.dispose();
     requirementsController.dispose();
@@ -285,9 +285,7 @@ class AddJobController extends GetxController {
       return;
     }
 
-    print(
-      'Validation passed: selectedCategory = ${selectedCategory.value?.name}',
-    );
+
 
     if (selectedJobType.value == null) {
       constants.showSnackBar(Resources
@@ -319,7 +317,9 @@ class AddJobController extends GetxController {
       return;
     }
 
-    if (hourlyRateController.text.trim().isEmpty) {
+    if (totalPriceController.text
+        .trim()
+        .isEmpty) {
       constants.showSnackBar(Resources
           .of(Get.context!)
           .strings
@@ -417,8 +417,8 @@ class AddJobController extends GetxController {
             selectedSubcategory.value?.hashcode ??
             selectedCategory.value!.hashcode,
         'title': titleController.text.trim(),
-        'unit_price': hourlyRateController.text.trim(),
-        'total_price': hourlyRateController.text.trim(),
+        'unit_price': null,
+        'total_price': totalPriceController.text.trim(),
         'overview': overviewController.text.trim(),
         'responsibilities': responsibilitiesController.text.trim(),
         'requirememts': requirementsController.text.trim(),

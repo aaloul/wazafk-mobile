@@ -160,7 +160,7 @@ class WorkingHoursItem extends StatelessWidget {
                 children: [
                   SizedBox(height: 16),
                   PrimaryText(
-                    text: 'Select Time',
+                    text: context.resources.strings.selectTime,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     textColor: context.resources.color.colorPrimary,
@@ -287,7 +287,7 @@ class WorkingHoursItem extends StatelessWidget {
                           child: TextButton(
                             onPressed: () => Navigator.pop(context),
                             child: PrimaryText(
-                              text: 'Cancel',
+                              text: context.resources.strings.cancel,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               textColor: context.resources.color.colorGrey,
@@ -322,7 +322,7 @@ class WorkingHoursItem extends StatelessWidget {
                               ),
                             ),
                             child: PrimaryText(
-                              text: 'Confirm',
+                              text: context.resources.strings.confirm,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               textColor: context.resources.color.colorWhite,

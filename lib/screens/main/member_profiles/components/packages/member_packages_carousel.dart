@@ -34,7 +34,7 @@ class _MemberPackagesCarouselState extends State<MemberPackagesCarousel> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: PrimaryText(
-              text: 'Work Packages',
+              text: context.resources.strings.workPackages,
               fontSize: 16,
               fontWeight: FontWeight.w900,
               textColor: context.resources.color.colorGrey,

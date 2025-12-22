@@ -28,8 +28,6 @@ class AddPackageController extends GetxController {
   final unitPriceController = TextEditingController();
   final totalPriceController = TextEditingController();
 
-  var selectedDuration = '15 minutes'.obs;
-  var selectedBufferTime = '15 minutes'.obs;
   var isLoading = false.obs;
 
   final ImagePicker _imagePicker = ImagePicker();
@@ -46,25 +44,6 @@ class AddPackageController extends GetxController {
   var selectedServices = <Service>[].obs;
   var isLoadingServices = false.obs;
 
-  final List<String> durationOptions = [
-    '15 minutes',
-    '30 minutes',
-    '45 minutes',
-    '60 minutes',
-    '90 minutes',
-    '120 minutes',
-    '180 minutes',
-  ];
-
-  final List<String> bufferTimeOptions = [
-    '15 minutes',
-    '30 minutes',
-    '45 minutes',
-    '60 minutes',
-    '90 minutes',
-    '120 minutes',
-    '180 minutes',
-  ];
 
   @override
   void onInit() {
@@ -154,19 +133,7 @@ class AddPackageController extends GetxController {
     unitPriceController.text = package.unitPrice ?? '';
     totalPriceController.text = package.totalPrice ?? '';
 
-    // Set duration and buffer time
-    if (package.availableDuration != null) {
-      final durationString = '${package.availableDuration} minutes';
-      if (durationOptions.contains(durationString)) {
-        selectedDuration.value = durationString;
-      }
-    }
-    if (package.availableBuffer != null) {
-      final bufferString = '${package.availableBuffer} minutes';
-      if (bufferTimeOptions.contains(bufferString)) {
-        selectedBufferTime.value = bufferString;
-      }
-    }
+
 
     // Set package image URL if exists
     if (package.image != null && package.image!.isNotEmpty) {
@@ -209,19 +176,6 @@ class AddPackageController extends GetxController {
     unitPriceController.text = package['unit_price'] ?? '';
     totalPriceController.text = package['total_price'] ?? '';
 
-    // Set duration and buffer time
-    if (package['available_duration'] != null) {
-      final durationString = '${package['available_duration']} minutes';
-      if (durationOptions.contains(durationString)) {
-        selectedDuration.value = durationString;
-      }
-    }
-    if (package['available_buffer'] != null) {
-      final bufferString = '${package['available_buffer']} minutes';
-      if (bufferTimeOptions.contains(bufferString)) {
-        selectedBufferTime.value = bufferString;
-      }
-    }
 
     // Set package image URL if exists
     if (package['image'] != null && package['image'].toString().isNotEmpty) {
@@ -284,17 +238,7 @@ class AddPackageController extends GetxController {
     }
   }
 
-  void selectDuration(String? duration) {
-    if (duration != null) {
-      selectedDuration.value = duration;
-    }
-  }
 
-  void selectBufferTime(String? bufferTime) {
-    if (bufferTime != null) {
-      selectedBufferTime.value = bufferTime;
-    }
-  }
 
   Future<void> pickPackageImage(BuildContext context) async {
     try {
@@ -364,14 +308,6 @@ class AddPackageController extends GetxController {
     try {
       isLoading.value = true;
 
-      // Extract minutes from duration string (e.g., "15 minutes" -> 15)
-      final durationMinutes = int.parse(
-        selectedDuration.value.split(' ').first,
-      );
-      final bufferMinutes = int.parse(
-        selectedBufferTime.value.split(' ').first,
-      );
-
       // Prepare working hours data - format as nested object with day keys
       final workingHoursData = <String, Map<String, String>>{};
       for (var day in workingHours.where((day) => day.isEnabled)) {
@@ -387,8 +323,8 @@ class AddPackageController extends GetxController {
         'description': descController.text.trim(),
         'unit_price': unitPriceController.text.trim(),
         'total_price': totalPriceController.text.trim(),
-        'available_duration': durationMinutes,
-        'available_buffer': bufferMinutes,
+        // 'available_duration': durationMinutes,
+        // 'available_buffer': bufferMinutes,
         'availability': workingHoursData,
         'services': selectedServices.map((s) => s.hashcode).toList(),
       };

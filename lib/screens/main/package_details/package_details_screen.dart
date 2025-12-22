@@ -27,7 +27,7 @@ class PackageDetailsScreen extends StatelessWidget {
                 if (package == null) {
                   return Center(
                     child: PrimaryText(
-                      text: 'No package details available',
+                      text: context.resources.strings.noPackageDetailsAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),
@@ -86,7 +86,7 @@ class PackageDetailsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryText(
-                                    text: 'Pack Details',
+                                    text: context.resources.strings.packDetails,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w900,
                                     textColor: context.resources.color

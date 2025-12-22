@@ -76,7 +76,8 @@ class Job {
 
   // String? image;
   String? description;
-  String? unitPrice;
+
+  // String? unitPrice;
   String? totalPrice;
   int? commissionFees;
   int? featured;
@@ -118,7 +119,7 @@ class Job {
     this.title,
     // this.image,
     this.description,
-    this.unitPrice,
+    // this.unitPrice,
     this.totalPrice,
     this.commissionFees,
     this.featured,
@@ -158,7 +159,7 @@ class Job {
     title: json["title"],
     // image: json["image"],
     description: json["description"],
-    unitPrice: json["unit_price"],
+    // unitPrice: json["unit_price"],
     totalPrice: json["total_price"],
     commissionFees: json["commission_fees"],
     featured: json["featured"],
@@ -201,7 +202,7 @@ class Job {
     "title": title,
     // "image": image,
     "description": description,
-    "unit_price": unitPrice,
+    // "unit_price": unitPrice,
     "total_price": totalPrice,
     "commission_fees": commissionFees,
     "featured": featured,

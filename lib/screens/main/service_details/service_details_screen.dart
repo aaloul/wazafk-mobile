@@ -26,7 +26,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                 if (service == null) {
                   return Center(
                     child: PrimaryText(
-                      text: 'No service details available',
+                      text: context.resources.strings.noServiceDetailsAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),
@@ -92,7 +92,8 @@ class ServiceDetailsScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 4),
                                         PrimaryText(
-                                          text: 'Completed Jobs',
+                                          text: context.resources.strings
+                                              .completedJobs,
                                           fontSize: 14,
                                           textColor: context.resources.color
                                               .colorGrey,
@@ -121,7 +122,8 @@ class ServiceDetailsScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 4),
                                         PrimaryText(
-                                          text: 'Hourly Rate',
+                                          text: context.resources.strings
+                                              .hourlyRate,
                                           fontSize: 14,
                                           textColor: context.resources.color
                                               .colorGrey,
@@ -151,7 +153,8 @@ class ServiceDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     PrimaryText(
-                                      text: 'Work Experience',
+                                      text: context.resources.strings
+                                          .workExperience,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w900,
                                       textColor: context.resources.color
@@ -195,7 +198,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                     if (service.skills != null &&
                                         service.skills!.isNotEmpty) ...[
                                       PrimaryText(
-                                        text: 'Skills',
+                                        text: context.resources.strings.skills,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w900,
                                         textColor: context.resources.color

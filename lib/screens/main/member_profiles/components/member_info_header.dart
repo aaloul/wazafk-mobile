@@ -30,7 +30,7 @@ class MemberInfoHeader extends StatelessWidget {
                 ),
                 SizedBox(height: 2),
                 PrimaryText(
-                  text: 'Freelancer hired',
+                  text: context.resources.strings.freelancerHired,
                   fontSize: 13,
                   textColor: context.resources.color.colorGrey,
                 ),
@@ -51,7 +51,7 @@ class MemberInfoHeader extends StatelessWidget {
               ),
               SizedBox(height: 2),
               PrimaryText(
-                text: 'Completed Jobs',
+                text: context.resources.strings.completedJobs,
                 fontSize: 13,
                 textColor: context.resources.color.colorGrey,
               ),
@@ -79,7 +79,7 @@ class MemberInfoHeader extends StatelessWidget {
               ),
               SizedBox(height: 2),
               PrimaryText(
-                text: 'Rating',
+                text: context.resources.strings.rating,
                 fontSize: 13,
                 textColor: context.resources.color.colorGrey,
               ),
@@ -108,7 +108,7 @@ class MemberInfoHeader extends StatelessWidget {
               ),
               SizedBox(height: 2),
               PrimaryText(
-                text: 'Jobs Posted',
+                text: context.resources.strings.jobsPosted,
                 fontSize: 13,
                 textColor: context.resources.color.colorGrey,
               ),
@@ -131,7 +131,7 @@ class MemberInfoHeader extends StatelessWidget {
                 ),
                 SizedBox(height: 2),
               PrimaryText(
-                text: 'Services',
+                text: context.resources.strings.services,
                 fontSize: 13,
                 textColor: context.resources.color.colorGrey,
               ),

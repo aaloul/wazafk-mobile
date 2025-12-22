@@ -116,14 +116,14 @@ class JobDetailsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 PrimaryText(
-                                  text: '\$${job.unitPrice}',
+                                  text: '\$${job.totalPrice}',
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
                                   textColor: context.resources.color.colorGrey,
                                 ),
                                 SizedBox(height: 4),
                                 PrimaryText(
-                                  text: context.resources.strings.hourlyRate,
+                                  text: context.resources.strings.totalPrice,
                                   fontSize: 14,
                                   textColor: context.resources.color.colorGrey,
                                 ),

@@ -4,7 +4,6 @@ import 'package:wazafak_app/components/file_upload_item.dart';
 import 'package:wazafak_app/components/labeled_text_field.dart';
 import 'package:wazafak_app/components/multiline_labeled_text_field.dart';
 import 'package:wazafak_app/components/primary_button.dart';
-import 'package:wazafak_app/components/primary_chooser.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
@@ -44,7 +43,7 @@ class AddPackageScreen extends StatelessWidget {
                     SizedBox(height: 8),
 
                     PrimaryText(
-                      text: "General Details *",
+                      text: "${context.resources.strings.generalDetails} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -75,7 +74,7 @@ class AddPackageScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Services",
+                      text: context.resources.strings.services,
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -110,7 +109,10 @@ class AddPackageScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     PrimaryText(
-                                      text: "Select Services",
+                                      text: context
+                                          .resources
+                                          .strings
+                                          .selectServices,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                       textColor:
@@ -147,7 +149,7 @@ class AddPackageScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Price *",
+                      text: "${context.resources.strings.price} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -175,58 +177,7 @@ class AddPackageScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Availability *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-
-                    SizedBox(height: 8),
-
-                    Obx(() {
-                      final selected = controller.selectedDuration.value;
-                      final exists = controller.durationOptions.contains(
-                        selected,
-                      );
-
-                      return PrimaryChooser(
-                        label: context.resources.strings.duration,
-                        text: context.resources.strings.selectDuration,
-                        isMandatory: true,
-                        withArrow: true,
-                        isMultiSelect: false,
-                        list: controller.durationOptions,
-                        selected: exists ? selected : null,
-                        onSelect: (value) {
-                          controller.selectDuration(value);
-                        },
-                      );
-                    }),
-
-                    Obx(() {
-                      final selected = controller.selectedBufferTime.value;
-                      final exists = controller.bufferTimeOptions.contains(
-                        selected,
-                      );
-
-                      return PrimaryChooser(
-                        label: context.resources.strings.bufferTime,
-                        text: context.resources.strings.selectBufferTime,
-                        isMandatory: true,
-                        withArrow: true,
-                        isMultiSelect: false,
-                        list: controller.bufferTimeOptions,
-                        selected: exists ? selected : null,
-                        onSelect: (value) {
-                          controller.selectBufferTime(value);
-                        },
-                      );
-                    }),
-
-                    SizedBox(height: 12),
-
-                    PrimaryText(
-                      text: "Working Hours *",
+                      text: "${context.resources.strings.workingHours} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -261,7 +212,10 @@ class AddPackageScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     PrimaryText(
-                                      text: "Working Hours",
+                                      text: context
+                                          .resources
+                                          .strings
+                                          .workingHours,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                       textColor:
@@ -297,7 +251,7 @@ class AddPackageScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Cover Image*",
+                      text: "${context.resources.strings.coverImage}*",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,

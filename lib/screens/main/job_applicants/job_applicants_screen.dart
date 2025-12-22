@@ -44,14 +44,15 @@ class JobApplicantsScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         PrimaryText(
-                          text: 'No applicants yet',
+                          text: context.resources.strings.noApplicantsYet,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           textColor: context.resources.color.colorGrey,
                         ),
                         SizedBox(height: 8),
                         PrimaryText(
-                          text: 'Applications will appear here',
+                          text: context.resources.strings
+                              .applicationsWillAppearHere,
                           fontSize: 14,
                           textColor: context.resources.color.colorGrey,
                         ),

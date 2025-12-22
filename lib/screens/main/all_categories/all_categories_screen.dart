@@ -85,7 +85,8 @@ class AllCategoriesScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 32),
                             child: PrimaryText(
-                              text: 'Try searching with different keywords',
+                              text: context.resources.strings
+                                  .trySearchingWithDifferentKeywords,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey,

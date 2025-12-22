@@ -140,17 +140,21 @@ class ProjectsController extends GetxController {
         controller.refreshHomeData();
 
         // Show success message
-        constants.showSnackBar(esources.of(Get.context!).strings.removedFromFavorites,
-          SSnackBarStatus.SUCCESS,
+        constants.showSnackBar(Resources
+            .of(Get.context!)
+            .strings
+            .removedFromFavorites,
+          SnackBarStatus.SUCCESS,
         );
       } else {
-        constants.showSnackBar(esponse.message ??
+        constants.showSnackBar(response.message ??
               Resources.of(Get.context!).strings.failedToRemoveFavorite,
-          SSnackBarStatus.ERROR,
+          SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      print('Error toggling job favorite: $e');onstants.showSnackBar(
+      print('Error toggling job favorite: $e');
+      constants.showSnackBar(
         Resources.of(Get.context!).strings.failedToRemoveFavorite,
         SnackBarStatus.ERROR,
       );

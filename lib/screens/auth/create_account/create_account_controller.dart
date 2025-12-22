@@ -253,13 +253,13 @@ class CreateAccountController extends GetxController {
       );
       return;
     }
-    if (titleController.text.isEmpty) {
-      constants.showSnackBar(
-        Resources.of(Get.context!).strings.titleRequired,
-        SnackBarStatus.ERROR,
-      );
-      return;
-    }
+    // if (titleController.text.isEmpty) {
+    //   constants.showSnackBar(
+    //     Resources.of(Get.context!).strings.titleRequired,
+    //     SnackBarStatus.ERROR,
+    //   );
+    //   return;
+    // }
     if (emailController.text.isEmpty) {
       constants.showSnackBar(
         Resources.of(Get.context!).strings.emailRequired,

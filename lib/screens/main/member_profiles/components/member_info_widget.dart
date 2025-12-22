@@ -18,7 +18,7 @@ class MemberInfoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PrimaryText(
-            text: 'About',
+            text: context.resources.strings.about,
             fontSize: 16,
             fontWeight: FontWeight.w900,
             textColor: context.resources.color.colorGrey,
@@ -63,7 +63,8 @@ class MemberInfoWidget extends StatelessWidget {
               ),
               SizedBox(width: 6),
               PrimaryText(
-                text: 'Member Since ${user.joinYear}',
+                text: context.resources.strings.memberSince(
+                    user.joinYear ?? ''),
                 textColor: context.resources.color.colorGrey,
               ),
             ],

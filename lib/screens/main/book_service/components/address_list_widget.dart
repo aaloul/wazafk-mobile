@@ -55,14 +55,14 @@ class AddressListWidget extends StatelessWidget {
           ),
           SizedBox(height: 8),
           PrimaryText(
-            text: 'No addresses available',
+            text: context.resources.strings.noAddressesAvailable,
             fontSize: 14,
             fontWeight: FontWeight.w500,
             textColor: context.resources.color.colorGrey8,
           ),
           SizedBox(height: 4),
           PrimaryText(
-            text: 'Please add an address from your profile',
+            text: context.resources.strings.pleaseAddAddressFromProfile,
             fontSize: 12,
             fontWeight: FontWeight.w400,
             textColor: context.resources.color.colorGrey19,
@@ -95,7 +95,7 @@ class AddressListWidget extends StatelessWidget {
         Row(
           children: [
             PrimaryText(
-              text: 'Choose Location',
+              text: context.resources.strings.chooseLocation,
               textColor: context.resources.color.colorGrey3,
               fontWeight: FontWeight.w500,
               fontSize: 15,

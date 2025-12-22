@@ -82,7 +82,7 @@ class HomeHeader extends StatelessWidget {
                               ),
                               SizedBox(width: 4),
                               PrimaryText(
-                                text: 'Not Verified',
+                                text: context.resources.strings.notVerified,
                                 fontSize: 9,
                                 fontWeight: FontWeight.w600,
                                 textColor: context.resources.color.colorWhite,

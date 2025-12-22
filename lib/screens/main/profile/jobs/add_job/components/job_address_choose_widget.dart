@@ -19,7 +19,7 @@ class JobAddressChooseWidget extends StatelessWidget {
         Row(
           children: [
             PrimaryText(
-              text: 'Location',
+              text: context.resources.strings.location,
               textColor: context.resources.color.colorGrey3,
               fontWeight: FontWeight.w500,
               fontSize: 15,

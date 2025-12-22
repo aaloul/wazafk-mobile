@@ -16,7 +16,7 @@ class JobTypeRadioWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         PrimaryText(
-          text: "Job Type *",
+          text: "${context.resources.strings.jobType} *",
           fontWeight: FontWeight.w500,
           fontSize: 14,
           textColor: context.resources.color.colorGrey3,

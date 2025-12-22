@@ -122,7 +122,7 @@ class HomeEngagementItem extends StatelessWidget {
                       ),
 
                       PrimaryText(
-                        text: "Total Value",
+                        text: context.resources.strings.totalValue,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         textColor: context.resources.color.colorGrey19,

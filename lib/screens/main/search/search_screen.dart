@@ -99,7 +99,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         SizedBox(height: 16),
                         PrimaryText(
-                          text: 'Start typing to search',
+                          text: context.resources.strings.startTypingToSearch,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           textColor: context.resources.color.colorGrey8,

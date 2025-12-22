@@ -53,7 +53,7 @@ class WorkingHoursBottomSheet extends StatelessWidget {
                   children: [
                     SizedBox(width: 48),
                     PrimaryText(
-                      text: 'Working Hours',
+                      text: context.resources.strings.workingHours,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       textColor: context.resources.color.colorPrimary,

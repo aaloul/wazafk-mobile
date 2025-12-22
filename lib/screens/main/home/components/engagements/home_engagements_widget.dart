@@ -27,7 +27,7 @@ class HomeEngagementsWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: PrimaryText(
-                  text: 'Upcoming Tasks & Projects',
+                  text: context.resources.strings.upcomingTasksAndProjects,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   textColor: context.resources.color.colorBlack,
@@ -67,7 +67,7 @@ class HomeEngagementsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PrimaryText(
-                    text: 'Upcoming Tasks & Projects',
+                    text: context.resources.strings.upcomingTasksAndProjects,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorBlack,
@@ -77,7 +77,7 @@ class HomeEngagementsWidget extends StatelessWidget {
                       Get.toNamed(RouteConstant.allEngagementsScreen);
                     },
                     child: PrimaryText(
-                      text: 'View All',
+                      text: context.resources.strings.viewAll,
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       textColor: context.resources.color.colorGrey14,

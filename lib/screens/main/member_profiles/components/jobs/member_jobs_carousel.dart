@@ -45,7 +45,7 @@ class _MemberJobsCarouselState extends State<MemberJobsCarousel> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: PrimaryText(
-            text: 'Work History',
+            text: context.resources.strings.workHistory,
             fontSize: 16,
             fontWeight: FontWeight.w900,
             textColor: context.resources.color.colorGrey,

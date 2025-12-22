@@ -61,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       SizedBox(height: 20),
 
                       LargeMenuItem(
-                      title: context.resources.strings.allCategories,
+                      title: context.resources.strings.services,
                       onClick: () {
                           controller.navigateToServices();
                         },

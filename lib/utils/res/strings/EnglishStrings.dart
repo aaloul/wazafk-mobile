@@ -130,6 +130,12 @@ class EnglishStrings extends Strings {
   String get requirements => "Requirements";
 
   @override
+  String get workExperience => "Work Experience";
+
+  @override
+  String get workingHours => "Working Hours";
+
+  @override
   String get message => "Message";
 
   @override
@@ -253,6 +259,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get cancel => "Cancel";
+
+  @override
+  String get add => "Add";
 
   @override
   String get createNewJob => "Create New Job";
@@ -615,6 +624,10 @@ class EnglishStrings extends Strings {
   String get noNotificationsYet => "No notifications yet";
 
   @override
+  String get notificationsDescription =>
+      "You'll see notifications here when you get them";
+
+  @override
   String get noPackageDetailsAvailable => "No package details available";
 
   @override
@@ -689,6 +702,9 @@ class EnglishStrings extends Strings {
   String get done => "Done";
 
   @override
+  String get amount => "Amount";
+
+  @override
   String get rating => "Rating";
 
   @override
@@ -750,6 +766,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get freelancerHired => "Freelancer hired";
+
+  @override
+  String get freelancer => "Freelancer";
 
   @override
   String memberSince(String year) => "Member Since $year";
@@ -1092,6 +1111,9 @@ class EnglishStrings extends Strings {
   @override
   String get generalDetails => "General Details *";
 
+  @override
+  String get skillsAdditionNote => "You can add 2 the rest will be charged.";
+
   // Password
   @override
   String get changePassword => "Change Password";
@@ -1127,6 +1149,18 @@ class EnglishStrings extends Strings {
 
   @override
   String get skills => "Skills";
+
+  @override
+  String get workHistory => "Work History";
+
+  @override
+  String get workPackages => "Work Packages";
+
+  @override
+  String get jobDetails => "Job Details";
+
+  @override
+  String get howCanWeHelpYou => "How Can We help You?";
 
   // Profile Settings Menu
   @override
@@ -1292,6 +1326,12 @@ class EnglishStrings extends Strings {
 
   @override
   String get rateUsAndLeaveFeedback => "Rate Us and leave a feedback";
+
+  @override
+  String get yourOpinionMatters => "Your Opinion Matters!";
+
+  @override
+  String get yourRating => "Your Rating";
 
   // Working Hours
   @override

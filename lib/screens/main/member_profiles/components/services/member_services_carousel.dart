@@ -34,7 +34,7 @@ class _MemberServicesCarouselState extends State<MemberServicesCarousel> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: PrimaryText(
-              text: 'Services',
+              text: context.resources.strings.services,
               fontSize: 16,
               fontWeight: FontWeight.w900,
               textColor: context.resources.color.colorGrey,

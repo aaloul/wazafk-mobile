@@ -30,7 +30,7 @@ class LoginSecurityScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               child: PrimaryText(
-                text: "Password & Security",
+                text: context.resources.strings.passwordAndSecurity,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 textColor: context.resources.color.colorGrey,
@@ -65,7 +65,7 @@ class LoginSecurityScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               child: PrimaryText(
-                text: "Security Checks",
+                text: context.resources.strings.securityChecks,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 textColor: context.resources.color.colorGrey,

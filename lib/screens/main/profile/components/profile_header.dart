@@ -103,7 +103,7 @@ class ProfileHeader extends StatelessWidget {
                   SizedBox(width: 8),
                   Expanded(
                     child: PrimaryText(
-                      text: 'Not Verified',
+                      text: context.resources.strings.notVerified,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       textColor: context.resources.color.colorWhite,
@@ -121,7 +121,7 @@ class ProfileHeader extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: PrimaryText(
-                        text: 'Verify Now',
+                        text: context.resources.strings.verifyNow,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         textColor: context.resources.color.colorPrimary,

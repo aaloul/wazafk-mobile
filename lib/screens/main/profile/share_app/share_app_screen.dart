@@ -47,7 +47,7 @@ class ShareAppScreen extends StatelessWidget {
 
                     Center(
                       child: PrimaryText(
-                        text: "Invite Friend And Get 5% (Up To 10\$) Off Next Hire",
+                        text: context.resources.strings.inviteFriendAndGet,
                         fontSize: 20,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w700,

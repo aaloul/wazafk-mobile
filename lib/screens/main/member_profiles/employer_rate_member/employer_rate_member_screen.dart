@@ -34,7 +34,7 @@ class EmployerRateMemberScreen extends StatelessWidget {
                 if (controller.criteria.isEmpty) {
                   return Center(
                     child: PrimaryText(
-                      text: 'No rating criteria available',
+                      text: context.resources.strings.noRatingCriteriaAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),

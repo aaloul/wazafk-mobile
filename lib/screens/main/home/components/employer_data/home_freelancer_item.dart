@@ -307,7 +307,7 @@ class _HomeFreelancerItemState extends State<HomeFreelancerItem> {
               ),
               SizedBox(height: 12),
               PrimaryText(
-                text: 'Services & Packages',
+                text: context.resources.strings.servicesAndPackages,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 textColor: context.resources.color.colorBlack,

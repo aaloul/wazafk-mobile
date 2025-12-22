@@ -23,7 +23,7 @@ class HomeCategoriesWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: PrimaryText(
-                  text: "Services",
+                  text: context.resources.strings.services,
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                 ),
@@ -33,7 +33,7 @@ class HomeCategoriesWidget extends StatelessWidget {
                   controller.onViewAllCategories();
                 },
                 child: PrimaryText(
-                  text: "View All",
+                  text: context.resources.strings.viewAll,
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   textColor: context.resources.color.colorGrey14,

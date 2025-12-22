@@ -86,6 +86,10 @@ abstract class Strings {
 
   String get requirements;
 
+  String get workExperience;
+
+  String get workingHours;
+
   String get message;
 
   String get portfolioLink;
@@ -169,6 +173,8 @@ abstract class Strings {
   String get delete;
 
   String get cancel;
+
+  String get add;
 
   String get createNewJob;
 
@@ -408,6 +414,8 @@ abstract class Strings {
 
   String get noNotificationsYet;
 
+  String get notificationsDescription;
+
   String get noPackageDetailsAvailable;
 
   String get noProfileDetailsAvailable;
@@ -456,6 +464,8 @@ abstract class Strings {
 
   String get done;
 
+  String get amount;
+
   String get rating;
 
   String get location;
@@ -497,6 +507,8 @@ abstract class Strings {
   String get notVerified;
 
   String get freelancerHired;
+
+  String get freelancer;
 
   String memberSince(String year);
 
@@ -726,6 +738,8 @@ abstract class Strings {
 
   String get generalDetails;
 
+  String get skillsAdditionNote;
+
   // Password
   String get changePassword;
 
@@ -749,6 +763,14 @@ abstract class Strings {
   String get servicesAndPackages;
 
   String get skills;
+
+  String get workHistory;
+
+  String get workPackages;
+
+  String get jobDetails;
+
+  String get howCanWeHelpYou;
 
   // Profile Settings Menu
   String get settings;
@@ -860,6 +882,10 @@ abstract class Strings {
   String get inviteFriendAndGet;
 
   String get rateUsAndLeaveFeedback;
+
+  String get yourOpinionMatters;
+
+  String get yourRating;
 
   // Working Hours
   String get saveWorkingHours;

@@ -277,7 +277,7 @@ class _HomeServiceItemState extends State<HomeServiceItem> {
                 children: [
                   Expanded(
                     child: PrimaryText(
-                      text: 'Skills',
+                      text: context.resources.strings.skills,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       textColor: context.resources.color.colorBlack,

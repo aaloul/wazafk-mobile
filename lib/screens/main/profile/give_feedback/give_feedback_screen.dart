@@ -37,14 +37,14 @@ class GiveFeedbackScreen extends StatelessWidget {
                       SizedBox(height: 8),
 
                       PrimaryText(
-                        text: 'Your Opinion Matters!',
+                        text: context.resources.strings.yourOpinionMatters,
                         fontWeight: FontWeight.w900,
                         fontSize: 16,
                         textColor: context.resources.color.colorGrey,
                       ),
                       SizedBox(height: 8),
                       PrimaryText(
-                        text: 'Rate Us and leave a feedback',
+                        text: context.resources.strings.rateUsAndLeaveFeedback,
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                         textColor: context.resources.color.colorGrey3,
@@ -52,7 +52,7 @@ class GiveFeedbackScreen extends StatelessWidget {
 
                       SizedBox(height: 20),
                       PrimaryText(
-                        text: 'Your Rating*',
+                        text: "${context.resources.strings.yourRating}*",
                         fontWeight: FontWeight.w900,
                         fontSize: 16,
                         textColor: context.resources.color.colorGrey,

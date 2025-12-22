@@ -37,14 +37,14 @@ class NotificationsListWidget extends StatelessWidget {
               ),
               SizedBox(height: 16),
               PrimaryText(
-                text: "No notifications yet",
+                text: context.resources.strings.noNotificationsYet,
                 fontSize: 16,
                 textColor: context.resources.color.colorGrey3,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(height: 8),
               PrimaryText(
-                text: "You'll see notifications here when you get them",
+                text: context.resources.strings.notificationsDescription,
                 fontSize: 14,
                 textColor: context.resources.color.colorGrey3,
               ),

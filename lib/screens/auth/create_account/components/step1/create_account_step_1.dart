@@ -101,7 +101,8 @@ class CreateAccountStep1 extends StatelessWidget {
                         .title,
                     inputType: TextInputType.text,
                     isPassword: false,
-                    isMandatory: true,
+                    isMandatory: false,
+                    isOptional: true,
                     controller: dataController.titleController,
                   ),
                   LabeledTextFiled(

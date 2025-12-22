@@ -53,7 +53,7 @@ class ServicesSelectionBottomSheet extends StatelessWidget {
                   children: [
                     SizedBox(width: 48),
                     PrimaryText(
-                      text: 'Select Services',
+                      text: context.resources.strings.selectServices,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       textColor: context.resources.color.colorPrimary,
@@ -85,7 +85,7 @@ class ServicesSelectionBottomSheet extends StatelessWidget {
               if (controller.services.isEmpty) {
                 return Center(
                   child: PrimaryText(
-                    text: 'No services available',
+                    text: context.resources.strings.noServicesAvailable,
                     fontSize: 14,
                     textColor: context.resources.color.colorGrey,
                   ),

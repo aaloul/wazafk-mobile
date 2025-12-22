@@ -15,7 +15,7 @@ class ServiceTypeRadioWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         PrimaryText(
-          text: "Service Type",
+          text: context.resources.strings.serviceType,
           fontWeight: FontWeight.w900,
           fontSize: 16,
           textColor: context.resources.color.colorGrey,

@@ -29,29 +29,12 @@ class ApplyJobController extends GetxController {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController budgetController = TextEditingController();
 
-  var selectedDuration = Rxn<String>();
   var cvFile = Rxn<File>();
   var cvFileBase64 = Rxn<String>();
   var cvFileName = Rxn<String>();
   var cvFileSize = Rxn<int>();
   var cvFileExtension = Rxn<String>();
 
-  final List<String> durationOptions = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '12',
-    '16',
-    '20',
-    '24',
-  ];
 
   @override
   void onInit() {
@@ -293,16 +276,7 @@ class ApplyJobController extends GetxController {
       return;
     }
 
-    if (selectedDuration.value == null) {
-      constants.showSnackBar(
-        Resources
-            .of(Get.context!)
-            .strings
-            .pleaseSelectDuration,
-        SnackBarStatus.ERROR,
-      );
-      return;
-    }
+
 
     if (descriptionController.text.trim().isEmpty) {
       constants.showSnackBar(
@@ -321,9 +295,9 @@ class ApplyJobController extends GetxController {
       Map<String, dynamic> data = {
         'type': 'JA',
         'job': job.value!.hashcode!,
-        'unit_price': budgetController.text,
+        'unit_price': null,
         'total_price': budgetController.text,
-        'estimated_hours': selectedDuration.value!,
+        'estimated_hours': '',
         'message_to_client': descriptionController.text,
         'work_location_type': job.value!.workLocationType.toString(),
         'address': "",

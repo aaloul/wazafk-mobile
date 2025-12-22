@@ -43,7 +43,7 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 8),
 
                     PrimaryText(
-                      text: "General Details *",
+                      text: "${context.resources.strings.generalDetails} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -77,8 +77,8 @@ class AddJobScreen extends StatelessWidget {
 
                       return Obx(
                         () => CategoryChooser(
-                          label: 'Category',
-                          text: 'Select Category',
+                          label: context.resources.strings.category,
+                          text: context.resources.strings.selectCategory,
                           isMandatory: true,
                           withArrow: true,
                           list: homeController.jobCategories,
@@ -102,8 +102,11 @@ class AddJobScreen extends StatelessWidget {
                           ? Column(
                               children: [
                                 CategoryChooser(
-                                  label: 'Subcategory',
-                                  text: 'Select Subcategory',
+                                  label: context.resources.strings.subcategory,
+                                  text: context
+                                      .resources
+                                      .strings
+                                      .selectSubcategory,
                                   isMandatory: true,
                                   withArrow: true,
                                   list: controller.subcategories,
@@ -128,7 +131,7 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Start Date *",
+                      text: "${context.resources.strings.startDate} *",
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey3,
@@ -154,7 +157,10 @@ class AddJobScreen extends StatelessWidget {
                                 children: [
                                   SizedBox(height: 16),
                                   PrimaryText(
-                                    text: 'Select Date',
+                                    text: context
+                                        .resources
+                                        .strings
+                                        .selectDateRange,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
                                     textColor:
@@ -225,7 +231,7 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 12),
 
                     PrimaryText(
-                      text: "Start Time *",
+                      text: "${context.resources.strings.startTime} *",
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey3,
@@ -260,7 +266,10 @@ class AddJobScreen extends StatelessWidget {
                                           onPressed: () =>
                                               Navigator.pop(context),
                                           child: PrimaryText(
-                                            text: 'Cancel',
+                                            text: context
+                                                .resources
+                                                .strings
+                                                .cancel,
                                             fontSize: 16,
                                             textColor: context
                                                 .resources
@@ -269,7 +278,10 @@ class AddJobScreen extends StatelessWidget {
                                           ),
                                         ),
                                         PrimaryText(
-                                          text: 'Select Time',
+                                          text: context
+                                              .resources
+                                              .strings
+                                              .selectTime,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
                                           textColor:
@@ -284,7 +296,8 @@ class AddJobScreen extends StatelessWidget {
                                             );
                                           },
                                           child: PrimaryText(
-                                            text: 'Done',
+                                            text:
+                                                context.resources.strings.done,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             textColor: context
@@ -370,7 +383,7 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Expiry Date",
+                      text: context.resources.strings.expiryDate,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey3,
@@ -396,7 +409,10 @@ class AddJobScreen extends StatelessWidget {
                                 children: [
                                   SizedBox(height: 16),
                                   PrimaryText(
-                                    text: 'Select Expiry Date',
+                                    text: context
+                                        .resources
+                                        .strings
+                                        .selectExpiryDate,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
                                     textColor:
@@ -472,7 +488,7 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 12),
 
                     PrimaryText(
-                      text: "Expiry Time",
+                      text: context.resources.strings.expiryTime,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey3,
@@ -507,7 +523,10 @@ class AddJobScreen extends StatelessWidget {
                                           onPressed: () =>
                                               Navigator.pop(context),
                                           child: PrimaryText(
-                                            text: 'Cancel',
+                                            text: context
+                                                .resources
+                                                .strings
+                                                .cancel,
                                             fontSize: 16,
                                             textColor: context
                                                 .resources
@@ -516,7 +535,10 @@ class AddJobScreen extends StatelessWidget {
                                           ),
                                         ),
                                         PrimaryText(
-                                          text: 'Select Expiry Time',
+                                          text: context
+                                              .resources
+                                              .strings
+                                              .selectExpiryTime,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
                                           textColor:
@@ -533,7 +555,8 @@ class AddJobScreen extends StatelessWidget {
                                             );
                                           },
                                           child: PrimaryText(
-                                            text: 'Done',
+                                            text:
+                                                context.resources.strings.done,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             textColor: context
@@ -623,37 +646,20 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Hourly Rate *",
+                      text: "${context.resources.strings.totalPrice} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
                     ),
                     SizedBox(height: 8),
 
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: LabeledTextFiled(
-                            controller: controller.hourlyRateController,
-                            hint: 'Amount in USD',
-                            label: 'Hourly Rate',
-                            isMandatory: true,
-                            isPassword: false,
-                            inputType: TextInputType.number,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Container(
-                          margin: EdgeInsets.only(top: 24),
-                          child: PrimaryText(
-                            text: "/ Hour",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            textColor: context.resources.color.colorGrey,
-                          ),
-                        ),
-                      ],
+                    LabeledTextFiled(
+                      controller: controller.totalPriceController,
+                      hint: 'Amount in USD',
+                      label: 'Total Price',
+                      isMandatory: true,
+                      isPassword: false,
+                      inputType: TextInputType.number,
                     ),
 
                     SizedBox(height: 16),
@@ -663,7 +669,7 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Job Details *",
+                      text: "${context.resources.strings.jobDetails} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,

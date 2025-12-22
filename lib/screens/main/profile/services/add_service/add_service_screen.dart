@@ -47,7 +47,7 @@ class AddServiceScreen extends StatelessWidget {
                     SizedBox(height: 8),
 
                     PrimaryText(
-                      text: "General Details *",
+                      text: "${context.resources.strings.generalDetails} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -193,7 +193,7 @@ class AddServiceScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Work Experience *",
+                      text: "${context.resources.strings.workExperience} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -318,7 +318,7 @@ class AddServiceScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "Availability *",
+                      text: "${context.resources.strings.availability} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -373,7 +373,7 @@ class AddServiceScreen extends StatelessWidget {
                     SizedBox(height: 12),
 
                     PrimaryText(
-                      text: "Working Hours *",
+                      text: "${context.resources.strings.workingHours} *",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -408,7 +408,8 @@ class AddServiceScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     PrimaryText(
-                                      text: "Working Hours",
+                                      text: context.resources.strings
+                                          .workingHours,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                       textColor: context.resources.color

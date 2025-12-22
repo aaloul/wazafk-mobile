@@ -26,7 +26,7 @@ class EmployerHomeDataWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: PrimaryText(
-                text: 'Freelancer',
+                text: context.resources.strings.freelancer,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 textColor: context.resources.color.colorBlack,
@@ -57,7 +57,7 @@ class EmployerHomeDataWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PrimaryText(
-                  text: 'Freelancer',
+                  text: context.resources.strings.freelancer,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   textColor: context.resources.color.colorBlack,
@@ -67,7 +67,7 @@ class EmployerHomeDataWidget extends StatelessWidget {
                     Get.toNamed(RouteConstant.allEmployerDataScreen);
                   },
                   child: PrimaryText(
-                    text: 'View All',
+                    text: context.resources.strings.viewAll,
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     textColor: context.resources.color.colorGrey14,

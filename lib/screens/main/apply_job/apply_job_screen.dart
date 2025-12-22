@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/file_upload_item.dart';
 import 'package:wazafak_app/components/multiline_labeled_text_field.dart';
 import 'package:wazafak_app/components/primary_button.dart';
-import 'package:wazafak_app/components/primary_chooser.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/primary_text_field.dart';
@@ -12,6 +11,7 @@ import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../utils/res/AppIcons.dart';
+import '../../../utils/res/Resources.dart';
 import '../../../utils/utils.dart';
 import 'apply_job_controller.dart';
 import 'components/verify_face_match_apply_job_bottom_sheet.dart';
@@ -156,7 +156,7 @@ class ApplyJobScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       PrimaryText(
-                                        text: '${job.unitPrice}\$' ?? '',
+                                        text: '${job.totalPrice}\$' ?? '',
                                         fontSize: 16,
                                         fontWeight: FontWeight.w900,
                                         textColor:
@@ -165,7 +165,7 @@ class ApplyJobScreen extends StatelessWidget {
                                       SizedBox(height: 2),
                                       PrimaryText(
                                         text: context.resources.strings
-                                            .hourlyRate,
+                                            .totalPrice,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         textColor:
@@ -194,30 +194,13 @@ class ApplyJobScreen extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
 
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: PrimaryTextField(
-                                          controller:
-                                              controller.budgetController,
-                                          hint: context.resources.strings
-                                              .amountInUsd,
-                                          fontSize: 12,
-                                          inputType: TextInputType.number,
-                                        ),
-                                      ),
-
-                                      SizedBox(width: 8),
-                                      PrimaryText(
-                                        text: context.resources.strings.perHour,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w900,
-                                        textColor:
-                                            context.resources.color.colorGrey,
-                                      ),
-                                    ],
+                                  PrimaryTextField(
+                                    controller:
+                                    controller.budgetController,
+                                    hint: context.resources.strings
+                                        .amountInUsd,
+                                    fontSize: 12,
+                                    inputType: TextInputType.number,
                                   ),
 
                                   SizedBox(height: 16),
@@ -323,53 +306,7 @@ class ApplyJobScreen extends StatelessWidget {
                                     ],
                                   ),
 
-                                  SizedBox(height: 16),
 
-                                  PrimaryText(
-                                    text: context.resources.strings
-                                        .howLongWillItTake,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 16,
-                                    textColor:
-                                        context.resources.color.colorGrey,
-                                  ),
-
-                                  // Duration Dropdown
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: PrimaryChooser(
-                                          label: context.resources.strings
-                                              .duration,
-                                          text: context.resources.strings
-                                              .selectDuration,
-                                          isMandatory: true,
-                                          withArrow: true,
-                                          isMultiSelect: false,
-                                          list: controller.durationOptions,
-                                          selected:
-                                              controller.selectedDuration.value,
-                                          onSelect: (value) {
-                                            controller.selectedDuration.value =
-                                                value;
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 24),
-                                        child: PrimaryText(
-                                          text: context.resources.strings.hours,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w900,
-                                          textColor:
-                                              context.resources.color.colorGrey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
 
                                   SizedBox(height: 16),
 
@@ -549,25 +486,25 @@ class ApplyJobScreen extends StatelessWidget {
                                             .trim()
                                             .isEmpty) {
                                           constants.showSnackBar(
-                                              'Please enter your budget',
-                                              SnackBarStatus.ERROR);
+                                            Resources
+                                                .of(Get.context!)
+                                                .strings
+                                                .pleaseEnterYourBudget,
+                                            SnackBarStatus.ERROR,
+                                          );
                                           return;
                                         }
 
-                                        if (controller.selectedDuration.value ==
-                                            null) {
-                                          constants.showSnackBar(
-                                              'Please select a duration',
-                                              SnackBarStatus.ERROR);
-                                          return;
-                                        }
 
                                         if (controller.descriptionController
                                             .text
                                             .trim()
                                             .isEmpty) {
                                           constants.showSnackBar(
-                                            'Please enter a description',
+                                            Resources
+                                                .of(Get.context!)
+                                                .strings
+                                                .enterYourMessage,
                                             SnackBarStatus.ERROR,
                                           );
                                           return;

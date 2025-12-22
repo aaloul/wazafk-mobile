@@ -47,7 +47,7 @@ class _RecentTransactionsWidgetState extends State<RecentTransactionsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PrimaryText(
-            text: "Recent Transactions",
+            text: context.resources.strings.recentTransactions,
             fontWeight: FontWeight.w900,
             fontSize: 16,
             textColor: context.resources.color.colorGrey,
@@ -55,7 +55,7 @@ class _RecentTransactionsWidgetState extends State<RecentTransactionsWidget> {
           SizedBox(height: 6),
           PrimaryChooser(
             label: '',
-            text: 'Sort By',
+            text: context.resources.strings.sortBy,
             selected: selectedSortBy,
             withArrow: true,
             isMandatory: false,
@@ -79,7 +79,7 @@ class _RecentTransactionsWidgetState extends State<RecentTransactionsWidget> {
               Expanded(
                 flex: 1,
                 child: PrimaryText(
-                  text: "Date",
+                  text: context.resources.strings.date,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                   textColor: context.resources.color.colorGrey3,
@@ -88,7 +88,7 @@ class _RecentTransactionsWidgetState extends State<RecentTransactionsWidget> {
               Expanded(
                 flex: 1,
                 child: PrimaryText(
-                  text: "Amount",
+                  text: context.resources.strings.amount,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                   textColor: context.resources.color.colorGrey3,
@@ -97,7 +97,7 @@ class _RecentTransactionsWidgetState extends State<RecentTransactionsWidget> {
               Expanded(
                 flex: 1,
                 child: PrimaryText(
-                  text: "Reason",
+                  text: context.resources.strings.reason,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                   textColor: context.resources.color.colorGrey3,

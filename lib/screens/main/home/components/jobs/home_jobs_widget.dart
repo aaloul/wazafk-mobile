@@ -24,7 +24,7 @@ class HomeJobsWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: PrimaryText(
-                  text: "Available Jobs",
+                  text: context.resources.strings.availableJobs,
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                 ),
@@ -34,7 +34,7 @@ class HomeJobsWidget extends StatelessWidget {
                   Get.toNamed(RouteConstant.allJobsScreen);
                 },
                 child: PrimaryText(
-                  text: "View All",
+                  text: context.resources.strings.viewAll,
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   textColor: context.resources.color.colorGrey14,

@@ -31,7 +31,7 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                 if (user == null) {
                   return Center(
                     child: PrimaryText(
-                      text: 'No profile details available',
+                      text: context.resources.strings.noProfileDetailsAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),

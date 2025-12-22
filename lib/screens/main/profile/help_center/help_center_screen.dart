@@ -26,7 +26,7 @@ class HelpCenterScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               child: PrimaryText(
-                text: "How Can We help You?",
+                text: context.resources.strings.howCanWeHelpYou,
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
                 textColor: context.resources.color.colorGrey,

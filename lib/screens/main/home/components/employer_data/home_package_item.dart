@@ -277,7 +277,7 @@ class _HomePackageItemState extends State<HomePackageItem> {
                 children: [
                   Expanded(
                     child: PrimaryText(
-                      text: 'Services',
+                      text: context.resources.strings.services,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       textColor: context.resources.color.colorBlack,

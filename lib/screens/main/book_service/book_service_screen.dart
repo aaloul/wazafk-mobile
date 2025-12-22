@@ -174,7 +174,8 @@ class BookServiceScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2),
                                         PrimaryText(
-                                          text: 'Hourly Rate',
+                                          text: context.resources.strings
+                                              .hourlyRate,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           textColor:

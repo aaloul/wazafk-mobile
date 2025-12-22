@@ -18,7 +18,7 @@ class JobSkillsChooseWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         PrimaryText(
-          text: "Skills *",
+          text: "${context.resources.strings.skills} *",
           fontWeight: FontWeight.w900,
           fontSize: 16,
           textColor: context.resources.color.colorGrey,
@@ -26,7 +26,7 @@ class JobSkillsChooseWidget extends StatelessWidget {
 
         SizedBox(height: 8),
         PrimaryText(
-          text: "You can add 2 the rest will be charged.",
+          text: context.resources.strings.skillsAdditionNote,
           fontWeight: FontWeight.w500,
           fontSize: 14,
           textColor: context.resources.color.colorGrey3,
@@ -70,7 +70,7 @@ class JobSkillsChooseWidget extends StatelessWidget {
                         color: context.resources.color.colorGrey,
                       ),
                       PrimaryText(
-                        text: 'Add',
+                        text: context.resources.strings.add,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         textColor: context.resources.color.colorGrey,
@@ -150,7 +150,7 @@ class JobSkillsChooseWidget extends StatelessWidget {
                           color: context.resources.color.colorGrey,
                         ),
                         PrimaryText(
-                          text: 'Add',
+                          text: context.resources.strings.add,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           textColor: context.resources.color.colorGrey,
