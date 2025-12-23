@@ -29,14 +29,15 @@ class AddServiceController extends GetxController {
   final descController = TextEditingController();
   final titleController = TextEditingController();
   final hourlyRateController = TextEditingController();
+  final totalPriceController = TextEditingController();
   final workExperienceController = TextEditingController();
 
   var selectedCategory = Rxn<Category>();
   var selectedSubcategory = Rxn<Category>();
   var subcategories = <Category>[].obs;
   var isLoadingSubcategories = false.obs;
-  var selectedDuration = ''.obs;
-  var selectedBufferTime = ''.obs;
+
+  var selectedPricingType = ''.obs;
   var selectedSkills = <Skill>[].obs;
   var selectedAddresses = <Address>[].obs;
   var isLoading = false.obs;
@@ -118,17 +119,26 @@ class AddServiceController extends GetxController {
             .oneHundredEightyMinutes,
       ];
 
+  List<String> get pricingTypeOptions =>
+      [
+        Resources
+            .of(Get.context!)
+            .strings
+            .hourlyRateOption,
+        Resources
+            .of(Get.context!)
+            .strings
+            .fixedRateOption,
+      ];
+
   @override
   void onInit() {
     super.onInit();
-    selectedDuration.value = Resources
+
+    selectedPricingType.value = Resources
         .of(Get.context!)
         .strings
-        .fifteenMinutes;
-    selectedBufferTime.value = Resources
-        .of(Get.context!)
-        .strings
-        .fifteenMinutes;
+        .hourlyRateOption;
     _initializeWorkingHours();
 
     // Check if we're in edit mode
@@ -150,25 +160,9 @@ class AddServiceController extends GetxController {
     titleController.text = service.title ?? '';
     descController.text = service.description ?? '';
     hourlyRateController.text = service.unitPrice ?? '';
+    totalPriceController.text = service.totalPrice ?? '';
     workExperienceController.text = service.experience ?? '';
 
-    // Set duration and buffer time - ensure they match with list items
-    if (service.availableDuration != null) {
-      final durationString = _getDurationStringFromMinutes(
-        int.tryParse(service.availableDuration.toString()),
-      );
-      if (durationString != null) {
-        selectedDuration.value = durationString;
-      }
-    }
-    if (service.availableBuffer != null) {
-      final bufferString = _getDurationStringFromMinutes(
-        int.tryParse(service.availableBuffer.toString()),
-      );
-      if (bufferString != null) {
-        selectedBufferTime.value = bufferString;
-      }
-    }
 
     // Set selected skills
     if (service.skills != null) {
@@ -470,17 +464,7 @@ class AddServiceController extends GetxController {
     }
   }
 
-  void selectDuration(String? duration) {
-    if (duration != null) {
-      selectedDuration.value = duration;
-    }
-  }
 
-  void selectBufferTime(String? bufferTime) {
-    if (bufferTime != null) {
-      selectedBufferTime.value = bufferTime;
-    }
-  }
 
   void toggleSkillSelection(Skill skill) {
     if (isSkillSelected(skill)) {
@@ -570,13 +554,23 @@ class AddServiceController extends GetxController {
           .pleaseSelectCategory, SnackBarStatus.ERROR);
       return false;
     }
-    if (hourlyRateController.text.trim().isEmpty) {
+
+    if (hourlyRateController.text.trim().isEmpty && selectedPricingType.value == Resources.of(Get.context!).strings.hourlyRateOption) {
       constants.showSnackBar(Resources
           .of(Get.context!)
           .strings
           .pleaseEnterHourlyRate, SnackBarStatus.ERROR);
       return false;
     }
+
+    if (totalPriceController.text.trim().isEmpty && selectedPricingType.value != Resources.of(Get.context!).strings.hourlyRateOption) {
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterTotalPrice, SnackBarStatus.ERROR);
+      return false;
+    }
+
     if (workExperienceController.text.trim().isEmpty) {
       constants.showSnackBar(
         Resources
@@ -607,13 +601,6 @@ class AddServiceController extends GetxController {
     try {
       isLoading.value = true;
 
-      // Extract minutes from duration string (e.g., "15 minutes" -> 15)
-      final durationMinutes = int.parse(
-        selectedDuration.value.split(' ').first,
-      );
-      final bufferMinutes = int.parse(
-        selectedBufferTime.value.split(' ').first,
-      );
 
       // Use subcategory if selected, otherwise use main category
       final categoryHashcode =
@@ -634,19 +621,20 @@ class AddServiceController extends GetxController {
         'title': titleController.text,
         'description': descController.text,
         'category': categoryHashcode,
-        'unit_price': hourlyRateController.text.trim(),
+        'pricing_type': selectedPricingType.value == Resources.of(Get.context!).strings.hourlyRateOption ? 'U' : 'T',
         'experience': workExperienceController.text,
-        'available_duration': durationMinutes,
-        'available_buffer': bufferMinutes,
         'skills': selectedSkills.map((s) => s.hashcode).toList(),
         'areas': selectedAddresses.map((a) => a.hashcode).toList(),
         'availability': workingHoursData,
       };
 
-      // // Add portfolio image if selected
-      // if (portfolioImageBase64.value != null) {
-      //   data['image'] = portfolioImageBase64.value;
-      // }
+       if (selectedPricingType.value == Resources.of(Get.context!).strings.hourlyRateOption) {
+         data['unit_price'] = hourlyRateController.text.trim();
+      }
+
+       if (selectedPricingType.value != Resources.of(Get.context!).strings.hourlyRateOption) {
+         data['total_price'] = totalPriceController.text.trim();
+      }
 
       final response = isEditMode.value
           ? await _saveServiceRepository.saveService(editServiceHashcode!, data)

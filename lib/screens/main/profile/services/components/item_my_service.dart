@@ -76,12 +76,24 @@ class _ItemMyServiceState extends State<ItemMyService> {
             ),
           ),
 
-          PrimaryText(
-            text: "\$ ${widget.service.unitPrice}/Hour",
-            textColor: context.resources.color.colorPrimary,
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-          ),
+          widget.service.pricingType.toString() == 'U'
+              ? PrimaryText(
+
+            text: '\$${widget.service.pricingType
+                .toString() ==
+                'U'
+                ? '${widget.service.unitPrice}/Hour'
+                : widget.service.totalPrice}',
+                  textColor: context.resources.color.colorPrimary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                )
+              : PrimaryText(
+                  text: "\$ ${widget.service.totalPrice}",
+                  textColor: context.resources.color.colorPrimary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                ),
 
           isTogglingStatus
               ? SizedBox(

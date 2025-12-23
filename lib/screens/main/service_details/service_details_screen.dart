@@ -108,7 +108,8 @@ class ServiceDetailsScreen extends StatelessWidget {
                                     color: context.resources.color.colorGrey,
                                   ),
 
-                                  Expanded(
+                                 service.pricingType.toString() == 'U'
+                                      ?    Expanded(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment
                                           .center,
@@ -130,7 +131,31 @@ class ServiceDetailsScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  ) :
+                                 Expanded(
+                                   child: Column(
+                                     crossAxisAlignment: CrossAxisAlignment
+                                         .center,
+                                     children: [
+                                       PrimaryText(
+                                         text: '\$${service.totalPrice}',
+                                         fontSize: 18,
+                                         fontWeight: FontWeight.w900,
+                                         textColor: context.resources.color
+                                             .colorGrey,
+                                       ),
+                                       SizedBox(height: 4),
+                                       PrimaryText(
+                                         text: context.resources.strings
+                                             .totalPrice,
+                                         fontSize: 14,
+                                         textColor: context.resources.color
+                                             .colorGrey,
+                                       ),
+                                     ],
+                                   ),
+                                 )
+                                  ,
                                 ],
                               ),
 

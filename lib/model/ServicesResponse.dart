@@ -71,6 +71,8 @@ class Service {
   // String? image;
   String? description;
   String? unitPrice;
+  String? pricingType;
+  String? totalPrice;
   String? portfolio;
   int? featured;
   String? experience;
@@ -101,7 +103,9 @@ class Service {
     this.rating,
     // this.image,
     this.description,
+    this.pricingType,
     this.unitPrice,
+    this.totalPrice,
     this.portfolio,
     this.featured,
     this.experience,
@@ -123,6 +127,7 @@ class Service {
     memberHashcode: json["member_hashcode"],
     memberFirstName: json["member_first_name"],
     memberLastName: json["member_last_name"],
+    pricingType: json["pricing_type"],
     categoryHashcode: json["category_hashcode"],
     parentCategoryHashcode: json["parent_category_hashcode"],
     parentCategoryName: json["parent_category_name"],
@@ -132,6 +137,7 @@ class Service {
     // image: json["image"],
     description: json["description"],
     unitPrice: json["unit_price"],
+    totalPrice: json["total_price"],
     portfolio: json["portfolio"],
     featured: json["featured"],
     experience: json["experience"],
@@ -169,9 +175,11 @@ class Service {
     "category_name": categoryName,
     "title": title,
     "rating": rating,
+    "pricing_type": pricingType,
     // "image": image,
     "description": description,
     "unit_price": unitPrice,
+    "total_price": totalPrice,
     "portfolio": portfolio,
     "featured": featured,
     "experience": experience,

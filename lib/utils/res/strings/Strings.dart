@@ -84,6 +84,14 @@ abstract class Strings {
 
   String get hourlyRate;
 
+  String get startingAt;
+
+  String get pricingType;
+
+  String get hourlyRateOption;
+
+  String get fixedRateOption;
+
   String get overview;
 
   String get responsibilities;

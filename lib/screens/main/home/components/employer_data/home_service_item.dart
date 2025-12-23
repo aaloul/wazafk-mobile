@@ -284,7 +284,11 @@ class _HomeServiceItemState extends State<HomeServiceItem> {
                     ),
                   ),
                   PrimaryText(
-                    text: '\$${widget.service.unitPrice}/H',
+                    text: '\$${widget.service.pricingType
+                        .toString() ==
+                        'U'
+                        ? '${widget.service.unitPrice}/H'
+                        : widget.service.totalPrice}',
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     textColor: context.resources.color.colorBlue3,

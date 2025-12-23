@@ -14,6 +14,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../components/multiline_labeled_text_field.dart';
 import '../../../../../components/primary_chooser.dart';
+import '../../../../../utils/res/Resources.dart';
 import 'add_service_controller.dart';
 
 class AddServiceScreen extends StatelessWidget {
@@ -133,9 +134,11 @@ class AddServiceScreen extends StatelessWidget {
                                         );
 
                                     return CategoryChooser(
-                                      label: context.resources.strings
-                                          .subcategory,
-                                      text: context.resources.strings
+                                      label:
+                                          context.resources.strings.subcategory,
+                                      text: context
+                                          .resources
+                                          .strings
                                           .selectSubcategory,
                                       isMandatory: true,
                                       withArrow: true,
@@ -152,42 +155,110 @@ class AddServiceScreen extends StatelessWidget {
                                 SizedBox(height: 12),
                               ],
                             )
-                          : SizedBox.shrink(),),
+                          : SizedBox.shrink(),
+                    ),
+
+                    Obx(
+                      () => PrimaryChooser(
+                        label: context.resources.strings.pricingType,
+                        text: context.resources.strings.pricingType,
+                        isMandatory: true,
+                        withArrow: true,
+                        isMultiSelect: false,
+                        list: controller.pricingTypeOptions,
+                        selected:
+                            controller.selectedPricingType.value.isNotEmpty
+                            ? controller.selectedPricingType.value
+                            : null,
+                        onSelect: (value) {
+                          controller.selectedPricingType.value = value;
+                        },
+                      ),
+                    ),
                     SizedBox(height: 12),
 
-                    PrimaryText(
-                      text: "${context.resources.strings.hourlyRate} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 8),
+                    Obx(
+                      () =>
+                          controller.selectedPricingType.value ==
+                              Resources.of(
+                                Get.context!,
+                              ).strings.hourlyRateOption
+                          ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PrimaryText(
+                                  text:
+                                      "${context.resources.strings.hourlyRate} *",
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16,
+                                  textColor: context.resources.color.colorGrey,
+                                ),
+                                SizedBox(height: 8),
 
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: LabeledTextFiled(
-                            controller: controller.hourlyRateController,
-                            hint: context.resources.strings.amountInUsd,
-                            label: context.resources.strings.hourlyRate,
-                            isMandatory: true,
-                            isPassword: false,
-                            inputType: TextInputType.number,
-                          ),
-                        ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: LabeledTextFiled(
+                                        controller:
+                                            controller.hourlyRateController,
+                                        hint: context
+                                            .resources
+                                            .strings
+                                            .amountInUsd,
+                                        label: context
+                                            .resources
+                                            .strings
+                                            .startingAt,
+                                        isMandatory: true,
+                                        isPassword: false,
+                                        inputType: TextInputType.number,
+                                      ),
+                                    ),
 
-                        SizedBox(width: 8),
-                        Container(
-                          margin: EdgeInsets.only(top: 24),
-                          child: PrimaryText(
-                            text: "/ Hour",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            textColor: context.resources.color.colorGrey,
-                          ),
-                        ),
-                      ],
+                                    SizedBox(width: 8),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 24),
+                                      child: PrimaryText(
+                                        text: "/ Hour",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
+                                        textColor:
+                                            context.resources.color.colorGrey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PrimaryText(
+                                  text:
+                                      "${context.resources.strings.totalPrice} *",
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16,
+                                  textColor: context.resources.color.colorGrey,
+                                ),
+                                SizedBox(height: 8),
+                                LabeledTextFiled(
+                                  controller:
+                                  controller.totalPriceController,
+                                  hint: context
+                                      .resources
+                                      .strings
+                                      .amountInUsd,
+                                  label: context
+                                      .resources
+                                      .strings
+                                      .startingAt,
+                                  isMandatory: true,
+                                  isPassword: false,
+                                  inputType: TextInputType.number,
+                                ),
+                              ],
+                            ),
                     ),
 
                     SizedBox(height: 16),
@@ -201,8 +272,9 @@ class AddServiceScreen extends StatelessWidget {
                     MultilineLabeledTextField(
                       controller: controller.workExperienceController,
                       label: context.resources.strings.enterYourExperience,
-                      hint:
-                      context.resources.strings
+                      hint: context
+                          .resources
+                          .strings
                           .briefDescriptionSuitableCandidate,
                       maxLines: 20,
                       height: 100,
@@ -216,161 +288,7 @@ class AddServiceScreen extends StatelessWidget {
 
                     SkillsChooseWidget(),
 
-                    // SizedBox(height: 16),
-                    //
-                    // PrimaryText(
-                    //   text: "Portfolio",
-                    //   fontWeight: FontWeight.w900,
-                    //   fontSize: 16,
-                    //   textColor: context.resources.color.colorGrey,
-                    // ),
-                    //
-                    // SizedBox(height: 8),
-                    //
-                    // Obx(
-                    //       () =>
-                    //       FileUploadItem(
-                    //         label: controller.portfolioImage.value != null ||
-                    //             controller.portfolioImageUrl.value != null
-                    //             ? 'Portfolio Selected'
-                    //             : 'Upload Portfolio',
-                    //         isMandatory: false,
-                    //         isOptional: false,
-                    //         onClick: () {
-                    //           controller.pickPortfolioImage(context);
-                    //         },
-                    //       ),
-                    // ),
-                    //
-                    // // Show selected image (local file or URL)
-                    // Obx(
-                    //       () {
-                    //     final hasLocalImage = controller.portfolioImage.value !=
-                    //         null;
-                    //     final hasUrlImage = controller.portfolioImageUrl
-                    //         .value != null;
-                    //
-                    //     if (!hasLocalImage && !hasUrlImage) {
-                    //       return SizedBox.shrink();
-                    //     }
-                    //
-                    //     return Container(
-                    //       margin: EdgeInsets.only(top: 8),
-                    //       child: Stack(
-                    //         children: [
-                    //           ClipRRect(
-                    //             borderRadius: BorderRadius.circular(8),
-                    //             child: hasLocalImage
-                    //                 ? Image.file(
-                    //               controller.portfolioImage.value!,
-                    //               height: 150,
-                    //               width: double.infinity,
-                    //               fit: BoxFit.cover,
-                    //             )
-                    //                 : Image.network(
-                    //               controller.portfolioImageUrl.value!,
-                    //               height: 150,
-                    //               width: double.infinity,
-                    //               fit: BoxFit.cover,
-                    //               errorBuilder: (context, error, stackTrace) {
-                    //                 return Container(
-                    //                   height: 150,
-                    //                   color: context.resources.color.colorGrey8,
-                    //                   child: Center(
-                    //                     child: Icon(
-                    //                       Icons.error_outline,
-                    //                       color: context.resources.color
-                    //                           .colorGrey,
-                    //                     ),
-                    //                   ),
-                    //                 );
-                    //               },
-                    //             ),
-                    //           ),
-                    //           Positioned(
-                    //             top: 8,
-                    //             right: 8,
-                    //             child: GestureDetector(
-                    //               onTap: () {
-                    //                 controller.removePortfolioImage();
-                    //               },
-                    //               child: Container(
-                    //                 padding: EdgeInsets.all(4),
-                    //                 decoration: BoxDecoration(
-                    //                   color: context.resources.color.colorWhite,
-                    //                   shape: BoxShape.circle,
-                    //                 ),
-                    //                 child: Icon(
-                    //                   Icons.close,
-                    //                   size: 20,
-                    //                   color: context.resources.color
-                    //                       .colorPrimary,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-
                     SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.availability} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-
-                    SizedBox(height: 8),
-
-                    Obx(
-                          () {
-                        // Only pass selected if it exists in the list
-                        final selected = controller.selectedDuration.value;
-                        final exists = controller.durationOptions.contains(
-                            selected);
-
-                        return PrimaryChooser(
-                          label: context.resources.strings.duration,
-                          text: context.resources.strings.selectDuration,
-                          isMandatory: true,
-                          withArrow: true,
-                          isMultiSelect: false,
-                          list: controller.durationOptions,
-                          selected: exists ? selected : null,
-                          onSelect: (value) {
-                            controller.selectDuration(value);
-                          },
-                        );
-                      },
-                    ),
-
-                    Obx(
-                          () {
-                        // Only pass selected if it exists in the list
-                        final selected = controller.selectedBufferTime.value;
-                        final exists = controller.bufferTimeOptions.contains(
-                            selected);
-
-                        return PrimaryChooser(
-                          label: context.resources.strings.bufferTime,
-                          text: context.resources.strings.selectBufferTime,
-                          isMandatory: true,
-                          withArrow: true,
-                          isMultiSelect: false,
-                          list: controller.bufferTimeOptions,
-                          selected: exists ? selected : null,
-                          onSelect: (value) {
-                            controller.selectBufferTime(value);
-                          },
-                        );
-                      },
-                    ),
-
-                    SizedBox(height: 12),
 
                     PrimaryText(
                       text: "${context.resources.strings.workingHours} *",
@@ -408,29 +326,29 @@ class AddServiceScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     PrimaryText(
-                                      text: context.resources.strings
+                                      text: context
+                                          .resources
+                                          .strings
                                           .workingHours,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
-                                      textColor: context.resources.color
-                                          .colorPrimary,
+                                      textColor:
+                                          context.resources.color.colorPrimary,
                                     ),
                                     SizedBox(height: 4),
-                                    Obx(
-                                          () {
-                                        final enabledDays = controller
-                                            .workingHours
-                                            .where((day) => day.isEnabled)
-                                            .length;
-                                        return PrimaryText(
-                                          text: '$enabledDays days selected',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                          textColor: context.resources.color
-                                              .colorGrey,
-                                        );
-                                      },
-                                    ),
+                                    Obx(() {
+                                      final enabledDays = controller
+                                          .workingHours
+                                          .where((day) => day.isEnabled)
+                                          .length;
+                                      return PrimaryText(
+                                        text: '$enabledDays days selected',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        textColor:
+                                            context.resources.color.colorGrey,
+                                      );
+                                    }),
                                   ],
                                 ),
                               ],
@@ -456,9 +374,9 @@ class AddServiceScreen extends StatelessWidget {
                 () => controller.isLoading.value
                     ? ProgressBar()
                     : PrimaryButton(
-                  title: controller.isEditMode.value
-                      ? 'Update Service'
-                      : 'Save Service',
+                        title: controller.isEditMode.value
+                            ? 'Update Service'
+                            : 'Save Service',
                         onPressed: () {
                           controller.addService();
                         },

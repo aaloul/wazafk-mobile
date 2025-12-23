@@ -12,6 +12,9 @@ class ArabicStrings extends Strings {
   String get welcome => "مرحباً،";
 
   @override
+  String get startingAt => "إبتداء من";
+
+  @override
   String get forgetYourPassword => "نسيت كلمة المرور؟";
 
   @override
@@ -125,6 +128,15 @@ class ArabicStrings extends Strings {
 
   @override
   String get hourlyRate => "الأجر بالساعة";
+
+  @override
+  String get pricingType => "نوع التسعير";
+
+  @override
+  String get hourlyRateOption => "أجر بالساعة";
+
+  @override
+  String get fixedRateOption => "سعر ثابت";
 
   @override
   String get overview => "نظرة عامة";

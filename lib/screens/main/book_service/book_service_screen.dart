@@ -34,10 +34,10 @@ class BookServiceScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: Resources
-                  .of(context)
-                  .strings
-                  .booking),
+              TopHeader(
+                hasBack: true,
+                title: Resources.of(context).strings.booking,
+              ),
               SizedBox(height: 16),
 
               Expanded(
@@ -63,7 +63,20 @@ class BookServiceScreen extends StatelessWidget {
                           final unitPrice = controller.isPackage.value
                               ? (controller.package.value!.totalPrice ??
                                     controller.package.value!.unitPrice)
-                              : controller.service.value!.unitPrice;
+                              : controller.service.value!.pricingType
+                                        .toString() ==
+                                    'U'
+                              ? controller.service.value!.unitPrice
+                              : controller.service.value!.totalPrice;
+
+                          final priceTitle = controller.isPackage.value
+                              ? context.resources.strings.hourlyRate
+                              : controller.service.value!.pricingType
+                                        .toString() ==
+                                    'U'
+                              ? context.resources.strings.hourlyRate
+                              : context.resources.strings.totalPrice;
+
                           final memberFirstName = controller.isPackage.value
                               ? controller.package.value!.memberFirstName
                               : controller.service.value!.memberFirstName;
@@ -148,13 +161,13 @@ class BookServiceScreen extends StatelessWidget {
                                               if (parentCategoryName == null)
                                                 PrimaryText(
                                                   text: categoryName ?? '',
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                textColor: context
-                                                    .resources
-                                                    .color
-                                                    .colorGrey,
-                                              ),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                  textColor: context
+                                                      .resources
+                                                      .color
+                                                      .colorGrey,
+                                                ),
                                             ],
                                           ),
                                         ],
@@ -174,8 +187,7 @@ class BookServiceScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2),
                                         PrimaryText(
-                                          text: context.resources.strings
-                                              .hourlyRate,
+                                          text: priceTitle,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           textColor:
@@ -285,14 +297,8 @@ class BookServiceScreen extends StatelessWidget {
                       // Description
                       MultilineLabeledTextField(
                         controller: controller.notesController,
-                        label: Resources
-                            .of(context)
-                            .strings
-                            .messageToClient,
-                        hint: Resources
-                            .of(context)
-                            .strings
-                            .briefDescription,
+                        label: Resources.of(context).strings.messageToClient,
+                        hint: Resources.of(context).strings.briefDescription,
                         maxLines: 20,
                         height: 100,
                         labelFontSize: 14,
@@ -314,52 +320,53 @@ class BookServiceScreen extends StatelessWidget {
                   () => controller.isLoading.value
                       ? ProgressBar()
                       : PrimaryButton(
-                    title: Resources
-                        .of(context)
-                        .strings
-                        .bookNow,
-                    onPressed: () {
-                      if (controller.service.value == null &&
-                          controller.package.value == null) {
-                        constants.showSnackBar(
-                          'Service/Package information not available',
-                          SnackBarStatus.ERROR,
-                        );
-                        return;
-                      }
+                          title: Resources.of(context).strings.bookNow,
+                          onPressed: () {
+                            if (controller.service.value == null &&
+                                controller.package.value == null) {
+                              constants.showSnackBar(
+                                'Service/Package information not available',
+                                SnackBarStatus.ERROR,
+                              );
+                              return;
+                            }
 
-                      if (controller.rangeStart.value == null) {
-                        constants.showSnackBar(
-                          'Please select a date range',
-                          SnackBarStatus.ERROR,
-                        );
-                        return;
-                      }
+                            if (controller.rangeStart.value == null) {
+                              constants.showSnackBar(
+                                'Please select a date range',
+                                SnackBarStatus.ERROR,
+                              );
+                              return;
+                            }
 
-                      if (controller.selectedServiceType.value == null) {
-                        constants.showSnackBar(
-                          'Please select a service type',
-                          SnackBarStatus.ERROR,
-                        );
-                        return;
-                      }
+                            if (controller.selectedServiceType.value == null) {
+                              constants.showSnackBar(
+                                'Please select a service type',
+                                SnackBarStatus.ERROR,
+                              );
+                              return;
+                            }
 
-                      // Validate address only for Onsite service type
-                      if ((controller.selectedServiceType.value == 'Onsite' ||
-                          controller.selectedServiceType.value == 'Hybrid') &&
-                          controller.selectedAddress.value == null) {
-                        constants.showSnackBar(
-                            'Please select a location', SnackBarStatus.ERROR);
-                        return;
-                      }
+                            // Validate address only for Onsite service type
+                            if ((controller.selectedServiceType.value ==
+                                        'Onsite' ||
+                                    controller.selectedServiceType.value ==
+                                        'Hybrid') &&
+                                controller.selectedAddress.value == null) {
+                              constants.showSnackBar(
+                                'Please select a location',
+                                SnackBarStatus.ERROR,
+                              );
+                              return;
+                            }
 
-                      // Open face verification bottom sheet
-                      Get.bottomSheet(
-                        VerifyFaceMatchBookServiceBottomSheet(),
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                      );
-                    },
+                            // Open face verification bottom sheet
+                            Get.bottomSheet(
+                              VerifyFaceMatchBookServiceBottomSheet(),
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                            );
+                          },
                         ),
                 ),
               ),

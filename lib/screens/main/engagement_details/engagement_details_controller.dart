@@ -44,6 +44,7 @@ class EngagementDetailsController extends GetxController {
   final Rx<Package?> package = Rx<Package?>(null);
   final Rx<Job?> job = Rx<Job?>(null);
   final RxBool isPackage = false.obs;
+  final RxBool isService = false.obs;
   final RxBool isJob = false.obs;
   final RxBool isLoading = false.obs;
   final RxBool isAccepting = false.obs;
@@ -102,15 +103,18 @@ class EngagementDetailsController extends GetxController {
           arg.services != null &&
           arg.services!.isNotEmpty) {
         service.value = arg.services!.first;
+        isService.value = true;
         isPackage.value = false;
         isJob.value = false;
       } else if (arg.type.toString() == 'PB' && arg.package != null) {
         package.value = arg.package;
         isPackage.value = true;
         isJob.value = false;
+        isService.value = false;
       } else if (arg.type.toString() == 'JA' && arg.job != null) {
         job.value = arg.job;
         isPackage.value = false;
+        isService.value = false;
         isJob.value = true;
       }
 
@@ -139,6 +143,7 @@ class EngagementDetailsController extends GetxController {
               engagement.value?.services != null &&
               engagement.value!.services!.isNotEmpty) {
             service.value = engagement.value!.services!.first;
+            isService.value = true;
             isPackage.value = false;
             isJob.value = false;
           } else if (engagement.value?.type == 'PB' &&
@@ -146,10 +151,12 @@ class EngagementDetailsController extends GetxController {
             package.value = engagement.value!.package;
             isPackage.value = true;
             isJob.value = false;
+            isService.value = false;
           } else if (engagement.value?.type == 'JA' &&
               engagement.value?.job != null) {
             job.value = engagement.value!.job;
             isPackage.value = false;
+            isService.value = false;
             isJob.value = true;
           }
         }

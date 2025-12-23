@@ -167,8 +167,30 @@ class EngagementDetailsScreen extends StatelessWidget {
                               : controller.isPackage.value
                               ? controller.package.value!.title
                               : controller.service.value!.title;
-                          final unitPrice =
+
+
+                          final unitPrice =controller.isService.value
+                              ? controller.service.value!.pricingType
+                              .toString() ==
+                              'U'
+                              ? controller.engagement.value?.unitPrice
+                              : controller.engagement.value?.totalPrice:
+                          controller.isJob.value ?
+                          controller.engagement.value?.totalPrice:
                               controller.engagement.value?.unitPrice ?? 'N/A';
+
+                          final priceTitle = controller.isJob.value
+                              ? context.resources.strings.totalPrice
+                              : controller.isPackage.value
+                              ? context.resources.strings.hourlyRate
+                              : controller.service.value!.pricingType
+                              .toString() ==
+                              'U'
+                              ? context.resources.strings.hourlyRate
+                              : context.resources.strings.totalPrice;
+
+
+
                           final memberFirstName =
                               engagement.clientHashcode.toString() ==
                                   Prefs.getId
@@ -291,8 +313,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2),
                                         PrimaryText(
-                                          text: context.resources.strings
-                                              .hourlyRate,
+                                          text: priceTitle,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           textColor:

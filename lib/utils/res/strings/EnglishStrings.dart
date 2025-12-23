@@ -12,6 +12,9 @@ class EnglishStrings extends Strings {
   String get welcome => "Welcome,";
 
   @override
+  String get startingAt => "Starting At";
+
+  @override
   String get forgetYourPassword => "Forget Your Password?";
 
   @override
@@ -125,6 +128,15 @@ class EnglishStrings extends Strings {
 
   @override
   String get hourlyRate => "Hourly Rate";
+
+  @override
+  String get pricingType => "Pricing Type";
+
+  @override
+  String get hourlyRateOption => "Hourly Rate";
+
+  @override
+  String get fixedRateOption => "Fixed Rate";
 
   @override
   String get overview => "Overview";

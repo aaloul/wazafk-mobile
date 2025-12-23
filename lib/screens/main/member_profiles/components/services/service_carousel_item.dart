@@ -74,7 +74,11 @@ class ServiceCarouselItem extends StatelessWidget {
                 SizedBox(height: 10),
 
                 PrimaryText(
-                  text: '\$ ${service.unitPrice ?? '0'}',
+                  text: '\$${service.pricingType
+                      .toString() ==
+                      'U'
+                      ? '${service.unitPrice}/H'
+                      : service.totalPrice}',
                   textColor: context.resources.color.colorPrimary,
                   fontWeight: FontWeight.w700,
                   fontSize: 14,
