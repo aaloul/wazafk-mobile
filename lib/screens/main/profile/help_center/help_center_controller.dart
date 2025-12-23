@@ -29,7 +29,10 @@ class HelpCenterController extends GetxController {
             response.message ?? 'Failed to load FAQs', SnackBarStatus.ERROR);
       }
     } catch (e) {
-      constants.showSnackBar('Error loading FAQs: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingFaqs(e.toString()), SnackBarStatus.ERROR);
       print('Error loading FAQs: $e');
     } finally {
       isLoading.value = false;

@@ -42,7 +42,10 @@ class MyJobsController extends GetxController {
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error loading jobs: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingJobs(e.toString()), SnackBarStatus.ERROR);
     } finally {
       isLoading.value = false;
     }

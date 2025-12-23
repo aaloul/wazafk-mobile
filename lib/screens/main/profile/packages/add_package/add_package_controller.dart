@@ -101,13 +101,34 @@ class AddPackageController extends GetxController {
 
   void _initializeWorkingHours() {
     workingHours.value = [
-      WorkingHoursDay(day: 'Monday'),
-      WorkingHoursDay(day: 'Tuesday'),
-      WorkingHoursDay(day: 'Wednesday'),
-      WorkingHoursDay(day: 'Thursday'),
-      WorkingHoursDay(day: 'Friday'),
-      WorkingHoursDay(day: 'Saturday', isEnabled: false),
-      WorkingHoursDay(day: 'Sunday', isEnabled: false),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .monday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .tuesday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .wednesday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .thursday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .friday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .saturday, isEnabled: false),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .sunday, isEnabled: false),
     ];
   }
 
@@ -220,19 +241,40 @@ class AddPackageController extends GetxController {
   String _getDayNameFromAbbreviation(String abbr) {
     switch (abbr.toUpperCase()) {
       case 'MON':
-        return 'Monday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .monday;
       case 'TUE':
-        return 'Tuesday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .tuesday;
       case 'WED':
-        return 'Wednesday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .wednesday;
       case 'THU':
-        return 'Thursday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .thursday;
       case 'FRI':
-        return 'Friday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .friday;
       case 'SAT':
-        return 'Saturday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .saturday;
       case 'SUN':
-        return 'Sunday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .sunday;
       default:
         return '';
     }
@@ -253,12 +295,18 @@ class AddPackageController extends GetxController {
             "data:image/jpeg;base64,${base64Encode(bytes)}";
 
         constants.showSnackBar(
-          'Package image selected successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .packageImageSelectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error selecting image: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorSelectingImage(e.toString()), SnackBarStatus.ERROR);
       print('Error picking package image: $e');
     }
   }

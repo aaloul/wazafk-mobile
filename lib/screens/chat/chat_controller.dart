@@ -12,8 +12,18 @@ class ChatController extends GetxController {
       CoversationsRepository();
 
   // Tabs
-  final List<String> tabs = ["Ongoing Chat", "Active Employers"];
-  var selectedTab = "Ongoing Chat".obs;
+  List<String> get tabs =>
+      [
+        Resources
+            .of(Get.context!)
+            .strings
+            .ongoingChat,
+        Resources
+            .of(Get.context!)
+            .strings
+            .activeEmployers
+      ];
+  var selectedTab = "".obs;
 
   // Contacts data
   var contacts = <ContactElement>[].obs;
@@ -47,6 +57,10 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    selectedTab.value = Resources
+        .of(Get.context!)
+        .strings
+        .ongoingChat;
     _setupScrollListener();
     _setupConversationsScrollListener();
     // Load conversations by default since Ongoing Chat is the default tab
@@ -62,7 +76,10 @@ class ChatController extends GetxController {
 
   void _setupScrollListener() {
     scrollController.addListener(() {
-      if (selectedTab.value == "Active Employers" &&
+      if (selectedTab.value == Resources
+          .of(Get.context!)
+          .strings
+          .activeEmployers &&
           scrollController.position.pixels >=
               scrollController.position.maxScrollExtent * 0.8) {
         if (!isLoadingMore.value && hasMoreData.value) {
@@ -74,7 +91,10 @@ class ChatController extends GetxController {
 
   void _setupConversationsScrollListener() {
     conversationsScrollController.addListener(() {
-      if (selectedTab.value == "Ongoing Chat" &&
+      if (selectedTab.value == Resources
+          .of(Get.context!)
+          .strings
+          .ongoingChat &&
           conversationsScrollController.position.pixels >=
               conversationsScrollController.position.maxScrollExtent * 0.8) {
         if (!isLoadingMoreConversations.value && hasMoreConversations.value) {
@@ -89,9 +109,15 @@ class ChatController extends GetxController {
       selectedTab.value = tab;
 
       // Load data based on selected tab
-      if (tab == "Active Employers" && contacts.isEmpty) {
+      if (tab == Resources
+          .of(Get.context!)
+          .strings
+          .activeEmployers && contacts.isEmpty) {
         loadContacts();
-      } else if (tab == "Ongoing Chat" && conversations.isEmpty) {
+      } else if (tab == Resources
+          .of(Get.context!)
+          .strings
+          .ongoingChat && conversations.isEmpty) {
         loadConversations(false);
       }
     }

@@ -40,12 +40,18 @@ class UploadDocumentsController extends GetxController {
             break;
         }
         constants.showSnackBar(
-          'Image captured successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .imageCapturedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error capturing image: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorCapturingImage(e.toString()), SnackBarStatus.ERROR);
       print('Error picking image: $e');
     }
   }
@@ -55,7 +61,10 @@ class UploadDocumentsController extends GetxController {
     if (selectedTab.value == 'passport') {
       if (passportImage.value == null) {
         constants.showSnackBar(
-          'Please upload passport image',
+          Resources
+              .of(Get.context!)
+              .strings
+              .pleaseUploadPassportImage,
           SnackBarStatus.ERROR,
         );
         return;
@@ -63,7 +72,10 @@ class UploadDocumentsController extends GetxController {
     } else {
       if (frontIdImage.value == null || backIdImage.value == null) {
         constants.showSnackBar(
-          'Please upload both front and back ID images',
+          Resources
+              .of(Get.context!)
+              .strings
+              .pleaseUploadBothFrontAndBackIdImages,
           SnackBarStatus.ERROR,
         );
         return;
@@ -105,20 +117,29 @@ class UploadDocumentsController extends GetxController {
         controller.fetchProfile();
 
         constants.showSnackBar(
-          response.message ?? 'Documents uploaded successfully',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .documentsUploadedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
         // Go back to previous screen
         Get.back();
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to upload documents',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToUploadDocuments,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error uploading documents: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUploadingDocuments(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error uploading documents: $e');

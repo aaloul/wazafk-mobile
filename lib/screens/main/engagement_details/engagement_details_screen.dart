@@ -652,7 +652,10 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   SizedBox(width: 6),
                                   PrimaryText(
                                     text:
-                                        'Due: ${DateFormat('MMM dd, yyyy - hh:mm a').format(engagement.expiryDatetime!)}',
+                                    '${context.resources.strings
+                                        .due}: ${DateFormat(
+                                        'MMM dd, yyyy - hh:mm a').format(
+                                        engagement.expiryDatetime!)}',
                                     textColor:
                                         context.resources.color.colorGrey,
                                   ),

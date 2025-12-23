@@ -155,14 +155,20 @@ class EngagementDetailsController extends GetxController {
         }
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load engagement details',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadEngagementDetails,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error fetching engagement details: $e');
       constants.showSnackBar(
-        'Error loading engagement details',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorLoadingEngagementDetails,
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -183,7 +189,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Engagement accepted successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .engagementAcceptedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -196,14 +205,20 @@ class EngagementDetailsController extends GetxController {
         // Get.back(result: true);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to accept engagement',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToAcceptEngagement,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error accepting engagement: $e');
       constants.showSnackBar(
-        'Error accepting engagement',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorAcceptingEngagement,
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -224,7 +239,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Engagement rejected successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .engagementRejectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -237,14 +255,20 @@ class EngagementDetailsController extends GetxController {
         Get.back(result: true);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to reject engagement',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToRejectEngagement,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error rejecting engagement: $e');
       constants.showSnackBar(
-        'Error rejecting engagement',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorRejectingEngagement,
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -379,14 +403,20 @@ class EngagementDetailsController extends GetxController {
         // Get.back(result: true); // Go back to previous screen
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to submit negotiation',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToSubmitNegotiation,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error submitting negotiation: $e');
       constants.showSnackBar(
-        'Error submitting negotiation',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorSubmittingNegotiation(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -400,7 +430,10 @@ class EngagementDetailsController extends GetxController {
         .trim()
         .isEmpty) {
       constants.showSnackBar(
-        'Please enter a reason for the dispute',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseEnterReasonForDispute,
         SnackBarStatus.ERROR,
       );
       return;
@@ -408,7 +441,10 @@ class EngagementDetailsController extends GetxController {
 
     if (engagement.value?.hashcode == null) {
       constants.showSnackBar(
-        'Engagement information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .engagementInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return;
@@ -428,7 +464,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          response.message ?? 'Dispute submitted successfully',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .disputeSubmittedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -442,7 +481,10 @@ class EngagementDetailsController extends GetxController {
         // Get.back(result: true); // Go back to previous screen
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to submit dispute',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToSubmitDispute,
           SnackBarStatus.ERROR,
         );
       }
@@ -471,7 +513,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Change request accepted successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .changeRequestAcceptedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -484,14 +529,20 @@ class EngagementDetailsController extends GetxController {
         Get.back(result: true);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to accept change request',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToAcceptChangeRequest,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error accepting change request: $e');
       constants.showSnackBar(
-        'Error accepting change request',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorAcceptingChangeRequest(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -513,7 +564,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Change request rejected successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .changeRequestRejectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -526,14 +580,20 @@ class EngagementDetailsController extends GetxController {
         Get.back(result: true);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to reject change request',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToRejectChangeRequest,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error rejecting change request: $e');
       constants.showSnackBar(
-        'Error rejecting change request',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorRejectingChangeRequest(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -566,12 +626,18 @@ class EngagementDetailsController extends GetxController {
             result.files.single.extension?.toLowerCase();
 
         constants.showSnackBar(
-          'File selected successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .fileSelectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error selecting file: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorSelectingFile(e.toString()), SnackBarStatus.ERROR);
       print('Error picking file: $e');
     }
   }
@@ -619,7 +685,10 @@ class EngagementDetailsController extends GetxController {
     // Validate that file is uploaded
     if (deliverableFile.value == null) {
       constants.showSnackBar(
-        'Please upload deliverables file',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseUploadDeliverablesFile,
         SnackBarStatus.ERROR,
       );
       return;
@@ -635,7 +704,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Engagement finished successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .engagementFinishedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -656,14 +728,20 @@ class EngagementDetailsController extends GetxController {
         // Get.back(result: true);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to finish engagement',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToFinishEngagement,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error finishing engagement: $e');
       constants.showSnackBar(
-        'Error finishing engagement',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorFinishingEngagement(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -686,7 +764,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Finish engagement accepted successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .finishEngagementAcceptedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -699,14 +780,20 @@ class EngagementDetailsController extends GetxController {
         // Get.back(result: true);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to accept finish engagement',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToAcceptFinishEngagement,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error accepting finish engagement: $e');
       constants.showSnackBar(
-        'Error accepting finish engagement',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorAcceptingFinishEngagement(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -729,7 +816,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Finish engagement rejected successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .finishEngagementRejectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -742,14 +832,20 @@ class EngagementDetailsController extends GetxController {
         Get.back(result: true);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to reject finish engagement',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToRejectFinishEngagement,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error rejecting finish engagement: $e');
       constants.showSnackBar(
-        'Error rejecting finish engagement',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorRejectingFinishEngagement(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -782,7 +878,10 @@ class EngagementDetailsController extends GetxController {
       isCameraInitialized.value = true;
     } catch (e) {
       constants.showSnackBar(
-        'Error initializing camera: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorInitializingCamera(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error initializing camera: $e');
@@ -794,7 +893,10 @@ class EngagementDetailsController extends GetxController {
   Future<void> takePictureFromCamera() async {
     if (cameraController == null || !cameraController!.value.isInitialized) {
       constants.showSnackBar(
-        'Camera not initialized',
+        Resources
+            .of(Get.context!)
+            .strings
+            .cameraNotInitialized,
         SnackBarStatus.ERROR,
       );
       return;
@@ -804,7 +906,10 @@ class EngagementDetailsController extends GetxController {
       final image = await cameraController!.takePicture();
       faceMatchImage.value = image;
       constants.showSnackBar(
-        'Image captured successfully',
+        Resources
+            .of(Get.context!)
+            .strings
+            .imageCapturedSuccessfully,
         SnackBarStatus.SUCCESS,
       );
     } catch (e) {
@@ -837,7 +942,10 @@ class EngagementDetailsController extends GetxController {
       if (image != null) {
         faceMatchImage.value = image;
         constants.showSnackBar(
-          'Image captured successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .imageCapturedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
       }
@@ -853,7 +961,10 @@ class EngagementDetailsController extends GetxController {
   Future<void> verifyFaceMatch() async {
     if (faceMatchImage.value == null) {
       constants.showSnackBar(
-        'Please capture an image first',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseCaptureImageFirst,
         SnackBarStatus.ERROR,
       );
       return;
@@ -870,7 +981,10 @@ class EngagementDetailsController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Face verified successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .faceVerifiedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -903,14 +1017,20 @@ class EngagementDetailsController extends GetxController {
         faceVerificationAction = null;
       } else {
         constants.showSnackBar(
-          response.message ?? 'Face verification failed',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .faceVerificationFailed,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error verifying face match: $e');
       constants.showSnackBar(
-        'Error verifying face match',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorVerifyingFaceMatch(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {

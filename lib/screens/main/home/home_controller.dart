@@ -164,7 +164,10 @@ class HomeController extends GetxController {
         Prefs.setJobCategories(response.data!.list!);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load categories',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadCategories,
           SnackBarStatus.ERROR,
         );
       }
@@ -189,12 +192,18 @@ class HomeController extends GetxController {
         jobs.value = response.data!;
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load jobs',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadJobs,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error loading jobs: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingJobs(e.toString()), SnackBarStatus.ERROR);
     } finally {
       isLoadingJobs.value = false;
     }
@@ -211,12 +220,18 @@ class HomeController extends GetxController {
         Prefs.setSkills(response.data!.list!);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load skills',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadSkills,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error loading skills: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingSkills(e.toString()), SnackBarStatus.ERROR);
       print('Error loading skills: $e');
     } finally {
       isLoadingSkills.value = false;
@@ -234,7 +249,10 @@ class HomeController extends GetxController {
         Prefs.setAddresses(response.data!);
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load addresses',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadAddresses,
           SnackBarStatus.ERROR,
         );
       }
@@ -261,12 +279,18 @@ class HomeController extends GetxController {
         Prefs.setWalletHashcode(response.data!.hashcode ?? '');
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load wallet',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadWallet,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error loading wallet: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingWallet(e.toString()), SnackBarStatus.ERROR);
       print('Error loading wallet: $e');
     } finally {
       isLoadingWallet.value = false;
@@ -299,12 +323,18 @@ class HomeController extends GetxController {
         }
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load profile',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadProfile,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error loading profile: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingProfile(e.toString()), SnackBarStatus.ERROR);
       print('Error loading profile: $e');
     } finally {
       isLoadingProfile.value = false;
@@ -326,7 +356,10 @@ class HomeController extends GetxController {
         engagements.value = response.data!.list!;
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load engagements',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadEngagements,
           SnackBarStatus.ERROR,
         );
       }
@@ -352,7 +385,10 @@ class HomeController extends GetxController {
         employerData.value = response.data?.records ?? [];
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load employer home data',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .failedToLoadEmployerHomeData,
           SnackBarStatus.ERROR,
         );
       }
@@ -370,7 +406,10 @@ class HomeController extends GetxController {
   Future<bool> toggleJobFavorite(Job job) async {
     if (job.hashcode == null) {
       constants.showSnackBar(
-        'Job information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .jobInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -394,13 +433,19 @@ class HomeController extends GetxController {
           }
 
           constants.showSnackBar(
-            'Removed from favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -419,14 +464,20 @@ class HomeController extends GetxController {
             jobs.refresh(); // Notify listeners
           }
 
-          constants.showSnackBar(Resources
-              .of(Get.context!)
-              .strings
-              .addedToFavorites, SnackBarStatus.SUCCESS);
+          constants.showSnackBar(
+            Resources
+                .of(Get.context!)
+                .strings
+                .addedToFavorites,
+            SnackBarStatus.SUCCESS,
+          );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -445,7 +496,10 @@ class HomeController extends GetxController {
   Future<bool> toggleMemberFavorite(User member) async {
     if (member.hashcode == null) {
       constants.showSnackBar(
-        'Member information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .memberInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -471,13 +525,19 @@ class HomeController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Removed from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -499,13 +559,19 @@ class HomeController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Added to favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .addedToFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -524,7 +590,10 @@ class HomeController extends GetxController {
   Future<bool> toggleServiceFavorite(Service service) async {
     if (service.hashcode == null) {
       constants.showSnackBar(
-        'Service information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .serviceInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -549,13 +618,19 @@ class HomeController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Removed from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -577,13 +652,19 @@ class HomeController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Added to favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .addedToFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -627,13 +708,19 @@ class HomeController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Removed from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -655,13 +742,19 @@ class HomeController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Added to favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .addedToFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;

@@ -64,6 +64,12 @@ class EnglishStrings extends Strings {
   String get gender => "Gender";
 
   @override
+  String get male => "Male";
+
+  @override
+  String get female => "Female";
+
+  @override
   String get dateOfBirth => "Date of Birth";
 
   @override
@@ -380,6 +386,12 @@ class EnglishStrings extends Strings {
   String get pleaseEnterBuilding => "Please enter a building";
 
   @override
+  String get pleaseEnterApartment => "Please enter an apartment";
+
+  @override
+  String get pleaseEnterCity => "Please enter a city";
+
+  @override
   String get pleaseMakeChange => "Please make a change";
 
   @override
@@ -501,6 +513,9 @@ class EnglishStrings extends Strings {
 
   @override
   String errorSelectingFile(String error) => "Error selecting file: $error";
+
+  @override
+  String error(String error) => "Error: $error";
 
   @override
   String get errorSubmittingDispute => "Error submitting dispute";
@@ -697,6 +712,12 @@ class EnglishStrings extends Strings {
 
   @override
   String get notAvailable => "N/A";
+
+  @override
+  String get notAvailableShort => "N/A";
+
+  @override
+  String get due => "Due";
 
   @override
   String get done => "Done";
@@ -1273,6 +1294,53 @@ class EnglishStrings extends Strings {
   @override
   String get newTalentsAvailable => "New Talents Available";
 
+  // Tab Names
+  @override
+  String get all => "All";
+
+  @override
+  String get ongoingChat => "Ongoing Chat";
+
+  @override
+  String get activeEmployers => "Active Employers";
+
+  @override
+  String get freelancers => "Freelancers";
+
+  @override
+  String get packages => "Packages";
+
+  @override
+  String get requests => "Requests";
+
+  @override
+  String get payments => "Payments";
+
+  @override
+  String get jobs => "Jobs";
+
+  // Time Durations
+  @override
+  String get fifteenMinutes => "15 minutes";
+
+  @override
+  String get thirtyMinutes => "30 minutes";
+
+  @override
+  String get fortyFiveMinutes => "45 minutes";
+
+  @override
+  String get sixtyMinutes => "60 minutes";
+
+  @override
+  String get ninetyMinutes => "90 minutes";
+
+  @override
+  String get oneHundredTwentyMinutes => "120 minutes";
+
+  @override
+  String get oneHundredEightyMinutes => "180 minutes";
+
   // Statistics
   @override
   String get totalEarnings => "Total Earnings";
@@ -1383,6 +1451,381 @@ class EnglishStrings extends Strings {
   // Verify & Book
   @override
   String get verifyAndBook => "Verify & Book";
+
+  // Days of Week
+  @override
+  String get monday => "Monday";
+
+  @override
+  String get tuesday => "Tuesday";
+
+  @override
+  String get wednesday => "Wednesday";
+
+  @override
+  String get thursday => "Thursday";
+
+  @override
+  String get friday => "Friday";
+
+  @override
+  String get saturday => "Saturday";
+
+  @override
+  String get sunday => "Sunday";
+
+  // Common Success Messages
+  @override
+  String get imageCapturedSuccessfully => "Image captured successfully";
+
+  @override
+  String get uploadedSuccessfully => "Uploaded successfully";
+
+  @override
+  String get submittedSuccessfully => "Submitted successfully";
+
+  @override
+  String get acceptedSuccessfully => "Accepted successfully";
+
+  @override
+  String get rejectedSuccessfully => "Rejected successfully";
+
+  @override
+  String get addedToFavorites => "Added to favorites";
+
+  @override
+  String get removedFromFavorites => "Removed from favorites";
+
+  @override
+  String get selectedSuccessfully => "Selected successfully";
+
+  @override
+  String get packageImageSelectedSuccessfully =>
+      "Package image selected successfully";
+
+  // Common Error Messages
+  @override
+  String get failedToLoad => "Failed to load";
+
+  @override
+  String get failedToUpload => "Failed to upload";
+
+  @override
+  String get failedToSubmit => "Failed to submit";
+
+  @override
+  String get failedToAccept => "Failed to accept";
+
+  @override
+  String get failedToReject => "Failed to reject";
+
+  @override
+  String get failedToAddToFavorites => "Failed to add to favorites";
+
+  @override
+  String get failedToRemoveFromFavorites => "Failed to remove from favorites";
+
+  @override
+  String errorCapturingImage(String error) => "Error capturing image: $error";
+
+  @override
+  String errorLoadingData(String error) => "Error loading data: $error";
+
+  @override
+  String errorUploadingData(String error) => "Error uploading data: $error";
+
+  // Information Not Available Messages
+  @override
+  String get memberInformationNotAvailable =>
+      "Member information not available";
+
+  @override
+  String get serviceInformationNotAvailable =>
+      "Service information not available";
+
+  @override
+  String get packageInformationNotAvailable =>
+      "Package information not available";
+
+  @override
+  String get jobInformationNotAvailable => "Job information not available";
+
+  @override
+  String get engagementInformationNotAvailable =>
+      "Engagement information not available";
+
+  // Face Verification Messages
+  @override
+  String get faceVerifiedSuccessfully => "Face verified successfully";
+
+  @override
+  String get faceVerificationFailed => "Face verification failed";
+
+  @override
+  String get cameraNotInitialized => "Camera not initialized";
+
+  @override
+  String get pleaseCaptureImageFirst => "Please capture an image first";
+
+  @override
+  String errorVerifyingFaceMatch(String error) =>
+      "Error verifying face match: $error";
+
+  @override
+  String errorInitializingCamera(String error) =>
+      "Error initializing camera: $error";
+
+  // Upload Documents Messages
+  @override
+  String get pleaseUploadPassportImage => "Please upload passport image";
+
+  @override
+  String get pleaseUploadBothFrontAndBackIdImages =>
+      "Please upload both front and back ID images";
+
+  @override
+  String get documentsUploadedSuccessfully => "Documents uploaded successfully";
+
+  @override
+  String get failedToUploadDocuments => "Failed to upload documents";
+
+  @override
+  String errorUploadingDocuments(String error) =>
+      "Error uploading documents: $error";
+
+  // Engagement Messages
+  @override
+  String get failedToLoadEngagementDetails =>
+      "Failed to load engagement details";
+
+  @override
+  String get errorLoadingEngagementDetails =>
+      "Error loading engagement details";
+
+  @override
+  String get engagementAcceptedSuccessfully =>
+      "Engagement accepted successfully";
+
+  @override
+  String get failedToAcceptEngagement => "Failed to accept engagement";
+
+  @override
+  String get errorAcceptingEngagement => "Error accepting engagement";
+
+  @override
+  String get engagementRejectedSuccessfully =>
+      "Engagement rejected successfully";
+
+  @override
+  String get failedToRejectEngagement => "Failed to reject engagement";
+
+  @override
+  String get errorRejectingEngagement => "Error rejecting engagement";
+
+  @override
+  String get noDatesSelected => "No dates selected";
+
+  @override
+  String get negotiationSubmittedSuccessfully =>
+      "Negotiation submitted successfully";
+
+  @override
+  String get failedToSubmitNegotiation => "Failed to submit negotiation";
+
+  @override
+  String errorSubmittingNegotiation(String error) =>
+      "Error submitting negotiation: $error";
+
+  @override
+  String get pleaseEnterReasonForDispute =>
+      "Please enter a reason for the dispute";
+
+  @override
+  String get disputeSubmittedSuccessfully => "Dispute submitted successfully";
+
+  @override
+  String get failedToSubmitDispute => "Failed to submit dispute";
+
+  @override
+  String get changeRequestAcceptedSuccessfully =>
+      "Change request accepted successfully";
+
+  @override
+  String get failedToAcceptChangeRequest => "Failed to accept change request";
+
+  @override
+  String errorAcceptingChangeRequest(String error) =>
+      "Error accepting change request: $error";
+
+  @override
+  String get changeRequestRejectedSuccessfully =>
+      "Change request rejected successfully";
+
+  @override
+  String get failedToRejectChangeRequest => "Failed to reject change request";
+
+  @override
+  String errorRejectingChangeRequest(String error) =>
+      "Error rejecting change request: $error";
+
+  @override
+  String get fileSelectedSuccessfully => "File selected successfully";
+
+  @override
+  String errorSelectingFile(String error) => "Error selecting file: $error";
+
+  @override
+  String get pleaseUploadDeliverablesFile => "Please upload deliverables file";
+
+  @override
+  String get engagementFinishedSuccessfully =>
+      "Engagement finished successfully";
+
+  @override
+  String get failedToFinishEngagement => "Failed to finish engagement";
+
+  @override
+  String errorFinishingEngagement(String error) =>
+      "Error finishing engagement: $error";
+
+  @override
+  String get finishEngagementAcceptedSuccessfully =>
+      "Finish engagement accepted successfully";
+
+  @override
+  String get failedToAcceptFinishEngagement =>
+      "Failed to accept finish engagement";
+
+  @override
+  String errorAcceptingFinishEngagement(String error) =>
+      "Error accepting finish engagement: $error";
+
+  @override
+  String get finishEngagementRejectedSuccessfully =>
+      "Finish engagement rejected successfully";
+
+  @override
+  String get failedToRejectFinishEngagement =>
+      "Failed to reject finish engagement";
+
+  @override
+  String errorRejectingFinishEngagement(String error) =>
+      "Error rejecting finish engagement: $error";
+
+  // Booking Messages
+  @override
+  String get errorFetchingAddresses => "Error fetching addresses";
+
+  @override
+  String get pleaseSelectDateRange => "Please select a date range";
+
+  @override
+  String get pleaseSelectServiceType => "Please select a service type";
+
+  @override
+  String get pleaseSelectLocation => "Please select a location";
+
+  @override
+  String errorBookingService(String error) => "Error booking service: $error";
+
+  // Application Messages
+  @override
+  String get applicationSubmittedSuccessfully =>
+      "Application submitted successfully";
+
+  // Home/Search Messages
+  @override
+  String get failedToLoadCategories => "Failed to load categories";
+
+  @override
+  String get failedToLoadJobs => "Failed to load jobs";
+
+  @override
+  String get failedToLoadSkills => "Failed to load skills";
+
+  @override
+  String get failedToLoadAddresses => "Failed to load addresses";
+
+  @override
+  String get failedToLoadWallet => "Failed to load wallet";
+
+  @override
+  String get failedToLoadProfile => "Failed to load profile";
+
+  @override
+  String get failedToLoadEngagements => "Failed to load engagements";
+
+  @override
+  String get failedToLoadEmployerHomeData =>
+      "Failed to load employer home data";
+
+  @override
+  String errorUpdatingFavorites(String error) =>
+      "Error updating favorites: $error";
+
+  // Rating Messages
+  @override
+  String get failedToLoadRatingCriteria => "Failed to load rating criteria";
+
+  @override
+  String get failedToLoadMemberProfile => "Failed to load member profile";
+
+  @override
+  String get noRatingCriteriaAvailable => "No rating criteria available";
+
+  @override
+  String get pleaseRateAtLeastOneCriterion =>
+      "Please rate at least one criterion";
+
+  @override
+  String get ratingSubmittedSuccessfully => "Rating submitted successfully";
+
+  @override
+  String get failedToSubmitRating => "Failed to submit rating";
+
+  // Category Messages
+  @override
+  String get errorFetchingCategories => "Error fetching categories";
+
+  // Empty State Messages
+  @override
+  String get noContentAvailable => "No content available";
+
+  @override
+  String get noFaqsAvailable => "No FAQs available";
+
+  @override
+  String get noJobsAvailable => "No jobs available";
+
+  // Screen Titles
+  @override
+  String get applyNow => "Apply Now";
+
+  @override
+  String get submitApplication => "Submit Application";
+
+  @override
+  String get viewChanges => "View Changes";
+
+  @override
+  String get paymentsAndEarnings => "Payments & Earnings";
+
+  // Form Labels
+  @override
+  String get title => "Title";
+
+  @override
+  String get overview => "Overview";
+
+  @override
+  String get responsibilities => "Responsibilities";
+
+  @override
+  String get requirements => "Requirements";
+
+  // Validation Messages
+  @override
+  String get mustNotBeEmpty => "Must not be empty";
 
   // Other
   @override

@@ -84,7 +84,10 @@ class ApplyJobController extends GetxController {
   Future<void> takePictureFromCamera() async {
     if (cameraController == null || !cameraController!.value.isInitialized) {
       constants.showSnackBar(
-        'Camera not initialized',
+        Resources
+            .of(Get.context!)
+            .strings
+            .cameraNotInitialized,
         SnackBarStatus.ERROR,
       );
       return;
@@ -94,7 +97,10 @@ class ApplyJobController extends GetxController {
       final image = await cameraController!.takePicture();
       faceMatchImage.value = image;
       constants.showSnackBar(
-        'Image captured successfully',
+        Resources
+            .of(Get.context!)
+            .strings
+            .imageCapturedSuccessfully,
         SnackBarStatus.SUCCESS,
       );
     } catch (e) {
@@ -119,7 +125,10 @@ class ApplyJobController extends GetxController {
   Future<void> verifyFaceMatchAndSubmit() async {
     if (faceMatchImage.value == null) {
       constants.showSnackBar(
-        'Please capture an image first',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseCaptureImageFirst,
         SnackBarStatus.ERROR,
       );
       return;
@@ -136,7 +145,10 @@ class ApplyJobController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Face verified successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .faceVerifiedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -152,14 +164,20 @@ class ApplyJobController extends GetxController {
         faceMatchImage.value = null;
       } else {
         constants.showSnackBar(
-          response.message ?? 'Face verification failed',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .faceVerificationFailed,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error verifying face match: $e');
       constants.showSnackBar(
-        'Error verifying face match',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorVerifyingFaceMatch(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -320,7 +338,10 @@ class ApplyJobController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          response.message ?? 'Application submitted successfully',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .applicationSubmittedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 

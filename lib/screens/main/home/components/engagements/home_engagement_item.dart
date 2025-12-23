@@ -151,9 +151,11 @@ class HomeEngagementItem extends StatelessWidget {
                 Expanded(
                   child: PrimaryText(
                     text:
-                    "Due:${ engagement.expiryDatetime != null ? DateFormat(
+                    "${context.resources.strings.due}: ${ engagement
+                        .expiryDatetime != null ? DateFormat(
                         'MMM dd,yyyy').format(
-                        engagement.expiryDatetime!) : 'N/A'}",
+                        engagement.expiryDatetime!) : context.resources.strings
+                        .notAvailableShort}",
                     textColor: context.resources.color.colorGrey19,
                     fontWeight: FontWeight.w500,
                   ),

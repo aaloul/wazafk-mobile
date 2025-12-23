@@ -59,7 +59,10 @@ class GiveFeedbackController extends GetxController {
       return false;
     }
     if (rating.value == 0) {
-      constants.showSnackBar('Please select a rating', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectRating, SnackBarStatus.ERROR);
       return false;
     }
     return true;

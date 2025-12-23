@@ -42,6 +42,10 @@ abstract class Strings {
 
   String get gender;
 
+  String get male;
+
+  String get female;
+
   String get dateOfBirth;
 
   String get phoneNumber;
@@ -254,6 +258,10 @@ abstract class Strings {
 
   String get pleaseEnterBuilding;
 
+  String get pleaseEnterApartment;
+
+  String get pleaseEnterCity;
+
   String get pleaseMakeChange;
 
   String get pleaseSelectDuration;
@@ -335,6 +343,8 @@ abstract class Strings {
   String errorSelectingImage(String error);
 
   String errorSelectingFile(String error);
+
+  String error(String error);
 
   String get errorSubmittingDispute;
 
@@ -461,6 +471,10 @@ abstract class Strings {
   String get unknown;
 
   String get notAvailable;
+
+  String get notAvailableShort;
+
+  String get due;
 
   String get done;
 
@@ -847,6 +861,38 @@ abstract class Strings {
 
   String get newTalentsAvailable;
 
+  // Tab Names
+  String get all;
+
+  String get ongoingChat;
+
+  String get activeEmployers;
+
+  String get freelancers;
+
+  String get packages;
+
+  String get requests;
+
+  String get payments;
+
+  String get jobs;
+
+  // Time Durations
+  String get fifteenMinutes;
+
+  String get thirtyMinutes;
+
+  String get fortyFiveMinutes;
+
+  String get sixtyMinutes;
+
+  String get ninetyMinutes;
+
+  String get oneHundredTwentyMinutes;
+
+  String get oneHundredEightyMinutes;
+
   // Statistics
   String get totalEarnings;
 
@@ -922,6 +968,240 @@ abstract class Strings {
 
   // Verify & Book
   String get verifyAndBook;
+
+  // Days of Week
+  String get monday;
+
+  String get tuesday;
+
+  String get wednesday;
+
+  String get thursday;
+
+  String get friday;
+
+  String get saturday;
+
+  String get sunday;
+
+  // Common Success Messages
+  String get imageCapturedSuccessfully;
+
+  String get uploadedSuccessfully;
+
+  String get submittedSuccessfully;
+
+  String get acceptedSuccessfully;
+
+  String get rejectedSuccessfully;
+
+  String get addedToFavorites;
+
+  String get removedFromFavorites;
+
+  String get selectedSuccessfully;
+
+  String get packageImageSelectedSuccessfully;
+
+  // Common Error Messages
+  String get failedToLoad;
+
+  String get failedToUpload;
+
+  String get failedToSubmit;
+
+  String get failedToAccept;
+
+  String get failedToReject;
+
+  String get failedToAddToFavorites;
+
+  String get failedToRemoveFromFavorites;
+
+  String errorCapturingImage(String error);
+
+  String errorLoadingData(String error);
+
+  String errorUploadingData(String error);
+
+  // Information Not Available Messages
+  String get memberInformationNotAvailable;
+
+  String get serviceInformationNotAvailable;
+
+  String get packageInformationNotAvailable;
+
+  String get jobInformationNotAvailable;
+
+  String get engagementInformationNotAvailable;
+
+  // Face Verification Messages
+  String get faceVerifiedSuccessfully;
+
+  String get faceVerificationFailed;
+
+  String get cameraNotInitialized;
+
+  String get pleaseCaptureImageFirst;
+
+  String errorVerifyingFaceMatch(String error);
+
+  String errorInitializingCamera(String error);
+
+  // Upload Documents Messages
+  String get pleaseUploadPassportImage;
+
+  String get pleaseUploadBothFrontAndBackIdImages;
+
+  String get documentsUploadedSuccessfully;
+
+  String get failedToUploadDocuments;
+
+  String errorUploadingDocuments(String error);
+
+  // Engagement Messages
+  String get failedToLoadEngagementDetails;
+
+  String get errorLoadingEngagementDetails;
+
+  String get engagementAcceptedSuccessfully;
+
+  String get failedToAcceptEngagement;
+
+  String get errorAcceptingEngagement;
+
+  String get engagementRejectedSuccessfully;
+
+  String get failedToRejectEngagement;
+
+  String get errorRejectingEngagement;
+
+  String get noDatesSelected;
+
+  String get negotiationSubmittedSuccessfully;
+
+  String get failedToSubmitNegotiation;
+
+  String errorSubmittingNegotiation(String error);
+
+  String get pleaseEnterReasonForDispute;
+
+  String get disputeSubmittedSuccessfully;
+
+  String get failedToSubmitDispute;
+
+  String get changeRequestAcceptedSuccessfully;
+
+  String get failedToAcceptChangeRequest;
+
+  String errorAcceptingChangeRequest(String error);
+
+  String get changeRequestRejectedSuccessfully;
+
+  String get failedToRejectChangeRequest;
+
+  String errorRejectingChangeRequest(String error);
+
+  String get fileSelectedSuccessfully;
+
+  String errorSelectingFile(String error);
+
+  String get pleaseUploadDeliverablesFile;
+
+  String get engagementFinishedSuccessfully;
+
+  String get failedToFinishEngagement;
+
+  String errorFinishingEngagement(String error);
+
+  String get finishEngagementAcceptedSuccessfully;
+
+  String get failedToAcceptFinishEngagement;
+
+  String errorAcceptingFinishEngagement(String error);
+
+  String get finishEngagementRejectedSuccessfully;
+
+  String get failedToRejectFinishEngagement;
+
+  String errorRejectingFinishEngagement(String error);
+
+  // Booking Messages
+  String get errorFetchingAddresses;
+
+  String get pleaseSelectDateRange;
+
+  String get pleaseSelectServiceType;
+
+  String get pleaseSelectLocation;
+
+  String errorBookingService(String error);
+
+  // Application Messages
+  String get applicationSubmittedSuccessfully;
+
+  // Home/Search Messages
+  String get failedToLoadCategories;
+
+  String get failedToLoadJobs;
+
+  String get failedToLoadSkills;
+
+  String get failedToLoadAddresses;
+
+  String get failedToLoadWallet;
+
+  String get failedToLoadProfile;
+
+  String get failedToLoadEngagements;
+
+  String get failedToLoadEmployerHomeData;
+
+  String errorUpdatingFavorites(String error);
+
+  // Rating Messages
+  String get failedToLoadRatingCriteria;
+
+  String get failedToLoadMemberProfile;
+
+  String get noRatingCriteriaAvailable;
+
+  String get pleaseRateAtLeastOneCriterion;
+
+  String get ratingSubmittedSuccessfully;
+
+  String get failedToSubmitRating;
+
+  // Category Messages
+  String get errorFetchingCategories;
+
+  // Empty State Messages
+  String get noContentAvailable;
+
+  String get noFaqsAvailable;
+
+  String get noJobsAvailable;
+
+  // Screen Titles
+  String get applyNow;
+
+  String get submitApplication;
+
+  String get viewChanges;
+
+  String get paymentsAndEarnings;
+
+  // Form Labels
+  String get title;
+
+  String get overview;
+
+  String get responsibilities;
+
+  String get requirements;
+
+  // Validation Messages
+  String get mustNotBeEmpty;
 
   // Other
   String errorOccuredCommunication(String statusCode);

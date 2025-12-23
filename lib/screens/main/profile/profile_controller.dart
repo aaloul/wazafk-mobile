@@ -254,7 +254,10 @@ class ProfileController extends GetxController {
                 SnackBarStatus.ERROR);
           }
         } catch (e) {
-          constants.showSnackBar('Error: $e', SnackBarStatus.ERROR);
+          constants.showSnackBar(Resources
+              .of(Get.context!)
+              .strings
+              .error(e.toString()), SnackBarStatus.ERROR);
         } finally {
           isLoading.value = false;
         }
@@ -302,7 +305,10 @@ class ProfileController extends GetxController {
                 SnackBarStatus.ERROR);
           }
         } catch (e) {
-          constants.showSnackBar('Error: $e', SnackBarStatus.ERROR);
+          constants.showSnackBar(Resources
+              .of(Get.context!)
+              .strings
+              .error(e.toString()), SnackBarStatus.ERROR);
         } finally {
           isLoading.value = false;
         }

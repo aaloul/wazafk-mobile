@@ -70,7 +70,10 @@ class BookServiceController extends GetxController {
   }
 
   String formatDateRange() {
-    if (rangeStart.value == null) return 'No dates selected';
+    if (rangeStart.value == null) return Resources
+        .of(Get.context!)
+        .strings
+        .noDatesSelected;
 
     final startStr = DateFormat('MMM dd, yyyy').format(rangeStart.value!);
 
@@ -106,7 +109,10 @@ class BookServiceController extends GetxController {
         addresses.value = response.data!;
       } else {
         constants.showSnackBar(
-          response.message ?? 'Error fetching addresses',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .errorFetchingAddresses,
           SnackBarStatus.ERROR,
         );
       }
@@ -127,7 +133,10 @@ class BookServiceController extends GetxController {
   Future<void> bookService() async {
     if (service.value == null && package.value == null) {
       constants.showSnackBar(
-        'Service/Package information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .serviceInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return;
@@ -135,7 +144,10 @@ class BookServiceController extends GetxController {
 
     if (rangeStart.value == null) {
       constants.showSnackBar(
-        'Please select a date range',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectDateRange,
         SnackBarStatus.ERROR,
       );
       return;
@@ -143,7 +155,10 @@ class BookServiceController extends GetxController {
 
     if (selectedServiceType.value == null) {
       constants.showSnackBar(
-        'Please select a service type',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectServiceType,
         SnackBarStatus.ERROR,
       );
       return;
@@ -153,7 +168,10 @@ class BookServiceController extends GetxController {
     if ((selectedServiceType.value == 'Onsite' ||
             selectedServiceType.value == 'Hybrid') &&
         selectedAddress.value == null) {
-      constants.showSnackBar('Please select a location', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectLocation, SnackBarStatus.ERROR);
       return;
     }
 
@@ -233,7 +251,10 @@ class BookServiceController extends GetxController {
         Get.back();
       } else {
         constants.showSnackBar(
-          response.message ?? 'Error booking service',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .errorBookingService(''),
           SnackBarStatus.ERROR,
         );
       }
@@ -288,7 +309,10 @@ class BookServiceController extends GetxController {
   Future<void> takePictureFromCamera() async {
     if (cameraController == null || !cameraController!.value.isInitialized) {
       constants.showSnackBar(
-        'Camera not initialized',
+        Resources
+            .of(Get.context!)
+            .strings
+            .cameraNotInitialized,
         SnackBarStatus.ERROR,
       );
       return;
@@ -298,7 +322,10 @@ class BookServiceController extends GetxController {
       final image = await cameraController!.takePicture();
       faceMatchImage.value = image;
       constants.showSnackBar(
-        'Image captured successfully',
+        Resources
+            .of(Get.context!)
+            .strings
+            .imageCapturedSuccessfully,
         SnackBarStatus.SUCCESS,
       );
     } catch (e) {
@@ -326,7 +353,10 @@ class BookServiceController extends GetxController {
   Future<void> verifyFaceMatchAndBook() async {
     if (faceMatchImage.value == null) {
       constants.showSnackBar(
-        'Please capture an image first',
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseCaptureImageFirst,
         SnackBarStatus.ERROR,
       );
       return;
@@ -343,7 +373,10 @@ class BookServiceController extends GetxController {
 
       if (response.success == true) {
         constants.showSnackBar(
-          'Face verified successfully',
+          Resources
+              .of(Get.context!)
+              .strings
+              .faceVerifiedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -359,14 +392,20 @@ class BookServiceController extends GetxController {
         faceMatchImage.value = null;
       } else {
         constants.showSnackBar(
-          response.message ?? 'Face verification failed',
+          response.message ?? Resources
+              .of(Get.context!)
+              .strings
+              .faceVerificationFailed,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       print('Error verifying face match: $e');
       constants.showSnackBar(
-        'Error verifying face match',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorVerifyingFaceMatch(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {

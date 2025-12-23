@@ -62,7 +62,10 @@ class ChangePasswordController extends GetxController {
       return false;
     }
     if (newPasswordController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter new password', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .newPasswordRequired, SnackBarStatus.ERROR);
       return false;
     }
     if (confirmPasswordController.text.trim().isEmpty) {
@@ -73,7 +76,10 @@ class ChangePasswordController extends GetxController {
       return false;
     }
     if (newPasswordController.text != confirmPasswordController.text) {
-      constants.showSnackBar('Passwords do not match', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .passwordsDoNotMatch, SnackBarStatus.ERROR);
       return false;
     }
     if (newPasswordController.text.length < 6) {

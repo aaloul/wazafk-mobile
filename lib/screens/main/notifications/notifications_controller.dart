@@ -7,8 +7,26 @@ class NotificationsController extends GetxController {
   final NotificationsListRepository _repository = NotificationsListRepository();
 
   // Tabs
-  final List<String> tabs = ["All", "Requests", "Payments", "Jobs"];
-  var selectedTab = "All".obs;
+  List<String> get tabs =>
+      [
+        Resources
+            .of(Get.context!)
+            .strings
+            .all,
+        Resources
+            .of(Get.context!)
+            .strings
+            .requests,
+        Resources
+            .of(Get.context!)
+            .strings
+            .payments,
+        Resources
+            .of(Get.context!)
+            .strings
+            .jobs
+      ];
+  var selectedTab = "".obs;
 
   // Notifications data
   var notifications = <NotificationElement>[].obs;
@@ -27,6 +45,10 @@ class NotificationsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    selectedTab.value = Resources
+        .of(Get.context!)
+        .strings
+        .all;
     _setupScrollListener();
     loadNotifications();
   }
@@ -74,12 +96,24 @@ class NotificationsController extends GetxController {
       };
 
       // Add filter based on selected tab
-      if (selectedTab.value != "All") {
-        if (selectedTab.value == "Requests") {
+      if (selectedTab.value != Resources
+          .of(Get.context!)
+          .strings
+          .all) {
+        if (selectedTab.value == Resources
+            .of(Get.context!)
+            .strings
+            .requests) {
           filters['reference'] = "SB,PB,CR";
-        } else if (selectedTab.value == "Payments") {
+        } else if (selectedTab.value == Resources
+            .of(Get.context!)
+            .strings
+            .payments) {
           filters['reference'] = "PA";
-        } else if (selectedTab.value == "Jobs") {
+        } else if (selectedTab.value == Resources
+            .of(Get.context!)
+            .strings
+            .jobs) {
           filters['reference'] = "JA";
         }
       }
@@ -116,12 +150,24 @@ class NotificationsController extends GetxController {
       };
 
       // Add filter based on selected tab
-      if (selectedTab.value != "All") {
-        if (selectedTab.value == "Requests") {
+      if (selectedTab.value != Resources
+          .of(Get.context!)
+          .strings
+          .all) {
+        if (selectedTab.value == Resources
+            .of(Get.context!)
+            .strings
+            .requests) {
           filters['reference'] = "SB,PB,CR";
-        } else if (selectedTab.value == "Payments") {
+        } else if (selectedTab.value == Resources
+            .of(Get.context!)
+            .strings
+            .payments) {
           filters['reference'] = "PA";
-        } else if (selectedTab.value == "Jobs") {
+        } else if (selectedTab.value == Resources
+            .of(Get.context!)
+            .strings
+            .jobs) {
           filters['reference'] = "JA";
         }
       }

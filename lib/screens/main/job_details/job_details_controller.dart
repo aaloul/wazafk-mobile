@@ -119,7 +119,10 @@ class JobDetailsController extends GetxController {
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error disabling job: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorDisablingJob(e.toString()), SnackBarStatus.ERROR);
       print('Error disabling job: $e');
     } finally {
       isUpdatingStatus.value = false;

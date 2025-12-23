@@ -35,8 +35,8 @@ class AddServiceController extends GetxController {
   var selectedSubcategory = Rxn<Category>();
   var subcategories = <Category>[].obs;
   var isLoadingSubcategories = false.obs;
-  var selectedDuration = '15 minutes'.obs;
-  var selectedBufferTime = '15 minutes'.obs;
+  var selectedDuration = ''.obs;
+  var selectedBufferTime = ''.obs;
   var selectedSkills = <Skill>[].obs;
   var selectedAddresses = <Address>[].obs;
   var isLoading = false.obs;
@@ -54,29 +54,81 @@ class AddServiceController extends GetxController {
   var isEditMode = false.obs;
   String? editServiceHashcode;
 
-  final List<String> durationOptions = [
-    '15 minutes',
-    '30 minutes',
-    '45 minutes',
-    '60 minutes',
-    '90 minutes',
-    '120 minutes',
-    '180 minutes',
-  ];
+  List<String> get durationOptions =>
+      [
+        Resources
+            .of(Get.context!)
+            .strings
+            .fifteenMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .thirtyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .fortyFiveMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .sixtyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .ninetyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .oneHundredTwentyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .oneHundredEightyMinutes,
+      ];
 
-  final List<String> bufferTimeOptions = [
-    '15 minutes',
-    '30 minutes',
-    '45 minutes',
-    '60 minutes',
-    '90 minutes',
-    '120 minutes',
-    '180 minutes',
-  ];
+  List<String> get bufferTimeOptions =>
+      [
+        Resources
+            .of(Get.context!)
+            .strings
+            .fifteenMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .thirtyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .fortyFiveMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .sixtyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .ninetyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .oneHundredTwentyMinutes,
+        Resources
+            .of(Get.context!)
+            .strings
+            .oneHundredEightyMinutes,
+      ];
 
   @override
   void onInit() {
     super.onInit();
+    selectedDuration.value = Resources
+        .of(Get.context!)
+        .strings
+        .fifteenMinutes;
+    selectedBufferTime.value = Resources
+        .of(Get.context!)
+        .strings
+        .fifteenMinutes;
     _initializeWorkingHours();
 
     // Check if we're in edit mode
@@ -102,16 +154,18 @@ class AddServiceController extends GetxController {
 
     // Set duration and buffer time - ensure they match with list items
     if (service.availableDuration != null) {
-      final durationString = '${service.availableDuration} minutes';
-      // Only set if it exists in the options list
-      if (durationOptions.contains(durationString)) {
+      final durationString = _getDurationStringFromMinutes(
+        int.tryParse(service.availableDuration.toString()),
+      );
+      if (durationString != null) {
         selectedDuration.value = durationString;
       }
     }
     if (service.availableBuffer != null) {
-      final bufferString = '${service.availableBuffer} minutes';
-      // Only set if it exists in the options list
-      if (bufferTimeOptions.contains(bufferString)) {
+      final bufferString = _getDurationStringFromMinutes(
+        int.tryParse(service.availableBuffer.toString()),
+      );
+      if (bufferString != null) {
         selectedBufferTime.value = bufferString;
       }
     }
@@ -199,33 +253,119 @@ class AddServiceController extends GetxController {
   String _getDayNameFromAbbreviation(String abbr) {
     switch (abbr.toUpperCase()) {
       case 'MON':
-        return 'Monday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .monday;
       case 'TUE':
-        return 'Tuesday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .tuesday;
       case 'WED':
-        return 'Wednesday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .wednesday;
       case 'THU':
-        return 'Thursday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .thursday;
       case 'FRI':
-        return 'Friday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .friday;
       case 'SAT':
-        return 'Saturday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .saturday;
       case 'SUN':
-        return 'Sunday';
+        return Resources
+            .of(Get.context!)
+            .strings
+            .sunday;
       default:
         return '';
     }
   }
 
+  String? _getDurationStringFromMinutes(int? minutes) {
+    if (minutes == null) return null;
+
+    switch (minutes) {
+      case 15:
+        return Resources
+            .of(Get.context!)
+            .strings
+            .fifteenMinutes;
+      case 30:
+        return Resources
+            .of(Get.context!)
+            .strings
+            .thirtyMinutes;
+      case 45:
+        return Resources
+            .of(Get.context!)
+            .strings
+            .fortyFiveMinutes;
+      case 60:
+        return Resources
+            .of(Get.context!)
+            .strings
+            .sixtyMinutes;
+      case 90:
+        return Resources
+            .of(Get.context!)
+            .strings
+            .ninetyMinutes;
+      case 120:
+        return Resources
+            .of(Get.context!)
+            .strings
+            .oneHundredTwentyMinutes;
+      case 180:
+        return Resources
+            .of(Get.context!)
+            .strings
+            .oneHundredEightyMinutes;
+      default:
+        return null;
+    }
+  }
+
   void _initializeWorkingHours() {
     workingHours.value = [
-      WorkingHoursDay(day: 'Monday'),
-      WorkingHoursDay(day: 'Tuesday'),
-      WorkingHoursDay(day: 'Wednesday'),
-      WorkingHoursDay(day: 'Thursday'),
-      WorkingHoursDay(day: 'Friday'),
-      WorkingHoursDay(day: 'Saturday', isEnabled: false),
-      WorkingHoursDay(day: 'Sunday', isEnabled: false),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .monday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .tuesday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .wednesday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .thursday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .friday),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .saturday, isEnabled: false),
+      WorkingHoursDay(day: Resources
+          .of(Get.context!)
+          .strings
+          .sunday, isEnabled: false),
     ];
   }
 
@@ -384,7 +524,10 @@ class AddServiceController extends GetxController {
         );
       }
     } catch (e) {
-      constants.showSnackBar('Error selecting image: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorSelectingImage(e.toString()), SnackBarStatus.ERROR);
       print('Error picking portfolio image: $e');
     }
   }

@@ -209,7 +209,7 @@ class ProjectItem extends StatelessWidget {
                 Expanded(
                   child: PrimaryText(
                     text:
-                        "Due: ${engagement.expiryDatetime != null ? DateFormat('MMM dd,yyyy').format(engagement.expiryDatetime!) : 'N/A'}",
+                        "${context.resources.strings.due}: ${engagement.expiryDatetime != null ? DateFormat('MMM dd,yyyy').format(engagement.expiryDatetime!) : context.resources.strings.notAvailableShort}",
                     textColor: context.resources.color.colorGrey7,
                     fontWeight: FontWeight.w500,
                   ),

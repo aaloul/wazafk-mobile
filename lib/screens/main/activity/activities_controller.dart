@@ -11,6 +11,7 @@ import 'package:wazafak_app/repository/favorite/favorites_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_package_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_service_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../home/home_controller.dart';
@@ -133,7 +134,10 @@ class ActivitiesController extends GetxController {
   Future<bool> toggleMemberFavorite(User member) async {
     if (member.hashcode == null) {
       constants.showSnackBar(
-        'Member information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .memberInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -212,7 +216,10 @@ class ActivitiesController extends GetxController {
   Future<bool> toggleServiceFavorite(Service service) async {
     if (service.hashcode == null) {
       constants.showSnackBar(
-        'Service information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .serviceInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -236,13 +243,19 @@ class ActivitiesController extends GetxController {
           favorites.refresh();
 
           constants.showSnackBar(
-            response.message ?? 'Removed from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -264,13 +277,19 @@ class ActivitiesController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Added to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .addedToFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -289,7 +308,10 @@ class ActivitiesController extends GetxController {
   Future<bool> togglePackageFavorite(Package package) async {
     if (package.hashcode == null) {
       constants.showSnackBar(
-        'Package information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .packageInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -313,13 +335,19 @@ class ActivitiesController extends GetxController {
           favorites.refresh();
 
           constants.showSnackBar(
-            response.message ?? 'Removed from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -341,13 +369,19 @@ class ActivitiesController extends GetxController {
           }
 
           constants.showSnackBar(
-            response.message ?? 'Added to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .addedToFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;

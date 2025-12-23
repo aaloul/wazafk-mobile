@@ -22,8 +22,26 @@ class AllEmployerDataController extends GetxController {
   final _removeFavoritePackageRepository = RemoveFavoritePackageRepository();
 
   // Tabs
-  final List<String> tabs = ["All", "Freelancers", "Services", "Packages"];
-  var selectedTab = "All".obs;
+  List<String> get tabs =>
+      [
+        Resources
+            .of(Get.context!)
+            .strings
+            .all,
+        Resources
+            .of(Get.context!)
+            .strings
+            .freelancers,
+        Resources
+            .of(Get.context!)
+            .strings
+            .services,
+        Resources
+            .of(Get.context!)
+            .strings
+            .packages
+      ];
+  var selectedTab = "".obs;
 
   // Data
   var employerData = <EmployerHomeData>[].obs;
@@ -44,6 +62,10 @@ class AllEmployerDataController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    selectedTab.value = Resources
+        .of(Get.context!)
+        .strings
+        .all;
     _setupScrollListener();
     loadEmployerData();
   }
@@ -83,11 +105,20 @@ class AllEmployerDataController extends GetxController {
 
   String? _getEntityTypeFilter() {
     switch (selectedTab.value) {
-      case "Freelancers":
+      case String tab when tab == Resources
+          .of(Get.context!)
+          .strings
+          .freelancers:
         return "MEMBER";
-      case "Services":
+      case String tab when tab == Resources
+          .of(Get.context!)
+          .strings
+          .services:
         return "SERVICE";
-      case "Packages":
+      case String tab when tab == Resources
+          .of(Get.context!)
+          .strings
+          .packages:
         return "PACKAGE";
       default:
         return null; // "All" - no filter
@@ -133,7 +164,10 @@ class AllEmployerDataController extends GetxController {
       }
     } catch (e) {
       print('Error loading employer data: $e');
-      constants.showSnackBar('Error loading data: $e', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .errorLoadingData(e.toString()), SnackBarStatus.ERROR);
     } finally {
       isLoading.value = false;
     }
@@ -200,7 +234,10 @@ class AllEmployerDataController extends GetxController {
   Future<bool> toggleMemberFavorite(User member) async {
     if (member.hashcode == null) {
       constants.showSnackBar(
-        'Member information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .memberInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -224,13 +261,19 @@ class AllEmployerDataController extends GetxController {
           }
 
           constants.showSnackBar(
-            'Removed from favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -256,7 +299,10 @@ class AllEmployerDataController extends GetxController {
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -264,7 +310,10 @@ class AllEmployerDataController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling member favorite: $e');
@@ -275,7 +324,10 @@ class AllEmployerDataController extends GetxController {
   Future<bool> toggleServiceFavorite(Service service) async {
     if (service.hashcode == null) {
       constants.showSnackBar(
-        'Service information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .serviceInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -298,13 +350,19 @@ class AllEmployerDataController extends GetxController {
           }
 
           constants.showSnackBar(
-            'Removed from favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -330,7 +388,10 @@ class AllEmployerDataController extends GetxController {
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -338,7 +399,10 @@ class AllEmployerDataController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling service favorite: $e');
@@ -349,7 +413,10 @@ class AllEmployerDataController extends GetxController {
   Future<bool> togglePackageFavorite(Package package) async {
     if (package.hashcode == null) {
       constants.showSnackBar(
-        'Package information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .packageInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -372,13 +439,19 @@ class AllEmployerDataController extends GetxController {
           }
 
           constants.showSnackBar(
-            'Removed from favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to remove from favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToRemoveFromFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -404,7 +477,10 @@ class AllEmployerDataController extends GetxController {
           return true;
         } else {
           constants.showSnackBar(
-            response.message ?? 'Failed to add to favorites',
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToAddToFavorites,
             SnackBarStatus.ERROR,
           );
           return false;
@@ -412,7 +488,10 @@ class AllEmployerDataController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling package favorite: $e');

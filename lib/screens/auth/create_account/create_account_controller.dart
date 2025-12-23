@@ -21,7 +21,18 @@ class CreateAccountController extends GetxController {
   final RegisterRepository _registerRepository = RegisterRepository();
 
   var index = 0.obs;
-  List<String> genders = ["Male", "Female"];
+
+  List<String> get genders =>
+      [
+        Resources
+            .of(Get.context!)
+            .strings
+            .male,
+        Resources
+            .of(Get.context!)
+            .strings
+            .female
+      ];
 
   var selectedGender = "".obs;
   var selectedTab = "personal_id".obs;
@@ -167,7 +178,10 @@ class CreateAccountController extends GetxController {
         'document_type': selectedTab.value == "passport" ? "PP" : "ID",
         'email': emailController.text,
         'password': passwordController.text,
-        'gender': selectedGender.value == "Male" ? "M" : "F",
+        'gender': selectedGender.value == Resources
+            .of(Get.context!)
+            .strings
+            .male ? "M" : "F",
         'date_of_birth': formattedDate,
         'interests': selectedInterests,
       };

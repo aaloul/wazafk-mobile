@@ -64,6 +64,12 @@ class ArabicStrings extends Strings {
   String get gender => "الجنس";
 
   @override
+  String get male => "ذكر";
+
+  @override
+  String get female => "أنثى";
+
+  @override
   String get dateOfBirth => "تاريخ الميلاد";
 
   @override
@@ -380,6 +386,12 @@ class ArabicStrings extends Strings {
   String get pleaseEnterBuilding => "الرجاء إدخال المبنى";
 
   @override
+  String get pleaseEnterApartment => "الرجاء إدخال الشقة";
+
+  @override
+  String get pleaseEnterCity => "الرجاء إدخال المدينة";
+
+  @override
   String get pleaseMakeChange => "الرجاء إجراء تغيير";
 
   @override
@@ -505,6 +517,9 @@ class ArabicStrings extends Strings {
 
   @override
   String errorSelectingFile(String error) => "خطأ في اختيار الملف: $error";
+
+  @override
+  String error(String error) => "خطأ: $error";
 
   @override
   String get errorSubmittingDispute => "خطأ في تقديم النزاع";
@@ -699,6 +714,12 @@ class ArabicStrings extends Strings {
 
   @override
   String get notAvailable => "غير متوفر";
+
+  @override
+  String get notAvailableShort => "غ/م";
+
+  @override
+  String get due => "الاستحقاق";
 
   @override
   String get done => "تم";
@@ -1272,6 +1293,53 @@ class ArabicStrings extends Strings {
   @override
   String get newTalentsAvailable => "مواهب جديدة متاحة";
 
+  // Tab Names
+  @override
+  String get all => "الكل";
+
+  @override
+  String get ongoingChat => "المحادثات الجارية";
+
+  @override
+  String get activeEmployers => "أصحاب العمل النشطين";
+
+  @override
+  String get freelancers => "المستقلون";
+
+  @override
+  String get packages => "الباقات";
+
+  @override
+  String get requests => "الطلبات";
+
+  @override
+  String get payments => "المدفوعات";
+
+  @override
+  String get jobs => "الوظائف";
+
+  // Time Durations
+  @override
+  String get fifteenMinutes => "15 دقيقة";
+
+  @override
+  String get thirtyMinutes => "30 دقيقة";
+
+  @override
+  String get fortyFiveMinutes => "45 دقيقة";
+
+  @override
+  String get sixtyMinutes => "60 دقيقة";
+
+  @override
+  String get ninetyMinutes => "90 دقيقة";
+
+  @override
+  String get oneHundredTwentyMinutes => "120 دقيقة";
+
+  @override
+  String get oneHundredEightyMinutes => "180 دقيقة";
+
   // Statistics
   @override
   String get totalEarnings => "إجمالي الأرباح";
@@ -1382,6 +1450,361 @@ class ArabicStrings extends Strings {
   // Verify & Book
   @override
   String get verifyAndBook => "تحقق واحجز";
+
+  // Days of Week
+  @override
+  String get monday => "الإثنين";
+
+  @override
+  String get tuesday => "الثلاثاء";
+
+  @override
+  String get wednesday => "الأربعاء";
+
+  @override
+  String get thursday => "الخميس";
+
+  @override
+  String get friday => "الجمعة";
+
+  @override
+  String get saturday => "السبت";
+
+  @override
+  String get sunday => "الأحد";
+
+  // Common Success Messages
+  @override
+  String get imageCapturedSuccessfully => "تم التقاط الصورة بنجاح";
+
+  @override
+  String get uploadedSuccessfully => "تم الرفع بنجاح";
+
+  @override
+  String get submittedSuccessfully => "تم الإرسال بنجاح";
+
+  @override
+  String get acceptedSuccessfully => "تم القبول بنجاح";
+
+  @override
+  String get rejectedSuccessfully => "تم الرفض بنجاح";
+
+  @override
+  String get addedToFavorites => "تمت الإضافة إلى المفضلة";
+
+  @override
+  String get removedFromFavorites => "تمت الإزالة من المفضلة";
+
+  @override
+  String get selectedSuccessfully => "تم الاختيار بنجاح";
+
+  @override
+  String get packageImageSelectedSuccessfully => "تم اختيار صورة الباقة بنجاح";
+
+  // Common Error Messages
+  @override
+  String get failedToLoad => "فشل التحميل";
+
+  @override
+  String get failedToUpload => "فشل الرفع";
+
+  @override
+  String get failedToSubmit => "فشل الإرسال";
+
+  @override
+  String get failedToAccept => "فشل القبول";
+
+  @override
+  String get failedToReject => "فشل الرفض";
+
+  @override
+  String get failedToAddToFavorites => "فشلت الإضافة إلى المفضلة";
+
+  @override
+  String get failedToRemoveFromFavorites => "فشلت الإزالة من المفضلة";
+
+  @override
+  String errorCapturingImage(String error) => "خطأ في التقاط الصورة: $error";
+
+  @override
+  String errorLoadingData(String error) => "خطأ في تحميل البيانات: $error";
+
+  @override
+  String errorUploadingData(String error) => "خطأ في رفع البيانات: $error";
+
+  // Information Not Available Messages
+  @override
+  String get memberInformationNotAvailable => "معلومات العضو غير متاحة";
+
+  @override
+  String get serviceInformationNotAvailable => "معلومات الخدمة غير متاحة";
+
+  @override
+  String get packageInformationNotAvailable => "معلومات الباقة غير متاحة";
+
+  @override
+  String get jobInformationNotAvailable => "معلومات الوظيفة غير متاحة";
+
+  @override
+  String get engagementInformationNotAvailable => "معلومات المشاركة غير متاحة";
+
+  // Face Verification Messages
+  @override
+  String get faceVerifiedSuccessfully => "تم التحقق من الوجه بنجاح";
+
+  @override
+  String get faceVerificationFailed => "فشل التحقق من الوجه";
+
+  @override
+  String get cameraNotInitialized => "الكاميرا غير مهيأة";
+
+  @override
+  String get pleaseCaptureImageFirst => "يرجى التقاط صورة أولاً";
+
+  @override
+  String errorVerifyingFaceMatch(String error) =>
+      "خطأ في التحقق من تطابق الوجه: $error";
+
+  @override
+  String errorInitializingCamera(String error) =>
+      "خطأ في تهيئة الكاميرا: $error";
+
+  // Upload Documents Messages
+  @override
+  String get pleaseUploadPassportImage => "يرجى تحميل صورة جواز السفر";
+
+  @override
+  String get pleaseUploadBothFrontAndBackIdImages =>
+      "يرجى تحميل صور الهوية الأمامية والخلفية";
+
+  @override
+  String get documentsUploadedSuccessfully => "تم تحميل المستندات بنجاح";
+
+  @override
+  String get failedToUploadDocuments => "فشل تحميل المستندات";
+
+  @override
+  String errorUploadingDocuments(String error) =>
+      "خطأ في تحميل المستندات: $error";
+
+  // Engagement Messages
+  @override
+  String get failedToLoadEngagementDetails => "فشل تحميل تفاصيل المشاركة";
+
+  @override
+  String get errorLoadingEngagementDetails => "خطأ في تحميل تفاصيل المشاركة";
+
+  @override
+  String get engagementAcceptedSuccessfully => "تم قبول المشاركة بنجاح";
+
+  @override
+  String get failedToAcceptEngagement => "فشل قبول المشاركة";
+
+  @override
+  String get errorAcceptingEngagement => "خطأ في قبول المشاركة";
+
+  @override
+  String get engagementRejectedSuccessfully => "تم رفض المشاركة بنجاح";
+
+  @override
+  String get failedToRejectEngagement => "فشل رفض المشاركة";
+
+  @override
+  String get errorRejectingEngagement => "خطأ في رفض المشاركة";
+
+  @override
+  String get noDatesSelected => "لم يتم تحديد تواريخ";
+
+  @override
+  String get negotiationSubmittedSuccessfully => "تم إرسال المفاوضة بنجاح";
+
+  @override
+  String get failedToSubmitNegotiation => "فشل إرسال المفاوضة";
+
+  @override
+  String errorSubmittingNegotiation(String error) =>
+      "خطأ في إرسال المفاوضة: $error";
+
+  @override
+  String get pleaseEnterReasonForDispute => "يرجى إدخال سبب النزاع";
+
+  @override
+  String get disputeSubmittedSuccessfully => "تم إرسال النزاع بنجاح";
+
+  @override
+  String get failedToSubmitDispute => "فشل إرسال النزاع";
+
+  @override
+  String get changeRequestAcceptedSuccessfully => "تم قبول طلب التغيير بنجاح";
+
+  @override
+  String get failedToAcceptChangeRequest => "فشل قبول طلب التغيير";
+
+  @override
+  String errorAcceptingChangeRequest(String error) =>
+      "خطأ في قبول طلب التغيير: $error";
+
+  @override
+  String get changeRequestRejectedSuccessfully => "تم رفض طلب التغيير بنجاح";
+
+  @override
+  String get failedToRejectChangeRequest => "فشل رفض طلب التغيير";
+
+  @override
+  String errorRejectingChangeRequest(String error) =>
+      "خطأ في رفض طلب التغيير: $error";
+
+  @override
+  String get fileSelectedSuccessfully => "تم اختيار الملف بنجاح";
+
+  @override
+  String errorSelectingFile(String error) => "خطأ في اختيار الملف: $error";
+
+  @override
+  String get pleaseUploadDeliverablesFile => "يرجى تحميل ملف التسليمات";
+
+  @override
+  String get engagementFinishedSuccessfully => "تم إنهاء المشاركة بنجاح";
+
+  @override
+  String get failedToFinishEngagement => "فشل إنهاء المشاركة";
+
+  @override
+  String errorFinishingEngagement(String error) =>
+      "خطأ في إنهاء المشاركة: $error";
+
+  @override
+  String get finishEngagementAcceptedSuccessfully =>
+      "تم قبول إنهاء المشاركة بنجاح";
+
+  @override
+  String get failedToAcceptFinishEngagement => "فشل قبول إنهاء المشاركة";
+
+  @override
+  String errorAcceptingFinishEngagement(String error) =>
+      "خطأ في قبول إنهاء المشاركة: $error";
+
+  @override
+  String get finishEngagementRejectedSuccessfully =>
+      "تم رفض إنهاء المشاركة بنجاح";
+
+  @override
+  String get failedToRejectFinishEngagement => "فشل رفض إنهاء المشاركة";
+
+  @override
+  String errorRejectingFinishEngagement(String error) =>
+      "خطأ في رفض إنهاء المشاركة: $error";
+
+  // Booking Messages
+  @override
+  String get errorFetchingAddresses => "خطأ في جلب العناوين";
+
+  @override
+  String get pleaseSelectDateRange => "يرجى تحديد نطاق التاريخ";
+
+  @override
+  String get pleaseSelectServiceType => "يرجى تحديد نوع الخدمة";
+
+  @override
+  String get pleaseSelectLocation => "يرجى تحديد الموقع";
+
+  @override
+  String errorBookingService(String error) => "خطأ في حجز الخدمة: $error";
+
+  // Application Messages
+  @override
+  String get applicationSubmittedSuccessfully => "تم إرسال الطلب بنجاح";
+
+  // Home/Search Messages
+  @override
+  String get failedToLoadCategories => "فشل تحميل الفئات";
+
+  @override
+  String get failedToLoadJobs => "فشل تحميل الوظائف";
+
+  @override
+  String get failedToLoadSkills => "فشل تحميل المهارات";
+
+  @override
+  String get failedToLoadAddresses => "فشل تحميل العناوين";
+
+  @override
+  String get failedToLoadWallet => "فشل تحميل المحفظة";
+
+  @override
+  String get failedToLoadProfile => "فشل تحميل الملف الشخصي";
+
+  @override
+  String get failedToLoadEngagements => "فشل تحميل المشاركات";
+
+  @override
+  String get failedToLoadEmployerHomeData => "فشل تحميل بيانات صاحب العمل";
+
+  @override
+  String errorUpdatingFavorites(String error) => "خطأ في تحديث المفضلة: $error";
+
+  // Rating Messages
+  @override
+  String get failedToLoadRatingCriteria => "فشل تحميل معايير التقييم";
+
+  @override
+  String get failedToLoadMemberProfile => "فشل تحميل ملف العضو الشخصي";
+
+  @override
+  String get noRatingCriteriaAvailable => "لا توجد معايير تقييم متاحة";
+
+  @override
+  String get pleaseRateAtLeastOneCriterion => "يرجى تقييم معيار واحد على الأقل";
+
+  @override
+  String get ratingSubmittedSuccessfully => "تم إرسال التقييم بنجاح";
+
+  @override
+  String get failedToSubmitRating => "فشل إرسال التقييم";
+
+  // Category Messages
+  @override
+  String get errorFetchingCategories => "خطأ في جلب الفئات";
+
+  // Empty State Messages
+  @override
+  String get noContentAvailable => "لا يوجد محتوى متاح";
+
+  @override
+  String get noFaqsAvailable => "لا توجد أسئلة شائعة متاحة";
+
+  @override
+  String get noJobsAvailable => "لا توجد وظائف متاحة";
+
+  // Screen Titles
+  @override
+  String get applyNow => "قدّم الآن";
+
+  @override
+  String get submitApplication => "إرسال الطلب";
+
+  @override
+  String get viewChanges => "عرض التغييرات";
+
+  @override
+  String get paymentsAndEarnings => "المدفوعات والأرباح";
+
+  // Form Labels
+  @override
+  String get title => "العنوان";
+
+  @override
+  String get overview => "نظرة عامة";
+
+  @override
+  String get responsibilities => "المسؤوليات";
+
+  @override
+  String get requirements => "المتطلبات";
+
+  // Validation Messages
+  @override
+  String get mustNotBeEmpty => "يجب ألا يكون فارغاً";
 
   // Other
   @override

@@ -110,27 +110,45 @@ class AddAddressController extends GetxController {
 
   bool _validateFields() {
     if (labelController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter a label', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterLabel, SnackBarStatus.ERROR);
       return false;
     }
     if (addressController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter an address', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterAddress, SnackBarStatus.ERROR);
       return false;
     }
     if (streetController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter a street', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterStreet, SnackBarStatus.ERROR);
       return false;
     }
     if (buildingController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter a building', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterBuilding, SnackBarStatus.ERROR);
       return false;
     }
     if (apartmentController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter an apartment', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterApartment, SnackBarStatus.ERROR);
       return false;
     }
     if (cityController.text.trim().isEmpty) {
-      constants.showSnackBar('Please enter an city', SnackBarStatus.ERROR);
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseEnterCity, SnackBarStatus.ERROR);
       return false;
     }
     return true;

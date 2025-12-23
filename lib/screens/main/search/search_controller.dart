@@ -221,7 +221,10 @@ class SearchController extends GetxController {
   Future<bool> toggleJobFavorite(Job job) async {
     if (job.hashcode == null) {
       constants.showSnackBar(
-        'Job information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .jobInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -246,7 +249,10 @@ class SearchController extends GetxController {
           }
 
           constants.showSnackBar(
-            'Removed from favorites',
+            Resources
+                .of(Get.context!)
+                .strings
+                .removedFromFavorites,
             SnackBarStatus.SUCCESS,
           );
           return true;
@@ -287,7 +293,10 @@ class SearchController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling favorite: $e');
@@ -298,7 +307,10 @@ class SearchController extends GetxController {
   Future<bool> toggleMemberFavorite(User member) async {
     if (member.hashcode == null) {
       constants.showSnackBar(
-        'Member information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .memberInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -366,7 +378,10 @@ class SearchController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling member favorite: $e');
@@ -377,7 +392,10 @@ class SearchController extends GetxController {
   Future<bool> toggleServiceFavorite(Service service) async {
     if (service.hashcode == null) {
       constants.showSnackBar(
-        'Service information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .serviceInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -444,7 +462,10 @@ class SearchController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling service favorite: $e');
@@ -455,7 +476,10 @@ class SearchController extends GetxController {
   Future<bool> togglePackageFavorite(Package package) async {
     if (package.hashcode == null) {
       constants.showSnackBar(
-        'Package information not available',
+        Resources
+            .of(Get.context!)
+            .strings
+            .packageInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -522,7 +546,10 @@ class SearchController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling package favorite: $e');
