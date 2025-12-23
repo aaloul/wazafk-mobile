@@ -144,7 +144,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading categories: $e',
+        Resources.of(Get.context!).strings.errorLoadingCategories(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading categories: $e');
@@ -173,7 +173,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading categories: $e',
+        Resources.of(Get.context!).strings.errorLoadingCategories(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading categories: $e');
@@ -258,7 +258,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading addresses: $e',
+        Resources.of(Get.context!).strings.errorLoadingAddresses(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading addresses: $e');
@@ -365,7 +365,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading engagements: $e',
+        Resources.of(Get.context!).strings.errorLoadingEngagements(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading engagements: $e');
@@ -394,7 +394,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading employer home data: $e',
+        Resources.of(Get.context!).strings.errorLoadingEmployerHomeData(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading employer home data: $e');
@@ -485,7 +485,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating favorites: $e',
+        Resources.of(Get.context!).strings.errorUpdatingFavorites(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error toggling favorite: $e');

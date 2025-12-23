@@ -4,6 +4,7 @@ import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../../utils/res/Resources.dart';
 import '../../../home/home_controller.dart';
 
 class AddAddressController extends GetxController {

@@ -3,6 +3,8 @@ import 'package:wazafak_app/model/FAQSResponse.dart';
 import 'package:wazafak_app/repository/app/faqs_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../utils/res/Resources.dart';
+
 class HelpCenterController extends GetxController {
   final _repository = FaqsRepository();
 
@@ -26,7 +28,7 @@ class HelpCenterController extends GetxController {
         faqs.value = response.data!;
       } else {
         constants.showSnackBar(
-            response.message ?? 'Failed to load FAQs', SnackBarStatus.ERROR);
+            response.message ?? Resources.of(Get.context!).strings.failedToLoadFaqs, SnackBarStatus.ERROR);
       }
     } catch (e) {
       constants.showSnackBar(Resources

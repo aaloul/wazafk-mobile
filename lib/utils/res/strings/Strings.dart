@@ -232,6 +232,12 @@ abstract class Strings {
 
   String get passwordsDoNotMatch;
 
+  String get pleaseEnterCurrentPassword;
+
+  String get pleaseConfirmNewPassword;
+
+  String get passwordMustBeAtLeast6Characters;
+
   String get pleaseEnterValidOtp;
 
   String get pleaseEnterJobTitle;
@@ -249,6 +255,8 @@ abstract class Strings {
   String get pleaseEnterRequirements;
 
   String get pleaseSelectRating;
+
+  String get pleaseEnterFeedback;
 
   String get pleaseEnterLabel;
 
@@ -864,10 +872,6 @@ abstract class Strings {
   // Tab Names
   String get all;
 
-  String get ongoingChat;
-
-  String get activeEmployers;
-
   String get freelancers;
 
   String get packages;
@@ -995,13 +999,11 @@ abstract class Strings {
 
   String get rejectedSuccessfully;
 
-  String get addedToFavorites;
-
-  String get removedFromFavorites;
-
   String get selectedSuccessfully;
 
   String get packageImageSelectedSuccessfully;
+
+  String get portfolioImageSelectedSuccessfully;
 
   // Common Error Messages
   String get failedToLoad;
@@ -1018,11 +1020,19 @@ abstract class Strings {
 
   String get failedToRemoveFromFavorites;
 
-  String errorCapturingImage(String error);
+  String get failedToDisableJob;
 
-  String errorLoadingData(String error);
+  String get failedToLoadFaqs;
 
   String errorUploadingData(String error);
+
+  String errorLoadingCategories(String error);
+
+  String errorLoadingAddresses(String error);
+
+  String errorLoadingEngagements(String error);
+
+  String errorLoadingEmployerHomeData(String error);
 
   // Information Not Available Messages
   String get memberInformationNotAvailable;
@@ -1045,8 +1055,6 @@ abstract class Strings {
   String get pleaseCaptureImageFirst;
 
   String errorVerifyingFaceMatch(String error);
-
-  String errorInitializingCamera(String error);
 
   // Upload Documents Messages
   String get pleaseUploadPassportImage;
@@ -1104,8 +1112,6 @@ abstract class Strings {
 
   String get fileSelectedSuccessfully;
 
-  String errorSelectingFile(String error);
-
   String get pleaseUploadDeliverablesFile;
 
   String get engagementFinishedSuccessfully;
@@ -1127,15 +1133,9 @@ abstract class Strings {
   String errorRejectingFinishEngagement(String error);
 
   // Booking Messages
-  String get errorFetchingAddresses;
-
   String get pleaseSelectDateRange;
 
   String get pleaseSelectServiceType;
-
-  String get pleaseSelectLocation;
-
-  String errorBookingService(String error);
 
   // Application Messages
   String get applicationSubmittedSuccessfully;
@@ -1164,8 +1164,6 @@ abstract class Strings {
 
   String get failedToLoadMemberProfile;
 
-  String get noRatingCriteriaAvailable;
-
   String get pleaseRateAtLeastOneCriterion;
 
   String get ratingSubmittedSuccessfully;
@@ -1174,31 +1172,6 @@ abstract class Strings {
 
   // Category Messages
   String get errorFetchingCategories;
-
-  // Empty State Messages
-  String get noContentAvailable;
-
-  String get noFaqsAvailable;
-
-  String get noJobsAvailable;
-
-  // Screen Titles
-  String get applyNow;
-
-  String get submitApplication;
-
-  String get viewChanges;
-
-  String get paymentsAndEarnings;
-
-  // Form Labels
-  String get title;
-
-  String get overview;
-
-  String get responsibilities;
-
-  String get requirements;
 
   // Validation Messages
   String get mustNotBeEmpty;

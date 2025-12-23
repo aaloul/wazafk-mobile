@@ -6,6 +6,8 @@ import 'package:wazafak_app/repository/job/job_detail_repository.dart';
 import 'package:wazafak_app/repository/job/job_status_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../utils/res/Resources.dart';
+
 class JobDetailsController extends GetxController {
   final JobDetailRepository _jobDetailRepository = JobDetailRepository();
   final JobStatusRepository _jobStatusRepository = JobStatusRepository();
@@ -114,7 +116,7 @@ class JobDetailsController extends GetxController {
         Get.back();
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to disable job',
+          response.message ?? Resources.of(Get.context!).strings.failedToDisableJob,
           SnackBarStatus.ERROR,
         );
       }

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/model/NotificationsResponse.dart';
 import 'package:wazafak_app/repository/notification/notifications_list_repository.dart';
 
+import '../../../utils/res/Resources.dart';
+
 class NotificationsController extends GetxController {
   final NotificationsListRepository _repository = NotificationsListRepository();
 

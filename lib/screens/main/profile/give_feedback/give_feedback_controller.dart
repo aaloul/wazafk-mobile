@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/repository/rating/rate_app_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../utils/res/Resources.dart';
+
 class GiveFeedbackController extends GetxController {
   final _repository = RateAppRepository();
 
@@ -55,7 +57,7 @@ class GiveFeedbackController extends GetxController {
         .trim()
         .isEmpty) {
       constants.showSnackBar(
-          'Please enter your feedback', SnackBarStatus.ERROR);
+          Resources.of(Get.context!).strings.pleaseEnterFeedback, SnackBarStatus.ERROR);
       return false;
     }
     if (rating.value == 0) {

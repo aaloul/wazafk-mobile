@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wazafak_app/repository/member/save_document_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../utils/res/Resources.dart';
 import '../home/home_controller.dart';
 
 class UploadDocumentsController extends GetxController {

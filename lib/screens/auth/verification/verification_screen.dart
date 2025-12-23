@@ -37,9 +37,10 @@ class VerificationScreen extends StatelessWidget {
                       width: Get.width / 1.5,
                     ),
                   ),
-                ),,
+                ),
 
-                SizedBox(height: 32)PrimaryText(
+                SizedBox(height: 32),
+                PrimaryText(
                   text: Resources.of(context).strings.enterVerificationCode,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,

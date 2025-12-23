@@ -347,6 +347,15 @@ class ArabicStrings extends Strings {
   String get passwordsDoNotMatch => "كلمات المرور غير متطابقة";
 
   @override
+  String get pleaseEnterCurrentPassword => "الرجاء إدخال كلمة المرور الحالية";
+
+  @override
+  String get pleaseConfirmNewPassword => "الرجاء تأكيد كلمة المرور الجديدة";
+
+  @override
+  String get passwordMustBeAtLeast6Characters => "يجب أن تكون كلمة المرور 6 أحرف على الأقل";
+
+  @override
   String get pleaseEnterValidOtp => "الرجاء إدخال رمز التحقق الصحيح";
 
   @override
@@ -372,6 +381,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get pleaseSelectRating => "الرجاء تحديد التقييم";
+
+  @override
+  String get pleaseEnterFeedback => "الرجاء إدخال ملاحظاتك";
 
   @override
   String get pleaseEnterLabel => "الرجاء إدخال التسمية";
@@ -1298,12 +1310,6 @@ class ArabicStrings extends Strings {
   String get all => "الكل";
 
   @override
-  String get ongoingChat => "المحادثات الجارية";
-
-  @override
-  String get activeEmployers => "أصحاب العمل النشطين";
-
-  @override
   String get freelancers => "المستقلون";
 
   @override
@@ -1490,16 +1496,13 @@ class ArabicStrings extends Strings {
   String get rejectedSuccessfully => "تم الرفض بنجاح";
 
   @override
-  String get addedToFavorites => "تمت الإضافة إلى المفضلة";
-
-  @override
-  String get removedFromFavorites => "تمت الإزالة من المفضلة";
-
-  @override
   String get selectedSuccessfully => "تم الاختيار بنجاح";
 
   @override
   String get packageImageSelectedSuccessfully => "تم اختيار صورة الباقة بنجاح";
+
+  @override
+  String get portfolioImageSelectedSuccessfully => "تم اختيار صورة المحفظة بنجاح";
 
   // Common Error Messages
   @override
@@ -1524,13 +1527,25 @@ class ArabicStrings extends Strings {
   String get failedToRemoveFromFavorites => "فشلت الإزالة من المفضلة";
 
   @override
-  String errorCapturingImage(String error) => "خطأ في التقاط الصورة: $error";
+  String get failedToDisableJob => "فشل تعطيل الوظيفة";
 
   @override
-  String errorLoadingData(String error) => "خطأ في تحميل البيانات: $error";
+  String get failedToLoadFaqs => "فشل تحميل الأسئلة الشائعة";
 
   @override
   String errorUploadingData(String error) => "خطأ في رفع البيانات: $error";
+
+  @override
+  String errorLoadingCategories(String error) => "خطأ في تحميل الفئات: $error";
+
+  @override
+  String errorLoadingAddresses(String error) => "خطأ في تحميل العناوين: $error";
+
+  @override
+  String errorLoadingEngagements(String error) => "خطأ في تحميل المشاركات: $error";
+
+  @override
+  String errorLoadingEmployerHomeData(String error) => "خطأ في تحميل بيانات صفحة صاحب العمل الرئيسية: $error";
 
   // Information Not Available Messages
   @override
@@ -1564,10 +1579,6 @@ class ArabicStrings extends Strings {
   @override
   String errorVerifyingFaceMatch(String error) =>
       "خطأ في التحقق من تطابق الوجه: $error";
-
-  @override
-  String errorInitializingCamera(String error) =>
-      "خطأ في تهيئة الكاميرا: $error";
 
   // Upload Documents Messages
   @override
@@ -1658,9 +1669,6 @@ class ArabicStrings extends Strings {
   String get fileSelectedSuccessfully => "تم اختيار الملف بنجاح";
 
   @override
-  String errorSelectingFile(String error) => "خطأ في اختيار الملف: $error";
-
-  @override
   String get pleaseUploadDeliverablesFile => "يرجى تحميل ملف التسليمات";
 
   @override
@@ -1697,19 +1705,10 @@ class ArabicStrings extends Strings {
 
   // Booking Messages
   @override
-  String get errorFetchingAddresses => "خطأ في جلب العناوين";
-
-  @override
   String get pleaseSelectDateRange => "يرجى تحديد نطاق التاريخ";
 
   @override
   String get pleaseSelectServiceType => "يرجى تحديد نوع الخدمة";
-
-  @override
-  String get pleaseSelectLocation => "يرجى تحديد الموقع";
-
-  @override
-  String errorBookingService(String error) => "خطأ في حجز الخدمة: $error";
 
   // Application Messages
   @override
@@ -1751,9 +1750,6 @@ class ArabicStrings extends Strings {
   String get failedToLoadMemberProfile => "فشل تحميل ملف العضو الشخصي";
 
   @override
-  String get noRatingCriteriaAvailable => "لا توجد معايير تقييم متاحة";
-
-  @override
   String get pleaseRateAtLeastOneCriterion => "يرجى تقييم معيار واحد على الأقل";
 
   @override
@@ -1765,42 +1761,6 @@ class ArabicStrings extends Strings {
   // Category Messages
   @override
   String get errorFetchingCategories => "خطأ في جلب الفئات";
-
-  // Empty State Messages
-  @override
-  String get noContentAvailable => "لا يوجد محتوى متاح";
-
-  @override
-  String get noFaqsAvailable => "لا توجد أسئلة شائعة متاحة";
-
-  @override
-  String get noJobsAvailable => "لا توجد وظائف متاحة";
-
-  // Screen Titles
-  @override
-  String get applyNow => "قدّم الآن";
-
-  @override
-  String get submitApplication => "إرسال الطلب";
-
-  @override
-  String get viewChanges => "عرض التغييرات";
-
-  @override
-  String get paymentsAndEarnings => "المدفوعات والأرباح";
-
-  // Form Labels
-  @override
-  String get title => "العنوان";
-
-  @override
-  String get overview => "نظرة عامة";
-
-  @override
-  String get responsibilities => "المسؤوليات";
-
-  @override
-  String get requirements => "المتطلبات";
 
   // Validation Messages
   @override

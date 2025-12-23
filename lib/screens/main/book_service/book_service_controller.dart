@@ -112,7 +112,7 @@ class BookServiceController extends GetxController {
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .errorFetchingAddresses,
+              .errorFetchingAddresses(''),
           SnackBarStatus.ERROR,
         );
       }
@@ -121,7 +121,7 @@ class BookServiceController extends GetxController {
         Resources
             .of(Get.context!)
             .strings
-            .errorFetchingAddresses(e.toString()),
+            .errorFetchingAddresses(''),
         SnackBarStatus.ERROR,
       );
       print('Error fetching addresses: $e');

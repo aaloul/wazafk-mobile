@@ -519,7 +519,7 @@ class AddServiceController extends GetxController {
             "data:image/jpeg;base64,${base64Encode(bytes)}";
 
         constants.showSnackBar(
-          'Portfolio image selected successfully',
+          Resources.of(Get.context!).strings.portfolioImageSelectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
       }

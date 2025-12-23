@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/repository/account/password_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../../utils/res/Resources.dart';
+
 class ChangePasswordController extends GetxController {
   final _repository = PasswordRepository();
 
@@ -56,7 +58,7 @@ class ChangePasswordController extends GetxController {
   bool _validateFields() {
     if (currentPasswordController.text.trim().isEmpty) {
       constants.showSnackBar(
-        'Please enter current password',
+        Resources.of(Get.context!).strings.pleaseEnterCurrentPassword,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -70,7 +72,7 @@ class ChangePasswordController extends GetxController {
     }
     if (confirmPasswordController.text.trim().isEmpty) {
       constants.showSnackBar(
-        'Please confirm new password',
+        Resources.of(Get.context!).strings.pleaseConfirmNewPassword,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -84,7 +86,7 @@ class ChangePasswordController extends GetxController {
     }
     if (newPasswordController.text.length < 6) {
       constants.showSnackBar(
-        'Password must be at least 6 characters',
+        Resources.of(Get.context!).strings.passwordMustBeAtLeast6Characters,
         SnackBarStatus.ERROR,
       );
       return false;

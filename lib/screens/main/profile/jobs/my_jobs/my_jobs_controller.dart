@@ -7,6 +7,7 @@ import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../../components/sheets/success_sheet.dart';
 import '../../../../../utils/res/AppIcons.dart';
+import '../../../../../utils/res/Resources.dart';
 
 class MyJobsController extends GetxController {
   final _repository = JobsListRepository();
@@ -37,7 +38,7 @@ class MyJobsController extends GetxController {
         }
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load jobs',
+          response.message ?? Resources.of(Get.context!).strings.failedToLoadJobs,
           SnackBarStatus.ERROR,
         );
       }

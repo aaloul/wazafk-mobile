@@ -347,6 +347,15 @@ class EnglishStrings extends Strings {
   String get passwordsDoNotMatch => "Passwords do not match";
 
   @override
+  String get pleaseEnterCurrentPassword => "Please enter current password";
+
+  @override
+  String get pleaseConfirmNewPassword => "Please confirm new password";
+
+  @override
+  String get passwordMustBeAtLeast6Characters => "Password must be at least 6 characters";
+
+  @override
   String get pleaseEnterValidOtp => "Please enter valid OTP";
 
   @override
@@ -372,6 +381,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get pleaseSelectRating => "Please select a rating";
+
+  @override
+  String get pleaseEnterFeedback => "Please enter your feedback";
 
   @override
   String get pleaseEnterLabel => "Please enter a label";
@@ -1299,12 +1311,6 @@ class EnglishStrings extends Strings {
   String get all => "All";
 
   @override
-  String get ongoingChat => "Ongoing Chat";
-
-  @override
-  String get activeEmployers => "Active Employers";
-
-  @override
   String get freelancers => "Freelancers";
 
   @override
@@ -1491,17 +1497,15 @@ class EnglishStrings extends Strings {
   String get rejectedSuccessfully => "Rejected successfully";
 
   @override
-  String get addedToFavorites => "Added to favorites";
-
-  @override
-  String get removedFromFavorites => "Removed from favorites";
-
-  @override
   String get selectedSuccessfully => "Selected successfully";
 
   @override
   String get packageImageSelectedSuccessfully =>
       "Package image selected successfully";
+
+  @override
+  String get portfolioImageSelectedSuccessfully =>
+      "Portfolio image selected successfully";
 
   // Common Error Messages
   @override
@@ -1526,13 +1530,25 @@ class EnglishStrings extends Strings {
   String get failedToRemoveFromFavorites => "Failed to remove from favorites";
 
   @override
-  String errorCapturingImage(String error) => "Error capturing image: $error";
+  String get failedToDisableJob => "Failed to disable job";
 
   @override
-  String errorLoadingData(String error) => "Error loading data: $error";
+  String get failedToLoadFaqs => "Failed to load FAQs";
 
   @override
   String errorUploadingData(String error) => "Error uploading data: $error";
+
+  @override
+  String errorLoadingCategories(String error) => "Error loading categories: $error";
+
+  @override
+  String errorLoadingAddresses(String error) => "Error loading addresses: $error";
+
+  @override
+  String errorLoadingEngagements(String error) => "Error loading engagements: $error";
+
+  @override
+  String errorLoadingEmployerHomeData(String error) => "Error loading employer home data: $error";
 
   // Information Not Available Messages
   @override
@@ -1570,10 +1586,6 @@ class EnglishStrings extends Strings {
   @override
   String errorVerifyingFaceMatch(String error) =>
       "Error verifying face match: $error";
-
-  @override
-  String errorInitializingCamera(String error) =>
-      "Error initializing camera: $error";
 
   // Upload Documents Messages
   @override
@@ -1672,9 +1684,6 @@ class EnglishStrings extends Strings {
   String get fileSelectedSuccessfully => "File selected successfully";
 
   @override
-  String errorSelectingFile(String error) => "Error selecting file: $error";
-
-  @override
   String get pleaseUploadDeliverablesFile => "Please upload deliverables file";
 
   @override
@@ -1714,19 +1723,10 @@ class EnglishStrings extends Strings {
 
   // Booking Messages
   @override
-  String get errorFetchingAddresses => "Error fetching addresses";
-
-  @override
   String get pleaseSelectDateRange => "Please select a date range";
 
   @override
   String get pleaseSelectServiceType => "Please select a service type";
-
-  @override
-  String get pleaseSelectLocation => "Please select a location";
-
-  @override
-  String errorBookingService(String error) => "Error booking service: $error";
 
   // Application Messages
   @override
@@ -1771,9 +1771,6 @@ class EnglishStrings extends Strings {
   String get failedToLoadMemberProfile => "Failed to load member profile";
 
   @override
-  String get noRatingCriteriaAvailable => "No rating criteria available";
-
-  @override
   String get pleaseRateAtLeastOneCriterion =>
       "Please rate at least one criterion";
 
@@ -1786,42 +1783,6 @@ class EnglishStrings extends Strings {
   // Category Messages
   @override
   String get errorFetchingCategories => "Error fetching categories";
-
-  // Empty State Messages
-  @override
-  String get noContentAvailable => "No content available";
-
-  @override
-  String get noFaqsAvailable => "No FAQs available";
-
-  @override
-  String get noJobsAvailable => "No jobs available";
-
-  // Screen Titles
-  @override
-  String get applyNow => "Apply Now";
-
-  @override
-  String get submitApplication => "Submit Application";
-
-  @override
-  String get viewChanges => "View Changes";
-
-  @override
-  String get paymentsAndEarnings => "Payments & Earnings";
-
-  // Form Labels
-  @override
-  String get title => "Title";
-
-  @override
-  String get overview => "Overview";
-
-  @override
-  String get responsibilities => "Responsibilities";
-
-  @override
-  String get requirements => "Requirements";
 
   // Validation Messages
   @override
