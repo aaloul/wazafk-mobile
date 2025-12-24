@@ -602,6 +602,13 @@ class ArabicStrings extends Strings {
   String errorAddingServiceWithParam(String error) =>
       "خطأ في إضافة الخدمة: $error";
 
+  @override
+  String get failedToLoadServiceDetails => "فشل تحميل تفاصيل الخدمة";
+
+  @override
+  String errorLoadingServiceDetails(String error) =>
+      "خطأ في تحميل تفاصيل الخدمة: $error";
+
   // Network Error Messages
   @override
   String errorDuringCommunication(String error) => "خطأ أثناء الاتصال: $error";

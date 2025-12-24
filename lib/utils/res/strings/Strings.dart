@@ -398,6 +398,10 @@ abstract class Strings {
 
   String errorAddingServiceWithParam(String error);
 
+  String get failedToLoadServiceDetails;
+
+  String errorLoadingServiceDetails(String error);
+
   // Network Error Messages
   String errorDuringCommunication(String error);
 

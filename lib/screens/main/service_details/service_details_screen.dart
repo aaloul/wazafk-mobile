@@ -8,6 +8,8 @@ import 'package:wazafak_app/screens/main/service_details/service_details_control
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import 'components/service_packages_carousel.dart';
+
 class ServiceDetailsScreen extends StatelessWidget {
   const ServiceDetailsScreen({super.key});
 
@@ -259,10 +261,35 @@ class ServiceDetailsScreen extends StatelessWidget {
                                         }).toList(),
                                       ),
                                       SizedBox(height: 16),
+                                      Container(
+                                        width: double.infinity,
+                                        height: 1,
+                                        color: context.resources.color.colorGrey
+                                            .withOpacity(.25),
+                                        margin: EdgeInsets.symmetric(
+                                          vertical: 16,
+                                          horizontal: 8,
+                                        ),
+                                      ),
                                     ],
                                   ],
                                 ),
                               ),
+
+                              // Packages Section
+                              ServicePackagesCarousel(
+                                packages: service.packages ?? [],
+                                onBookPackage: (package) {
+                                  Get.toNamed(
+                                    RouteConstant.bookServiceScreen,
+                                    arguments: package,
+                                  );
+                                },
+                              ),
+
+
+                                SizedBox(height: 16),
+
 
 
                             ],

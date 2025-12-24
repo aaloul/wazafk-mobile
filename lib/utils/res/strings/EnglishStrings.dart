@@ -598,6 +598,13 @@ class EnglishStrings extends Strings {
   String errorAddingServiceWithParam(String error) =>
       "Error adding service: $error";
 
+  @override
+  String get failedToLoadServiceDetails => "Failed to load service details";
+
+  @override
+  String errorLoadingServiceDetails(String error) =>
+      "Error loading service details: $error";
+
   // Network Error Messages
   @override
   String errorDuringCommunication(String error) =>

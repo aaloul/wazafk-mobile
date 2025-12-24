@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:wazafak_app/model/PackagesResponse.dart';
 
 import 'SkillsResponse.dart';
 
@@ -83,6 +84,7 @@ class Service {
   List<Skill>? skills;
   List<Area>? areas;
   List<Availability>? availability;
+  List<Package>? packages;
   bool? isFavorite;
   String? memberImage;
   String? memberRating;
@@ -116,6 +118,7 @@ class Service {
     this.skills,
     this.areas,
     this.availability,
+    this.packages,
     this.isFavorite,
     this.memberImage,
     this.memberRating,
@@ -158,6 +161,11 @@ class Service {
         : List<Availability>.from(
             json["availability"]!.map((x) => Availability.fromJson(x)),
           ),
+    packages: json["packages"] == null
+        ? []
+        : List<Package>.from(
+            json["packages"]!.map((x) => Package.fromJson(x)),
+          ),
     isFavorite: json["is_favorite"],
     memberImage: json["member_image"],
     memberRating: json["member_rating"],
@@ -196,6 +204,9 @@ class Service {
     "availability": availability == null
         ? []
         : List<dynamic>.from(availability!.map((x) => x.toJson())),
+    "packages": packages == null
+        ? []
+        : List<dynamic>.from(packages!.map((x) => x.toJson())),
     "is_favorite": isFavorite,
     "member_image": memberImage,
     "member_title": memberTitle,
