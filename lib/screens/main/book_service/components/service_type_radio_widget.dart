@@ -7,6 +7,19 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 class ServiceTypeRadioWidget extends StatelessWidget {
   const ServiceTypeRadioWidget({super.key});
 
+  String _getWorkLocationTypeLabel(BuildContext context, String type) {
+    switch (type) {
+      case 'Remote':
+        return context.resources.strings.remote;
+      case 'Hybrid':
+        return context.resources.strings.hybrid;
+      case 'Onsite':
+        return context.resources.strings.onsite;
+      default:
+        return type;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<BookServiceController>();
@@ -65,7 +78,7 @@ class ServiceTypeRadioWidget extends StatelessWidget {
           children: [
             Expanded(
               child: PrimaryText(
-                text: jobType,
+                text: _getWorkLocationTypeLabel(context, jobType),
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
                 textColor: context.resources.color.colorGrey8,

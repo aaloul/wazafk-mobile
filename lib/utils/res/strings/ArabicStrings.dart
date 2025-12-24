@@ -214,6 +214,27 @@ class ArabicStrings extends Strings {
   @override
   String get selectTime => "حدد الوقت";
 
+  @override
+  String get selectDate => "حدد التاريخ";
+
+  @override
+  String get editJobPost => "تعديل الوظيفة";
+
+  @override
+  String get addJobPost => "إضافة وظيفة";
+
+  @override
+  String get updateJob => "تحديث الوظيفة";
+
+  @override
+  String get postJob => "نشر الوظيفة";
+
+  @override
+  String get listKeyResponsibilities => "قائمة المسؤوليات الرئيسية";
+
+  @override
+  String get listRequiredSkillsQualifications => "قائمة المهارات والمؤهلات المطلوبة";
+
   // Button Labels
   @override
   String get back => "رجوع";
@@ -765,6 +786,15 @@ class ArabicStrings extends Strings {
   String get location => "الموقع";
 
   @override
+  String get remote => "عن بُعد";
+
+  @override
+  String get hybrid => "مختلط";
+
+  @override
+  String get onsite => "في الموقع";
+
+  @override
   String get date => "التاريخ";
 
   @override
@@ -979,6 +1009,30 @@ class ArabicStrings extends Strings {
   String get activity => "النشاط";
 
   @override
+  String get projectsAndServices => "المشاريع والخدمات";
+
+  @override
+  String get pending => "قيد الانتظار";
+
+  @override
+  String get closedPaused => "مغلق/متوقف";
+
+  @override
+  String get pins => "المثبتات";
+
+  @override
+  String get noOngoingProjects => "لا توجد مشاريع جارية";
+
+  @override
+  String get noPendingProjects => "لا توجد مشاريع قيد الانتظار";
+
+  @override
+  String get noCompletedProjects => "لا توجد مشاريع مكتملة";
+
+  @override
+  String get noSavedPins => "لا توجد مثبتات محفوظة";
+
+  @override
   String get profile => "الملف الشخصي";
 
   // Chat
@@ -1017,6 +1071,45 @@ class ArabicStrings extends Strings {
 
   @override
   String get perHour => "/ ساعة";
+
+  @override
+  String get editService => "تعديل الخدمة";
+
+  @override
+  String get addService => "إضافة خدمة";
+
+  @override
+  String get updateService => "تحديث الخدمة";
+
+  @override
+  String get saveService => "حفظ الخدمة";
+
+  @override
+  String daysSelected(int count) => "تم تحديد $count أيام";
+
+  @override
+  String get editPackage => "تعديل الباقة";
+
+  @override
+  String get addPackage => "إضافة باقة";
+
+  @override
+  String get updatePackage => "تحديث الباقة";
+
+  @override
+  String get savePackage => "حفظ الباقة";
+
+  @override
+  String servicesSelected(int count) => "تم تحديد $count خدمة";
+
+  @override
+  String get noServicesSelected => "لم يتم تحديد خدمات";
+
+  @override
+  String get imageSelected => "تم تحديد الصورة";
+
+  @override
+  String get uploadImage => "رفع الصورة";
 
   @override
   String get youllReceive => "ستحصل على";

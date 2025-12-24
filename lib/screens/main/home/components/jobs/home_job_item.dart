@@ -45,16 +45,16 @@ class _HomeJobItemState extends State<HomeJobItem> {
     }
   }
 
-  String getWorkLocationTypeFullName(String? workLocationType) {
+  String getWorkLocationTypeFullName(BuildContext context, String? workLocationType) {
     switch (workLocationType) {
       case 'RMT':
-        return 'Remote';
+        return context.resources.strings.remote;
       case 'HYB':
-        return 'Hybrid';
+        return context.resources.strings.hybrid;
       case 'SIT':
-        return 'Onsite';
+        return context.resources.strings.onsite;
       default:
-        return 'N/A';
+        return context.resources.strings.notAvailable;
     }
   }
 
@@ -220,7 +220,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
               SizedBox(width: 8),
               Expanded(child: PrimaryText(
                   text: getWorkLocationTypeFullName(
-                      widget.job.workLocationType))),
+                      context, widget.job.workLocationType))),
 
               PrimaryText(
                 text: "\$${widget.job.totalPrice}",

@@ -143,6 +143,20 @@ abstract class Strings {
 
   String get selectTime;
 
+  String get selectDate;
+
+  String get editJobPost;
+
+  String get addJobPost;
+
+  String get updateJob;
+
+  String get postJob;
+
+  String get listKeyResponsibilities;
+
+  String get listRequiredSkillsQualifications;
+
   // Button Labels
   String get back;
 
@@ -504,6 +518,12 @@ abstract class Strings {
 
   String get location;
 
+  String get remote;
+
+  String get hybrid;
+
+  String get onsite;
+
   String get date;
 
   String get applicants;
@@ -647,6 +667,22 @@ abstract class Strings {
 
   String get activity;
 
+  String get projectsAndServices;
+
+  String get pending;
+
+  String get closedPaused;
+
+  String get pins;
+
+  String get noOngoingProjects;
+
+  String get noPendingProjects;
+
+  String get noCompletedProjects;
+
+  String get noSavedPins;
+
   String get profile;
 
   // Chat
@@ -674,6 +710,32 @@ abstract class Strings {
   String get amountRequiredForThisJob;
 
   String get perHour;
+
+  String get editService;
+
+  String get addService;
+
+  String get updateService;
+
+  String get saveService;
+
+  String daysSelected(int count);
+
+  String get editPackage;
+
+  String get addPackage;
+
+  String get updatePackage;
+
+  String get savePackage;
+
+  String servicesSelected(int count);
+
+  String get noServicesSelected;
+
+  String get imageSelected;
+
+  String get uploadImage;
 
   String get youllReceive;
 

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:wazafak_app/repository/account/settings_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class ChangeLanguageController extends GetxController {
@@ -33,6 +34,7 @@ class ChangeLanguageController extends GetxController {
         // Update app locale
         Locale locale = Locale(languageCode);
         Get.updateLocale(locale);
+        Prefs.setLanguage(languageCode);
 
         constants.showSnackBar(
             response.message ?? 'Language changed successfully',

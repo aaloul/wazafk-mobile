@@ -3,6 +3,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../../utils/res/AppIcons.dart';
+import '../../../../../../utils/utils.dart';
 
 class InviteFriendItem extends StatelessWidget {
   const InviteFriendItem({
@@ -50,7 +51,10 @@ class InviteFriendItem extends StatelessWidget {
               ),
             ),
 
-            Image.asset(AppIcons.arrowRight2, width: 18),
+            RotatedBox(
+              quarterTurns: Utils().isRTL() ? 2 : 0,
+              child: Image.asset(AppIcons.arrowRight2, width: 18),
+            ),
           ],
         ),
       ),

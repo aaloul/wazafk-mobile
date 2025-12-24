@@ -17,7 +17,7 @@ import 'package:wazafak_app/utils/utils.dart';
 import '../home/home_controller.dart';
 
 class ActivitiesController extends GetxController {
-  var selectedTab = 'Project & Services'.obs;
+  var selectedTab = ''.obs;
 
   // Repositories
   final _engagementsRepository = EngagementsListRepository();
@@ -39,6 +39,8 @@ class ActivitiesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // Initialize with the first tab
+    selectedTab.value = Resources.of(Get.context!).strings.projectsAndServices;
     fetchOngoingEngagements();
     fetchPendingEngagements();
     fetchCompletedEngagements();
@@ -115,17 +117,18 @@ class ActivitiesController extends GetxController {
   }
 
   void refreshCurrentTab() {
+    final strings = Resources.of(Get.context!).strings;
     switch (selectedTab.value) {
-      case 'Project & Services':
+      case var tab when tab == strings.projectsAndServices:
         fetchOngoingEngagements();
         break;
-      case 'Pending':
+      case var tab when tab == strings.pending:
         fetchPendingEngagements();
         break;
-      case 'Closed/Paused':
+      case var tab when tab == strings.closedPaused:
         fetchCompletedEngagements();
         break;
-      case 'Pins':
+      case var tab when tab == strings.pins:
         fetchFavoriteJobs();
         break;
     }

@@ -8,6 +8,19 @@ import '../add_job_controller.dart';
 class JobTypeRadioWidget extends StatelessWidget {
   const JobTypeRadioWidget({super.key});
 
+  String _getWorkLocationTypeLabel(BuildContext context, String type) {
+    switch (type) {
+      case 'Remote':
+        return context.resources.strings.remote;
+      case 'Hybrid':
+        return context.resources.strings.hybrid;
+      case 'Onsite':
+        return context.resources.strings.onsite;
+      default:
+        return type;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AddJobController>();
@@ -66,7 +79,7 @@ class JobTypeRadioWidget extends StatelessWidget {
           children: [
             Expanded(
               child: PrimaryText(
-                text: jobType,
+                text: _getWorkLocationTypeLabel(context, jobType),
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
                 textColor: context.resources.color.colorGrey8,

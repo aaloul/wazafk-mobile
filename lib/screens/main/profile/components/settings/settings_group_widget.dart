@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../../model/SettingsModel.dart';
 import '../../profile_controller.dart';
@@ -103,7 +104,10 @@ class SettingItem extends StatelessWidget {
                 textColor: context.resources.color.colorGrey10,
               ),
             ),
-            Image.asset(AppIcons.arrowRight2, width: 18),
+            RotatedBox(
+              quarterTurns: Utils().isRTL() ? 2 : 0,
+              child: Image.asset(AppIcons.arrowRight2, width: 18),
+            ),
           ],
         ),
       ),

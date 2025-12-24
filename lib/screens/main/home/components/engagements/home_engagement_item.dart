@@ -19,6 +19,19 @@ class HomeEngagementItem extends StatelessWidget {
     );
   }
 
+  String _getWorkLocationTypeName(BuildContext context, String? code) {
+    switch (code) {
+      case 'RMT':
+        return context.resources.strings.remote;
+      case 'HYB':
+        return context.resources.strings.hybrid;
+      case 'SIT':
+        return context.resources.strings.onsite;
+      default:
+        return context.resources.strings.notAvailable;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -76,12 +89,7 @@ class HomeEngagementItem extends StatelessWidget {
                             ),
                             SizedBox(width: 6),
                             PrimaryText(
-                              text: engagement.workLocationType
-                                  .toString()
-                                  .isEmpty
-                                  ? context.resources.strings.notAvailable
-                                  : engagement.workLocationType ??
-                                  context.resources.strings.notAvailable,
+                              text: _getWorkLocationTypeName(context, engagement.workLocationType),
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey19,

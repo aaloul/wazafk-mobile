@@ -31,7 +31,7 @@ class AddJobScreen extends StatelessWidget {
           children: [
             TopHeader(
               hasBack: true,
-              title: controller.isEditMode ? 'Edit Job Post' : 'Add Job Post',
+              title: controller.isEditMode ? context.resources.strings.editJobPost : context.resources.strings.addJobPost,
             ),
             SizedBox(height: 16),
             Expanded(
@@ -52,8 +52,8 @@ class AddJobScreen extends StatelessWidget {
 
                     LabeledTextFiled(
                       controller: controller.titleController,
-                      hint: 'Title',
-                      label: 'Title',
+                      hint: context.resources.strings.title,
+                      label: context.resources.strings.title,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
@@ -208,7 +208,7 @@ class AddJobScreen extends StatelessWidget {
                                       ? DateFormat(
                                           'MMM dd, yyyy',
                                         ).format(controller.selectedDate.value!)
-                                      : 'Select Date',
+                                      : context.resources.strings.selectDate,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   textColor:
@@ -360,7 +360,7 @@ class AddJobScreen extends StatelessWidget {
                                       ? controller.selectedTime.value!.format(
                                           context,
                                         )
-                                      : 'Select Time',
+                                      : context.resources.strings.selectTime,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   textColor:
@@ -464,7 +464,7 @@ class AddJobScreen extends StatelessWidget {
                                       ? DateFormat('MMM dd, yyyy').format(
                                           controller.selectedExpiryDate.value!,
                                         )
-                                      : 'Select Expiry Date',
+                                      : context.resources.strings.selectExpiryDate,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   textColor:
@@ -622,7 +622,7 @@ class AddJobScreen extends StatelessWidget {
                                           null
                                       ? controller.selectedExpiryTime.value!
                                             .format(context)
-                                      : 'Select Expiry Time',
+                                      : context.resources.strings.selectExpiryTime,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   textColor:
@@ -655,8 +655,8 @@ class AddJobScreen extends StatelessWidget {
 
                     LabeledTextFiled(
                       controller: controller.totalPriceController,
-                      hint: 'Amount in USD',
-                      label: 'Total Price',
+                      hint: context.resources.strings.amountInUsd,
+                      label: context.resources.strings.totalPrice,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.number,
@@ -677,8 +677,8 @@ class AddJobScreen extends StatelessWidget {
 
                     MultilineLabeledTextField(
                       controller: controller.overviewController,
-                      label: 'Overview',
-                      hint: 'Brief description of the job',
+                      label: context.resources.strings.overview,
+                      hint: context.resources.strings.briefDescription,
                       maxLines: 20,
                       height: 100,
                       margin: 0,
@@ -691,8 +691,8 @@ class AddJobScreen extends StatelessWidget {
 
                     MultilineLabeledTextField(
                       controller: controller.responsibilitiesController,
-                      label: 'Responsibilities',
-                      hint: 'List the key responsibilities',
+                      label: context.resources.strings.responsibilities,
+                      hint: context.resources.strings.listKeyResponsibilities,
                       maxLines: 20,
                       height: 100,
                       margin: 0,
@@ -705,8 +705,8 @@ class AddJobScreen extends StatelessWidget {
 
                     MultilineLabeledTextField(
                       controller: controller.requirementsController,
-                      label: 'Requirements',
-                      hint: 'List the required skills and qualifications',
+                      label: context.resources.strings.requirements,
+                      hint: context.resources.strings.listRequiredSkillsQualifications,
                       maxLines: 20,
                       height: 100,
                       margin: 0,
@@ -727,8 +727,8 @@ class AddJobScreen extends StatelessWidget {
                     ? ProgressBar()
                     : PrimaryButton(
                         title: controller.isEditMode
-                            ? 'Update Job'
-                            : 'Post Job',
+                            ? context.resources.strings.updateJob
+                            : context.resources.strings.postJob,
                         onPressed: () {
                           controller.addJob();
                         },

@@ -48,10 +48,10 @@ class ActivityScreen extends StatelessWidget {
                     () =>
                     TabsWidget(
                       tabs: [
-                        'Project & Services',
-                        'Pending',
-                        'Closed/Paused',
-                        'Pins'
+                        context.resources.strings.projectsAndServices,
+                        context.resources.strings.pending,
+                        context.resources.strings.closedPaused,
+                        context.resources.strings.pins
                       ],
                       onSelect: (tab) {
                         controller.selectedTab.value = tab;
@@ -72,14 +72,15 @@ class ActivityScreen extends StatelessWidget {
   }
 
   Widget _buildTabContent(BuildContext context) {
+    final strings = Resources.of(context).strings;
     switch (controller.selectedTab.value) {
-      case 'Project & Services':
+      case var tab when tab == strings.projectsAndServices:
         return _buildOngoingProjects(context);
-      case 'Pending':
+      case var tab when tab == strings.pending:
         return _buildPendingProjects(context);
-      case 'Closed/Paused':
+      case var tab when tab == strings.closedPaused:
         return _buildCompletedProjects(context);
-      case 'Pins':
+      case var tab when tab == strings.pins:
         return _buildSavedFavorites(context);
       default:
         return Container();
@@ -98,7 +99,7 @@ class ActivityScreen extends StatelessWidget {
     if (controller.ongoingEngagements.isEmpty) {
       return Center(
         child: Text(
-          'No ongoing projects',
+          Resources.of(context).strings.noOngoingProjects,
         ),
       );
     }
@@ -128,7 +129,7 @@ class ActivityScreen extends StatelessWidget {
     if (controller.pendingEngagements.isEmpty) {
       return Center(
         child: Text(
-          'No pending projects',
+          Resources.of(context).strings.noPendingProjects,
         ),
       );
     }
@@ -158,7 +159,7 @@ class ActivityScreen extends StatelessWidget {
     if (controller.completedEngagements.isEmpty) {
       return Center(
         child: Text(
-          'No completed projects',
+          Resources.of(context).strings.noCompletedProjects,
         ),
       );
     }
@@ -188,7 +189,7 @@ class ActivityScreen extends StatelessWidget {
     if (controller.favorites.isEmpty) {
       return Center(
         child: Text(
-          'No saved pins',
+          Resources.of(context).strings.noSavedPins,
         ),
       );
     }

@@ -22,6 +22,19 @@ class ProjectsJobItem extends StatelessWidget {
   final Function(String)? onFavoriteToggle;
   final bool isRemoving;
 
+  String _getWorkLocationTypeName(BuildContext context, String? code) {
+    switch (code) {
+      case 'RMT':
+        return context.resources.strings.remote;
+      case 'HYB':
+        return context.resources.strings.hybrid;
+      case 'SIT':
+        return context.resources.strings.onsite;
+      default:
+        return context.resources.strings.notAvailable;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -166,8 +179,7 @@ class ProjectsJobItem extends StatelessWidget {
             children: [
               Image.asset(AppIcons.location, width: 18),
               SizedBox(width: 8),
-              Expanded(child: PrimaryText(text: job.workLocationType ??
-                  context.resources.strings.notAvailable)),
+              Expanded(child: PrimaryText(text: _getWorkLocationTypeName(context, job.workLocationType))),
 
               PrimaryText(
                 text: "\$${job.totalPrice}",

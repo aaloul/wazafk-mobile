@@ -29,8 +29,8 @@ class AddPackageScreen extends StatelessWidget {
               () => TopHeader(
                 hasBack: true,
                 title: controller.isEditMode.value
-                    ? 'Edit Package'
-                    : 'Add Package',
+                    ? context.resources.strings.editPackage
+                    : context.resources.strings.addPackage,
               ),
             ),
             SizedBox(height: 16),
@@ -124,8 +124,8 @@ class AddPackageScreen extends StatelessWidget {
                                           controller.selectedServices.length;
                                       return PrimaryText(
                                         text: selectedCount > 0
-                                            ? '$selectedCount service(s) selected'
-                                            : 'No services selected',
+                                            ? context.resources.strings.servicesSelected(selectedCount)
+                                            : context.resources.strings.noServicesSelected,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         textColor:
@@ -136,10 +136,11 @@ class AddPackageScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: context.resources.color.colorGrey,
+                      Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: context.resources.color.colorGrey,
+
                             ),
                           ],
                         ),
@@ -228,7 +229,7 @@ class AddPackageScreen extends StatelessWidget {
                                           .where((day) => day.isEnabled)
                                           .length;
                                       return PrimaryText(
-                                        text: '$enabledDays days selected',
+                                        text: context.resources.strings.daysSelected(enabledDays),
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         textColor:
@@ -239,10 +240,12 @@ class AddPackageScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: context.resources.color.colorGrey,
+
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: context.resources.color.colorGrey,
+
                             ),
                           ],
                         ),
@@ -273,8 +276,8 @@ class AddPackageScreen extends StatelessWidget {
                         label:
                             controller.packageImage.value != null ||
                                 controller.packageImageUrl.value != null
-                            ? 'Image Selected'
-                            : 'Upload Image',
+                            ? context.resources.strings.imageSelected
+                            : context.resources.strings.uploadImage,
                         isMandatory: false,
                         isOptional: false,
                         onClick: () {
@@ -352,8 +355,8 @@ class AddPackageScreen extends StatelessWidget {
                     ? ProgressBar()
                     : PrimaryButton(
                         title: controller.isEditMode.value
-                            ? 'Update Package'
-                            : 'Save Package',
+                            ? context.resources.strings.updatePackage
+                            : context.resources.strings.savePackage,
                         onPressed: () {
                           controller.addPackage();
                         },

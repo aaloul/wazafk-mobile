@@ -214,6 +214,27 @@ class EnglishStrings extends Strings {
   @override
   String get selectTime => "Select Time";
 
+  @override
+  String get selectDate => "Select Date";
+
+  @override
+  String get editJobPost => "Edit Job Post";
+
+  @override
+  String get addJobPost => "Add Job Post";
+
+  @override
+  String get updateJob => "Update Job";
+
+  @override
+  String get postJob => "Post Job";
+
+  @override
+  String get listKeyResponsibilities => "List the key responsibilities";
+
+  @override
+  String get listRequiredSkillsQualifications => "List the required skills and qualifications";
+
   // Button Labels
   @override
   String get back => "Back";
@@ -763,6 +784,15 @@ class EnglishStrings extends Strings {
   String get location => "Location";
 
   @override
+  String get remote => "Remote";
+
+  @override
+  String get hybrid => "Hybrid";
+
+  @override
+  String get onsite => "Onsite";
+
+  @override
   String get date => "Date";
 
   @override
@@ -978,6 +1008,30 @@ class EnglishStrings extends Strings {
   String get activity => "Activity";
 
   @override
+  String get projectsAndServices => "Project & Services";
+
+  @override
+  String get pending => "Pending";
+
+  @override
+  String get closedPaused => "Closed/Paused";
+
+  @override
+  String get pins => "Pins";
+
+  @override
+  String get noOngoingProjects => "No ongoing projects";
+
+  @override
+  String get noPendingProjects => "No pending projects";
+
+  @override
+  String get noCompletedProjects => "No completed projects";
+
+  @override
+  String get noSavedPins => "No saved pins";
+
+  @override
   String get profile => "Profile";
 
   // Chat
@@ -1017,6 +1071,45 @@ class EnglishStrings extends Strings {
 
   @override
   String get perHour => "/ Hour";
+
+  @override
+  String get editService => "Edit Service";
+
+  @override
+  String get addService => "Add Service";
+
+  @override
+  String get updateService => "Update Service";
+
+  @override
+  String get saveService => "Save Service";
+
+  @override
+  String daysSelected(int count) => "$count days selected";
+
+  @override
+  String get editPackage => "Edit Package";
+
+  @override
+  String get addPackage => "Add Package";
+
+  @override
+  String get updatePackage => "Update Package";
+
+  @override
+  String get savePackage => "Save Package";
+
+  @override
+  String servicesSelected(int count) => "$count service(s) selected";
+
+  @override
+  String get noServicesSelected => "No services selected";
+
+  @override
+  String get imageSelected => "Image Selected";
+
+  @override
+  String get uploadImage => "Upload Image";
 
   @override
   String get youllReceive => "You'll Receive";

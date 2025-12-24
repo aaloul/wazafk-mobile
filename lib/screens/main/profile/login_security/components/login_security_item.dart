@@ -3,6 +3,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../components/primary_text.dart';
 import '../../../../../utils/res/AppIcons.dart';
+import '../../../../../utils/utils.dart';
 
 class LoginSecurityItem extends StatelessWidget {
   const LoginSecurityItem({
@@ -51,7 +52,10 @@ class LoginSecurityItem extends StatelessWidget {
               ),
             ),
 
-            Image.asset(AppIcons.arrowRight2, width: 18),
+            RotatedBox(
+              quarterTurns: Utils().isRTL() ? 2 : 0,
+              child: Image.asset(AppIcons.arrowRight2, width: 18),
+            ),
           ],
         ),
       ),

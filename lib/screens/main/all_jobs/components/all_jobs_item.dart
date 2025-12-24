@@ -41,16 +41,16 @@ class _AllJobsItemState extends State<AllJobsItem> {
     }
   }
 
-  String _getWorkLocationTypeName(String? code) {
+  String _getWorkLocationTypeName(BuildContext context, String? code) {
     switch (code) {
       case 'RMT':
-        return 'Remote';
+        return context.resources.strings.remote;
       case 'HYB':
-        return 'Hybrid';
+        return context.resources.strings.hybrid;
       case 'SIT':
-        return 'Onsite';
+        return context.resources.strings.onsite;
       default:
-        return code ?? 'N/A';
+        return context.resources.strings.notAvailable;
     }
   }
 
@@ -217,7 +217,7 @@ class _AllJobsItemState extends State<AllJobsItem> {
                 SizedBox(width: 8),
                 Expanded(
                   child: PrimaryText(
-                    text: _getWorkLocationTypeName(widget.job.workLocationType),
+                    text: _getWorkLocationTypeName(context, widget.job.workLocationType),
                   ),
                 ),
                 PrimaryText(

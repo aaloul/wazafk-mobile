@@ -34,8 +34,8 @@ class AddServiceScreen extends StatelessWidget {
               () => TopHeader(
                 hasBack: true,
                 title: controller.isEditMode.value
-                    ? 'Edit Service'
-                    : 'Add Service',
+                    ? context.resources.strings.editService
+                    : context.resources.strings.addService,
               ),
             ),
             SizedBox(height: 16),
@@ -220,7 +220,7 @@ class AddServiceScreen extends StatelessWidget {
                                     Container(
                                       margin: EdgeInsets.only(top: 24),
                                       child: PrimaryText(
-                                        text: "/ Hour",
+                                        text: context.resources.strings.perHour,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w900,
                                         textColor:
@@ -342,7 +342,7 @@ class AddServiceScreen extends StatelessWidget {
                                           .where((day) => day.isEnabled)
                                           .length;
                                       return PrimaryText(
-                                        text: '$enabledDays days selected',
+                                        text: context.resources.strings.daysSelected(enabledDays),
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         textColor:
@@ -353,10 +353,11 @@ class AddServiceScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: context.resources.color.colorGrey,
+                        Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: context.resources.color.colorGrey,
+                            
                             ),
                           ],
                         ),
@@ -375,8 +376,8 @@ class AddServiceScreen extends StatelessWidget {
                     ? ProgressBar()
                     : PrimaryButton(
                         title: controller.isEditMode.value
-                            ? 'Update Service'
-                            : 'Save Service',
+                            ? context.resources.strings.updateService
+                            : context.resources.strings.saveService,
                         onPressed: () {
                           controller.addService();
                         },
