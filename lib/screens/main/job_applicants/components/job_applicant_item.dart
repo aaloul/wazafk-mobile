@@ -67,7 +67,7 @@ class JobApplicantItem extends StatelessWidget {
                 SizedBox(height: 2),
 
                 PrimaryText(
-                  text: '${applicant?.nbCompletedJobs ?? 0} Completed Jobs',
+                  text: '${applicant?.nbCompletedJobs ?? 0} ${context.resources.strings.completedJobs}',
                   fontSize: 14,
                   textColor: context.resources.color.colorBlue3,
                   fontWeight: FontWeight.w400,

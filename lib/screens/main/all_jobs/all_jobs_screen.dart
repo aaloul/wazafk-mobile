@@ -39,7 +39,7 @@ class AllJobsScreen extends StatelessWidget {
                 if (controller.jobs.isEmpty && !controller.isLoading.value) {
                   return Center(
                     child: Text(
-                      'No jobs available',
+                      context.resources.strings.noJobsAvailable,
                       style: TextStyle(
                         fontSize: 16,
                         color: context.resources.color.colorGrey14,

@@ -23,7 +23,7 @@ class AboutUsScreen extends StatelessWidget {
               () => TopHeader(
                 hasBack: true,
                 title: controller.title.value.isEmpty
-                    ? 'About Us'
+                    ? context.resources.strings.aboutUs
                     : controller.title.value,
               ),
             ),
@@ -35,7 +35,7 @@ class AboutUsScreen extends StatelessWidget {
                 }
 
                 if (controller.htmlContent.value.isEmpty) {
-                  return Center(child: Text('No content available'));
+                  return Center(child: Text(context.resources.strings.noContentAvailable));
                 }
 
                 return SingleChildScrollView(

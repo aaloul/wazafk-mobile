@@ -109,7 +109,7 @@ class _VerifyFaceMatchBookServiceBottomSheetState
                   SizedBox(height: 8),
                   PrimaryText(
                     text:
-                        'Please use your camera to capture a clear photo of your face to proceed with booking this service',
+                        context.resources.strings.pleaseUseCameraToVerifyService,
                     fontSize: 14,
                     textColor: context.resources.color.colorGrey7,
                     textAlign: TextAlign.center,
@@ -224,8 +224,8 @@ class _VerifyFaceMatchBookServiceBottomSheetState
 
                     return PrimaryButton(
                       title: hasCapturedImage
-                          ? 'Retake Photo'
-                          : 'Capture Photo',
+                          ? context.resources.strings.retakePhoto
+                          : context.resources.strings.capturePhoto,
                       onPressed: hasCapturedImage
                           ? controller.retakePicture
                           : controller.takePictureFromCamera,
@@ -287,7 +287,7 @@ class _VerifyFaceMatchBookServiceBottomSheetState
                         ? controller.verifyFaceMatchAndBook
                         : () {
                             constants.showSnackBar(
-                              'Please capture an image first',
+                              Resources.of(context).strings.pleaseCaptureImageFirst,
                               SnackBarStatus.ERROR,
                             );
                           },

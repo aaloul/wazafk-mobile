@@ -19,7 +19,8 @@
       "Bash(do sed -i 's/return response;/return TermsResponse.fromJson(response);/g' \"$file\")",
       "Bash(grep:*)",
       "Bash(do grep -q \"get $key\" lib/utils/res/strings/Strings.dart)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

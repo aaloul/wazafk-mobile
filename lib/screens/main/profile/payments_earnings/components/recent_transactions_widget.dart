@@ -20,20 +20,31 @@ class RecentTransactionsWidget extends StatefulWidget {
 }
 
 class _RecentTransactionsWidgetState extends State<RecentTransactionsWidget> {
-  String selectedSortBy = 'Date Descending';
+  String selectedSortBy = '';
 
-  String _mapSortByToApiValue(String displayValue) {
-    switch (displayValue) {
-      case 'Date Ascending':
-        return 'date_asc';
-      case 'Date Descending':
-        return 'date_desc';
-      case 'Amount Ascending':
-        return 'amount_asc';
-      case 'Amount Descending':
-        return 'amount_desc';
-      default:
-        return 'date_desc';
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with translated default value
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        selectedSortBy = context.resources.strings.dateDescending;
+      });
+    });
+  }
+
+  String _mapSortByToApiValue(BuildContext context, String displayValue) {
+    final strings = context.resources.strings;
+    if (displayValue == strings.dateAscending) {
+      return 'date_asc';
+    } else if (displayValue == strings.dateDescending) {
+      return 'date_desc';
+    } else if (displayValue == strings.amountAscending) {
+      return 'amount_asc';
+    } else if (displayValue == strings.amountDescending) {
+      return 'amount_desc';
+    } else {
+      return 'date_desc';
     }
   }
 
@@ -56,21 +67,21 @@ class _RecentTransactionsWidgetState extends State<RecentTransactionsWidget> {
           PrimaryChooser(
             label: '',
             text: context.resources.strings.sortBy,
-            selected: selectedSortBy,
+            selected: selectedSortBy.isEmpty ? context.resources.strings.dateDescending : selectedSortBy,
             withArrow: true,
             isMandatory: false,
             isMultiSelect: false,
             list: [
-              'Date Ascending',
-              'Date Descending',
-              'Amount Ascending',
-              'Amount Descending',
+              context.resources.strings.dateAscending,
+              context.resources.strings.dateDescending,
+              context.resources.strings.amountAscending,
+              context.resources.strings.amountDescending,
             ],
             onSelect: (value) {
               setState(() {
                 selectedSortBy = value;
               });
-              controller.updateSortBy(_mapSortByToApiValue(value));
+              controller.updateSortBy(_mapSortByToApiValue(context, value));
             },
           ),
           SizedBox(height: 8),

@@ -6,6 +6,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 class HomeEngagementItem extends StatelessWidget {
   const HomeEngagementItem({super.key, required this.engagement});
@@ -120,7 +121,7 @@ class HomeEngagementItem extends StatelessWidget {
                             ),
                             SizedBox(width: 6),
                             PrimaryText(
-                              text: "${engagement.estimatedHours} Hours",
+                              text: "${engagement.estimatedHours} ${Resources.of(context).strings.hours}",
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               textColor: context.resources.color.colorGrey19,

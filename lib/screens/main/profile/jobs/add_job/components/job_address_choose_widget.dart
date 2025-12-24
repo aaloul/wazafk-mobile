@@ -62,7 +62,7 @@ class JobAddressChooseWidget extends StatelessWidget {
                     child: PrimaryText(
                       text:
                           controller.selectedAddress.value?.label ??
-                          'Select Address',
+                          context.resources.strings.selectAddress,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       textColor: controller.selectedAddress.value != null

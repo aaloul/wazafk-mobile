@@ -102,7 +102,7 @@ class BookServiceScreen extends StatelessWidget {
                                           .services!
                                           .first
                                           .categoryName
-                                    : 'Package')
+                                    : context.resources.strings.package)
                               : controller.service.value!.categoryName;
                           final parentCategoryName = controller.isPackage.value
                               ? (controller.package.value!.services != null &&
@@ -325,7 +325,7 @@ class BookServiceScreen extends StatelessWidget {
                             if (controller.service.value == null &&
                                 controller.package.value == null) {
                               constants.showSnackBar(
-                                'Service/Package information not available',
+                                Resources.of(context).strings.servicePackageInformationNotAvailable,
                                 SnackBarStatus.ERROR,
                               );
                               return;
@@ -333,7 +333,7 @@ class BookServiceScreen extends StatelessWidget {
 
                             if (controller.rangeStart.value == null) {
                               constants.showSnackBar(
-                                'Please select a date range',
+                                Resources.of(context).strings.pleaseSelectDateRange,
                                 SnackBarStatus.ERROR,
                               );
                               return;
@@ -341,7 +341,7 @@ class BookServiceScreen extends StatelessWidget {
 
                             if (controller.selectedServiceType.value == null) {
                               constants.showSnackBar(
-                                'Please select a service type',
+                                Resources.of(context).strings.pleaseSelectServiceType,
                                 SnackBarStatus.ERROR,
                               );
                               return;
@@ -354,7 +354,7 @@ class BookServiceScreen extends StatelessWidget {
                                         'Hybrid') &&
                                 controller.selectedAddress.value == null) {
                               constants.showSnackBar(
-                                'Please select a location',
+                                Resources.of(context).strings.pleaseSelectLocation,
                                 SnackBarStatus.ERROR,
                               );
                               return;

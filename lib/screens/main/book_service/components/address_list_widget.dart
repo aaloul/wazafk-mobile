@@ -160,7 +160,7 @@ class AddressListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PrimaryText(
-                      text: address.label ?? 'Address',
+                      text: address.label ?? context.resources.strings.address,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       textColor: context.resources.color.colorGrey,

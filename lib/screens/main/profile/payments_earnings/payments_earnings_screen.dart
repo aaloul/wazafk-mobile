@@ -23,12 +23,12 @@ class PaymentsEarningsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TopHeader(hasBack: true, title: 'Payments & Earnings'),
+            TopHeader(hasBack: true, title: context.resources.strings.paymentsAndEarnings),
 
             Obx(
                   () =>
                   TabsWidget(
-                    tabs: ['Payment Overview', 'Earnings Overview'],
+                    tabs: [context.resources.strings.paymentOverview, context.resources.strings.earningsOverview],
                     onSelect: (tab) {
                       controller.selectedTab.value = tab;
                       controller.fetchWalletTransactions();

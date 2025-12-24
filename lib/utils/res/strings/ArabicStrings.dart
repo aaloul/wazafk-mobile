@@ -685,6 +685,9 @@ class ArabicStrings extends Strings {
   String get noEngagementDetailsAvailable => "لا توجد تفاصيل مشاركة متاحة";
 
   @override
+  String get noEngagementsAvailable => "لا توجد مشاركات متاحة";
+
+  @override
   String get noApplicantsYet => "لا يوجد متقدمون بعد";
 
   @override
@@ -877,6 +880,15 @@ class ArabicStrings extends Strings {
   String get changeRequest => "طلب تغيير";
 
   @override
+  String get yourChangeRequestPendingApproval => "طلب التغيير الخاص بك قيد الموافقة";
+
+  @override
+  String get yourEngagementRequestPendingApproval => "طلب المشاركة الخاص بك قيد الموافقة";
+
+  @override
+  String get start => "البدء";
+
+  @override
   String get requestedBy => "مطلوب من";
 
   @override
@@ -1021,6 +1033,12 @@ class ArabicStrings extends Strings {
   String get pins => "المثبتات";
 
   @override
+  String get ongoingProject => "المشاريع الجارية";
+
+  @override
+  String get savedJobs => "الوظائف المحفوظة";
+
+  @override
   String get noOngoingProjects => "لا توجد مشاريع جارية";
 
   @override
@@ -1031,6 +1049,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get noSavedPins => "لا توجد مثبتات محفوظة";
+
+  @override
+  String get noSavedJobs => "لا توجد وظائف محفوظة";
 
   @override
   String get profile => "الملف الشخصي";
@@ -1428,6 +1449,9 @@ class ArabicStrings extends Strings {
   String get packages => "الباقات";
 
   @override
+  String get package => "باقة";
+
+  @override
   String get requests => "الطلبات";
 
   @override
@@ -1541,6 +1565,21 @@ class ArabicStrings extends Strings {
 
   @override
   String get chooseFromGallery => "اختر من المعرض";
+
+  @override
+  String get capturePhoto => "التقط صورة";
+
+  @override
+  String get retakePhoto => "إعادة التقاط الصورة";
+
+  @override
+  String get pleaseUseCameraToVerifyEngagement => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في إنهاء هذه المشاركة";
+
+  @override
+  String get pleaseUseCameraToVerifyJob => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في التقديم على هذه الوظيفة";
+
+  @override
+  String get pleaseUseCameraToVerifyService => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في حجز هذه الخدمة";
 
   // Location
   @override
@@ -1668,6 +1707,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get packageInformationNotAvailable => "معلومات الباقة غير متاحة";
+
+  @override
+  String get servicePackageInformationNotAvailable => "معلومات الخدمة/الباقة غير متاحة";
 
   @override
   String get jobInformationNotAvailable => "معلومات الوظيفة غير متاحة";
@@ -1885,4 +1927,23 @@ class ArabicStrings extends Strings {
 
   @override
   String get noInternetConnectionLowercase => "لا يوجد اتصال بالإنترنت";
+
+  // Payments & Earnings - Sorting Options
+  @override
+  String get paymentOverview => "نظرة عامة على المدفوعات";
+
+  @override
+  String get earningsOverview => "نظرة عامة على الأرباح";
+
+  @override
+  String get dateAscending => "التاريخ تصاعدي";
+
+  @override
+  String get dateDescending => "التاريخ تنازلي";
+
+  @override
+  String get amountAscending => "المبلغ تصاعدي";
+
+  @override
+  String get amountDescending => "المبلغ تنازلي";
 }

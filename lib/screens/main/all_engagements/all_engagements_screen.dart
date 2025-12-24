@@ -42,7 +42,7 @@ class AllEngagementsScreen extends StatelessWidget {
                     !controller.isLoading.value) {
                   return Center(
                     child: Text(
-                      'No engagements available',
+                      context.resources.strings.noEngagementsAvailable,
                       style: TextStyle(
                         fontSize: 16,
                         color: context.resources.color.colorGrey14,

@@ -54,17 +54,17 @@ class ProjectItem extends StatelessWidget {
                       PrimaryText(
                         text: engagement.type.toString() == 'SB'
                             ? engagement.services?.first.title.toString() ??
-                                  'N/A'
+                                  context.resources.strings.notAvailableShort
                             : engagement.type.toString() == 'PB'
-                            ? engagement.package?.title.toString() ?? 'N/A'
-                            : engagement.job?.title.toString() ?? 'N/A',
+                            ? engagement.package?.title.toString() ?? context.resources.strings.notAvailableShort
+                            : engagement.job?.title.toString() ?? context.resources.strings.notAvailableShort,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         textColor: context.resources.color.colorBlack3,
                       ),
 
                       PrimaryText(
-                        text: engagement.description ?? 'N/A',
+                        text: engagement.description ?? context.resources.strings.notAvailableShort,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         textColor: context.resources.color.colorBlack3,
@@ -130,8 +130,8 @@ class ProjectItem extends StatelessWidget {
                       PrimaryText(
                         text:
                             engagement.clientHashcode.toString() == Prefs.getId
-                            ? engagement.freelancerTitle ?? 'N/A'
-                            : engagement.clientTitle ?? 'N/A',
+                            ? engagement.freelancerTitle ?? context.resources.strings.notAvailableShort
+                            : engagement.clientTitle ?? context.resources.strings.notAvailableShort,
                         fontWeight: FontWeight.w900,
                         fontSize: 11,
                         textColor: context.resources.color.colorBlack,

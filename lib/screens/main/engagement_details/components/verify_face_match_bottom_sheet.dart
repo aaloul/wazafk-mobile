@@ -109,7 +109,7 @@ class _VerifyFaceMatchBottomSheetState
                   SizedBox(height: 8),
                   PrimaryText(
                     text:
-                        'Please use your camera to capture a clear photo of your face to proceed with finishing this engagement',
+                        context.resources.strings.pleaseUseCameraToVerifyEngagement,
                     fontSize: 14,
                     textColor: context.resources.color.colorGrey7,
                     textAlign: TextAlign.center,
@@ -224,8 +224,8 @@ class _VerifyFaceMatchBottomSheetState
 
                     return PrimaryButton(
                       title: hasCapturedImage
-                          ? 'Retake Photo'
-                          : 'Capture Photo',
+                          ? context.resources.strings.retakePhoto
+                          : context.resources.strings.capturePhoto,
                       onPressed: hasCapturedImage
                           ? controller.retakePicture
                           : controller.takePictureFromCamera,
@@ -287,7 +287,7 @@ class _VerifyFaceMatchBottomSheetState
                         ? controller.verifyFaceMatch
                         : () {
                             constants.showSnackBar(
-                              'Please capture an image first',
+                              Resources.of(context).strings.pleaseCaptureImageFirst,
                               SnackBarStatus.ERROR,
                             );
                           },

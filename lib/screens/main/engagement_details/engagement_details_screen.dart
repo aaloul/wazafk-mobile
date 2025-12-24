@@ -226,7 +226,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                           .services!
                                           .first
                                           .categoryName
-                                    : 'Package')
+                                    : context.resources.strings.package)
                               : controller.service.value!.categoryName;
                           final parentCategoryName = controller.isJob.value
                               ? controller.job.value!.parentCategoryName
@@ -653,7 +653,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   SizedBox(width: 6),
                                   PrimaryText(
                                     text:
-                                        'Start: ${DateFormat('MMM dd, yyyy - hh:mm a').format(engagement.startDatetime!)}',
+                                        '${context.resources.strings.start}: ${DateFormat('MMM dd, yyyy - hh:mm a').format(engagement.startDatetime!)}',
                                     textColor:
                                         context.resources.color.colorGrey,
                                   ),
@@ -698,7 +698,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   SizedBox(width: 6),
                                   PrimaryText(
                                     text:
-                                        'Estimated Hours: ${engagement.estimatedHours}',
+                                        '${context.resources.strings.estimatedHours}: ${engagement.estimatedHours}',
                                     textColor:
                                         context.resources.color.colorGrey,
                                   ),
@@ -1082,7 +1082,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   SizedBox(height: 4),
                                   PrimaryText(
                                     text:
-                                        'Your change request is pending approval',
+                                        context.resources.strings.yourChangeRequestPendingApproval,
                                     fontSize: 14,
                                     textColor:
                                         context.resources.color.colorGrey7,
@@ -1109,7 +1109,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       child: PrimaryButton(
-                        title: 'View Changes',
+                        title: context.resources.strings.viewChanges,
                         onPressed: () {
                           Get.bottomSheet(
                             ChangeRequestBottomSheet(),
@@ -1302,7 +1302,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   SizedBox(height: 4),
                                   PrimaryText(
                                     text:
-                                        'Your engagement request is pending approval',
+                                        context.resources.strings.yourEngagementRequestPendingApproval,
                                     fontSize: 14,
                                     textColor:
                                         context.resources.color.colorGrey7,

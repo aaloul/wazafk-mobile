@@ -31,7 +31,7 @@ class ApplyJobScreen extends StatelessWidget {
 
           return Column(
             children: [
-              TopHeader(title: 'Apply Now'),
+              TopHeader(title: context.resources.strings.applyNow),
 
               job == null
                   ? Center(
@@ -479,7 +479,7 @@ class ApplyJobScreen extends StatelessWidget {
                                     }
 
                                     return PrimaryButton(
-                                      title: 'Submit Application',
+                                      title: context.resources.strings.submitApplication,
                                       onPressed: () {
                                         // Validate form
                                         if (controller.budgetController.text

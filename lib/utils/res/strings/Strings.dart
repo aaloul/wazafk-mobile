@@ -452,6 +452,8 @@ abstract class Strings {
 
   String get noEngagementDetailsAvailable;
 
+  String get noEngagementsAvailable;
+
   String get noApplicantsYet;
 
   String get noJobDetailsAvailable;
@@ -579,6 +581,12 @@ abstract class Strings {
 
   String get changeRequest;
 
+  String get yourChangeRequestPendingApproval;
+
+  String get yourEngagementRequestPendingApproval;
+
+  String get start;
+
   String get requestedBy;
 
   String get changedFields;
@@ -675,6 +683,10 @@ abstract class Strings {
 
   String get pins;
 
+  String get ongoingProject;
+
+  String get savedJobs;
+
   String get noOngoingProjects;
 
   String get noPendingProjects;
@@ -682,6 +694,8 @@ abstract class Strings {
   String get noCompletedProjects;
 
   String get noSavedPins;
+
+  String get noSavedJobs;
 
   String get profile;
 
@@ -950,6 +964,8 @@ abstract class Strings {
 
   String get packages;
 
+  String get package;
+
   String get requests;
 
   String get payments;
@@ -1027,6 +1043,16 @@ abstract class Strings {
   String get gallery;
 
   String get chooseFromGallery;
+
+  String get capturePhoto;
+
+  String get retakePhoto;
+
+  String get pleaseUseCameraToVerifyEngagement;
+
+  String get pleaseUseCameraToVerifyJob;
+
+  String get pleaseUseCameraToVerifyService;
 
   // Location
   String get selectLocation;
@@ -1114,6 +1140,8 @@ abstract class Strings {
   String get serviceInformationNotAvailable;
 
   String get packageInformationNotAvailable;
+
+  String get servicePackageInformationNotAvailable;
 
   String get jobInformationNotAvailable;
 
@@ -1254,4 +1282,17 @@ abstract class Strings {
   String errorOccuredCommunication(String statusCode);
 
   String get noInternetConnectionLowercase;
+
+  // Payments & Earnings - Sorting Options
+  String get paymentOverview;
+
+  String get earningsOverview;
+
+  String get dateAscending;
+
+  String get dateDescending;
+
+  String get amountAscending;
+
+  String get amountDescending;
 }

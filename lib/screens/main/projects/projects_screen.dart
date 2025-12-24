@@ -48,10 +48,10 @@ class ProjectsScreen extends StatelessWidget {
                     () =>
                     TabsWidget(
                       tabs: [
-                        'Ongoing Project',
-                        'Pending',
-                        'Closed/Paused',
-                        'Saved Jobs'
+                        context.resources.strings.ongoingProject,
+                        context.resources.strings.pending,
+                        context.resources.strings.closedPaused,
+                        context.resources.strings.savedJobs
                       ],
                       onSelect: (tab) {
                         controller.selectedTab.value = tab;
@@ -72,14 +72,15 @@ class ProjectsScreen extends StatelessWidget {
   }
 
   Widget _buildTabContent(BuildContext context) {
+    final strings = Resources.of(context).strings;
     switch (controller.selectedTab.value) {
-      case 'Ongoing Project':
+      case var tab when tab == strings.ongoingProject:
         return _buildOngoingProjects(context);
-      case 'Pending':
+      case var tab when tab == strings.pending:
         return _buildPendingProjects(context);
-      case 'Closed/Paused':
+      case var tab when tab == strings.closedPaused:
         return _buildCompletedProjects(context);
-      case 'Saved Jobs':
+      case var tab when tab == strings.savedJobs:
         return _buildSavedJobs(context);
       default:
         return Container();
@@ -98,7 +99,7 @@ class ProjectsScreen extends StatelessWidget {
     if (controller.ongoingEngagements.isEmpty) {
       return Center(
         child: Text(
-          'No ongoing projects',
+          context.resources.strings.noOngoingProjects,
         ),
       );
     }
@@ -128,7 +129,7 @@ class ProjectsScreen extends StatelessWidget {
     if (controller.pendingEngagements.isEmpty) {
       return Center(
         child: Text(
-          'No pending projects',
+          context.resources.strings.noPendingProjects,
         ),
       );
     }
@@ -158,7 +159,7 @@ class ProjectsScreen extends StatelessWidget {
     if (controller.completedEngagements.isEmpty) {
       return Center(
         child: Text(
-          'No completed projects',
+          context.resources.strings.noCompletedProjects,
         ),
       );
     }
@@ -188,7 +189,7 @@ class ProjectsScreen extends StatelessWidget {
     if (controller.favorites.isEmpty) {
       return Center(
         child: Text(
-          'No saved jobs',
+          context.resources.strings.noSavedJobs,
         ),
       );
     }

@@ -682,6 +682,9 @@ class EnglishStrings extends Strings {
   String get noEngagementDetailsAvailable => "No engagement details available";
 
   @override
+  String get noEngagementsAvailable => "No engagements available";
+
+  @override
   String get noApplicantsYet => "No applicants yet";
 
   @override
@@ -875,6 +878,15 @@ class EnglishStrings extends Strings {
   String get changeRequest => "Change Request";
 
   @override
+  String get yourChangeRequestPendingApproval => "Your change request is pending approval";
+
+  @override
+  String get yourEngagementRequestPendingApproval => "Your engagement request is pending approval";
+
+  @override
+  String get start => "Start";
+
+  @override
   String get requestedBy => "Requested By";
 
   @override
@@ -1020,6 +1032,12 @@ class EnglishStrings extends Strings {
   String get pins => "Pins";
 
   @override
+  String get ongoingProject => "Ongoing Project";
+
+  @override
+  String get savedJobs => "Saved Jobs";
+
+  @override
   String get noOngoingProjects => "No ongoing projects";
 
   @override
@@ -1030,6 +1048,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get noSavedPins => "No saved pins";
+
+  @override
+  String get noSavedJobs => "No saved jobs";
 
   @override
   String get profile => "Profile";
@@ -1429,6 +1450,9 @@ class EnglishStrings extends Strings {
   String get packages => "Packages";
 
   @override
+  String get package => "Package";
+
+  @override
   String get requests => "Requests";
 
   @override
@@ -1542,6 +1566,21 @@ class EnglishStrings extends Strings {
 
   @override
   String get chooseFromGallery => "Choose from gallery";
+
+  @override
+  String get capturePhoto => "Capture Photo";
+
+  @override
+  String get retakePhoto => "Retake Photo";
+
+  @override
+  String get pleaseUseCameraToVerifyEngagement => "Please use your camera to capture a clear photo of your face to proceed with finishing this engagement";
+
+  @override
+  String get pleaseUseCameraToVerifyJob => "Please use your camera to capture a clear photo of your face to proceed with applying for this job";
+
+  @override
+  String get pleaseUseCameraToVerifyService => "Please use your camera to capture a clear photo of your face to proceed with booking this service";
 
   // Location
   @override
@@ -1674,6 +1713,10 @@ class EnglishStrings extends Strings {
   @override
   String get packageInformationNotAvailable =>
       "Package information not available";
+
+  @override
+  String get servicePackageInformationNotAvailable =>
+      "Service/Package information not available";
 
   @override
   String get jobInformationNotAvailable => "Job information not available";
@@ -1907,4 +1950,23 @@ class EnglishStrings extends Strings {
 
   @override
   String get noInternetConnectionLowercase => "No Internet connection";
+
+  // Payments & Earnings - Sorting Options
+  @override
+  String get paymentOverview => "Payment Overview";
+
+  @override
+  String get earningsOverview => "Earnings Overview";
+
+  @override
+  String get dateAscending => "Date Ascending";
+
+  @override
+  String get dateDescending => "Date Descending";
+
+  @override
+  String get amountAscending => "Amount Ascending";
+
+  @override
+  String get amountDescending => "Amount Descending";
 }

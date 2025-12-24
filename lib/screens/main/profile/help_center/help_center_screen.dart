@@ -41,7 +41,7 @@ class HelpCenterScreen extends StatelessWidget {
                 }
 
                 if (controller.faqs.isEmpty) {
-                  return Center(child: Text('No FAQs available'));
+                  return Center(child: Text(context.resources.strings.noFaqsAvailable));
                 }
 
                 return ListView.separated(
