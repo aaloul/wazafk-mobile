@@ -5,7 +5,12 @@ import 'agreement_popup.dart';
 import 'date_popup.dart';
 
 class DialogHelper {
-  static showDatePopup(context, Function onDateSelected) => showGeneralDialog(
+  static showDatePopup(
+    context,
+    Function onDateSelected, {
+    DateTime? minDate,
+    DateTime? maxDate,
+  }) => showGeneralDialog(
     pageBuilder: (ctx, a1, a2) {
       return Container();
     },
@@ -13,7 +18,11 @@ class DialogHelper {
       var curve = Curves.easeInOut.transform(a1.value);
       return Transform.scale(
         scale: curve,
-        child: DatePopup(onDateSelected: onDateSelected),
+        child: DatePopup(
+          onDateSelected: onDateSelected,
+          minDate: minDate,
+          maxDate: maxDate,
+        ),
       );
     },
     transitionDuration: const Duration(milliseconds: 300),

@@ -1969,4 +1969,20 @@ class EnglishStrings extends Strings {
 
   @override
   String get amountDescending => "Amount Descending";
+
+  // Help Center
+  @override
+  String get contactSupport => "Contact Support";
+
+  @override
+  String get supportCategory => "Support Category";
+
+  @override
+  String get endConversation => "End Conversation";
+
+  @override
+  String get areYouSureEndConversation => "Are you sure you want to end this conversation?";
+
+  @override
+  String get conversationEndedSuccessfully => "Conversation ended successfully";
 }

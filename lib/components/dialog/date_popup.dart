@@ -3,9 +3,16 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 class DatePopup extends StatelessWidget {
-  const DatePopup({super.key, required this.onDateSelected});
+  const DatePopup({
+    super.key,
+    required this.onDateSelected,
+    this.minDate,
+    this.maxDate,
+  });
 
   final Function onDateSelected;
+  final DateTime? minDate;
+  final DateTime? maxDate;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +37,8 @@ class DatePopup extends StatelessWidget {
     child: SfDateRangePicker(
       backgroundColor: context.resources.color.colorWhite,
       showNavigationArrow: true,
+      maxDate: maxDate,
+      minDate: minDate,
       monthViewSettings: DateRangePickerMonthViewSettings(
         viewHeaderStyle: DateRangePickerViewHeaderStyle(
           textStyle: TextStyle(

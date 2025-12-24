@@ -133,11 +133,13 @@ class Endpoints {
       'notification/markAllNotificationsRead';
 
   //SUPPORT
-  static const chatCategories = 'support/chatCategories';
-  static const createChat = 'support/createChat';
-  static const chats = 'support/chats';
-  static const chat = 'support/chat';
-  static const chatMessages = 'support/chatMessages';
+  static const supportCategories = 'support/supportCategories';
+  static const startConversation = 'support/startConversation';
+  static const closeConversation = 'support/closeConversation';
+  static const lastConversation = 'support/lastConversation';
+  static const sendSupportMessage = 'support/sendMessage';
+  static const getSupportConversationMessages = 'support/getConversationMessages';
+
 
   //SEARCH
   static const employerSearch = 'search/employerSearch';

@@ -1295,4 +1295,15 @@ abstract class Strings {
   String get amountAscending;
 
   String get amountDescending;
+
+  // Help Center
+  String get contactSupport;
+
+  String get supportCategory;
+
+  String get endConversation;
+
+  String get areYouSureEndConversation;
+
+  String get conversationEndedSuccessfully;
 }

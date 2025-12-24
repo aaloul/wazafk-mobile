@@ -58,6 +58,7 @@ import '../screens/main/search/search_screen.dart';
 import '../screens/main/service_details/service_details_screen.dart';
 import '../screens/main/subcategories/subcategories_screen.dart';
 import '../screens/main/upload_documents/upload_documents_screen.dart';
+import '../screens/support_chat/support_chat_screen.dart';
 
 List<GetPage> getPages = [
   GetPage(
@@ -125,6 +126,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.conversationMessagesScreen,
     page: () => const ConversationMessagesScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.supportChatScreen,
+    page: () => const SupportChatScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 

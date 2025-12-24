@@ -1946,4 +1946,20 @@ class ArabicStrings extends Strings {
 
   @override
   String get amountDescending => "المبلغ تنازلي";
+
+  // Help Center
+  @override
+  String get contactSupport => "اتصل بالدعم";
+
+  @override
+  String get supportCategory => "فئة الدعم";
+
+  @override
+  String get endConversation => "إنهاء المحادثة";
+
+  @override
+  String get areYouSureEndConversation => "هل أنت متأكد أنك تريد إنهاء هذه المحادثة؟";
+
+  @override
+  String get conversationEndedSuccessfully => "تم إنهاء المحادثة بنجاح";
 }

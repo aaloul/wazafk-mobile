@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/primary_button.dart';
+import 'package:wazafak_app/components/primary_chooser.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
@@ -23,6 +25,48 @@ class HelpCenterScreen extends StatelessWidget {
             TopHeader(
                 hasBack: true, title: context.resources.strings.helpCenter),
             SizedBox(height: 20),
+
+            // Support Category Chooser
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              child: Obx(() {
+                if (controller.isLoadingCategories.value) {
+                  return Center(child: ProgressBar());
+                }
+
+                if (controller.supportCategories.isEmpty) {
+                  return SizedBox.shrink();
+                }
+
+                return PrimaryChooser(
+                  label: context.resources.strings.supportCategory,
+                  text: context.resources.strings.supportCategory,
+                  selected: controller.selectedCategory.value,
+                  onSelect: (value) {
+                    controller.selectedCategory.value = value;
+                  },
+                  withArrow: true,
+                  isMandatory: false,
+                  list: controller.supportCategories
+                      .map((category) => category.name ?? '')
+                      .toList(),
+                  isMultiSelect: false,
+                );
+              }),
+            ),
+            SizedBox(height: 16),
+
+            // Contact Support Button
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              child: Obx(() => PrimaryButton(
+                title: context.resources.strings.contactSupport,
+                onPressed: () => controller.contactSupport(),
+                enabled: !controller.isContactingSupportLoading.value,
+              )),
+            ),
+            SizedBox(height: 24),
+
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               child: PrimaryText(

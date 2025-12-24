@@ -18,6 +18,8 @@ class DateChooser extends StatelessWidget {
     this.labelFontWeight,
     required this.isMandatory,
     this.enabled,
+    this.minDate,
+    this.maxDate,
   });
 
   final String label;
@@ -28,77 +30,82 @@ class DateChooser extends StatelessWidget {
   String? icon;
   final Function onSelectDate;
   final double? marginVertical;
+  final DateTime? minDate;
+  final DateTime? maxDate;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        DialogHelper.showDatePopup(context, (date) {
-          onSelectDate(date);
-          print(date);
-        });
+        DialogHelper.showDatePopup(
+          context,
+          (date) {
+            onSelectDate(date);
+            print(date);
+          },
+          minDate: minDate,
+          maxDate: maxDate,
+        );
       },
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: marginVertical ?? 6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: marginVertical ?? 6),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              PrimaryText(
+                text: label,
+                textColor: context.resources.color.colorGrey3,
+                fontWeight: labelFontWeight ?? FontWeight.w500,
+                fontSize: 15,
+              ),
+              const SizedBox(width: 4),
+              if (isMandatory)
                 PrimaryText(
-                  text: label,
+                  text: '*',
                   textColor: context.resources.color.colorGrey3,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: AppThemeValues.textSize17,
                 ),
-                const SizedBox(width: 4),
-                if (isMandatory)
-                  PrimaryText(
-                    text: '*',
-                    textColor: context.resources.color.colorGrey3,
-                    fontWeight: labelFontWeight ?? FontWeight.w500,
-                    fontSize: AppThemeValues.textSize17,
+            ],
+          ),
+          if (label.isNotEmpty) const SizedBox(height: 8),
+          Container(
+            width: double.infinity,
+            height: AppDimensions.textFieldHeight,
+            decoration: BoxDecoration(
+              color: enabled ?? true
+                  ? context.resources.color.colorWhite
+                  : context.resources.color.colorWhite,
+              border: Border.all(
+                width: 1,
+                color: enabled ?? true
+                    ? context.resources.color.colorGrey2
+                    : context.resources.color.colorGrey2,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 8),
+                if (icon != null) Image.asset(icon.toString(), height: 30),
+                if (icon != null) const SizedBox(width: 5),
+                Expanded(
+                  child: PrimaryText(
+                    text: text,
+                    textColor: context.resources.color.colorGrey,
+                    fontWeight: labelFontWeight ?? FontWeight.w400,
+                    fontSize: AppThemeValues.textSize16,
                   ),
+                ),
+                Image.asset(AppIcons.calendar, width: 24),
+                const SizedBox(width: 8),
               ],
             ),
-            if (label.isNotEmpty) const SizedBox(height: 8),
-            Container(
-              width: double.infinity,
-              height: AppDimensions.textFieldHeight,
-              decoration: BoxDecoration(
-                color: enabled ?? true
-                    ? context.resources.color.colorWhite
-                    : context.resources.color.colorWhite,
-                border: Border.all(
-                  width: 1,
-                  color: enabled ?? true
-                      ? context.resources.color.colorGrey2
-                      : context.resources.color.colorGrey2,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 8),
-                  if (icon != null) Image.asset(icon.toString(), height: 30),
-                  if (icon != null) const SizedBox(width: 5),
-                  Expanded(
-                    child: PrimaryText(
-                      text: text,
-                      textColor: context.resources.color.colorGrey,
-                      fontWeight: labelFontWeight ?? FontWeight.w400,
-                      fontSize: AppThemeValues.textSize16,
-                    ),
-                  ),
-                  Image.asset(AppIcons.calendar, width: 24),
-                  const SizedBox(width: 8),
-                ],
-              ),
-            ),
-            SizedBox(height: marginVertical ?? 6),
-          ],
-        ),
+          ),
+          SizedBox(height: marginVertical ?? 6),
+        ],
       ),
     );
   }

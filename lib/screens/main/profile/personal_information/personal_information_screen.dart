@@ -198,6 +198,8 @@ class PersonalInformationScreen extends StatelessWidget {
                               .of(context)
                               .strings
                               .dateOfBirth,
+                          minDate: DateTime(1900),
+                          maxDate: DateTime.now().subtract(Duration(days: 18 * 365 + 4)),
                         ),
                       ),
 
