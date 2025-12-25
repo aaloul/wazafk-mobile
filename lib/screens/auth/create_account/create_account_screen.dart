@@ -27,13 +27,11 @@ class CreateAccountScreen extends StatelessWidget {
           SystemNavigator.pop();
           return false;
         } else {
-
-          if(dataController.faceImage.value == null && dataController.index.value == 3){
+          if (dataController.faceImage.value == null &&
+              dataController.index.value == 3) {
             dataController.index.value = dataController.index.value - 2;
-
-          }else{
+          } else {
             dataController.index.value = dataController.index.value - 1;
-
           }
 
           return false;
@@ -45,14 +43,23 @@ class CreateAccountScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TopHeader(title: Resources
-                  .of(context)
-                  .strings
-                  .createAccount, onBack: () {
-                if (dataController.index.value > 0) {
-                  dataController.index.value = dataController.index.value - 1;
-                }
-              },),
+              TopHeader(
+                title: Resources.of(context).strings.createAccount,
+                onBack: () {
+                  if (dataController.index.value == 0) {
+                    SystemNavigator.pop();
+                  } else {
+                    if (dataController.faceImage.value == null &&
+                        dataController.index.value == 3) {
+                      dataController.index.value =
+                          dataController.index.value - 2;
+                    } else {
+                      dataController.index.value =
+                          dataController.index.value - 1;
+                    }
+                  }
+                },
+              ),
               SizedBox(height: 24),
 
               Expanded(
@@ -62,15 +69,14 @@ class CreateAccountScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Obx(
-                            () =>
-                            CreateAccountSteps(index: dataController.index
-                                .value),
+                        () => CreateAccountSteps(
+                          index: dataController.index.value,
+                        ),
                       ),
                       SizedBox(height: 16),
 
                       Obx(
-                            () =>
-                        dataController.index.value == 0
+                        () => dataController.index.value == 0
                             ? CreateAccountStep1()
                             : dataController.index.value == 1
                             ? CreateAccountStep2()

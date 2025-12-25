@@ -92,7 +92,7 @@ class SupportChatController extends GetxController {
           if (conversation?.channelName != null) {
             initPusher(
               conversation!.channelName!,
-              'message.created',
+              'SupportMessageSent',
             );
           }
         }
@@ -249,7 +249,7 @@ class SupportChatController extends GetxController {
               json.decode(event.data),
             );
             // Only add if not sent by current user
-            if (m.senderType != 'MEMBER') {
+            if (m.senderType != 'M') {
               addMessage(m);
             }
             scrollToBottom();
