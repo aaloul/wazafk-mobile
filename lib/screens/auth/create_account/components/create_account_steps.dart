@@ -48,6 +48,20 @@ class CreateAccountSteps extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(width: 6),
+
+        Expanded(
+          flex: 1,
+          child: Container(
+            height: 8,
+            decoration: BoxDecoration(
+              color: index > 2
+                  ? context.resources.color.colorPrimary
+                  : context.resources.color.colorGrey4,
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
+        ),
       ],
     );
   }

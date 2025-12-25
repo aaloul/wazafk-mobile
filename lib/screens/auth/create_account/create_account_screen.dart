@@ -9,6 +9,7 @@ import 'package:wazafak_app/utils/res/Resources.dart';
 import 'components/create_account_steps.dart';
 import 'components/step1/create_account_step_1.dart';
 import 'components/step3/create_account_step_3.dart';
+import 'components/step4/create_account_step_4.dart';
 import 'create_account_controller.dart';
 
 class CreateAccountScreen extends StatelessWidget {
@@ -26,7 +27,14 @@ class CreateAccountScreen extends StatelessWidget {
           SystemNavigator.pop();
           return false;
         } else {
-          dataController.index.value = dataController.index.value - 1;
+
+          if(dataController.faceImage.value == null && dataController.index.value == 3){
+            dataController.index.value = dataController.index.value - 2;
+
+          }else{
+            dataController.index.value = dataController.index.value - 1;
+
+          }
 
           return false;
         }
@@ -66,7 +74,9 @@ class CreateAccountScreen extends StatelessWidget {
                             ? CreateAccountStep1()
                             : dataController.index.value == 1
                             ? CreateAccountStep2()
-                            : CreateAccountStep3(),
+                            : dataController.index.value == 2
+                            ? CreateAccountStep3()
+                            : CreateAccountStep4(),
                       ),
                     ],
                   ),

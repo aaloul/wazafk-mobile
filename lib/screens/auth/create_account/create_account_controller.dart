@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,6 +63,14 @@ class CreateAccountController extends GetxController {
   // Profile image
   final Rxn<XFile> profileImage = Rxn<XFile>();
 
+  // Face recognition image
+  final Rxn<XFile> faceImage = Rxn<XFile>();
+
+  // Camera controller for face recognition
+  CameraController? cameraController;
+  var isCameraInitialized = false.obs;
+  var isCameraInitializing = false.obs;
+
   Future<void> getInterestOptions() async {
     isInterestOptionsLoading(true);
     try {
@@ -103,6 +112,8 @@ class CreateAccountController extends GetxController {
     passwordController.dispose();
     confirmPasswordController.dispose();
     titleController.dispose();
+    disposeCamera();
+    super.onClose();
   }
 
   Future<String?> convertImageToBase64(XFile image) async {
@@ -194,6 +205,13 @@ class CreateAccountController extends GetxController {
         }
       }
 
+      // Add face recognition image as base64 if available
+      if (faceImage.value != null) {
+        final base64Image = await convertImageToBase64(faceImage.value!);
+        if (base64Image != null) {
+          data['face'] = base64Image;
+        }
+      }
 
       // Add identity images as base64 if available
       if (selectedTab.value == 'personal_id') {
@@ -249,6 +267,67 @@ class CreateAccountController extends GetxController {
         SnackBarStatus.ERROR,
       );
     }
+  }
+
+  Future<void> initializeCamera() async {
+    try {
+      isCameraInitializing(true);
+      final cameras = await availableCameras();
+
+      // Get front camera
+      final frontCamera = cameras.firstWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.front,
+        orElse: () => cameras.first,
+      );
+
+      cameraController = CameraController(
+        frontCamera,
+        ResolutionPreset.high,
+        enableAudio: false,
+      );
+
+      await cameraController!.initialize();
+
+      isCameraInitialized(true);
+      isCameraInitializing(false);
+    } catch (e) {
+      isCameraInitializing(false);
+      isCameraInitialized(false);
+      constants.showSnackBar(
+        getErrorMessage(e.toString()).toString(),
+        SnackBarStatus.ERROR,
+      );
+    }
+  }
+
+  void disposeCamera() {
+    cameraController?.dispose();
+    cameraController = null;
+    isCameraInitialized(false);
+  }
+
+  Future<void> takeFacePicture() async {
+    if (cameraController == null || !cameraController!.value.isInitialized) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.cameraNotAvailable,
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    try {
+      final image = await cameraController!.takePicture();
+      faceImage.value = image;
+    } catch (e) {
+      constants.showSnackBar(
+        getErrorMessage(e.toString()).toString(),
+        SnackBarStatus.ERROR,
+      );
+    }
+  }
+
+  void retakeFacePicture() {
+    faceImage.value = null;
   }
 
   void verifyStep1() {
@@ -308,9 +387,23 @@ class CreateAccountController extends GetxController {
 
   void verifyStep2() {
     index.value = 2;
+    // Initialize camera when entering step 3 (face capture)
+    initializeCamera();
   }
 
   void verifyStep3() {
+    if (faceImage.value == null) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.pleaseCaptureImageFirst,
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+    index.value = 3;
+  }
+
+  void verifyStep4() {
+
     register();
   }
 }

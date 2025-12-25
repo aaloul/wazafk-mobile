@@ -134,9 +134,7 @@ class HelpCenterController extends GetxController {
           return;
         }
 
-        // Fetch the last conversation again to get the newly created conversation
-        final newConversationResponse = await _lastSupportConversationRepository.getLastSupportConversation();
-        conversation = newConversationResponse.data;
+        conversation = startChatResponse.data;
       } else {
         // Use existing conversation
         conversation = lastConversationResponse.data;

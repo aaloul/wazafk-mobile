@@ -102,7 +102,7 @@ class CreateAccountStep2 extends StatelessWidget {
               .of(context)
               .strings
               .skip, onPressed: () {
-            dataController.index.value = 2;
+            dataController.index.value = 3;
           }),
 
           SizedBox(height: 20),

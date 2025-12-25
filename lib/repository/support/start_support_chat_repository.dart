@@ -1,10 +1,10 @@
-import '../../model/ApiResponse.dart';
+import '../../model/SupportStartConversationResponse.dart';
 import '../../networking/services/support/start_support_chat_service.dart';
 
 class StartSupportChatRepository {
   final _provider = StartSupportChatService();
 
-  Future<ApiResponse> createChat({
+  Future<SupportStartConversationResponse> createChat({
     required String category,
     required String subject,
   }) async {
