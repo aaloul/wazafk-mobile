@@ -11,6 +11,8 @@ import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../engagement_details/engagement_details_controller.dart';
+
 class RateEngagementController extends GetxController {
   final RatingCriteriaRepository _ratingCriteriaRepository =
       RatingCriteriaRepository();
@@ -107,6 +109,18 @@ class RateEngagementController extends GetxController {
     final arg = Get.arguments;
     if (arg is Engagement) {
       engagement.value = arg;
+
+      // Check if both are already rated
+      if (engagement.value?.isMemberRated == true &&
+          engagement.value?.isSubjectRated == true) {
+        constants.showSnackBar(
+          'Engagement already rated',
+          SnackBarStatus.ERROR,
+        );
+        Get.back();
+        return;
+      }
+
       fetchMemberProfile(targetUserHashcode);
       loadRatingCriteria();
     }
@@ -153,21 +167,23 @@ class RateEngagementController extends GetxController {
   Future<void> loadRatingCriteria() async {
     isLoadingCriteria.value = true;
     try {
-      // Load member criteria
-      final memberResponse = await _ratingCriteriaRepository.getRatingCriteria(
-        target: targetUserType,
-      );
+      // Load member criteria only if not already rated
+      if (engagement.value?.isMemberRated != true) {
+        final memberResponse = await _ratingCriteriaRepository.getRatingCriteria(
+          target: targetUserType,
+        );
 
-      if (memberResponse.success == true && memberResponse.data != null) {
-        memberCriteria.value = memberResponse.data!;
-        // Initialize ratings to 0
-        for (var criteria in memberCriteria) {
-          memberRatings[criteria.hashcode ?? ''] = 0.0;
+        if (memberResponse.success == true && memberResponse.data != null) {
+          memberCriteria.value = memberResponse.data!;
+          // Initialize ratings to 0
+          for (var criteria in memberCriteria) {
+            memberRatings[criteria.hashcode ?? ''] = 0.0;
+          }
         }
       }
 
-      // Load item criteria (job or service) only if we should rate the item
-      if (shouldRateItem) {
+      // Load item criteria only if we should rate the item and not already rated
+      if (shouldRateItem && engagement.value?.isSubjectRated != true) {
         final itemResponse = await _ratingCriteriaRepository.getRatingCriteria(
           target: itemType,
         );
@@ -214,8 +230,20 @@ class RateEngagementController extends GetxController {
   }
 
   Future<void> submitRating() async {
-    // Validate that all member ratings are filled
-    if (memberRatings.values.any((rating) => rating == 0.0)) {
+    // Check if there's anything to rate
+    bool hasMemberToRate = engagement.value?.isMemberRated != true && memberRatings.isNotEmpty;
+    bool hasItemToRate = shouldRateItem && engagement.value?.isSubjectRated != true && itemRatings.isNotEmpty;
+
+    if (!hasMemberToRate && !hasItemToRate) {
+      constants.showSnackBar(
+        'Nothing to rate',
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    // Validate that all member ratings are filled (only if not already rated)
+    if (hasMemberToRate && memberRatings.values.any((rating) => rating == 0.0)) {
       constants.showSnackBar(
         Resources.of(Get.context!).strings.pleaseRateAllCriteria,
         SnackBarStatus.ERROR,
@@ -223,8 +251,8 @@ class RateEngagementController extends GetxController {
       return;
     }
 
-    // Validate that all item ratings are filled (only if we should rate the item)
-    if (shouldRateItem && itemRatings.values.any((rating) => rating == 0.0)) {
+    // Validate that all item ratings are filled (only if we should rate and not already rated)
+    if (hasItemToRate && itemRatings.values.any((rating) => rating == 0.0)) {
       constants.showSnackBar(
         Resources.of(Get.context!).strings.pleaseRateAllCriteria,
         SnackBarStatus.ERROR,
@@ -235,26 +263,26 @@ class RateEngagementController extends GetxController {
     try {
       isSubmittingRating.value = true;
 
-      // Prepare member rating by criteria as string
-      Map<String, dynamic> memberRatingByCriteria = {};
-      memberRatings.forEach((hashcode, rating) {
-        memberRatingByCriteria[hashcode] = rating.toInt().toString();
-      });
+      // Prepare request data - only initialize if member not rated
+      Map<String, dynamic> ratingData = {};
 
-      // Prepare request data
-      Map<String, dynamic> ratingData = {
-        'target': targetUserType,
-        'rate_member': targetUserHashcode,
-        'rating_by_criteria':
-        // jsonEncode(
-            memberRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", "")
-        // )
-        ,
-        'comment': commentController.text.trim(),
-      };
+      // Add member rating only if not already rated
+      if (hasMemberToRate) {
+        // Prepare member rating by criteria as string
+        Map<String, dynamic> memberRatingByCriteria = {};
+        memberRatings.forEach((hashcode, rating) {
+          memberRatingByCriteria[hashcode] = rating.toInt().toString();
+        });
 
-      // Add service or job rating only if shouldRateItem is true
-      if (shouldRateItem) {
+        ratingData['target'] = targetUserType;
+        ratingData['rate_member'] =targetUserHashcode;
+        ratingData['rating_by_criteria'] =
+            memberRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", "");
+        ratingData['comment'] = commentController.text.trim();
+      }
+
+      // Add service or job rating only if shouldRateItem is true and not already rated
+      if (hasItemToRate) {
         // Prepare item rating by criteria as string
         Map<String, dynamic> itemRatingByCriteria = {};
         itemRatings.forEach((hashcode, rating) {
@@ -266,10 +294,7 @@ class RateEngagementController extends GetxController {
             {
               'job': itemHashcode,
               'rating_by_criteria':
-              // jsonEncode(
-                  itemRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", "")
-              // )
-              ,
+                  itemRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", ""),
               'comment': itemCommentController.text.trim(),
             }
           ];
@@ -278,10 +303,7 @@ class RateEngagementController extends GetxController {
             {
               'service': itemHashcode,
               'rating_by_criteria':
-              // jsonEncode(
-                  itemRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", "")
-              // )
-              ,
+                  itemRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", ""),
               'comment': itemCommentController.text.trim(),
             }
           ];
@@ -291,6 +313,9 @@ class RateEngagementController extends GetxController {
       final response = await _rateBulkRepository.rateBulk(ratingData);
 
       if (response.success == true) {
+        final controller = Get.put(EngagementDetailsController());
+        controller.getEngagementDetails(engagement.value?.hashcode.toString() ?? '');
+
         constants.showSnackBar(
           response.message ?? 'Rating submitted successfully',
           SnackBarStatus.SUCCESS,

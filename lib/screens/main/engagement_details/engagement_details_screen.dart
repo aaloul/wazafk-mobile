@@ -1522,7 +1522,7 @@ class EngagementDetailsScreen extends StatelessWidget {
               final engagement = controller.engagement.value;
               // Show rate button only if status is 10 and not both rated
               if (engagement?.status == 10 &&
-                  !(engagement?.isMemberRated == true && engagement?.isSubjectRated == true)) {
+                  !(engagement?.isMemberRated == true && engagement?.isSubjectRated == true) && controller.shouldRateItem) {
                 return Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(

@@ -25,6 +25,7 @@ import '../../../components/dialog/dialog_helper.dart';
 import '../../../constants/route_constant.dart';
 import '../../../repository/engagement/engagement_detail_repository.dart';
 import '../../../repository/engagement/submit_engagement_change_request_repository.dart';
+import '../../../utils/Prefs.dart';
 import '../../../utils/res/AppContextExtension.dart';
 import 'components/finish_engagement_bottom_sheet.dart';
 
@@ -509,6 +510,31 @@ class EngagementDetailsController extends GetxController {
     }
   }
 
+  bool get shouldRateItem {
+    final engagementType = engagement.value?.type;
+
+    if (engagementType == 'JA') {
+      // Job Application: Job belongs to CLIENT
+      // Only rate job if we're rating the CLIENT
+      return targetUserType == 'C';
+    } else {
+      // Service/Package Booking: Service belongs to FREELANCER
+      // Only rate service if we're rating the FREELANCER
+      return targetUserType == 'F';
+    }
+  }
+
+  // Determine if we're rating a freelancer or client
+  String get targetUserType {
+    final currentUserId = Prefs.getId;
+    if (engagement.value?.clientHashcode.toString() == currentUserId) {
+      // Current user is client, so we're rating the freelancer
+      return 'F';
+    } else {
+      // Current user is freelancer, so we're rating the client
+      return 'C';
+    }
+  }
   Future<void> acceptChangeRequest() async {
     if (engagement.value?.hashcode == null) return;
 

@@ -127,50 +127,54 @@ class RateEngagementScreen extends StatelessWidget {
                               ),
                             ),
 
-                            // Member Rating Section
-                            _buildSectionTitle(
-                              context,
-                              controller.targetUserType == 'F'
-                                  ? Resources.of(context).strings.rateFreelancer
-                                  : Resources.of(context).strings.rateClient,
-                            ),
-
-                            SizedBox(height: 10),
-                            // Member Criteria Ratings
-                            ...controller.memberCriteria.map((criteria) {
-                              return _buildRatingItem(
+                            // Member Rating Section - only show if not already rated
+                            if (controller.engagement.value?.isMemberRated != true) ...[
+                              // Member Rating Section
+                              _buildSectionTitle(
                                 context,
-                                criteria.name ?? '',
-                                criteria.hashcode ?? '',
-                                controller.memberRatings[criteria.hashcode] ??
-                                    0.0,
-                                (rating) {
-                                  controller.updateMemberRating(
-                                    criteria.hashcode ?? '',
-                                    rating,
-                                  );
-                                },
-                              );
-                            }).toList(),
+                                controller.targetUserType == 'F'
+                                    ? Resources.of(context).strings.rateFreelancer
+                                    : Resources.of(context).strings.rateClient,
+                              ),
 
-                            SizedBox(height: 8),
+                              SizedBox(height: 10),
+                              // Member Criteria Ratings
+                              ...controller.memberCriteria.map((criteria) {
+                                return _buildRatingItem(
+                                  context,
+                                  criteria.name ?? '',
+                                  criteria.hashcode ?? '',
+                                  controller.memberRatings[criteria.hashcode] ??
+                                      0.0,
+                                  (rating) {
+                                    controller.updateMemberRating(
+                                      criteria.hashcode ?? '',
+                                      rating,
+                                    );
+                                  },
+                                );
+                              }).toList(),
 
-                            // Member Comment
-                            MultilineLabeledTextField(
-                              controller: controller.commentController,
-                              hint: Resources.of(context).strings.addComment,
-                              maxLines: 20,
-                              height: 120,
-                              inputType: TextInputType.text,
-                              isPassword: false,
-                              isMandatory: true,
-                              label: Resources.of(context).strings.yourReview,
-                            ),
+                              SizedBox(height: 8),
 
-                            SizedBox(height: 24),
+                              // Member Comment
+                              MultilineLabeledTextField(
+                                controller: controller.commentController,
+                                hint: Resources.of(context).strings.addComment,
+                                maxLines: 20,
+                                height: 120,
+                                inputType: TextInputType.text,
+                                isPassword: false,
+                                isMandatory: true,
+                                label: Resources.of(context).strings.yourReview,
+                              ),
 
-                            // Only show service/job rating if it belongs to the rated member
-                            if (controller.shouldRateItem) ...[
+                              SizedBox(height: 24),
+                            ],
+
+                            // Only show service/job rating if it belongs to the rated member and not already rated
+                            if (controller.shouldRateItem &&
+                                controller.engagement.value?.isSubjectRated != true) ...[
                               Container(
                                 width: double.infinity,
                                 height: 1,
@@ -324,7 +328,7 @@ class RateEngagementScreen extends StatelessWidget {
           SizedBox(height: 6),
 
           RatingBar.builder(
-            initialRating: 3.0,
+            initialRating: 0.0,
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: true,
