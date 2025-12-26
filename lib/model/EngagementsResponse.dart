@@ -65,6 +65,9 @@ class Data {
 
 class Engagement {
   String? entityType;
+  bool? isMemberRated;
+  bool? isSubjectRated;
+  String? subjectToRate;
   String? hashcode;
   String? type;
   String? clientHashcode;
@@ -113,6 +116,9 @@ class Engagement {
 
   Engagement({
     this.entityType,
+    this.isMemberRated,
+    this.isSubjectRated,
+    this.subjectToRate,
     this.hashcode,
     this.clientRating,
     this.freelancerRating,
@@ -162,6 +168,9 @@ class Engagement {
 
   factory Engagement.fromJson(Map<String, dynamic> json) => Engagement(
     entityType: json["entity_type"],
+    isMemberRated: json["is_member_rated"],
+    isSubjectRated: json["is_subject_rated"],
+    subjectToRate: json["subject_to_rate"],
     hashcode: json["hashcode"],
     type: json["type"],
     freelancerRating: json["freelancer_rating"],
@@ -219,6 +228,9 @@ class Engagement {
 
   Map<String, dynamic> toJson() => {
     "entity_type": entityType,
+    "is_member_rated": isMemberRated,
+    "is_subject_rated": isSubjectRated,
+    "subject_to_rate": subjectToRate,
     "hashcode": hashcode,
     "type": type,
     "client_rating": clientRating,

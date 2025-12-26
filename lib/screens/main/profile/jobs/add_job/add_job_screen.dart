@@ -43,7 +43,7 @@ class AddJobScreen extends StatelessWidget {
                     SizedBox(height: 8),
 
                     PrimaryText(
-                      text: "${context.resources.strings.generalDetails} *",
+                      text: context.resources.strings.generalDetails,
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,

@@ -223,8 +223,14 @@ class SupportChatController extends GetxController {
     keyboardSubscription.cancel();
     scrollController.removeListener(_onScroll);
     scrollController.dispose();
-    // Clear the callback when controller is disposed
-    PusherManager.onEventCallback = null;
+
+    // Unsubscribe from pusher channel and remove callback
+    if (channelName.isNotEmpty) {
+      PusherManager.pusher.unsubscribe(channelName: channelName);
+      PusherManager.channelCallbacks.remove(channelName);
+      print("Unsubscribed from channel and removed callback: $channelName");
+    }
+
     super.onClose();
   }
 
@@ -238,32 +244,37 @@ class SupportChatController extends GetxController {
     channelName = channel;
     this.eventName = eventName;
     try {
-      // Set the global event callback
-      PusherManager.onEventCallback = (PusherEvent event) {
-        print("event_support: $event");
+      // Subscribe to the channel first
+      await PusherManager.pusher.subscribe(channelName: channel);
 
+      print("Subscribed to channel: $channel");
+
+      // Set the channel-specific event callback
+      PusherManager.channelCallbacks[channel] = (PusherEvent event) {
+        print("event_support received: ${event.eventName} on channel: ${event.channelName}");
+        print("event_support data: ${event.data}");
+
+        // Check if event matches our event name
         if (event.eventName.toString() == eventName.toString()) {
           try {
             SupportConversationMessage m =
                 SupportConversationMessage.fromJson(
               json.decode(event.data),
             );
+            print('Received support message from: ${m.senderType}');
+
             // Only add if not sent by current user
             if (m.senderType != 'M') {
               addMessage(m);
+              scrollToBottom();
             }
-            scrollToBottom();
-            scrollToBottom();
           } catch (e) {
             print('Error parsing support message from pusher: $e');
           }
         }
       };
-
-      // Use the pusher instance from PusherManager
-      await PusherManager.pusher.subscribe(channelName: channel);
     } catch (e) {
-      print("ERROR: $e");
+      print("ERROR initializing pusher: $e");
     }
   }
 

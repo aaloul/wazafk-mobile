@@ -1234,6 +1234,36 @@ class EnglishStrings extends Strings {
   @override
   String get submitRating => "Submit Rating";
 
+  @override
+  String get rateEngagement => "Rate Engagement";
+
+  @override
+  String get rateFreelancer => "Rate Freelancer";
+
+  @override
+  String get rateClient => "Rate Client";
+
+  @override
+  String get rateJob => "Rate Job";
+
+  @override
+  String get rateService => "Rate Service";
+
+  @override
+  String get pleaseRateAllCriteria => "Please rate all criteria";
+
+  @override
+  String get addComment => "Add a comment (optional)";
+
+  @override
+  String get wouldYouLikeToRateThisEngagement => "Would you like to rate this engagement?";
+
+  @override
+  String get rateNow => "Rate Now";
+
+  @override
+  String get later => "Later";
+
   // Package/Service Forms
   @override
   String get enterPackageDescription => "Enter Package Description";
@@ -1269,7 +1299,7 @@ class EnglishStrings extends Strings {
   String get coverImage => "Cover Image*";
 
   @override
-  String get areasYouCover => "Areas You Cover*";
+  String get areasYouCover => "Areas You Cover";
 
   @override
   String get availability => "Availability *";

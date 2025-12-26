@@ -54,6 +54,7 @@ import '../screens/main/profile/share_app/invite_friends/invite_friends_screen.d
 import '../screens/main/profile/share_app/share_app_screen.dart';
 import '../screens/main/profile/way_of_payment/way_of_payment_screen.dart';
 import '../screens/main/profile/working_days/working_days_screen.dart';
+import '../screens/main/rate_engagement/rate_engagement_screen.dart';
 import '../screens/main/search/search_screen.dart';
 import '../screens/main/service_details/service_details_screen.dart';
 import '../screens/main/subcategories/subcategories_screen.dart';
@@ -354,6 +355,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.allEmployerDataScreen,
     page: () => AllEmployerDataScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.rateEngagementScreen,
+    page: () => RateEngagementScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

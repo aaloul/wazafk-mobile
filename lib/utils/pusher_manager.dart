@@ -25,8 +25,11 @@ class PusherManager {
     return _pusherManager;
   }
 
-  // Global event callback that can be set by subscribers
+  // Global event callback that can be set by subscribers (deprecated, use channelCallbacks instead)
   static PusherEventCallback? onEventCallback;
+
+  // Channel-specific callbacks indexed by channel name
+  static Map<String, PusherEventCallback> channelCallbacks = {};
 
   initPusher() async {
     try {
@@ -84,8 +87,14 @@ class PusherManager {
   }
 
   void onEvent(PusherEvent event) {
-    log("onEvent: $event");
-    // Call the registered callback if available
+    log("onEvent: ${event.eventName} on channel: ${event.channelName}");
+
+    // Call channel-specific callback if available
+    if (channelCallbacks.containsKey(event.channelName)) {
+      channelCallbacks[event.channelName]!(event);
+    }
+
+    // Fall back to global callback for backward compatibility
     if (onEventCallback != null) {
       onEventCallback!(event);
     }

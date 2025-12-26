@@ -30,6 +30,8 @@ class PrimaryTextField extends StatelessWidget {
     this.textInputAction,
     this.endIconClick,
     this.borderRadius,
+    this.textAlign,
+    this.textAlignVertical,
   });
 
   final String hint;
@@ -51,6 +53,8 @@ class PrimaryTextField extends StatelessWidget {
   int? maxLines;
   TextInputAction? textInputAction;
   Function? endIconClick;
+  TextAlign? textAlign;
+  TextAlignVertical? textAlignVertical;
 
   var isEmpty = true.obs;
 
@@ -98,7 +102,7 @@ class PrimaryTextField extends StatelessWidget {
                 ),
               Expanded(
                 child: TextFormField(
-                  textAlignVertical: TextAlignVertical.top,
+                  textAlignVertical: textAlignVertical ?? TextAlignVertical.top,
                   enabled: enabled,
                   textCapitalization: inputType == TextInputType.text
                       ? TextCapitalization.sentences
@@ -118,7 +122,7 @@ class PrimaryTextField extends StatelessWidget {
                   onEditingComplete: () => textInputAction == null
                       ? context.nextEditableTextFocus()
                       : Utils().hideKeyboard(Get.context!),
-                  textAlign: TextAlign.start,
+                  textAlign: textAlign ?? TextAlign.start,
                   keyboardType: inputType,
                   controller: controller,
                   maxLength: maxLength,

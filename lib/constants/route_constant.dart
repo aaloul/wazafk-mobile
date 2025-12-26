@@ -65,4 +65,5 @@ class RouteConstant {
   static const String allEngagementsScreen = '/all_engagements_screen';
   static const String allJobsScreen = '/all_jobs_screen';
   static const String allEmployerDataScreen = '/all_employer_data_screen';
+  static const String rateEngagementScreen = '/rate_engagement_screen';
 }

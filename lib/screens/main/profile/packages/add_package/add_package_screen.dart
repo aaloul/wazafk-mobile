@@ -43,7 +43,7 @@ class AddPackageScreen extends StatelessWidget {
                     SizedBox(height: 8),
 
                     PrimaryText(
-                      text: "${context.resources.strings.generalDetails} *",
+                      text: "${context.resources.strings.generalDetails}",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
@@ -254,7 +254,7 @@ class AddPackageScreen extends StatelessWidget {
                     SizedBox(height: 16),
 
                     PrimaryText(
-                      text: "${context.resources.strings.coverImage}*",
+                      text: "${context.resources.strings.coverImage}",
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,

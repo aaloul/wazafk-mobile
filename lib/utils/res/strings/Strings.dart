@@ -819,6 +819,26 @@ abstract class Strings {
   // Rating
   String get submitRating;
 
+  String get rateEngagement;
+
+  String get rateFreelancer;
+
+  String get rateClient;
+
+  String get rateJob;
+
+  String get rateService;
+
+  String get pleaseRateAllCriteria;
+
+  String get addComment;
+
+  String get wouldYouLikeToRateThisEngagement;
+
+  String get rateNow;
+
+  String get later;
+
   // Package/Service Forms
   String get enterPackageDescription;
 

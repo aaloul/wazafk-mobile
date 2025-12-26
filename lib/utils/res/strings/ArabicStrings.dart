@@ -1234,6 +1234,36 @@ class ArabicStrings extends Strings {
   @override
   String get submitRating => "إرسال التقييم";
 
+  @override
+  String get rateEngagement => "تقييم المشاركة";
+
+  @override
+  String get rateFreelancer => "تقييم المستقل";
+
+  @override
+  String get rateClient => "تقييم العميل";
+
+  @override
+  String get rateJob => "تقييم الوظيفة";
+
+  @override
+  String get rateService => "تقييم الخدمة";
+
+  @override
+  String get pleaseRateAllCriteria => "يرجى تقييم جميع المعايير";
+
+  @override
+  String get addComment => "أضف تعليقًا (اختياري)";
+
+  @override
+  String get wouldYouLikeToRateThisEngagement => "هل تريد تقييم هذه المشاركة؟";
+
+  @override
+  String get rateNow => "قيّم الآن";
+
+  @override
+  String get later => "لاحقاً";
+
   // Package/Service Forms
   @override
   String get enterPackageDescription => "أدخل وصف الباقة";

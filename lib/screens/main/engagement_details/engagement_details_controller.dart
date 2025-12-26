@@ -21,8 +21,11 @@ import 'package:wazafak_app/repository/engagement/submit_engagement_repository.d
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../components/dialog/dialog_helper.dart';
+import '../../../constants/route_constant.dart';
 import '../../../repository/engagement/engagement_detail_repository.dart';
 import '../../../repository/engagement/submit_engagement_change_request_repository.dart';
+import '../../../utils/res/AppContextExtension.dart';
 import 'components/finish_engagement_bottom_sheet.dart';
 
 class EngagementDetailsController extends GetxController {
@@ -731,6 +734,9 @@ class EngagementDetailsController extends GetxController {
           Get.back(); // Close bottom sheet
         }
 
+        // Show rating dialog
+        _showRatingDialog();
+
         // Go back to previous screen
         // Get.back(result: true);
       } else {
@@ -782,6 +788,9 @@ class EngagementDetailsController extends GetxController {
         if (engagement.value?.hashcode != null) {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
+
+        // Show rating dialog
+        _showRatingDialog();
 
         // Go back to previous screen
         // Get.back(result: true);
@@ -1043,6 +1052,33 @@ class EngagementDetailsController extends GetxController {
     } finally {
       isVerifyingFaceMatch.value = false;
     }
+  }
+
+  void _showRatingDialog() {
+    if (engagement.value == null) return;
+
+    // Check if already rated
+    if (engagement.value!.isMemberRated == true &&
+        engagement.value!.isSubjectRated == true) {
+      return; // Already rated, don't show dialog
+    }
+
+    // Show dialog asking user to rate
+    DialogHelper.showAgreementPopup(
+      Get.context!,
+      Resources.of(Get.context!).strings.wouldYouLikeToRateThisEngagement,
+      Resources.of(Get.context!).strings.rateNow,
+      Resources.of(Get.context!).strings.later,
+      () {
+        // Navigate to rate engagement screen
+        Get.toNamed(
+          RouteConstant.rateEngagementScreen,
+          arguments: engagement.value,
+        );
+      },
+      false.obs, // Not a loading state
+      agreeColor: Get.context!.resources.color.colorPrimary,
+    );
   }
 
   @override

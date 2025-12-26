@@ -13,6 +13,7 @@ import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../components/outlined_button.dart';
 import '../../../components/top_header.dart';
+import '../../../constants/route_constant.dart';
 import '../../../utils/Prefs.dart';
 import 'components/change_request_bottom_sheet.dart';
 import 'components/dispute_bottom_sheet.dart';
@@ -1510,6 +1511,38 @@ class EngagementDetailsScreen extends StatelessWidget {
                         },
                       ),
                     ],
+                  ),
+                );
+              }
+              return SizedBox.shrink();
+            }),
+
+            // Rate Engagement button when status is 10 and not yet rated
+            Obx(() {
+              final engagement = controller.engagement.value;
+              // Show rate button only if status is 10 and not both rated
+              if (engagement?.status == 10 &&
+                  !(engagement?.isMemberRated == true && engagement?.isSubjectRated == true)) {
+                return Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: context.resources.color.colorWhite,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: Offset(0, -5),
+                      ),
+                    ],
+                  ),
+                  child: PrimaryButton(
+                    title: Resources.of(context).strings.rateEngagement,
+                    onPressed: () {
+                      Get.toNamed(
+                        RouteConstant.rateEngagementScreen,
+                        arguments: engagement,
+                      );
+                    },
                   ),
                 );
               }
