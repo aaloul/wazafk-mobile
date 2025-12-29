@@ -1097,6 +1097,7 @@ class EngagementDetailsController extends GetxController {
       Resources.of(Get.context!).strings.later,
       () {
         // Navigate to rate engagement screen
+        Navigator.pop(Get.context!);
         Get.toNamed(
           RouteConstant.rateEngagementScreen,
           arguments: engagement.value,

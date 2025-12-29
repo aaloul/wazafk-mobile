@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -250,33 +251,67 @@ class EngagementDetailsScreen extends StatelessWidget {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                color: context.resources.color.colorBlue4,
-                                padding: EdgeInsets.all(16),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          PrimaryText(
-                                            text: title ?? '',
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w900,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorGrey,
-                                          ),
-                                          SizedBox(height: 2),
-                                          Row(
-                                            children: [
-                                              if (parentCategoryName != null)
-                                                Expanded(
-                                                  child: PrimaryText(
-                                                    text:
-                                                        "$parentCategoryName/$categoryName",
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigate based on engagement type
+                                  if (controller.isJob.value &&
+                                      controller.job.value != null) {
+                                    Get.toNamed(
+                                      RouteConstant.jobDetailsScreen,
+                                      arguments: controller.job.value,
+                                    );
+                                  } else if (controller.isService.value &&
+                                      controller.service.value != null) {
+                                    Get.toNamed(
+                                      RouteConstant.serviceDetailsScreen,
+                                      arguments: controller.service.value,
+                                    );
+                                  } else if (controller.isPackage.value &&
+                                      controller.package.value != null) {
+                                    Get.toNamed(
+                                      RouteConstant.packageDetailsScreen,
+                                      arguments: controller.package.value,
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  color: context.resources.color.colorBlue4,
+                                  padding: EdgeInsets.all(16),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            PrimaryText(
+                                              text: title ?? '',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w900,
+                                              textColor: context
+                                                  .resources
+                                                  .color
+                                                  .colorGrey,
+                                            ),
+                                            SizedBox(height: 2),
+                                            Row(
+                                              children: [
+                                                if (parentCategoryName != null)
+                                                  Expanded(
+                                                    child: PrimaryText(
+                                                      text:
+                                                          "$parentCategoryName/$categoryName",
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w400,
+                                                      textColor: context
+                                                          .resources
+                                                          .color
+                                                          .colorGrey,
+                                                    ),
+                                                  ),
+                                                if (parentCategoryName == null)
+                                                  PrimaryText(
+                                                    text: categoryName ?? '',
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w400,
                                                     textColor: context
@@ -284,109 +319,123 @@ class EngagementDetailsScreen extends StatelessWidget {
                                                         .color
                                                         .colorGrey,
                                                   ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          PrimaryText(
+                                            text: '\$$unitPrice',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w900,
+                                            textColor:
+                                                context.resources.color.colorGrey,
+                                          ),
+                                          SizedBox(height: 2),
+                                          PrimaryText(
+                                            text: priceTitle,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            textColor:
+                                                context.resources.color.colorGrey,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigate based on who the current user is
+                                  final currentUserId = Prefs.getId;
+                                  final isCurrentUserClient = engagement
+                                      .clientHashcode
+                                      .toString() ==
+                                      currentUserId;
+
+                                  if (isCurrentUserClient) {
+                                    // Current user is client, navigate to freelancer profile
+                                    Get.toNamed(
+                                      RouteConstant.freelancerMemberProfileScreen,
+                                      arguments: User(hashcode:engagement.freelancerHashcode ) ,
+                                    );
+                                  } else {
+                                    // Current user is freelancer, navigate to employer profile
+                                    Get.toNamed(
+                                      RouteConstant.employerMemberProfileScreen,
+                                      arguments: User(hashcode:engagement.clientHashcode ),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  color: context.resources.color.colorBlue4,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          99999,
+                                        ),
+                                        child: PrimaryNetworkImage(
+                                          url: memberImage.toString(),
+                                          width: 35,
+                                          height: 35,
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 8),
+
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            PrimaryText(
+                                              text:
+                                                  "$memberFirstName $memberLastName",
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              textColor: context
+                                                  .resources
+                                                  .color
+                                                  .colorGrey,
+                                            ),
+                                            SizedBox(height: 2),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  AppIcons.star2,
+                                                  width: 14,
                                                 ),
-                                              if (parentCategoryName == null)
+                                                SizedBox(width: 2),
                                                 PrimaryText(
-                                                  text: categoryName ?? '',
+                                                  text: memberRating.toString(),
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
+                                                  fontWeight: FontWeight.w600,
                                                   textColor: context
                                                       .resources
                                                       .color
                                                       .colorGrey,
                                                 ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        PrimaryText(
-                                          text: '\$$unitPrice',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w900,
-                                          textColor:
-                                              context.resources.color.colorGrey,
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(height: 2),
-                                        PrimaryText(
-                                          text: priceTitle,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          textColor:
-                                              context.resources.color.colorGrey,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Container(
-                                color: context.resources.color.colorBlue4,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        99999,
                                       ),
-                                      child: PrimaryNetworkImage(
-                                        url: memberImage.toString(),
-                                        width: 35,
-                                        height: 35,
-                                      ),
-                                    ),
-
-                                    SizedBox(width: 8),
-
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          PrimaryText(
-                                            text:
-                                                "$memberFirstName $memberLastName",
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorGrey,
-                                          ),
-                                          SizedBox(height: 2),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                AppIcons.star2,
-                                                width: 14,
-                                              ),
-                                              SizedBox(width: 2),
-                                              PrimaryText(
-                                                text: memberRating.toString(),
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600,
-                                                textColor: context
-                                                    .resources
-                                                    .color
-                                                    .colorGrey,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
