@@ -88,6 +88,10 @@ class ConversationMessage {
   int? read;
   DateTime? createdAt;
 
+  // Attachment fields
+  String? attachmentType;
+  String? attachmentUrl;
+
   ConversationMessage({
     this.messageHashcode,
     this.message,
@@ -98,6 +102,8 @@ class ConversationMessage {
     this.reference,
     this.read,
     this.createdAt,
+    this.attachmentType,
+    this.attachmentUrl,
   });
 
   factory ConversationMessage.fromJson(Map<String, dynamic> json) =>
@@ -113,6 +119,8 @@ class ConversationMessage {
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]).toUtc(),
+        attachmentType: json["attachment_type"],
+        attachmentUrl: json["attachment"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -125,7 +133,43 @@ class ConversationMessage {
     "reference": reference,
     "read": read,
     "created_at": createdAt?.toIso8601String(),
+    "attachment_type": attachmentType,
+    "attachment": attachmentUrl,
   };
+
+  // Helper methods
+  bool get hasAttachment => attachmentType != null && attachmentUrl != null;
+  bool get isImage => attachmentType == 'image';
+  bool get isVideo => attachmentType == 'video';
+  bool get isVoice => attachmentType == 'voice';
+  bool get isDocument => attachmentType == 'document';
+  bool get isFile => attachmentType == 'file';
+
+  // Get file name from URL
+  String get fileName {
+    if (attachmentUrl == null) return 'Attachment';
+    final uri = Uri.tryParse(attachmentUrl!);
+    if (uri == null) return 'Attachment';
+    final segments = uri.pathSegments;
+    if (segments.isEmpty) return 'Attachment';
+    return segments.last;
+  }
+
+  // Get file extension from URL
+  String get fileExtension {
+    final name = fileName;
+    final parts = name.split('.');
+    if (parts.length < 2) return '';
+    return parts.last.toLowerCase();
+  }
+
+  // Check if file is audio based on extension
+  bool get isAudio {
+    final audioExtensions = [
+      'm4a', 'mp3', 'wav', 'aac', 'ogg', 'opus', 'flac', 'wma', 'amr'
+    ];
+    return isVoice || audioExtensions.contains(fileExtension);
+  }
 }
 
 class Meta {

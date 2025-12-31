@@ -67,6 +67,15 @@ dependencies:
   flutter_keyboard_visibility: ^6.0.0
   pusher_channels_flutter: ^2.5.0
   collection: ^1.18.0
+  record: ^6.1.2
+  audioplayers: ^6.5.1
+  audio_waveforms: ^1.0.5
+  path_provider: ^2.1.1
+  permission_handler: ^11.0.1
+  flutter_image_compress: ^2.1.0
+  video_player: ^2.8.1
+  video_thumbnail: ^0.5.3
+  mime: ^1.0.4
 
 
 dependency_overrides:

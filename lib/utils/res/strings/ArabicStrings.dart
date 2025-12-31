@@ -156,6 +156,25 @@ class ArabicStrings extends Strings {
   @override
   String get message => "الرسالة";
 
+  // Attachment strings
+  @override
+  String get selectAttachment => "اختر مرفق";
+
+  @override
+  String get video => "فيديو";
+
+  @override
+  String get document => "مستند";
+
+  @override
+  String get file => "ملف";
+
+  @override
+  String get microphonePermissionDenied => "تم رفض إذن الميكروفون";
+
+  @override
+  String get fileTooLarge => "الملف كبير جدًا (الحد الأقصى 50 ميجابايت)";
+
   @override
   String get portfolioLink => "رابط المعرض";
 

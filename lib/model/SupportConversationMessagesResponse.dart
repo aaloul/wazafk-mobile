@@ -59,8 +59,8 @@ class SupportConversationMessage {
   String? memberFirstName;
   String? memberLastName;
   String? message;
-  dynamic attachmentType;
-  dynamic attachment;
+  String? attachmentType;
+  String? attachmentUrl;
   dynamic attachmentMetadata;
   int? read;
   int? status;
@@ -74,7 +74,7 @@ class SupportConversationMessage {
     this.memberLastName,
     this.message,
     this.attachmentType,
-    this.attachment,
+    this.attachmentUrl,
     this.attachmentMetadata,
     this.read,
     this.status,
@@ -89,7 +89,7 @@ class SupportConversationMessage {
     memberLastName: json["member_last_name"],
     message: json["message"],
     attachmentType: json["attachment_type"],
-    attachment: json["attachment"],
+    attachmentUrl: json["attachment"],
     attachmentMetadata: json["attachment_metadata"],
     read: json["read"],
     status: json["status"],
@@ -104,12 +104,46 @@ class SupportConversationMessage {
     "member_last_name": memberLastName,
     "message": message,
     "attachment_type": attachmentType,
-    "attachment": attachment,
+    "attachment": attachmentUrl,
     "attachment_metadata": attachmentMetadata,
     "read": read,
     "status": status,
     "created_at": createdAt?.toIso8601String(),
   };
+
+  // Helper methods
+  bool get hasAttachment => attachmentType != null && attachmentUrl != null;
+  bool get isImage => attachmentType == 'image';
+  bool get isVideo => attachmentType == 'video';
+  bool get isVoice => attachmentType == 'voice';
+  bool get isDocument => attachmentType == 'document';
+  bool get isFile => attachmentType == 'file';
+
+  // Get file name from URL
+  String get fileName {
+    if (attachmentUrl == null) return 'Attachment';
+    final uri = Uri.tryParse(attachmentUrl!);
+    if (uri == null) return 'Attachment';
+    final segments = uri.pathSegments;
+    if (segments.isEmpty) return 'Attachment';
+    return segments.last;
+  }
+
+  // Get file extension from URL
+  String get fileExtension {
+    final name = fileName;
+    final parts = name.split('.');
+    if (parts.length < 2) return '';
+    return parts.last.toLowerCase();
+  }
+
+  // Check if file is audio based on extension
+  bool get isAudio {
+    final audioExtensions = [
+      'm4a', 'mp3', 'wav', 'aac', 'ogg', 'opus', 'flac', 'wma', 'amr'
+    ];
+    return isVoice || audioExtensions.contains(fileExtension);
+  }
 }
 
 class Meta {

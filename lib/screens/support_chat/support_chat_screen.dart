@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/dialog/dialog_helper.dart';
+import 'package:wazafak_app/components/sheets/attachment_options_bottom_sheet.dart';
 import 'package:wazafak_app/model/SupportStartConversationResponse.dart';
+import 'package:wazafak_app/screens/conversation_messages/widgets/attachment_preview_widget.dart';
+import 'package:wazafak_app/screens/conversation_messages/widgets/voice_recording_widget.dart';
 import 'package:wazafak_app/screens/support_chat/support_chat_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -102,72 +105,154 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                       ),
               ),
             ),
-            Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 1,
-                  color: context.resources.color.colorGrey4,
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
-                  ),
-                  color: Colors.white,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: context.resources.color.background2,
-                            borderRadius: BorderRadius.circular(36),
-                            border: Border.all(
-                              color: context.resources.color.background2,
-                              width: 1,
-                            ),
+            Obx(
+              () => dataController.isRecording.value
+                  ? VoiceRecordingWidget(
+                      onCancel: () {
+                        dataController.cancelVoiceRecording();
+                      },
+                      onSend: () {
+                        dataController.sendVoiceRecording();
+                      },
+                      recorderController: dataController.recorderController!,
+                    )
+                  : Column(
+                      children: [
+                        // Attachment preview
+                        if (dataController.selectedAttachment.value != null)
+                          AttachmentPreviewWidget(
+                            file: dataController.selectedAttachment.value!,
+                            attachmentType:
+                                dataController.attachmentType.value ?? '',
+                            fileName:
+                                dataController.attachmentName.value ?? '',
+                            onRemove: () {
+                              dataController.removeAttachment();
+                            },
                           ),
+
+                        Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: context.resources.color.colorGrey4,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          color: Colors.white,
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Expanded(
-                                child: PrimaryTextField(
-                                  controller: dataController.messageController,
-                                  hint: Resources.of(context).strings.message,
-                                  borderRadius: 36,
-                                  borderColor:
-                                      context.resources.color.background2,
-                                  backgroundColor:
-                                      context.resources.color.background2,
-                                  inputType: TextInputType.text,
-                                ),
-                              ),
-                              Container(
-                                width: 1,
-                                height: 28,
-                                color: context.resources.color.colorGrey10,
-                                margin: EdgeInsets.symmetric(horizontal: 8),
-                              ),
+                              // Attachment button
                               GestureDetector(
-                                onTap: () {
-                                  dataController.sendMessages();
+                                onTap: () async {
+                                  final type =
+                                      await AttachmentOptionsBottomSheet.show(
+                                          context);
+                                  if (type != null) {
+                                    dataController
+                                        .handleAttachmentSelection(type);
+                                  }
                                 },
-                                child: Image.asset(
-                                  AppIcons.send,
-                                  width: 22,
-                                  height: 22,
+                                child: Container(
+                                  width: 42,
+                                  height: 42,
+                                  decoration: BoxDecoration(
+                                    color: context.resources.color.colorPrimary
+                                        .withOpacity(0.1),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.attach_file,
+                                    color:
+                                        context.resources.color.colorPrimary,
+                                    size: 22,
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: context.resources.color.background2,
+                                    borderRadius: BorderRadius.circular(36),
+                                    border: Border.all(
+                                      color:
+                                          context.resources.color.background2,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: PrimaryTextField(
+                                          controller:
+                                              dataController.messageController,
+                                          hint: Resources.of(context)
+                                              .strings
+                                              .message,
+                                          borderRadius: 36,
+                                          borderColor: context
+                                              .resources.color.background2,
+                                          backgroundColor: context
+                                              .resources.color.background2,
+                                          inputType: TextInputType.text,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 1,
+                                        height: 28,
+                                        color:
+                                            context.resources.color.colorGrey10,
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 8),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          dataController
+                                              .sendMessageWithAttachment();
+                                        },
+                                        child: Image.asset(
+                                          AppIcons.send,
+                                          width: 22,
+                                          height: 22,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              // Voice recording button
+                              GestureDetector(
+                                onLongPressStart: (_) {
+                                  dataController.startVoiceRecording();
+                                },
+                                child: Container(
+                                  width: 42,
+                                  height: 42,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        context.resources.color.colorPrimary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.mic,
+                                    color: Colors.white,
+                                    size: 22,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                      ],
+                    ),
             )
           ],
         ),

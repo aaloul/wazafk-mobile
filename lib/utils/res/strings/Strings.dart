@@ -104,6 +104,19 @@ abstract class Strings {
 
   String get message;
 
+  // Attachment strings
+  String get selectAttachment;
+
+  String get video;
+
+  String get document;
+
+  String get file;
+
+  String get microphonePermissionDenied;
+
+  String get fileTooLarge;
+
   String get portfolioLink;
 
   String get about;

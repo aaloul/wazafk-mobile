@@ -7,6 +7,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../model/ConversationMessagesResponse.dart';
+import 'message_attachment_widget.dart';
 
 class DirectMessage extends StatelessWidget {
   const DirectMessage({super.key, required this.message});
@@ -41,10 +42,28 @@ class DirectMessage extends StatelessWidget {
                     horizontal: 14,
                     vertical: 12,
                   ),
-                  child: PrimaryText(
-                    text: message.message.toString(),
-                    textColor: Colors.white,
-                    fontSize: 14,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Attachment
+                      if (message.hasAttachment)
+                        MessageAttachmentWidget(
+                          message: message,
+                          isSentByMe: true,
+                        ),
+                      if (message.hasAttachment &&
+                          message.message != null &&
+                          message.message!.isNotEmpty)
+                        SizedBox(height: 8),
+                      // Text message
+                      if (message.message != null &&
+                          message.message!.isNotEmpty)
+                        PrimaryText(
+                          text: message.message.toString(),
+                          textColor: Colors.white,
+                          fontSize: 14,
+                        ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -124,10 +143,28 @@ class DirectMessage extends StatelessWidget {
                             horizontal: 14,
                             vertical: 12,
                           ),
-                          child: PrimaryText(
-                            text: message.message.toString(),
-                            textColor: context.resources.color.colorBlack,
-                            fontSize: 14,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Attachment
+                              if (message.hasAttachment)
+                                MessageAttachmentWidget(
+                                  message: message,
+                                  isSentByMe: false,
+                                ),
+                              if (message.hasAttachment &&
+                                  message.message != null &&
+                                  message.message!.isNotEmpty)
+                                SizedBox(height: 8),
+                              // Text message
+                              if (message.message != null &&
+                                  message.message!.isNotEmpty)
+                                PrimaryText(
+                                  text: message.message.toString(),
+                                  textColor: context.resources.color.colorBlack,
+                                  fontSize: 14,
+                                ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 6),

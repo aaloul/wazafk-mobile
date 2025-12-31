@@ -87,7 +87,7 @@ class PusherManager {
   }
 
   void onEvent(PusherEvent event) {
-    log("onEvent: ${event.eventName} on channel: ${event.channelName}");
+    log("onEvent: ${event.eventName} on channel: ${event.channelName} data ${event.data.toString()} ");
 
     // Call channel-specific callback if available
     if (channelCallbacks.containsKey(event.channelName)) {

@@ -156,6 +156,25 @@ class EnglishStrings extends Strings {
   @override
   String get message => "Message";
 
+  // Attachment strings
+  @override
+  String get selectAttachment => "Select Attachment";
+
+  @override
+  String get video => "Video";
+
+  @override
+  String get document => "Document";
+
+  @override
+  String get file => "File";
+
+  @override
+  String get microphonePermissionDenied => "Microphone permission denied";
+
+  @override
+  String get fileTooLarge => "File is too large (max 50MB)";
+
   @override
   String get portfolioLink => "Portfolio Link";
 
