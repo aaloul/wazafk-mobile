@@ -196,10 +196,17 @@ class _ConversationMessagesScreenState
                                           dataController
                                               .sendMessageWithAttachment();
                                         },
-                                        child: Image.asset(
-                                          AppIcons.send,
-                                          width: 22,
-                                          height: 22,
+                                        child: Container(
+                                          width: 30,
+                                          height: 36,
+                                          color: context
+                                              .resources.color.background2,
+                                          padding: EdgeInsets.all(3),
+                                          child: Image.asset(
+                                            AppIcons.send,
+                                            width: 22,
+                                            height: 22,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(width: 16),

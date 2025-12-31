@@ -721,6 +721,26 @@ abstract class Strings {
 
   String get noActiveEmployers;
 
+  String get chatConversations;
+
+  String get supportConversations;
+
+  String get support;
+
+  String get dispute;
+
+  String get noSupportConversations;
+
+  String get active;
+
+  String get closed;
+
+  String get supportTicket;
+
+  String get generalSupport;
+
+  String get noMessagesYet;
+
   // Search
   String get search;
 
@@ -941,8 +961,6 @@ abstract class Strings {
   String get rewardsAndCredits;
 
   String get shareApp;
-
-  String get support;
 
   String get aboutUs;
 

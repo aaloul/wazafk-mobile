@@ -10,6 +10,9 @@ import 'package:wazafak_app/screens/chat/components/chat_tab_bar.dart';
 import 'package:wazafak_app/screens/chat/components/contact_list_item.dart';
 import 'package:wazafak_app/screens/chat/components/conversation_list_item.dart';
 import 'package:wazafak_app/screens/chat/components/empty_state_view.dart';
+import 'package:wazafak_app/screens/chat/components/support_conversation_list_item.dart';
+import 'package:wazafak_app/screens/chat/components/support_tab_bar.dart';
+import 'package:wazafak_app/screens/chat/components/top_level_tab_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
@@ -35,16 +38,38 @@ class ChatScreen extends StatelessWidget {
                   .strings
                   .chat),
               SizedBox(height: 8),
-              _buildTabBar(context),
+              _buildTopLevelTabBar(context),
               SizedBox(height: 8),
+              Obx(() {
+                if (controller.selectedTopTab.value == Resources.of(context).strings.chatConversations) {
+                  return Column(
+                    children: [
+                      _buildTabBar(context),
+                      SizedBox(height: 8),
+                    ],
+                  );
+                } else if (controller.selectedTopTab.value == Resources.of(context).strings.supportConversations) {
+                  return Column(
+                    children: [
+                      _buildSupportTabBar(context),
+                      SizedBox(height: 8),
+                    ],
+                  );
+                }
+                return SizedBox.shrink();
+              }),
               Expanded(
-                child: Obx(() =>
-                controller.selectedTab.value == Resources
-                    .of(context)
-                    .strings
-                    .ongoingChat
-                    ? _buildOngoingChatTab(context)
-                    : _buildActiveEmployersTab(context)),
+                child: Obx(() {
+                  if (controller.selectedTopTab.value == Resources.of(context).strings.supportConversations) {
+                    return _buildSupportConversationsTab(context);
+                  }
+                  return controller.selectedTab.value == Resources
+                      .of(context)
+                      .strings
+                      .ongoingChat
+                      ? _buildOngoingChatTab(context)
+                      : _buildActiveEmployersTab(context);
+                }),
               ),
             ],
           ),
@@ -53,11 +78,27 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildTopLevelTabBar(BuildContext context) {
+    return Obx(() =>
+        TopLevelTabBar(
+          selectedTab: controller.selectedTopTab.value,
+          onTabSelected: controller.changeTopTab,
+        ));
+  }
+
   Widget _buildTabBar(BuildContext context) {
     return Obx(() =>
         ChatTabBar(
           selectedTab: controller.selectedTab.value,
           onTabSelected: controller.changeTab,
+        ));
+  }
+
+  Widget _buildSupportTabBar(BuildContext context) {
+    return Obx(() =>
+        SupportTabBar(
+          selectedTab: controller.selectedSupportTab.value,
+          onTabSelected: controller.changeSupportTab,
         ));
   }
 
@@ -205,6 +246,81 @@ class ChatScreen extends StatelessWidget {
                     'member_hashcode': contact.hashcode ?? '',
                     'member_name': controller.getContactName(contact),
                   },
+                );
+              },
+            );
+          },
+        ),
+      );
+    });
+  }
+
+  Widget _buildSupportConversationsTab(BuildContext context) {
+    return Obx(() {
+      // Loading state
+      if (controller.supportConversations.isEmpty &&
+          controller.isLoadingSupportConversations.value) {
+        return ListView.builder(
+          itemCount: 5,
+          itemBuilder: (context, index) => ConversationItemSkeleton(),
+        );
+      }
+
+      // Error state with retry
+      if (controller.supportConversations.isEmpty &&
+          !controller.isLoadingSupportConversations.value &&
+          controller.hasSupportConversationsError.value) {
+        return EmptyStateView(
+          message: controller.supportConversationsErrorMessage.value,
+          icon: Icons.error_outline,
+          showRetry: true,
+          onRetry: controller.retryLoadSupportConversations,
+        );
+      }
+
+      // Empty state
+      if (controller.supportConversations.isEmpty &&
+          !controller.isLoadingSupportConversations.value) {
+        return EmptyStateView(
+          message: Resources
+              .of(context)
+              .strings
+              .noSupportConversations,
+          icon: Icons.support_agent,
+        );
+      }
+
+      // Support conversations list
+      return RefreshIndicator(
+        onRefresh: controller.refreshSupportConversations,
+        color: context.resources.color.colorPrimary,
+        child: ListView.builder(
+          controller: controller.supportConversationsScrollController,
+          itemCount: controller.supportConversations.length +
+              (controller.hasMoreSupportConversations.value ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == controller.supportConversations.length) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: ProgressBar(
+                    color: context.resources.color.colorPrimary,
+                  ),
+                ),
+              );
+            }
+
+            final conversation = controller.supportConversations[index];
+            return SupportConversationListItem(
+              conversation: conversation,
+              conversationName: controller.getSupportConversationName(conversation),
+              lastMessageTime: controller.formatLastMessageTime(
+                conversation.createdAt,
+              ),
+              onTap: () {
+                Get.toNamed(
+                  RouteConstant.supportChatScreen,
+                  arguments: conversation,
                 );
               },
             );

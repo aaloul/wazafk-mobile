@@ -3,6 +3,7 @@ import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/ContactsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 class ContactListItem extends StatelessWidget {
@@ -62,7 +63,7 @@ class ContactListItem extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   PrimaryText(
-                    text: contact.title ?? 'N/A',
+                    text: contact.title ?? Resources.of(context).strings.notAvailableShort,
                     fontSize: 14,
                     textColor: context.resources.color.colorGrey23,
                   ),

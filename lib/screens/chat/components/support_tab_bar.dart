@@ -3,8 +3,8 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
-class ChatTabBar extends StatelessWidget {
-  const ChatTabBar({
+class SupportTabBar extends StatelessWidget {
+  const SupportTabBar({
     super.key,
     required this.selectedTab,
     required this.onTabSelected,
@@ -17,32 +17,28 @@ class ChatTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 42,
-      margin: EdgeInsetsDirectional.symmetric(horizontal: 12),
+      margin: EdgeInsets.symmetric(horizontal: 12),
       width: double.infinity,
       child: Row(
         children: [
           Expanded(
             flex: 1,
             child: GestureDetector(
-              onTap: () =>
-                  onTabSelected(Resources.of(context).strings.ongoingChat),
+              onTap: () => onTabSelected(Resources.of(context).strings.support),
               child: Container(
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(46),
-
-                  color:
-                      selectedTab == Resources.of(context).strings.ongoingChat
+                  color: selectedTab == Resources.of(context).strings.support
                       ? context.resources.color.colorPrimary
                       : context.resources.color.colorWhite,
                 ),
                 child: Center(
                   child: PrimaryText(
-                    text: Resources.of(context).strings.ongoingChat,
+                    text: Resources.of(context).strings.support,
                     fontWeight: FontWeight.w500,
-                    textColor:
-                        selectedTab == Resources.of(context).strings.ongoingChat
+                    textColor: selectedTab == Resources.of(context).strings.support
                         ? context.resources.color.colorWhite
                         : context.resources.color.colorGrey3,
                   ),
@@ -54,27 +50,21 @@ class ChatTabBar extends StatelessWidget {
           Expanded(
             flex: 1,
             child: GestureDetector(
-              onTap: () =>
-                  onTabSelected(Resources.of(context).strings.activeEmployers),
+              onTap: () => onTabSelected(Resources.of(context).strings.dispute),
               child: Container(
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(46),
-
-                  color:
-                      selectedTab ==
-                          Resources.of(context).strings.activeEmployers
+                  color: selectedTab == Resources.of(context).strings.dispute
                       ? context.resources.color.colorPrimary
                       : context.resources.color.colorWhite,
                 ),
                 child: Center(
                   child: PrimaryText(
-                    text: Resources.of(context).strings.activeEmployers,
+                    text: Resources.of(context).strings.dispute,
                     fontWeight: FontWeight.w500,
-                    textColor:
-                        selectedTab ==
-                            Resources.of(context).strings.activeEmployers
+                    textColor: selectedTab == Resources.of(context).strings.dispute
                         ? context.resources.color.colorWhite
                         : context.resources.color.colorGrey3,
                   ),

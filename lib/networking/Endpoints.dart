@@ -139,6 +139,7 @@ class Endpoints {
   static const lastConversation = 'support/lastConversation';
   static const sendSupportMessage = 'support/sendMessage';
   static const getSupportConversationMessages = 'support/getConversationMessages';
+  static const getSupportConversations = 'support/listConversations';
 
 
   //SEARCH

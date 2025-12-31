@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/model/CoversationsResponse.dart';
+import 'package:wazafak_app/model/SupportConversationsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
-class ConversationListItem extends StatelessWidget {
-  const ConversationListItem({
+class SupportConversationListItem extends StatelessWidget {
+  const SupportConversationListItem({
     super.key,
     required this.conversation,
     required this.conversationName,
@@ -15,14 +14,17 @@ class ConversationListItem extends StatelessWidget {
     this.onTap,
   });
 
-  final Coversation conversation;
+  final SupportConversation conversation;
   final String conversationName;
   final String lastMessageTime;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final hasUnreadMessage = conversation.lastMessage?.read == 0;
+    final isActive = conversation.status == 1;
+    final statusColor = isActive
+        ? context.resources.color.colorGreen
+        : context.resources.color.colorGrey;
 
     return GestureDetector(
       onTap: onTap,
@@ -41,12 +43,18 @@ class ConversationListItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(99999999),
-              child: PrimaryNetworkImage(
-                url: conversation.image.toString(),
-                width: 60,
-                height: 60,
+            // Support icon
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: context.resources.color.colorPrimary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.support_agent,
+                color: context.resources.color.colorPrimary,
+                size: 32,
               ),
             ),
             Container(
@@ -64,23 +72,21 @@ class ConversationListItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: PrimaryText(
-                          text: conversationName,
-                          fontWeight: hasUnreadMessage
-                              ? FontWeight.w700
-                              : FontWeight.w600,
+                          text: conversation.subject ?? Resources.of(context).strings.supportTicket,
+                          fontWeight: FontWeight.w600,
                           textColor: context.resources.color.colorGrey23,
                           fontSize: 16,
+                          maxLines: 1,
                         ),
                       ),
                       if (lastMessageTime.isNotEmpty)
                         PrimaryText(
                           text: lastMessageTime,
                           fontSize: 12,
-                          textColor: hasUnreadMessage
-                              ? context.resources.color.colorPrimary
-                              : context.resources.color.colorGrey23.withOpacity(
-                                  0.6,
-                                ),
+                          textColor:
+                              context.resources.color.colorGrey23.withOpacity(
+                            0.6,
+                          ),
                         ),
                     ],
                   ),
@@ -89,31 +95,30 @@ class ConversationListItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: PrimaryText(
-                          text:
-                              conversation.lastMessage?.message ??
-                              Resources.of(context).strings.noMessagesYet,
+                          text: conversation.categoryName ?? Resources.of(context).strings.generalSupport,
                           fontSize: 14,
-                          textColor: hasUnreadMessage
-                              ? context.resources.color.colorGrey23
-                              : context.resources.color.colorGrey23.withOpacity(
-                                  0.7,
-                                ),
-                          fontWeight: hasUnreadMessage
-                              ? FontWeight.w500
-                              : FontWeight.normal,
-                          maxLines: 2,
+                          textColor:
+                              context.resources.color.colorGrey23.withOpacity(
+                            0.7,
+                          ),
+                          maxLines: 1,
                         ),
                       ),
-                      if (hasUnreadMessage)
-                        Container(
-                          margin: EdgeInsets.only(left: 8),
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: context.resources.color.colorPrimary,
-                            shape: BoxShape.circle,
-                          ),
+                      Container(
+                        margin: EdgeInsets.only(left: 8),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: statusColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
                         ),
+                        child: PrimaryText(
+                          text: isActive ? Resources.of(context).strings.active : Resources.of(context).strings.closed,
+                          fontSize: 12,
+                          textColor: statusColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ],
                   ),
                 ],

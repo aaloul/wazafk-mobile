@@ -14,12 +14,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:wazafak_app/model/SupportConversationMessagesResponse.dart';
-import 'package:wazafak_app/model/SupportStartConversationResponse.dart';
 import 'package:wazafak_app/repository/support/close_support_chat_repository.dart';
 import 'package:wazafak_app/repository/support/send_support_message_repository.dart';
 import 'package:wazafak_app/repository/support/support_messages_repository.dart';
 
 import '../../components/sheets/attachment_options_bottom_sheet.dart';
+import '../../model/SupportConversationsResponse.dart';
 import '../../utils/Prefs.dart';
 import '../../utils/pusher_manager.dart';
 import '../../utils/res/Resources.dart';

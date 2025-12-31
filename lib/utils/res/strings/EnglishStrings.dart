@@ -1087,6 +1087,36 @@ class EnglishStrings extends Strings {
   @override
   String get noActiveEmployers => "No active employers";
 
+  @override
+  String get chatConversations => "Chat Conversations";
+
+  @override
+  String get supportConversations => "Support Conversations";
+
+  @override
+  String get support => "Support";
+
+  @override
+  String get dispute => "Dispute";
+
+  @override
+  String get noSupportConversations => "No support conversations";
+
+  @override
+  String get active => "Active";
+
+  @override
+  String get closed => "Closed";
+
+  @override
+  String get supportTicket => "Support Ticket";
+
+  @override
+  String get generalSupport => "General Support";
+
+  @override
+  String get noMessagesYet => "No messages yet";
+
   // Search
   @override
   String get search => "Search";
@@ -1416,9 +1446,6 @@ class EnglishStrings extends Strings {
 
   @override
   String get shareApp => "Share App";
-
-  @override
-  String get support => "Support";
 
   @override
   String get aboutUs => "About Us";

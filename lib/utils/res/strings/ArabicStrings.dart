@@ -1088,6 +1088,36 @@ class ArabicStrings extends Strings {
   @override
   String get noActiveEmployers => "لا يوجد أصحاب عمل نشطون";
 
+  @override
+  String get chatConversations => "محادثات الدردشة";
+
+  @override
+  String get supportConversations => "محادثات الدعم";
+
+  @override
+  String get support => "الدعم";
+
+  @override
+  String get dispute => "النزاعات";
+
+  @override
+  String get noSupportConversations => "لا توجد محادثات دعم";
+
+  @override
+  String get active => "نشط";
+
+  @override
+  String get closed => "مغلق";
+
+  @override
+  String get supportTicket => "تذكرة الدعم";
+
+  @override
+  String get generalSupport => "الدعم العام";
+
+  @override
+  String get noMessagesYet => "لا توجد رسائل بعد";
+
   // Search
   @override
   String get search => "بحث";
@@ -1416,8 +1446,6 @@ class ArabicStrings extends Strings {
   @override
   String get shareApp => "مشاركة التطبيق";
 
-  @override
-  String get support => "الدعم";
 
   @override
   String get aboutUs => "معلومات عنا";

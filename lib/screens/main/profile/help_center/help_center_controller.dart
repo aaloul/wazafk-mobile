@@ -2,19 +2,17 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/FAQSResponse.dart';
 import 'package:wazafak_app/model/SupportCategoriesResponse.dart';
-import 'package:wazafak_app/model/SupportStartConversationResponse.dart';
 import 'package:wazafak_app/repository/app/faqs_repository.dart';
-import 'package:wazafak_app/repository/support/last_support_conversation_repository.dart';
 import 'package:wazafak_app/repository/support/start_support_chat_repository.dart';
 import 'package:wazafak_app/repository/support/support_categories_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../model/SupportConversationsResponse.dart';
 import '../../../../utils/res/Resources.dart';
 
 class HelpCenterController extends GetxController {
   final _faqsRepository = FaqsRepository();
   final _supportCategoriesRepository = SupportCategoriesRepository();
-  final _lastSupportConversationRepository = LastSupportConversationRepository();
   final _startSupportChatRepository = StartSupportChatRepository();
 
   var isLoading = true.obs;
@@ -98,47 +96,37 @@ class HelpCenterController extends GetxController {
     try {
       isContactingSupportLoading.value = true;
 
-      // Step 1: Get last support conversation
-      final lastConversationResponse = await _lastSupportConversationRepository.getLastSupportConversation();
 
       SupportConversation? conversation;
 
-      // Step 2: Check if data is null or status == 1 (closed)
-      if (lastConversationResponse.data == null ||
-          lastConversationResponse.data!.status == 1) {
-        // Get the selected category hashcode
-        final selectedCategoryObj = supportCategories.firstWhere(
-          (category) => category.name == selectedCategory.value,
-          orElse: () => SupportCategory(),
+      final selectedCategoryObj = supportCategories.firstWhere(
+            (category) => category.name == selectedCategory.value,
+        orElse: () => SupportCategory(),
+      );
+
+      if (selectedCategoryObj.hashcode == null) {
+        constants.showSnackBar(
+          Resources.of(Get.context!).strings.failedToLoad,
+          SnackBarStatus.ERROR,
         );
-
-        if (selectedCategoryObj.hashcode == null) {
-          constants.showSnackBar(
-            Resources.of(Get.context!).strings.failedToLoad,
-            SnackBarStatus.ERROR,
-          );
-          return;
-        }
-
-        // Start a new support chat
-        final startChatResponse = await _startSupportChatRepository.createChat(
-          category: selectedCategoryObj.hashcode!,
-          subject: selectedCategory.value,
-        );
-
-        if (startChatResponse.success != true) {
-          constants.showSnackBar(
-            startChatResponse.message ?? Resources.of(Get.context!).strings.failedToSubmit,
-            SnackBarStatus.ERROR,
-          );
-          return;
-        }
-
-        conversation = startChatResponse.data;
-      } else {
-        // Use existing conversation
-        conversation = lastConversationResponse.data;
+        return;
       }
+
+      // Start a new support chat
+      final startChatResponse = await _startSupportChatRepository.createChat(
+        category: selectedCategoryObj.hashcode!,
+        subject: selectedCategory.value,
+      );
+
+      if (startChatResponse.success != true) {
+        constants.showSnackBar(
+          startChatResponse.message ?? Resources.of(Get.context!).strings.failedToSubmit,
+          SnackBarStatus.ERROR,
+        );
+        return;
+      }
+
+      conversation = startChatResponse.data;
 
       // Navigate to support chat screen based on conversation status
       if (conversation != null) {

@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/ContactsResponse.dart';
 import 'package:wazafak_app/model/CoversationsResponse.dart';
+import 'package:wazafak_app/model/SupportConversationsResponse.dart';
 import 'package:wazafak_app/repository/communication/contacts_repository.dart';
 import 'package:wazafak_app/repository/communication/coversations_repository.dart';
+import 'package:wazafak_app/repository/support/support_conversations_repository.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
 class ChatController extends GetxController {
   final ContactsRepository _repository = ContactsRepository();
   final CoversationsRepository _coversationsRepository =
       CoversationsRepository();
+  final SupportConversationsRepository _supportConversationsRepository =
+      SupportConversationsRepository();
 
-  // Tabs
+  // Top-level tabs (Chat Conversations vs Support Conversations)
+  var selectedTopTab = "".obs;
+
+  // Inner tabs (for Chat Conversations section)
   List<String> get tabs =>
       [
         Resources
@@ -24,6 +31,9 @@ class ChatController extends GetxController {
             .activeEmployers
       ];
   var selectedTab = "".obs;
+
+  // Inner tabs (for Support Conversations section)
+  var selectedSupportTab = "".obs;
 
   // Contacts data
   var contacts = <ContactElement>[].obs;
@@ -50,19 +60,42 @@ class ChatController extends GetxController {
   var conversationsCurrentPage = 1.obs;
   var conversationsTotalPages = 1.obs;
 
+  // Support Conversations data
+  var supportConversations = <SupportConversation>[].obs;
+  var isLoadingSupportConversations = false.obs;
+  var isLoadingMoreSupportConversations = false.obs;
+  var hasMoreSupportConversations = true.obs;
+  var hasSupportConversationsError = false.obs;
+  var supportConversationsErrorMessage = ''.obs;
+
+  // Support Conversations pagination
+  var supportConversationsCurrentPage = 1.obs;
+  var supportConversationsTotalPages = 1.obs;
+
   // ScrollController for pagination
   final ScrollController scrollController = ScrollController();
   final ScrollController conversationsScrollController = ScrollController();
+  final ScrollController supportConversationsScrollController = ScrollController();
 
   @override
   void onInit() {
     super.onInit();
+    // Initialize top-level tab to "Chat Conversations"
+    selectedTopTab.value = Resources
+        .of(Get.context!)
+        .strings
+        .chatConversations;
     selectedTab.value = Resources
         .of(Get.context!)
         .strings
         .ongoingChat;
+    selectedSupportTab.value = Resources
+        .of(Get.context!)
+        .strings
+        .support;
     _setupScrollListener();
     _setupConversationsScrollListener();
+    _setupSupportConversationsScrollListener();
     // Load conversations by default since Ongoing Chat is the default tab
     loadConversations(true);
   }
@@ -71,6 +104,7 @@ class ChatController extends GetxController {
   void onClose() {
     scrollController.dispose();
     conversationsScrollController.dispose();
+    supportConversationsScrollController.dispose();
     super.onClose();
   }
 
@@ -99,6 +133,18 @@ class ChatController extends GetxController {
               conversationsScrollController.position.maxScrollExtent * 0.8) {
         if (!isLoadingMoreConversations.value && hasMoreConversations.value) {
           loadMoreConversations();
+        }
+      }
+    });
+  }
+
+  void _setupSupportConversationsScrollListener() {
+    supportConversationsScrollController.addListener(() {
+      if (selectedTopTab.value == "Support Conversations" &&
+          supportConversationsScrollController.position.pixels >=
+              supportConversationsScrollController.position.maxScrollExtent * 0.8) {
+        if (!isLoadingMoreSupportConversations.value && hasMoreSupportConversations.value) {
+          loadMoreSupportConversations();
         }
       }
     });
@@ -385,5 +431,157 @@ class ChatController extends GetxController {
           .strings
           .justNow;
     }
+  }
+
+  // Top-level tab management
+  void changeTopTab(String tab) {
+    if (selectedTopTab.value != tab) {
+      selectedTopTab.value = tab;
+
+      // Load data based on selected top tab
+      if (tab == "Support Conversations" && supportConversations.isEmpty) {
+        loadSupportConversations(true);
+      }
+    }
+  }
+
+  // Support tab management
+  void changeSupportTab(String tab) {
+    if (selectedSupportTab.value != tab) {
+      selectedSupportTab.value = tab;
+      // Reload support conversations with new filter
+      loadSupportConversations(true);
+    }
+  }
+
+  // Support Conversations methods
+  Future<void> loadSupportConversations(bool showLoading) async {
+    if (isLoadingSupportConversations.value) return;
+
+    try {
+      if (showLoading) {
+        isLoadingSupportConversations.value = true;
+        supportConversations.clear();
+      }
+      hasSupportConversationsError.value = false;
+      supportConversationsErrorMessage.value = '';
+      supportConversationsCurrentPage.value = 1;
+      hasMoreSupportConversations.value = true;
+
+      // Build filters based on selected support tab
+      Map<String, String> filters = {};
+      if (selectedSupportTab.value == Resources.of(Get.context!).strings.support) {
+        filters['reference'] = 'SUPPORT';
+      } else if (selectedSupportTab.value == Resources.of(Get.context!).strings.dispute) {
+        filters['reference'] = 'DISPUTE';
+      }
+
+      final response = await _supportConversationsRepository.getSupportConversations(
+        filters: filters,
+      );
+
+      if (response.success == true && response.data != null) {
+        supportConversations.value = response.data!.list ?? [];
+
+        if (response.data!.meta != null) {
+          supportConversationsCurrentPage.value = response.data!.meta!.page ?? 1;
+          supportConversationsTotalPages.value = response.data!.meta!.last ?? 1;
+          hasMoreSupportConversations.value =
+              supportConversationsCurrentPage.value < supportConversationsTotalPages.value;
+        }
+      } else {
+        hasSupportConversationsError.value = true;
+        supportConversationsErrorMessage.value =
+            response.message ?? Resources
+                .of(Get.context!)
+                .strings
+                .failedToLoadConversations;
+      }
+    } catch (e) {
+      print('Error loading support conversations: $e');
+      hasSupportConversationsError.value = true;
+      supportConversationsErrorMessage.value = Resources
+          .of(Get.context!)
+          .strings
+          .failedToLoadConversations;
+      Get.snackbar(
+        Resources
+            .of(Get.context!)
+            .strings
+            .errorLoadingData(''),
+        supportConversationsErrorMessage.value,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoadingSupportConversations.value = false;
+    }
+  }
+
+  Future<void> retryLoadSupportConversations() async {
+    await loadSupportConversations(true);
+  }
+
+  Future<void> loadMoreSupportConversations() async {
+    if (isLoadingMoreSupportConversations.value || !hasMoreSupportConversations.value) return;
+
+    try {
+      isLoadingMoreSupportConversations.value = true;
+
+      int nextPage = supportConversationsCurrentPage.value + 1;
+
+      // Build filters based on selected support tab
+      Map<String, String> filters = {};
+      if (selectedSupportTab.value == Resources.of(Get.context!).strings.support) {
+        filters['reference'] = 'SUPPORT';
+      } else if (selectedSupportTab.value == Resources.of(Get.context!).strings.dispute) {
+        filters['reference'] = 'DISPUTE';
+      }
+
+      final response = await _supportConversationsRepository.getSupportConversations(
+        filters: filters,
+      );
+
+      if (response.success == true && response.data != null) {
+        List<SupportConversation> newConversations = response.data!.list ?? [];
+        supportConversations.addAll(newConversations);
+
+        if (response.data!.meta != null) {
+          supportConversationsCurrentPage.value =
+              response.data!.meta!.page ?? supportConversationsCurrentPage.value;
+          supportConversationsTotalPages.value =
+              response.data!.meta!.last ?? supportConversationsTotalPages.value;
+          hasMoreSupportConversations.value =
+              supportConversationsCurrentPage.value < supportConversationsTotalPages.value;
+        }
+      }
+    } catch (e) {
+      print('Error loading more support conversations: $e');
+    } finally {
+      isLoadingMoreSupportConversations.value = false;
+    }
+  }
+
+  Future<void> refreshSupportConversations() async {
+    supportConversations.clear();
+    supportConversationsCurrentPage.value = 1;
+    hasMoreSupportConversations.value = true;
+    await loadSupportConversations(true);
+  }
+
+  String getSupportConversationName(SupportConversation conversation) {
+    String name = '';
+    if (conversation.memberFirstName != null && conversation.memberFirstName!.isNotEmpty) {
+      name = conversation.memberFirstName!;
+    }
+    if (conversation.memberLastName != null && conversation.memberLastName!.isNotEmpty) {
+      name += ' ${conversation.memberLastName!}';
+    }
+
+    return name
+        .trim()
+        .isEmpty ? Resources
+        .of(Get.context!)
+        .strings
+        .unknown : name.trim();
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/dialog/dialog_helper.dart';
 import 'package:wazafak_app/components/sheets/attachment_options_bottom_sheet.dart';
-import 'package:wazafak_app/model/SupportStartConversationResponse.dart';
 import 'package:wazafak_app/screens/conversation_messages/widgets/attachment_preview_widget.dart';
 import 'package:wazafak_app/screens/conversation_messages/widgets/voice_recording_widget.dart';
 import 'package:wazafak_app/screens/support_chat/support_chat_controller.dart';
@@ -10,6 +9,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../components/primary_text_field.dart';
 import '../../components/top_header.dart';
+import '../../model/SupportConversationsResponse.dart';
 import '../../utils/res/AppIcons.dart';
 import '../../utils/res/Resources.dart';
 import '../conversation_messages/components/messages_shimmer.dart';
@@ -130,12 +130,13 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                               dataController.removeAttachment();
                             },
                           ),
-
+                        if(conversation.status.toString() == '0')
                         Container(
                           width: double.infinity,
                           height: 1,
                           color: context.resources.color.colorGrey4,
                         ),
+                        if(conversation.status.toString() == '0')
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -216,10 +217,17 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                                           dataController
                                               .sendMessageWithAttachment();
                                         },
-                                        child: Image.asset(
-                                          AppIcons.send,
-                                          width: 22,
-                                          height: 22,
+                                        child:  Container(
+                                          width: 30,
+                                          height: 36,
+                                          color: context
+                                              .resources.color.background2,
+                                          padding: EdgeInsets.all(3),
+                                          child: Image.asset(
+                                            AppIcons.send,
+                                            width: 22,
+                                            height: 22,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(width: 16),
