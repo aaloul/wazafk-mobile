@@ -80,7 +80,7 @@ class ProjectsController extends GetxController {
       isLoadingEngagements.value = isLoading ?? true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
-          'status': '10',
+          'flow': 'CLOSED',
           'freelancer': Prefs.getId,
         },
       );
