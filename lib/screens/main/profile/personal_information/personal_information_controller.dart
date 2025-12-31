@@ -34,9 +34,13 @@ class PersonalInformationController extends GetxController {
     firstNameController.text = Prefs.getFName;
     lastNameController.text = Prefs.getLName;
     emailController.text = Prefs.getEmail;
-    portfolioLinkController.text = Prefs.getWebsite;
+    if(Prefs.getWebsite.toString() != 'null') {
+      portfolioLinkController.text = Prefs.getWebsite;
+    }
     aboutController.text = Prefs.getInfo;
-    titleController.text = Prefs.getProfileTitle;
+    if(Prefs.getProfileTitle.toString() != 'null') {
+      titleController.text = Prefs.getProfileTitle;
+    }
 
     // Auto-fill gender with proper capitalization
     if (Prefs.getGender.isNotEmpty) {

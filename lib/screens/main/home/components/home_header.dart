@@ -50,6 +50,7 @@ class HomeHeader extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       textColor: context.resources.color.colorGrey6,
                     ),
+                    if(controller.profileData.value?.title?.toString() == 'null')
                     PrimaryText(
                       text: controller.profileData.value?.title?.toString() ??
                           Prefs.getProfileTitle,

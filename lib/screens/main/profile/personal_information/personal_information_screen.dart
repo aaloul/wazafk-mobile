@@ -138,7 +138,7 @@ class PersonalInformationScreen extends StatelessWidget {
                             .title,
                         inputType: TextInputType.text,
                         isPassword: false,
-                        isMandatory: true,
+                        isMandatory: false,
                         controller: controller.titleController,
                       ),
 
