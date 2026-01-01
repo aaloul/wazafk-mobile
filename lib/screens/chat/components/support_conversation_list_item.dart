@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/SupportConversationsResponse.dart';
+import 'package:wazafak_app/screens/chat/components/participants_avatar_grid.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
@@ -25,6 +26,7 @@ class SupportConversationListItem extends StatelessWidget {
     final statusColor = isActive
         ? context.resources.color.colorGreen
         : context.resources.color.colorGrey;
+    final isDispute = conversation.reference == 'DISPUTE';
 
     return GestureDetector(
       onTap: onTap,
@@ -43,20 +45,25 @@ class SupportConversationListItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Support icon
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: context.resources.color.colorPrimary.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.support_agent,
-                color: context.resources.color.colorPrimary,
-                size: 32,
-              ),
-            ),
+            // Avatar: Participants grid for disputes, support icon for support
+            isDispute
+                ? ParticipantsAvatarGrid(
+                    participants: conversation.groupParticipants ?? [],
+                    size: 60,
+                  )
+                : Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: context.resources.color.colorPrimary.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.support_agent,
+                      color: context.resources.color.colorPrimary,
+                      size: 32,
+                    ),
+                  ),
             Container(
               width: 1,
               height: 40,
