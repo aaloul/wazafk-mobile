@@ -169,11 +169,13 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<void> loadContacts() async {
+  Future<void> loadContacts({bool showLoading = true}) async {
     if (isLoading.value) return;
 
     try {
-      isLoading.value = true;
+      if (showLoading) {
+        isLoading.value = true;
+      }
       hasError.value = false;
       errorMessage.value = '';
       currentPage.value = 1;
@@ -216,7 +218,9 @@ class ChatController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     } finally {
-      isLoading.value = false;
+      if (showLoading) {
+        isLoading.value = false;
+      }
     }
   }
 
@@ -254,11 +258,13 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<void> refreshContacts() async {
-    contacts.clear();
+  Future<void> refreshContacts({bool showLoading = true}) async {
+    if(showLoading) {
+      contacts.clear();
+    }
     currentPage.value = 1;
     hasMoreData.value = true;
-    await loadContacts();
+    await loadContacts(showLoading: showLoading);
   }
 
   String getContactName(ContactElement contact) {
@@ -371,11 +377,13 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<void> refreshConversations() async {
-    conversations.clear();
+  Future<void> refreshConversations({bool showLoading = true}) async {
+    if(showLoading) {
+      conversations.clear();
+    }
     conversationsCurrentPage.value = 1;
     hasMoreConversations.value = true;
-    await loadConversations(true);
+    await loadConversations(showLoading);
   }
 
   String getConversationName(Coversation conversation) {
@@ -532,7 +540,7 @@ class ChatController extends GetxController {
       // Build filters based on selected support tab
       Map<String, String> filters = {};
       if (selectedSupportTab.value == Resources.of(Get.context!).strings.support) {
-        filters['reference'] = 'SUPPORT';
+        filters['reference'] = 'GENERAL';
       } else if (selectedSupportTab.value == Resources.of(Get.context!).strings.dispute) {
         filters['reference'] = 'DISPUTE';
       }
@@ -561,11 +569,22 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<void> refreshSupportConversations() async {
-    supportConversations.clear();
+  Future<void> refreshSupportConversations({bool showLoading = true}) async {
+    if(showLoading) {
+      supportConversations.clear();
+    }
     supportConversationsCurrentPage.value = 1;
     hasMoreSupportConversations.value = true;
-    await loadSupportConversations(true);
+    await loadSupportConversations(showLoading);
+  }
+
+  Future<void> refreshAllConversations({bool showLoading = true}) async {
+    // Refresh all conversation types in parallel
+    await Future.wait([
+      refreshConversations(showLoading: showLoading),
+      refreshContacts(showLoading: showLoading),
+      refreshSupportConversations(showLoading: showLoading),
+    ]);
   }
 
   String getSupportConversationName(SupportConversation conversation) {

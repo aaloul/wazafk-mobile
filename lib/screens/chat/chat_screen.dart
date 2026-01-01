@@ -25,7 +25,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return FocusDetector(
       onFocusGained: () {
-        controller.loadConversations(false);
+        controller.refreshAllConversations(showLoading: false);
       },
       child: Scaffold(
         backgroundColor: context.resources.color.background2,

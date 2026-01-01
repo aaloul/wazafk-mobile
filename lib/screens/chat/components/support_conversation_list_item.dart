@@ -22,7 +22,7 @@ class SupportConversationListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isActive = conversation.status == 1;
+    final isActive = conversation.status == 0;
     final statusColor = isActive
         ? context.resources.color.colorGreen
         : context.resources.color.colorGrey;
