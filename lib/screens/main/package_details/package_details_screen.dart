@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/working_hours_widget.dart';
 import 'package:wazafak_app/screens/main/package_details/components/package_details_header.dart';
 import 'package:wazafak_app/screens/main/package_details/package_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -120,6 +121,25 @@ class PackageDetailsScreen extends StatelessWidget {
                               ),
                             ),
 
+                            // Working Hours
+                            if (package.availability != null &&
+                                package.availability!.isNotEmpty) ...[
+                              WorkingHoursWidget(
+                                availability: package.availability!,
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height: 1,
+                                color: context.resources.color.colorGrey
+                                    .withOpacity(
+                                  .25,
+                                ),
+                                margin: EdgeInsets.symmetric(
+                                  vertical: 16,
+                                  horizontal: 8,
+                                ),
+                              ),
+                            ],
 
                           ],
                         ),

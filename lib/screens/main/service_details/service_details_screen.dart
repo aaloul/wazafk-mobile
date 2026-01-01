@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/working_hours_widget.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/service_details/components/service_details_header.dart';
 import 'package:wazafak_app/screens/main/service_details/service_details_controller.dart';
@@ -275,6 +276,24 @@ class ServiceDetailsScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
+
+                              // Working Hours
+                              if (service.availability != null &&
+                                  service.availability!.isNotEmpty) ...[
+                                WorkingHoursWidget(
+                                  availability: service.availability!,
+                                ),
+                                Container(
+                                  width: double.infinity,
+                                  height: 1,
+                                  color: context.resources.color.colorGrey
+                                      .withOpacity(.25),
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 8,
+                                  ),
+                                ),
+                              ],
 
                               // Packages Section
                               ServicePackagesCarousel(

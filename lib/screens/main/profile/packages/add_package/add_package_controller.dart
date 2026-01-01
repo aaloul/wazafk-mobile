@@ -25,7 +25,7 @@ class AddPackageController extends GetxController {
 
   final titleController = TextEditingController();
   final descController = TextEditingController();
-  final unitPriceController = TextEditingController();
+  // final unitPriceController = TextEditingController();
   final totalPriceController = TextEditingController();
 
   var isLoading = false.obs;
@@ -151,7 +151,7 @@ class AddPackageController extends GetxController {
     // Populate text fields
     titleController.text = package.title ?? '';
     descController.text = package.description ?? '';
-    unitPriceController.text = package.unitPrice ?? '';
+    // unitPriceController.text = package.unitPrice ?? '';
     totalPriceController.text = package.totalPrice ?? '';
 
 
@@ -194,7 +194,7 @@ class AddPackageController extends GetxController {
     // Populate text fields
     titleController.text = package['title'] ?? '';
     descController.text = package['description'] ?? '';
-    unitPriceController.text = package['unit_price'] ?? '';
+    // unitPriceController.text = package['unit_price'] ?? '';
     totalPriceController.text = package['total_price'] ?? '';
 
 
@@ -332,13 +332,13 @@ class AddPackageController extends GetxController {
           .pleaseEnterDescription, SnackBarStatus.ERROR);
       return false;
     }
-    if (unitPriceController.text.trim().isEmpty) {
-      constants.showSnackBar(Resources
-          .of(Get.context!)
-          .strings
-          .pleaseEnterUnitPrice, SnackBarStatus.ERROR);
-      return false;
-    }
+    // if (unitPriceController.text.trim().isEmpty) {
+    //   constants.showSnackBar(Resources
+    //       .of(Get.context!)
+    //       .strings
+    //       .pleaseEnterUnitPrice, SnackBarStatus.ERROR);
+    //   return false;
+    // }
     if (totalPriceController.text.trim().isEmpty) {
       constants.showSnackBar(Resources
           .of(Get.context!)
@@ -369,7 +369,7 @@ class AddPackageController extends GetxController {
       final data = {
         'title': titleController.text.trim(),
         'description': descController.text.trim(),
-        'unit_price': unitPriceController.text.trim(),
+        // 'unit_price': unitPriceController.text.trim(),
         'total_price': totalPriceController.text.trim(),
         // 'available_duration': durationMinutes,
         // 'available_buffer': bufferMinutes,
@@ -440,7 +440,7 @@ class AddPackageController extends GetxController {
   void onClose() {
     titleController.dispose();
     descController.dispose();
-    unitPriceController.dispose();
+    // unitPriceController.dispose();
     totalPriceController.dispose();
     super.onClose();
   }

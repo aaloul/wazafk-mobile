@@ -48,7 +48,12 @@ class PaymentsEarningsController extends GetxController {
         double total = 0;
         for (var transaction in transactions) {
           if (transaction.amount != null) {
-            total += double.tryParse(transaction.amount!) ?? 0;
+            if(transaction.type.toString().toLowerCase() == 'o'){
+              total -= double.tryParse(transaction.amount!) ?? 0;
+            }else{
+              total += double.tryParse(transaction.amount!) ?? 0;
+
+            }
           }
         }
         totalPayout.value = '${total.toStringAsFixed(2)} USD';

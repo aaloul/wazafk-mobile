@@ -141,6 +141,13 @@ class RecentTransactionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isOutgoing = transaction.type?.toLowerCase() == 'o';
+    final amountText = transaction.amount ?? context.resources.strings.notAvailable;
+    final displayAmount = isOutgoing ? "-$amountText" : amountText;
+    final amountColor = isOutgoing
+        ? context.resources.color.colorRed
+        : context.resources.color.colorBlack2;
+
     return Column(
       children: [
         Container(
@@ -164,11 +171,10 @@ class RecentTransactionItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: PrimaryText(
-                text:
-                    "${transaction.amount ?? context.resources.strings.notAvailable} USD",
+                text: "$displayAmount USD",
                 fontWeight: FontWeight.w500,
                 fontSize: 13,
-                textColor: context.resources.color.colorBlack2,
+                textColor: amountColor,
                 maxLines: 1,
               ),
             ),

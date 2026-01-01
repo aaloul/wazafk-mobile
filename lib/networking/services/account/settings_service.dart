@@ -12,7 +12,7 @@ class SettingsService {
   }
 
   Future<ApiResponse> changeNotificationPreferences(
-    Map<String, bool> preferences,
+    Map<String, int> preferences,
   ) async {
     final response = await _helper.post(
       Endpoints.changeNotificationPreferences,

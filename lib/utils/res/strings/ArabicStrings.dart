@@ -1118,6 +1118,28 @@ class ArabicStrings extends Strings {
   @override
   String get noMessagesYet => "لا توجد رسائل بعد";
 
+  // Days of the week
+  @override
+  String get monday => "الاثنين";
+
+  @override
+  String get tuesday => "الثلاثاء";
+
+  @override
+  String get wednesday => "الأربعاء";
+
+  @override
+  String get thursday => "الخميس";
+
+  @override
+  String get friday => "الجمعة";
+
+  @override
+  String get saturday => "السبت";
+
+  @override
+  String get sunday => "الأحد";
+
   // Search
   @override
   String get search => "بحث";
@@ -1685,27 +1707,6 @@ class ArabicStrings extends Strings {
   @override
   String get verifyAndBook => "تحقق واحجز";
 
-  // Days of Week
-  @override
-  String get monday => "الإثنين";
-
-  @override
-  String get tuesday => "الثلاثاء";
-
-  @override
-  String get wednesday => "الأربعاء";
-
-  @override
-  String get thursday => "الخميس";
-
-  @override
-  String get friday => "الجمعة";
-
-  @override
-  String get saturday => "السبت";
-
-  @override
-  String get sunday => "الأحد";
 
   // Common Success Messages
   @override

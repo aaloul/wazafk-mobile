@@ -85,7 +85,7 @@ class PackageCarouselItem extends StatelessWidget {
 
                   PrimaryText(
                     text:
-                        '\$ ${package.totalPrice ?? package.unitPrice ?? '0'}',
+                        '\$ ${package.totalPrice  ?? '0'}',
                     textColor: context.resources.color.colorPrimary,
                     fontWeight: FontWeight.w700,
                     fontSize: 14,

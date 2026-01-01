@@ -1117,6 +1117,28 @@ class EnglishStrings extends Strings {
   @override
   String get noMessagesYet => "No messages yet";
 
+  // Days of the week
+  @override
+  String get monday => "Monday";
+
+  @override
+  String get tuesday => "Tuesday";
+
+  @override
+  String get wednesday => "Wednesday";
+
+  @override
+  String get thursday => "Thursday";
+
+  @override
+  String get friday => "Friday";
+
+  @override
+  String get saturday => "Saturday";
+
+  @override
+  String get sunday => "Sunday";
+
   // Search
   @override
   String get search => "Search";
@@ -1685,27 +1707,7 @@ class EnglishStrings extends Strings {
   @override
   String get verifyAndBook => "Verify & Book";
 
-  // Days of Week
-  @override
-  String get monday => "Monday";
 
-  @override
-  String get tuesday => "Tuesday";
-
-  @override
-  String get wednesday => "Wednesday";
-
-  @override
-  String get thursday => "Thursday";
-
-  @override
-  String get friday => "Friday";
-
-  @override
-  String get saturday => "Saturday";
-
-  @override
-  String get sunday => "Sunday";
 
   // Common Success Messages
   @override

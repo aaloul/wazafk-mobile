@@ -9,7 +9,7 @@ class SettingsRepository {
   }
 
   Future<ApiResponse> changeNotificationPreferences(
-    Map<String, bool> preferences,
+    Map<String, int> preferences,
   ) async {
     return _provider.changeNotificationPreferences(preferences);
   }

@@ -61,8 +61,7 @@ class BookServiceScreen extends StatelessWidget {
                               ? controller.package.value!.title
                               : controller.service.value!.title;
                           final unitPrice = controller.isPackage.value
-                              ? (controller.package.value!.totalPrice ??
-                                    controller.package.value!.unitPrice)
+                              ? (controller.package.value!.totalPrice )
                               : controller.service.value!.pricingType
                                         .toString() ==
                                     'U'
@@ -70,7 +69,7 @@ class BookServiceScreen extends StatelessWidget {
                               : controller.service.value!.totalPrice;
 
                           final priceTitle = controller.isPackage.value
-                              ? context.resources.strings.hourlyRate
+                              ? context.resources.strings.totalPrice
                               : controller.service.value!.pricingType
                                         .toString() ==
                                     'U'

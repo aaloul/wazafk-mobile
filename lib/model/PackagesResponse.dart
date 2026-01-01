@@ -65,7 +65,7 @@ class Package {
   dynamic rating;
   String? image;
   String? description;
-  String? unitPrice;
+  // String? unitPrice;
   String? totalPrice;
   String? memberImage;
   String? memberRating;
@@ -90,7 +90,7 @@ class Package {
     this.rating,
     this.image,
     this.description,
-    this.unitPrice,
+    // this.unitPrice,
     this.totalPrice,
     this.memberImage,
     this.memberRating,
@@ -117,7 +117,7 @@ class Package {
     memberRating: json["member_rating"],
     memberTitle: json["member_title"],
     description: json["description"],
-    unitPrice: json["unit_price"],
+    // unitPrice: json["unit_price"],
     totalPrice: json["total_price"],
     featured: json["featured"],
     availableDuration: json["available_duration"],
@@ -149,7 +149,7 @@ class Package {
     "member_title": memberTitle,
     "member_rating": memberRating,
     "description": description,
-    "unit_price": unitPrice,
+    // "unit_price": unitPrice,
     "total_price": totalPrice,
     "featured": featured,
     "available_duration": availableDuration,

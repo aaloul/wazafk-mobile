@@ -157,14 +157,14 @@ class AddPackageScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
 
-                    LabeledTextFiled(
-                      controller: controller.unitPriceController,
-                      hint: context.resources.strings.unitPrice,
-                      label: context.resources.strings.unitPrice,
-                      isMandatory: true,
-                      isPassword: false,
-                      inputType: TextInputType.number,
-                    ),
+                    // LabeledTextFiled(
+                    //   controller: controller.unitPriceController,
+                    //   hint: context.resources.strings.unitPrice,
+                    //   label: context.resources.strings.unitPrice,
+                    //   isMandatory: true,
+                    //   isPassword: false,
+                    //   inputType: TextInputType.number,
+                    // ),
 
                     LabeledTextFiled(
                       controller: controller.totalPriceController,

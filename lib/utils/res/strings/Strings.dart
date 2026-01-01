@@ -741,6 +741,21 @@ abstract class Strings {
 
   String get noMessagesYet;
 
+  // Days of the week
+  String get monday;
+
+  String get tuesday;
+
+  String get wednesday;
+
+  String get thursday;
+
+  String get friday;
+
+  String get saturday;
+
+  String get sunday;
+
   // Search
   String get search;
 
@@ -1124,20 +1139,7 @@ abstract class Strings {
   // Verify & Book
   String get verifyAndBook;
 
-  // Days of Week
-  String get monday;
 
-  String get tuesday;
-
-  String get wednesday;
-
-  String get thursday;
-
-  String get friday;
-
-  String get saturday;
-
-  String get sunday;
 
   // Common Success Messages
   String get imageCapturedSuccessfully;
