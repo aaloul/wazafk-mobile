@@ -35,6 +35,10 @@ class ApplyJobController extends GetxController {
   var cvFileSize = Rxn<int>();
   var cvFileExtension = Rxn<String>();
 
+  // Commission fee calculations
+  var applicationFees = 0.0.obs;
+  var youllReceive = 0.0.obs;
+
 
   @override
   void onInit() {
@@ -44,6 +48,33 @@ class ApplyJobController extends GetxController {
     final arguments = Get.arguments;
     if (arguments != null && arguments is Job) {
       job.value = arguments;
+
+      // Initialize with job's original price
+      if (job.value!.totalPrice != null) {
+        budgetController.text = job.value!.totalPrice!;
+        calculateFees(job.value!.totalPrice!);
+      }
+    }
+
+    // Add listener to budget controller to recalculate fees when user changes amount
+    budgetController.addListener(() {
+      calculateFees(budgetController.text);
+    });
+  }
+
+  void calculateFees(String priceText) {
+    try {
+      final price = double.tryParse(priceText) ?? 0.0;
+      final commissionPercentage = job.value?.commissionFees ?? 0;
+
+      // Calculate application fees as percentage of price
+      applicationFees.value = price * (commissionPercentage / 100.0);
+
+      // Calculate what freelancer will receive
+      youllReceive.value = price - applicationFees.value;
+    } catch (e) {
+      applicationFees.value = 0.0;
+      youllReceive.value = 0.0;
     }
   }
 

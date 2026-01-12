@@ -68,30 +68,42 @@ class NegotiationBottomSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Price Field
-                    LabeledTextFiled(
+                    Obx(() => LabeledTextFiled(
                       controller: controller.negotiationPriceController,
-                      label: Resources.of(context).strings.price,
-                      hint: Resources.of(context).strings.enterYourPrice,
+                      label: controller.getPriceLabel(),
+                      hint: controller.isService.value &&
+                            controller.service.value?.pricingType == 'U'
+                          ? Resources.of(context).strings.pleaseEnterHourlyRate
+                          : Resources.of(context).strings.enterYourPrice,
                       inputType: TextInputType.numberWithOptions(decimal: true),
                       isPassword: false,
                       isMandatory: true,
                       labelFontWeight: FontWeight.w500,
-                    ),
+                    )),
 
                     SizedBox(height: 16),
 
-                    // Estimated Hours Field
-                    LabeledTextFiled(
-                      controller: controller.negotiationHoursController,
-                      label: Resources.of(context).strings.estimatedHours,
-                      hint: Resources.of(context).strings.enterEstimatedHours,
-                      inputType: TextInputType.number,
-                      isPassword: false,
-                      isMandatory: true,
-                      labelFontWeight: FontWeight.w500,
-                    ),
-
-                    SizedBox(height: 20),
+                    // Estimated Hours Field (only for hourly services)
+                    Obx(() {
+                      if (controller.isService.value &&
+                          controller.service.value?.pricingType == 'U') {
+                        return Column(
+                          children: [
+                            LabeledTextFiled(
+                              controller: controller.negotiationHoursController,
+                              label: Resources.of(context).strings.estimatedHours,
+                              hint: Resources.of(context).strings.enterEstimatedHours,
+                              inputType: TextInputType.number,
+                              isPassword: false,
+                              isMandatory: true,
+                              labelFontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        );
+                      }
+                      return SizedBox(height: 4);
+                    }),
 
                     // Calendar Section
                     PrimaryText(

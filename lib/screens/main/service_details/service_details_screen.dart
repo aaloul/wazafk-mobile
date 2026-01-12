@@ -175,6 +175,51 @@ class ServiceDetailsScreen extends StatelessWidget {
                                 ),
                               ),
 
+
+                              if(service.description.toString().isNotEmpty)
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      PrimaryText(
+                                        text: context.resources.strings
+                                            .overview,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
+                                        textColor: context.resources.color
+                                            .colorGrey,
+                                      ),
+
+                                      SizedBox(height: 4),
+
+                                      PrimaryText(
+                                        text: service.description ??
+                                            context.resources.strings
+                                                .notAvailable,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        textColor: context.resources.color
+                                            .colorGrey,
+                                      ),
+
+                                      Container(
+                                        width: double.infinity,
+                                        height: 1,
+                                        color: context.resources.color.colorGrey
+                                            .withOpacity(
+                                          .25,
+                                        ),
+                                        margin: EdgeInsets.symmetric(
+                                          vertical: 16,
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+
+                              if(service.experience.toString().isNotEmpty)
                               Container(
                                 margin: EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
@@ -200,22 +245,25 @@ class ServiceDetailsScreen extends StatelessWidget {
                                       textColor: context.resources.color
                                           .colorGrey,
                                     ),
+
+                                    Container(
+                                      width: double.infinity,
+                                      height: 1,
+                                      color: context.resources.color.colorGrey
+                                          .withOpacity(
+                                        .25,
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 16,
+                                        horizontal: 8,
+                                      ),
+                                    ),
+
                                   ],
                                 ),
                               ),
 
-                              Container(
-                                width: double.infinity,
-                                height: 1,
-                                color: context.resources.color.colorGrey
-                                    .withOpacity(
-                                  .25,
-                                ),
-                                margin: EdgeInsets.symmetric(
-                                  vertical: 16,
-                                  horizontal: 8,
-                                ),
-                              ),
+
 
                               Container(
                                 margin: EdgeInsets.symmetric(horizontal: 16),
@@ -269,7 +317,6 @@ class ServiceDetailsScreen extends StatelessWidget {
                                             .withOpacity(.25),
                                         margin: EdgeInsets.symmetric(
                                           vertical: 16,
-                                          horizontal: 8,
                                         ),
                                       ),
                                     ],

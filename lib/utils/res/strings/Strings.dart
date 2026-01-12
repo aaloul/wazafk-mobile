@@ -1359,4 +1359,8 @@ abstract class Strings {
   String get areYouSureEndConversation;
 
   String get conversationEndedSuccessfully;
+
+  String get viewMyServices;
+  String get viewMyJobs;
+  String get viewMyPackages;
 }

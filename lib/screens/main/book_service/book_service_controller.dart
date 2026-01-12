@@ -208,7 +208,9 @@ class BookServiceController extends GetxController {
       Map<String, dynamic> data = {
         'type': isPackage.value ? 'PB' : 'SB',
         'start_datetime': startDateStr,
+        if(!isPackage.value && service.value?.pricingType.toString() == 'U')
         'unit_price': price,
+        if(isPackage.value || (!isPackage.value && service.value?.pricingType.toString() != 'U'))
         'total_price': price,
         'work_location_type': workLocationType,
         'message_to_freelancer': notesController.text,

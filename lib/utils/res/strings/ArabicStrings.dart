@@ -2040,4 +2040,14 @@ class ArabicStrings extends Strings {
 
   @override
   String get conversationEndedSuccessfully => "تم إنهاء المحادثة بنجاح";
+
+  @override
+  String get viewMyServices => "عرض خدماتي";
+
+  @override
+  String get viewMyJobs => "عرض وظائفى";
+
+  @override
+  String get viewMyPackages => "عرض باقاتي";
+
 }

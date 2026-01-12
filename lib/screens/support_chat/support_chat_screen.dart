@@ -53,25 +53,27 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                 TopHeader(
                   title: conversation.subject ??
                       context.resources.strings.contactSupport,
-                  endWidget: Obx(() => dataController.isEndingConversation.value
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: context.resources.color.colorPrimary,
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            _showEndConversationDialog(context);
-                          },
-                          child: Icon(
-                            Icons.close,
-                            color: context.resources.color.colorPrimary,
-                            size: 24,
-                          ),
-                        )),
+                  endWidget: conversation.reference == 'DISPUTE'
+                      ? null
+                      : Obx(() => dataController.isEndingConversation.value
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: context.resources.color.colorPrimary,
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                _showEndConversationDialog(context);
+                              },
+                              child: Icon(
+                                Icons.close,
+                                color: context.resources.color.colorPrimary,
+                                size: 24,
+                              ),
+                            )),
                 )
               ]),
             ),

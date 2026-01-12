@@ -330,6 +330,19 @@ class EngagementDetailsController extends GetxController {
         1;
   }
 
+  String getPriceLabel() {
+    if (isPackage.value || isJob.value) {
+      return Resources.of(Get.context!).strings.totalPrice;
+    } else if (isService.value) {
+      if (service.value?.pricingType == 'U') {
+        return Resources.of(Get.context!).strings.hourlyRate;
+      } else {
+        return Resources.of(Get.context!).strings.totalPrice;
+      }
+    }
+    return Resources.of(Get.context!).strings.price;
+  }
+
   Future<void> submitNegotiation() async {
     // Validate fields
     if (negotiationPriceController.text
@@ -362,30 +375,41 @@ class EngagementDetailsController extends GetxController {
         ).format(negotiationRangeEnd.value!);
       }
 
-      Map<String, dynamic> data = {
-        if(negotiationPriceController.text
-            .trim()
-            .isNotEmpty)
-        'unit_price': negotiationPriceController.text,
-        if(negotiationPriceController.text
-            .trim()
-            .isNotEmpty)
-          'total_price': negotiationPriceController.text,
-        if( negotiationHoursController.text
-            .trim()
-            .isNotEmpty)
-        'estimated_hours': negotiationHoursController.text,
-        if(negotiationRangeStart.value != null)
-        'start_datetime': startDateStr,
-        if(negotiationMessageController.text
-            .trim()
-            .isNotEmpty && isJob.value)
-        'message_to_client': negotiationMessageController.text,
-        if(negotiationMessageController.text
-            .trim()
-            .isNotEmpty && !isJob.value)
-          'message_to_freelancer': negotiationMessageController.text,
-      };
+      Map<String, dynamic> data = {};
+
+      // Handle price based on type
+      if (negotiationPriceController.text.trim().isNotEmpty) {
+        if (isPackage.value || isJob.value) {
+          // For package or job, send total_price
+          data['total_price'] = negotiationPriceController.text;
+        } else if (isService.value) {
+          // For service, check pricing type
+          if (service.value?.pricingType == 'U') {
+            // Hourly rate - send unit_price
+            data['unit_price'] = negotiationPriceController.text;
+          } else {
+            // Fixed price - send total_price
+            data['total_price'] = negotiationPriceController.text;
+          }
+        }
+      }
+
+      // Add other fields
+      if (negotiationHoursController.text.trim().isNotEmpty) {
+        data['estimated_hours'] = negotiationHoursController.text;
+      }
+
+      if (negotiationRangeStart.value != null) {
+        data['start_datetime'] = startDateStr;
+      }
+
+      if (negotiationMessageController.text.trim().isNotEmpty) {
+        if (isJob.value) {
+          data['message_to_client'] = negotiationMessageController.text;
+        } else {
+          data['message_to_freelancer'] = negotiationMessageController.text;
+        }
+      }
 
       // Add end date if available
       if (endDateStr != null) {

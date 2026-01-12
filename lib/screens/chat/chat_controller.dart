@@ -479,7 +479,7 @@ class ChatController extends GetxController {
       // Build filters based on selected support tab
       Map<String, String> filters = {};
       if (selectedSupportTab.value == Resources.of(Get.context!).strings.support) {
-        filters['reference'] = 'SUPPORT';
+        filters['reference'] = 'GENERAL';
       } else if (selectedSupportTab.value == Resources.of(Get.context!).strings.dispute) {
         filters['reference'] = 'DISPUTE';
       }

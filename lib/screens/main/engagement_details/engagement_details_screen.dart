@@ -171,7 +171,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                               : controller.service.value!.title;
 
 
-                          final unitPrice =controller.isService.value
+                          final unitPrice = controller.isPackage.value ? controller.engagement.value?.totalPrice : controller.isService.value
                               ? controller.service.value!.pricingType
                               .toString() ==
                               'U'
@@ -184,7 +184,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                           final priceTitle = controller.isJob.value
                               ? context.resources.strings.totalPrice
                               : controller.isPackage.value
-                              ? context.resources.strings.hourlyRate
+                              ? context.resources.strings.totalPrice
                               : controller.service.value!.pricingType
                               .toString() ==
                               'U'

@@ -405,7 +405,7 @@ class AddPackageController extends GetxController {
             buttonText: Resources
                 .of(Get.context!)
                 .strings
-                .viewProfile,
+                .viewMyPackages,
             onButtonPressed: () {
               Navigator.pop(Get.context!);
             }

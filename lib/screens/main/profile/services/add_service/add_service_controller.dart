@@ -659,7 +659,7 @@ class AddServiceController extends GetxController {
             buttonText: Resources
                 .of(Get.context!)
                 .strings
-                .viewProfile,
+                .viewMyServices,
             onButtonPressed: () {
               Navigator.pop(Get.context!);
             }

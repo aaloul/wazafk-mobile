@@ -2063,4 +2063,14 @@ class EnglishStrings extends Strings {
 
   @override
   String get conversationEndedSuccessfully => "Conversation ended successfully";
+
+
+  @override
+  String get viewMyServices => "View My Services";
+
+  @override
+  String get viewMyJobs => "View My Jobs";
+
+  @override
+  String get viewMyPackages => "View My Packages";
 }

@@ -246,15 +246,15 @@ class ApplyJobScreen extends StatelessWidget {
                                                     .colorGrey,
                                               ),
                                               SizedBox(height: 8),
-                                              PrimaryText(
-                                                text: '0.00 \$',
+                                              Obx(() => PrimaryText(
+                                                text: '${controller.youllReceive.value.toStringAsFixed(2)} \$',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w900,
                                                 textColor: context
                                                     .resources
                                                     .color
                                                     .colorGrey,
-                                              ),
+                                              )),
                                             ],
                                           ),
                                         ),
@@ -290,15 +290,15 @@ class ApplyJobScreen extends StatelessWidget {
                                                     .colorGrey,
                                               ),
                                               SizedBox(height: 8),
-                                              PrimaryText(
-                                                text: '0.00 \$',
+                                              Obx(() => PrimaryText(
+                                                text: '${controller.applicationFees.value.toStringAsFixed(2)} \$',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w900,
                                                 textColor: context
                                                     .resources
                                                     .color
                                                     .colorGrey,
-                                              ),
+                                              )),
                                             ],
                                           ),
                                         ),

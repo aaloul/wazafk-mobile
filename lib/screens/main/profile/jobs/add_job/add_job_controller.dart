@@ -456,7 +456,7 @@ class AddJobController extends GetxController {
             buttonText: Resources
                 .of(Get.context!)
                 .strings
-                .viewProfile,
+                .viewMyJobs,
             onButtonPressed: () {
               Navigator.pop(Get.context!);
             }
