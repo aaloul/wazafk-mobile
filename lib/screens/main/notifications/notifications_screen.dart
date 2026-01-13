@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/tabs_widget.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
+import 'components/notification_tabs_widget.dart';
 import 'components/notifications_list_widget.dart';
 import 'notifications_controller.dart';
 
@@ -24,9 +24,8 @@ class NotificationsScreen extends StatelessWidget {
             SizedBox(height: 8),
 
             Obx(
-              () => TabsWidget(
+              () => NotificationTabsWidget(
                 tabs: controller.tabs,
-                margin: 0,
                 selectedTab: controller.selectedTab.value,
                 onSelect: (tab) => controller.changeTab(tab),
               ),
