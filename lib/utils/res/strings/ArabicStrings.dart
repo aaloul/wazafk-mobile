@@ -1089,10 +1089,10 @@ class ArabicStrings extends Strings {
   String get noActiveEmployers => "لا يوجد أصحاب عمل نشطون";
 
   @override
-  String get chatConversations => "محادثات الدردشة";
+  String get chatConversations => "الدردشة";
 
   @override
-  String get supportConversations => "محادثات الدعم";
+  String get supportConversations => "الدعم";
 
   @override
   String get support => "الدعم";

@@ -108,14 +108,78 @@ class HomeHeader extends StatelessWidget {
                 onTap: () {
                   Get.toNamed(RouteConstant.notificationsScreen);
                 },
-                child: Image.asset(AppIcons.notification, width: 24),
+                child: Obx(() {
+                  final count = controller.notificationsCount.value;
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Image.asset(AppIcons.notification, width: 24),
+                      if (count > 0)
+                        Positioned(
+                          right: -6,
+                          top: -6,
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 18,
+                              minHeight: 18,
+                            ),
+                            child: Center(
+                              child: PrimaryText(
+                                text: count > 99 ? '99+' : count.toString(),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                textColor: context.resources.color.colorWhite,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ),
               SizedBox(width: 8),
               GestureDetector(
                 onTap: () {
                   Get.toNamed(RouteConstant.chatScreen);
                 },
-                child: Image.asset(AppIcons.message, width: 24),
+                child: Obx(() {
+                  final count = controller.totalUnreadCount.value;
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Image.asset(AppIcons.message, width: 24),
+                      if (count > 0)
+                        Positioned(
+                          right: -6,
+                          top: -6,
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 18,
+                              minHeight: 18,
+                            ),
+                            child: Center(
+                              child: PrimaryText(
+                                text: count > 99 ? '99+' : count.toString(),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                textColor: context.resources.color.colorWhite,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ),
             ],
           ),

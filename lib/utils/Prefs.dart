@@ -76,6 +76,10 @@ class Prefs {
 
   static void setToken(String value) => box.write(Const.TOKEN, value);
 
+  static String get getSelfChannelName => box.read(Const.SELF_CHANNEL_NAME) ?? '';
+
+  static void setSelfChannelName(String value) => box.write(Const.SELF_CHANNEL_NAME, value);
+
   static String get getFName => box.read(Const.F_NAME) ?? '';
 
   static void setFName(String value) => box.write(Const.F_NAME, value);
@@ -255,6 +259,7 @@ class Prefs {
     setWebsite(user.website.toString() ?? '');
     setInfo(user.info.toString() ?? '');
     setProfileTitle(user.title.toString() ?? '');
+    setSelfChannelName(user.selfChannelName.toString() ?? '');
   }
 
   static void clearUser() {
@@ -269,6 +274,7 @@ class Prefs {
     setToken('');
     setMobile('');
     setWebsite('');
+    setSelfChannelName('');
     setInfo('');
     setProfileTitle('');
     setAddresses([]);

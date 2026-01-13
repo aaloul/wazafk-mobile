@@ -26,6 +26,7 @@ class NotificationsScreen extends StatelessWidget {
             Obx(
               () => TabsWidget(
                 tabs: controller.tabs,
+                margin: 0,
                 selectedTab: controller.selectedTab.value,
                 onSelect: (tab) => controller.changeTab(tab),
               ),

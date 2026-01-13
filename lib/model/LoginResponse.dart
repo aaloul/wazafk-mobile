@@ -73,6 +73,8 @@ class User {
   dynamic nbCompletedJobs;
   dynamic isFavorite;
   String? token;
+  String? selfChannelName;
+  String? selfUnreadEventListenerName;
   List<Service>? services;
   List<Package>? packages;
   List<Job>? jobs;
@@ -116,6 +118,8 @@ class User {
     this.services,
     this.packages,
     this.jobs,
+    this.selfUnreadEventListenerName,
+    this.selfChannelName,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -156,6 +160,8 @@ class User {
     nbCompletedJobs: json["nb_completed_jobs"],
     isFavorite: json["is_favorite"],
     token: json["token"],
+    selfUnreadEventListenerName: json["self_unread_event_listener_name"],
+    selfChannelName: json["self_channel_name"],
     packages: json["packages"] == null
         ? []
         : List<Package>.from(json["packages"]!.map((x) => Package.fromJson(x))),
@@ -172,6 +178,8 @@ class User {
     "entity_type": entityType,
     "hashcode": hashcode,
     "code": code,
+    "self_unread_event_listener_name": selfUnreadEventListenerName,
+    "self_channel_name": selfChannelName,
     "title": title,
     "first_name": firstName,
     "last_name": lastName,

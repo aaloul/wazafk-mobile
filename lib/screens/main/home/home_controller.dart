@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
@@ -25,6 +28,7 @@ import 'package:wazafak_app/repository/home/freelancer_home_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/pusher_manager.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
@@ -70,6 +74,14 @@ class HomeController extends GetxController {
   var successRate = ''.obs;
   var isFreelancerMode = (Prefs.getUserMode.toString() == 'freelancer').obs;
 
+  // Unread counts
+  var notificationsCount = 0.obs;
+  var chatMessagesCount = 0.obs;
+  var supportMessagesCount = 0.obs;
+  var totalUnreadCount = 0.obs;
+
+  String? selfChannelName;
+
   @override
   void onInit() {
     super.onInit();
@@ -92,6 +104,19 @@ class HomeController extends GetxController {
     } else {
       fetchEmployerHome();
     }
+
+    // Initialize Pusher for real-time updates
+    initPusher();
+  }
+
+  @override
+  void onClose() {
+    // Clean up Pusher subscription
+    if (selfChannelName != null && selfChannelName!.isNotEmpty) {
+      PusherManager.pusher.unsubscribe(channelName: selfChannelName!);
+      PusherManager.channelCallbacks.remove(selfChannelName);
+    }
+    super.onClose();
   }
 
   void loadUserModeFromPrefs() {
@@ -767,6 +792,58 @@ class HomeController extends GetxController {
       );
       print('Error toggling package favorite: $e');
       return false;
+    }
+  }
+
+  Future<void> initPusher() async {
+    try {
+      // Get the self channel name from preferences
+      selfChannelName = Prefs.getSelfChannelName;
+
+      if (selfChannelName == null || selfChannelName!.isEmpty) {
+        print('HomeController: Self channel name is empty, skipping Pusher subscription');
+        return;
+      }
+
+      print('HomeController: Subscribing to channel: $selfChannelName');
+
+      // Set up channel-specific callback for this channel
+      PusherManager.channelCallbacks[selfChannelName!] = (PusherEvent event) {
+        print('HomeController: Received event on $selfChannelName: ${event.eventName}');
+        handlePusherEvent(event);
+      };
+
+      // Subscribe to the channel
+      await PusherManager.pusher.subscribe(channelName: selfChannelName!);
+      print('HomeController: Successfully subscribed to $selfChannelName');
+    } catch (e) {
+      print('HomeController: Error initializing Pusher: $e');
+    }
+  }
+
+  void handlePusherEvent(PusherEvent event) {
+    print('HomeController: Handling event: ${event.eventName}');
+    print('HomeController: Event data: ${event.data}');
+
+    try {
+      if (event.eventName == 'MessageUnreadCountUpdated') {
+        // Parse the JSON data
+        final data = jsonDecode(event.data);
+
+        // Update individual counts
+        notificationsCount.value = data['notifications_count'] ?? 0;
+        chatMessagesCount.value = data['chat_messages_count'] ?? 0;
+        supportMessagesCount.value = data['support_messages_count'] ?? 0;
+
+        // Calculate total
+        totalUnreadCount.value =
+            chatMessagesCount.value +
+            supportMessagesCount.value;
+
+        print('HomeController: Updated unread counts - Total: ${totalUnreadCount.value}');
+      }
+    } catch (e) {
+      print('HomeController: Error parsing event data: $e');
     }
   }
 

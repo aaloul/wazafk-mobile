@@ -5,6 +5,7 @@ class Const {
   static const String IS_FIRST_LUNCH = 'IS_FIRST_LUNCH';
   static const String LANGUAGE = 'LANGUAGE';
   static const String TOKEN = 'TOKEN';
+  static const String SELF_CHANNEL_NAME = 'SELF_CHANNEL_NAME';
   static const String APP_BULID = 'APP_BULID';
   static const String OS_VERSION = 'OS_VERSION';
   static const String DEVICE_MODEL = 'DEVICE_MODEL';

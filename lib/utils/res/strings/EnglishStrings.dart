@@ -1088,10 +1088,10 @@ class EnglishStrings extends Strings {
   String get noActiveEmployers => "No active employers";
 
   @override
-  String get chatConversations => "Chat Conversations";
+  String get chatConversations => "Chat";
 
   @override
-  String get supportConversations => "Support Conversations";
+  String get supportConversations => "Support";
 
   @override
   String get support => "Support";

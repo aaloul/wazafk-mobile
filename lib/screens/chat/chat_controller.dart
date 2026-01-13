@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:wazafak_app/model/ContactsResponse.dart';
 import 'package:wazafak_app/model/CoversationsResponse.dart';
 import 'package:wazafak_app/model/SupportConversationsResponse.dart';
 import 'package:wazafak_app/repository/communication/contacts_repository.dart';
 import 'package:wazafak_app/repository/communication/coversations_repository.dart';
 import 'package:wazafak_app/repository/support/support_conversations_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/pusher_manager.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
 class ChatController extends GetxController {
@@ -77,6 +82,12 @@ class ChatController extends GetxController {
   final ScrollController conversationsScrollController = ScrollController();
   final ScrollController supportConversationsScrollController = ScrollController();
 
+  // Unread counts from Pusher
+  var chatMessagesCount = 0.obs;
+  var supportMessagesCount = 0.obs;
+
+  String? selfChannelName;
+
   @override
   void onInit() {
     super.onInit();
@@ -98,6 +109,8 @@ class ChatController extends GetxController {
     _setupSupportConversationsScrollListener();
     // Load conversations by default since Ongoing Chat is the default tab
     loadConversations(true);
+    // Initialize Pusher for real-time unread counts
+    initPusher();
   }
 
   @override
@@ -105,6 +118,11 @@ class ChatController extends GetxController {
     scrollController.dispose();
     conversationsScrollController.dispose();
     supportConversationsScrollController.dispose();
+    // Clean up Pusher subscription
+    if (selfChannelName != null && selfChannelName!.isNotEmpty) {
+      PusherManager.pusher.unsubscribe(channelName: selfChannelName!);
+      PusherManager.channelCallbacks.remove(selfChannelName);
+    }
     super.onClose();
   }
 
@@ -602,5 +620,54 @@ class ChatController extends GetxController {
         .of(Get.context!)
         .strings
         .unknown : name.trim();
+  }
+
+  Future<void> initPusher() async {
+    try {
+      // Get the self channel name from preferences
+      selfChannelName = Prefs.getSelfChannelName;
+
+      if (selfChannelName == null || selfChannelName!.isEmpty) {
+        print('ChatController: Self channel name is empty, skipping Pusher subscription');
+        return;
+      }
+
+      print('ChatController: Subscribing to channel: $selfChannelName');
+
+      // Set up channel-specific callback for this channel
+      PusherManager.channelCallbacks[selfChannelName!] = (PusherEvent event) {
+        print('ChatController: Received event on $selfChannelName: ${event.eventName}');
+        handlePusherEvent(event);
+      };
+
+      // Subscribe to the channel
+      await PusherManager.pusher.subscribe(channelName: selfChannelName!);
+      print('ChatController: Successfully subscribed to $selfChannelName');
+    } catch (e) {
+      print('ChatController: Error initializing Pusher: $e');
+    }
+  }
+
+  void handlePusherEvent(PusherEvent event) {
+    print('ChatController: Handling event: ${event.eventName}');
+    print('ChatController: Event data: ${event.data}');
+
+    try {
+      if (event.eventName == 'MessageUnreadCountUpdated') {
+        // Parse the JSON data
+        final data = jsonDecode(event.data);
+
+        // Update individual counts
+        chatMessagesCount.value = data['chat_messages_count'] ?? 0;
+        supportMessagesCount.value = data['support_messages_count'] ?? 0;
+
+        print('ChatController: Updated unread counts - Chat: ${chatMessagesCount.value}, Support: ${supportMessagesCount.value}');
+
+        // Refresh all conversations to get the latest messages
+        refreshAllConversations(showLoading: false);
+      }
+    } catch (e) {
+      print('ChatController: Error parsing event data: $e');
+    }
   }
 }

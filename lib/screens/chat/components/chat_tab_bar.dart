@@ -15,9 +15,10 @@ class ChatTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       height: 42,
-      margin: EdgeInsetsDirectional.symmetric(horizontal: 12),
+      margin: EdgeInsetsDirectional.symmetric(horizontal: 6),
       width: double.infinity,
       child: Row(
         children: [
@@ -42,7 +43,7 @@ class ChatTabBar extends StatelessWidget {
                     text: Resources.of(context).strings.ongoingChat,
                     fontWeight: FontWeight.w500,
                     textColor:
-                        selectedTab == Resources.of(context).strings.ongoingChat
+                    selectedTab == Resources.of(context).strings.ongoingChat
                         ? context.resources.color.colorWhite
                         : context.resources.color.colorGrey3,
                   ),
