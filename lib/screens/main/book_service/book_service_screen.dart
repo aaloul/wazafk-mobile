@@ -9,6 +9,7 @@ import 'package:wazafak_app/screens/main/book_service/components/select_date_cal
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
+import '../../../components/labeled_text_field.dart';
 import '../../../components/multiline_labeled_text_field.dart';
 import '../../../components/primary_network_image.dart';
 import '../../../utils/res/AppIcons.dart';
@@ -278,6 +279,27 @@ class BookServiceScreen extends StatelessWidget {
 
                       SizedBox(height: 16),
 
+                      // Show estimated hours field only when service pricing type is U
+                      Obx(
+                        () => !controller.isPackage.value &&
+                                controller.service.value?.pricingType.toString() == 'U'
+                            ? Column(
+                                children: [
+                                  LabeledTextFiled(
+                                    controller: controller.estimatedHoursController,
+                                    label: Resources.of(context).strings.estimatedHours,
+                                    hint: Resources.of(context).strings.enterEstimatedHours,
+                                    inputType: TextInputType.number,
+                                    isPassword: false,
+                                    isMandatory: true,
+                                    allowDecimals: true,
+                                  ),
+                                  SizedBox(height: 16),
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                      ),
+
                       // Show address selection only when Onsite is selected
                       Obx(
                         () =>
@@ -342,6 +364,17 @@ class BookServiceScreen extends StatelessWidget {
                             if (controller.selectedServiceType.value == null) {
                               constants.showSnackBar(
                                 Resources.of(context).strings.pleaseSelectServiceType,
+                                SnackBarStatus.ERROR,
+                              );
+                              return;
+                            }
+
+                            // Validate estimated hours for service with pricing type U
+                            if (!controller.isPackage.value &&
+                                controller.service.value?.pricingType.toString() == 'U' &&
+                                controller.estimatedHoursController.text.trim().isEmpty) {
+                              constants.showSnackBar(
+                                Resources.of(context).strings.enterEstimatedHours,
                                 SnackBarStatus.ERROR,
                               );
                               return;

@@ -1210,7 +1210,7 @@ class EnglishStrings extends Strings {
   String get profit => "(Profit)";
 
   @override
-  String get applicationCommissionFees => "10% Application Commission Fees";
+  String get applicationCommissionFees => "Application Commission Fees";
 
   @override
   String get howLongWillItTake => "How long Will It Take?";

@@ -21,9 +21,12 @@ class MyJobsController extends GetxController {
   void onInit() {
     super.onInit();
     isLoading.value = true;
+
   }
 
   Future<void> fetchJobs() async {
+    isLoading.value = true;
+
     try {
       Map<String, String>? filters = {};
       filters['member'] = Prefs.getId;

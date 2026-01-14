@@ -280,8 +280,8 @@ class ApplyJobScreen extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               PrimaryText(
-                                                text: context.resources.strings
-                                                    .applicationCommissionFees,
+                                                text: "${controller.job.value?.commissionFees}% ${context.resources.strings
+                                                    .applicationCommissionFees}" ,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w900,
                                                 textColor: context

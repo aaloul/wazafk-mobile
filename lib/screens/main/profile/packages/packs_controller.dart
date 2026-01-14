@@ -20,9 +20,12 @@ class PacksController extends GetxController {
   void onInit() {
     super.onInit();
     isLoading.value = true;
+
   }
 
   Future<void> fetchPackages() async {
+    isLoading.value = true;
+
     try {
       Map<String, String>? filters = {};
       filters['member'] = Prefs.getId;

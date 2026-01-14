@@ -1210,7 +1210,7 @@ class ArabicStrings extends Strings {
   String get profit => "(الربح)";
 
   @override
-  String get applicationCommissionFees => "رسوم عمولة التطبيق 10%";
+  String get applicationCommissionFees => "رسوم عمولة التطبيق ";
 
   @override
   String get howLongWillItTake => "كم من الوقت سيستغرق؟";

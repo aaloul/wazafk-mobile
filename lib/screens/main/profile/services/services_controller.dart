@@ -18,11 +18,14 @@ class ServicesController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
     isLoading.value = true;
+
+    super.onInit();
   }
 
   Future<void> fetchServices() async {
+    isLoading.value = true;
+
     try {
 
       Map<String, String>? filters = {};

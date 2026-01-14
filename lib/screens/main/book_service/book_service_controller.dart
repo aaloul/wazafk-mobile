@@ -39,6 +39,7 @@ class BookServiceController extends GetxController {
   var isLoadingAddresses = false.obs;
   var isLoading = false.obs;
   final notesController = TextEditingController();
+  final estimatedHoursController = TextEditingController();
 
   @override
   void onInit() {
@@ -181,9 +182,19 @@ class BookServiceController extends GetxController {
       // Format start date
       final startDateStr = DateFormat('yyyy-MM-dd').format(rangeStart.value!);
 
-      final price = isPackage.value
-          ? package.value!.totalPrice.toString()
-          : service.value!.unitPrice.toString();
+      var price =  "0.0";
+      if(isPackage.value){
+        price = package.value!.totalPrice.toString();
+      }else{
+
+        if(service.value?.pricingType.toString() == 'U'){
+          price = service.value!.unitPrice.toString();
+        }else{
+          price = service.value!.totalPrice.toString();
+        }
+
+      }
+
 
       // Format end date if available
       String? endDateStr;
@@ -210,6 +221,8 @@ class BookServiceController extends GetxController {
         'start_datetime': startDateStr,
         if(!isPackage.value && service.value?.pricingType.toString() == 'U')
         'unit_price': price,
+        if(!isPackage.value && service.value?.pricingType.toString() == 'U')
+        'estimated_hours': estimatedHoursController.text,
         if(isPackage.value || (!isPackage.value && service.value?.pricingType.toString() != 'U'))
         'total_price': price,
         'work_location_type': workLocationType,
@@ -418,6 +431,7 @@ class BookServiceController extends GetxController {
   @override
   void onClose() {
     notesController.dispose();
+    estimatedHoursController.dispose();
     disposeCamera();
     super.onClose();
   }
