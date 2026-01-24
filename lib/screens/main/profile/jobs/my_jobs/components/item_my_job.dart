@@ -41,7 +41,11 @@ class _ItemMyJobState extends State<ItemMyJob> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(RouteConstant.jobDetailsScreen, arguments: widget.job);
+      },
+      child: Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -117,6 +121,7 @@ class _ItemMyJobState extends State<ItemMyJob> {
           ),
         ],
       ),
+    ),
     );
   }
 }

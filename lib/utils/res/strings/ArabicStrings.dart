@@ -277,7 +277,7 @@ class ArabicStrings extends Strings {
   String get negotiate => "تفاوض";
 
   @override
-  String get finishEngagement => "إنهاء المشاركة";
+  String get finishTask => "إنهاء المهمة";
 
   @override
   String get submitDispute => "تقديم نزاع";
@@ -353,7 +353,7 @@ class ArabicStrings extends Strings {
 
   // Navigation & Screen Titles
   @override
-  String get engagement => "المشاركة";
+  String get task => "المهمة";
 
   @override
   String get chat => "المحادثة";
@@ -371,7 +371,7 @@ class ArabicStrings extends Strings {
   String get allJobs => "جميع الوظائف";
 
   @override
-  String get allEngagements => "جميع المشاركات";
+  String get allTasks => "جميع المهام";
 
   @override
   String get services => "الخدمات";
@@ -532,6 +532,63 @@ class ArabicStrings extends Strings {
 
   @override
   String get servicePosted => "تم نشر الخدمة بنجاح";
+
+  @override
+  String get serviceDisabled => "تم تعطيل الخدمة";
+
+  @override
+  String get packageDisabled => "تم تعطيل الباقة";
+
+  @override
+  String get jobDisabled => "تم تعطيل الوظيفة";
+
+  @override
+  String get serviceNowLiveDescription => "خدمتك الآن نشطة! ترقب الفرص.";
+
+  @override
+  String get serviceDisabledDescription => "تم تعطيل خدمتك. يمكنك تفعيلها لاحقاً.";
+
+  @override
+  String get packageNowLiveDescription => "باقتك الآن نشطة! ترقب الفرص.";
+
+  @override
+  String get packageDisabledDescription => "تم تعطيل باقتك. يمكنك تفعيلها لاحقاً.";
+
+  @override
+  String get jobNowLiveDescription => "وظيفتك الآن نشطة! ترقب الفرص.";
+
+  @override
+  String get jobDisabledDescription => "تم تعطيل وظيفتك. يمكنك تفعيلها لاحقاً.";
+
+  @override
+  String get failedToLoadServices => "فشل تحميل الخدمات";
+
+  @override
+  String errorLoadingServices(String error) => "خطأ في تحميل الخدمات: $error";
+
+  @override
+  String get failedToUpdateServiceStatus => "فشل تحديث حالة الخدمة";
+
+  @override
+  String errorUpdatingServiceStatus(String error) => "خطأ في تحديث حالة الخدمة: $error";
+
+  @override
+  String get failedToLoadPackages => "فشل تحميل الباقات";
+
+  @override
+  String errorLoadingPackages(String error) => "خطأ في تحميل الباقات: $error";
+
+  @override
+  String get failedToUpdatePackageStatus => "فشل تحديث حالة الباقة";
+
+  @override
+  String errorUpdatingPackageStatus(String error) => "خطأ في تحديث حالة الباقة: $error";
+
+  @override
+  String get failedToUpdateJobStatus => "فشل تحديث حالة الوظيفة";
+
+  @override
+  String errorUpdatingJobStatus(String error) => "خطأ في تحديث حالة الوظيفة: $error";
 
   @override
   String get viewProfile => "عرض الملف الشخصي";
@@ -701,10 +758,10 @@ class ArabicStrings extends Strings {
       "لا توجد تفاصيل طلب تغيير متاحة";
 
   @override
-  String get noEngagementDetailsAvailable => "لا توجد تفاصيل مشاركة متاحة";
+  String get noTaskDetailsAvailable => "لا توجد تفاصيل مهمة متاحة";
 
   @override
-  String get noEngagementsAvailable => "لا توجد مشاركات متاحة";
+  String get noTasksAvailable => "لا توجد مهام متاحة";
 
   @override
   String get noApplicantsYet => "لا يوجد متقدمون بعد";
@@ -879,7 +936,7 @@ class ArabicStrings extends Strings {
   @override
   String memberSince(String year) => "عضو منذ $year";
 
-  // Additional Engagement Strings
+  // Additional Task Strings
   @override
   String get negotiateTerms => "شروط التفاوض";
 
@@ -902,7 +959,7 @@ class ArabicStrings extends Strings {
   String get yourChangeRequestPendingApproval => "طلب التغيير الخاص بك قيد الموافقة";
 
   @override
-  String get yourEngagementRequestPendingApproval => "طلب المشاركة الخاص بك قيد الموافقة";
+  String get yourTaskRequestPendingApproval => "طلبك  قيد الموافقة";
 
   @override
   String get start => "البدء";
@@ -944,7 +1001,7 @@ class ArabicStrings extends Strings {
   String get newDueDate => "تاريخ الاستحقاق الجديد";
 
   @override
-  String get engagementDetails => "تفاصيل المشاركة";
+  String get taskDetails => "تفاصيل المهمة";
 
   @override
   String get uploadDeliverables => "رفع المخرجات";
@@ -1198,6 +1255,9 @@ class ArabicStrings extends Strings {
   String get noServicesSelected => "لم يتم تحديد خدمات";
 
   @override
+  String get noSkillsSelected => "لم يتم تحديد مهارات";
+
+  @override
   String get imageSelected => "تم تحديد الصورة";
 
   @override
@@ -1237,9 +1297,9 @@ class ArabicStrings extends Strings {
   String get briefDescriptionSuitableCandidate =>
       "وصف موجز لماذا أنت مرشح مناسب لهذه الوظيفة";
 
-  // Engagement Details
+  // Task Details
   @override
-  String get viewEngagement => "عرض المشاركة";
+  String get viewTask => "عرض المهمة";
 
   @override
   String get viewApplications => "عرض الطلبات";
@@ -1306,7 +1366,7 @@ class ArabicStrings extends Strings {
   String get submitRating => "إرسال التقييم";
 
   @override
-  String get rateEngagement => "تقييم المشاركة";
+  String get rateTask => "تقييم المهمة";
 
   @override
   String get rateFreelancer => "تقييم المستقل";
@@ -1327,7 +1387,7 @@ class ArabicStrings extends Strings {
   String get addComment => "أضف تعليقًا (اختياري)";
 
   @override
-  String get wouldYouLikeToRateThisEngagement => "هل تريد تقييم هذه المشاركة؟";
+  String get wouldYouLikeToRateThisTask => "هل تريد تقييم هذه المهمة؟";
 
   @override
   String get rateNow => "قيّم الآن";
@@ -1586,6 +1646,9 @@ class ArabicStrings extends Strings {
   String get totalEarnings => "إجمالي الأرباح";
 
   @override
+  String get earnings => "الأرباح";
+
+  @override
   String get activeJobs => "الوظائف النشطة";
 
   @override
@@ -1672,7 +1735,7 @@ class ArabicStrings extends Strings {
   String get retakePhoto => "إعادة التقاط الصورة";
 
   @override
-  String get pleaseUseCameraToVerifyEngagement => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في إنهاء هذه المشاركة";
+  String get pleaseUseCameraToVerifyTask => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في إنهاء هذه المهمة";
 
   @override
   String get pleaseUseCameraToVerifyJob => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في التقديم على هذه الوظيفة";
@@ -1771,7 +1834,7 @@ class ArabicStrings extends Strings {
   String errorLoadingAddresses(String error) => "خطأ في تحميل العناوين: $error";
 
   @override
-  String errorLoadingEngagements(String error) => "خطأ في تحميل المشاركات: $error";
+  String errorLoadingTasks(String error) => "خطأ في تحميل المهام: $error";
 
   @override
   String errorLoadingEmployerHomeData(String error) => "خطأ في تحميل بيانات صفحة صاحب العمل الرئيسية: $error";
@@ -1793,7 +1856,7 @@ class ArabicStrings extends Strings {
   String get jobInformationNotAvailable => "معلومات الوظيفة غير متاحة";
 
   @override
-  String get engagementInformationNotAvailable => "معلومات المشاركة غير متاحة";
+  String get taskInformationNotAvailable => "معلومات المهمة غير متاحة";
 
   // Face Verification Messages
   @override
@@ -1830,30 +1893,30 @@ class ArabicStrings extends Strings {
   String errorUploadingDocuments(String error) =>
       "خطأ في تحميل المستندات: $error";
 
-  // Engagement Messages
+  // Task Messages
   @override
-  String get failedToLoadEngagementDetails => "فشل تحميل تفاصيل المشاركة";
+  String get failedToLoadTaskDetails => "فشل تحميل تفاصيل المهمة";
 
   @override
-  String get errorLoadingEngagementDetails => "خطأ في تحميل تفاصيل المشاركة";
+  String get errorLoadingTaskDetails => "خطأ في تحميل تفاصيل المهمة";
 
   @override
-  String get engagementAcceptedSuccessfully => "تم قبول المشاركة بنجاح";
+  String get taskAcceptedSuccessfully => "تم قبول المهمة بنجاح";
 
   @override
-  String get failedToAcceptEngagement => "فشل قبول المشاركة";
+  String get failedToAcceptTask => "فشل قبول المهمة";
 
   @override
-  String get errorAcceptingEngagement => "خطأ في قبول المشاركة";
+  String get errorAcceptingTask => "خطأ في قبول المهمة";
 
   @override
-  String get engagementRejectedSuccessfully => "تم رفض المشاركة بنجاح";
+  String get taskRejectedSuccessfully => "تم رفض المهمة بنجاح";
 
   @override
-  String get failedToRejectEngagement => "فشل رفض المشاركة";
+  String get failedToRejectTask => "فشل رفض المهمة";
 
   @override
-  String get errorRejectingEngagement => "خطأ في رفض المشاركة";
+  String get errorRejectingTask => "خطأ في رفض المهمة";
 
   @override
   String get noDatesSelected => "لم يتم تحديد تواريخ";
@@ -1904,36 +1967,36 @@ class ArabicStrings extends Strings {
   String get pleaseUploadDeliverablesFile => "يرجى تحميل ملف التسليمات";
 
   @override
-  String get engagementFinishedSuccessfully => "تم إنهاء المشاركة بنجاح";
+  String get taskFinishedSuccessfully => "تم إنهاء المهمة بنجاح";
 
   @override
-  String get failedToFinishEngagement => "فشل إنهاء المشاركة";
+  String get failedToFinishTask => "فشل إنهاء المهمة";
 
   @override
-  String errorFinishingEngagement(String error) =>
-      "خطأ في إنهاء المشاركة: $error";
+  String errorFinishingTask(String error) =>
+      "خطأ في إنهاء المهمة: $error";
 
   @override
-  String get finishEngagementAcceptedSuccessfully =>
-      "تم قبول إنهاء المشاركة بنجاح";
+  String get finishTaskAcceptedSuccessfully =>
+      "تم قبول إنهاء المهمة بنجاح";
 
   @override
-  String get failedToAcceptFinishEngagement => "فشل قبول إنهاء المشاركة";
+  String get failedToAcceptFinishTask => "فشل قبول إنهاء المهمة";
 
   @override
-  String errorAcceptingFinishEngagement(String error) =>
-      "خطأ في قبول إنهاء المشاركة: $error";
+  String errorAcceptingFinishTask(String error) =>
+      "خطأ في قبول إنهاء المهمة: $error";
 
   @override
-  String get finishEngagementRejectedSuccessfully =>
-      "تم رفض إنهاء المشاركة بنجاح";
+  String get finishTaskRejectedSuccessfully =>
+      "تم رفض إنهاء المهمة بنجاح";
 
   @override
-  String get failedToRejectFinishEngagement => "فشل رفض إنهاء المشاركة";
+  String get failedToRejectFinishTask => "فشل رفض إنهاء المهمة";
 
   @override
-  String errorRejectingFinishEngagement(String error) =>
-      "خطأ في رفض إنهاء المشاركة: $error";
+  String errorRejectingFinishTask(String error) =>
+      "خطأ في رفض إنهاء المهمة: $error";
 
   // Booking Messages
   @override
@@ -1966,7 +2029,7 @@ class ArabicStrings extends Strings {
   String get failedToLoadProfile => "فشل تحميل الملف الشخصي";
 
   @override
-  String get failedToLoadEngagements => "فشل تحميل المشاركات";
+  String get failedToLoadTasks => "فشل تحميل المهام";
 
   @override
   String get failedToLoadEmployerHomeData => "فشل تحميل بيانات صاحب العمل";
@@ -2049,5 +2112,12 @@ class ArabicStrings extends Strings {
 
   @override
   String get viewMyPackages => "عرض باقاتي";
+
+  // Conversation
+  @override
+  String get openConversation => "فتح المحادثة";
+
+  @override
+  String get wouldYouLikeToContactFreelancer => "هل تريد التواصل مع المستقل؟";
 
 }

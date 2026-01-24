@@ -8,8 +8,9 @@ import '../../../../../../components/sheets/sheets_helper.dart';
 import '../add_service_controller.dart' show AddServiceController;
 
 class SkillsChooseWidget extends StatelessWidget {
-  SkillsChooseWidget({super.key});
+  SkillsChooseWidget({super.key, this.enabled = true});
 
+  final bool enabled;
   final controller = Get.put(AddServiceController());
 
   @override
@@ -36,6 +37,14 @@ class SkillsChooseWidget extends StatelessWidget {
 
         Obx(() {
           if (controller.selectedSkills.isEmpty) {
+            if (!enabled) {
+              return PrimaryText(
+                text: context.resources.strings.noSkillsSelected,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                textColor: context.resources.color.colorGrey,
+              );
+            }
             return GestureDetector(
               onTap: () {
                 SheetHelper.showSkillsSheet(
@@ -101,65 +110,68 @@ class SkillsChooseWidget extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         textColor: context.resources.color.colorWhite,
                       ),
-                      SizedBox(width: 6),
-                      GestureDetector(
-                        onTap: () {
-                          controller.toggleSkillSelection(skill);
-                        },
-                        child: Icon(
-                          Icons.close,
-                          size: 14,
-                          color: context.resources.color.colorWhite,
+                      if (enabled) ...[
+                        SizedBox(width: 6),
+                        GestureDetector(
+                          onTap: () {
+                            controller.toggleSkillSelection(skill);
+                          },
+                          child: Icon(
+                            Icons.close,
+                            size: 14,
+                            color: context.resources.color.colorWhite,
+                          ),
                         ),
-                      ),
+                      ],
                     ],
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  SheetHelper.showSkillsSheet(
-                    context,
-                    selectedSkills: controller.selectedSkills,
-                    onSkillsSelected: (skills) {
-                      controller.selectedSkills.value = skills;
-                    },
-                    availableSkills: controller.availableSkills,
-                    isLoadingSkills: controller.isLoadingSkills.value,
-                  );
-                },
-                child: DottedBorder(
-                  options: RoundedRectDottedBorderOptions(
-                    radius: Radius.circular(16),
-                    color: context.resources.color.colorGrey2,
-                    strokeWidth: 1,
-                    dashPattern: [3, 3],
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: context.resources.color.colorWhite,
-                      borderRadius: BorderRadius.circular(16),
+              if (enabled)
+                GestureDetector(
+                  onTap: () {
+                    SheetHelper.showSkillsSheet(
+                      context,
+                      selectedSkills: controller.selectedSkills,
+                      onSkillsSelected: (skills) {
+                        controller.selectedSkills.value = skills;
+                      },
+                      availableSkills: controller.availableSkills,
+                      isLoadingSkills: controller.isLoadingSkills.value,
+                    );
+                  },
+                  child: DottedBorder(
+                    options: RoundedRectDottedBorderOptions(
+                      radius: Radius.circular(16),
+                      color: context.resources.color.colorGrey2,
+                      strokeWidth: 1,
+                      dashPattern: [3, 3],
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.add,
-                          size: 14,
-                          color: context.resources.color.colorGrey,
-                        ),
-                        PrimaryText(
-                          text: context.resources.strings.add,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          textColor: context.resources.color.colorGrey,
-                        ),
-                      ],
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: context.resources.color.colorWhite,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            size: 14,
+                            color: context.resources.color.colorGrey,
+                          ),
+                          PrimaryText(
+                            text: context.resources.strings.add,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            textColor: context.resources.color.colorGrey,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
             ],
           );
         }),

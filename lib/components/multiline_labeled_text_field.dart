@@ -92,7 +92,7 @@ class MultilineLabeledTextField extends StatelessWidget {
             ),
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
-              enabled: true,
+              enabled: enabled ?? true,
               textCapitalization: inputType == TextInputType.text
                   ? TextCapitalization.sentences
                   : TextCapitalization.none,

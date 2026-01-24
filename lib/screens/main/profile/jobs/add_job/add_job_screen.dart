@@ -57,11 +57,12 @@ class AddJobScreen extends StatelessWidget {
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
+                      enabled: !controller.isEditMode,
                     ),
 
                     SizedBox(height: 8),
 
-                    JobAddressChooseWidget(),
+                    JobAddressChooseWidget(enabled: !controller.isEditMode),
 
                     SizedBox(height: 8),
 
@@ -83,6 +84,7 @@ class AddJobScreen extends StatelessWidget {
                           withArrow: true,
                           list: homeController.jobCategories,
                           selected: controller.selectedCategory.value,
+                          enabled: !controller.isEditMode,
                           onSelect: (category) {
                             if (category != null) {
                               controller.selectCategory(category);
@@ -112,6 +114,7 @@ class AddJobScreen extends StatelessWidget {
                                   list: controller.subcategories,
                                   selected:
                                       controller.selectedSubcategory.value,
+                                  enabled: !controller.isEditMode,
                                   onSelect: (subcategory) {
                                     if (subcategory != null) {
                                       controller.selectSubcategory(subcategory);
@@ -126,7 +129,7 @@ class AddJobScreen extends StatelessWidget {
 
                     SizedBox(height: 12),
 
-                    JobTypeRadioWidget(),
+                    JobTypeRadioWidget(enabled: !controller.isEditMode),
 
                     SizedBox(height: 16),
 
@@ -664,7 +667,7 @@ class AddJobScreen extends StatelessWidget {
 
                     SizedBox(height: 16),
 
-                    JobSkillsChooseWidget(),
+                    JobSkillsChooseWidget(enabled: !controller.isEditMode),
 
                     SizedBox(height: 16),
 
@@ -685,6 +688,7 @@ class AddJobScreen extends StatelessWidget {
                       inputType: TextInputType.text,
                       isPassword: false,
                       isMandatory: true,
+                      enabled: !controller.isEditMode,
                     ),
 
                     SizedBox(height: 8),
@@ -699,6 +703,7 @@ class AddJobScreen extends StatelessWidget {
                       inputType: TextInputType.text,
                       isPassword: false,
                       isMandatory: true,
+                      enabled: !controller.isEditMode,
                     ),
 
                     SizedBox(height: 8),
@@ -713,6 +718,7 @@ class AddJobScreen extends StatelessWidget {
                       inputType: TextInputType.text,
                       isPassword: false,
                       isMandatory: true,
+                      enabled: !controller.isEditMode,
                     ),
 
                     SizedBox(height: 24),

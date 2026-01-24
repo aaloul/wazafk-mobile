@@ -50,16 +50,17 @@ class AddPackageScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
 
-                    LabeledTextFiled(
+                    Obx(() => LabeledTextFiled(
                       controller: controller.titleController,
                       hint: context.resources.strings.title,
                       label: context.resources.strings.title,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
-                    ),
+                      enabled: !controller.isEditMode.value,
+                    )),
 
-                    MultilineLabeledTextField(
+                    Obx(() => MultilineLabeledTextField(
                       controller: controller.descController,
                       label: context.resources.strings.description,
                       hint: context.resources.strings.enterPackageDescription,
@@ -69,7 +70,8 @@ class AddPackageScreen extends StatelessWidget {
                       inputType: TextInputType.text,
                       isPassword: false,
                       isMandatory: true,
-                    ),
+                      enabled: !controller.isEditMode.value,
+                    )),
 
                     SizedBox(height: 16),
 
@@ -81,71 +83,74 @@ class AddPackageScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
 
-                    GestureDetector(
-                      onTap: () {
-                        ServicesSelectionBottomSheet.show(context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: context.resources.color.colorWhite,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: context.resources.color.colorGrey8,
+                    Obx(() => IgnorePointer(
+                      ignoring: controller.isEditMode.value,
+                      child: GestureDetector(
+                        onTap: () {
+                          ServicesSelectionBottomSheet.show(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: context.resources.color.colorWhite,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: context.resources.color.colorGrey8,
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.list_alt,
+                                    size: 20,
+                                    color: context.resources.color.colorGrey,
+                                  ),
+                                  SizedBox(width: 12),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      PrimaryText(
+                                        text: context
+                                            .resources
+                                            .strings
+                                            .selectServices,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                        textColor:
+                                            context.resources.color.colorPrimary,
+                                      ),
+                                      SizedBox(height: 4),
+                                      Obx(() {
+                                        final selectedCount =
+                                            controller.selectedServices.length;
+                                        return PrimaryText(
+                                          text: selectedCount > 0
+                                              ? context.resources.strings.servicesSelected(selectedCount)
+                                              : context.resources.strings.noServicesSelected,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          textColor:
+                                              context.resources.color.colorGrey,
+                                        );
+                                      }),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              if (!controller.isEditMode.value)
                                 Icon(
-                                  Icons.list_alt,
-                                  size: 20,
+                                  Icons.arrow_forward_ios,
+                                  size: 16,
                                   color: context.resources.color.colorGrey,
                                 ),
-                                SizedBox(width: 12),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    PrimaryText(
-                                      text: context
-                                          .resources
-                                          .strings
-                                          .selectServices,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      textColor:
-                                          context.resources.color.colorPrimary,
-                                    ),
-                                    SizedBox(height: 4),
-                                    Obx(() {
-                                      final selectedCount =
-                                          controller.selectedServices.length;
-                                      return PrimaryText(
-                                        text: selectedCount > 0
-                                            ? context.resources.strings.servicesSelected(selectedCount)
-                                            : context.resources.strings.noServicesSelected,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        textColor:
-                                            context.resources.color.colorGrey,
-                                      );
-                                    }),
-                                  ],
-                                ),
-                              ],
-                            ),
-                      Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: context.resources.color.colorGrey,
-
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                    )),
 
                     SizedBox(height: 16),
 
@@ -268,7 +273,7 @@ class AddPackageScreen extends StatelessWidget {
                       final hasUrlImage =
                           controller.packageImageUrl.value != null;
 
-                      if (hasUrlImage || hasLocalImage) {
+                      if (hasUrlImage || hasLocalImage || controller.isEditMode.value) {
                         return Container();
                       }
 
@@ -317,27 +322,28 @@ class AddPackageScreen extends StatelessWidget {
                                       url: controller.packageImageUrl.value!,
                                     ),
                             ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: GestureDetector(
-                                onTap: () {
-                                  controller.removePackageImage();
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: context.resources.color.colorWhite,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 20,
-                                    color: context.resources.color.colorPrimary,
+                            if (!controller.isEditMode.value)
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    controller.removePackageImage();
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: context.resources.color.colorWhite,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 20,
+                                      color: context.resources.color.colorPrimary,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       );

@@ -6,7 +6,9 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import '../add_job_controller.dart';
 
 class JobTypeRadioWidget extends StatelessWidget {
-  const JobTypeRadioWidget({super.key});
+  const JobTypeRadioWidget({super.key, this.enabled = true});
+
+  final bool enabled;
 
   String _getWorkLocationTypeLabel(BuildContext context, String type) {
     switch (type) {
@@ -57,11 +59,13 @@ class JobTypeRadioWidget extends StatelessWidget {
   ) {
     final isSelected = controller.selectedJobType.value == jobType;
 
-    return GestureDetector(
-      onTap: () {
-        controller.selectJobType(jobType);
-      },
-      child: Container(
+    return IgnorePointer(
+      ignoring: !enabled,
+      child: GestureDetector(
+        onTap: () {
+          controller.selectJobType(jobType);
+        },
+        child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
@@ -113,6 +117,7 @@ class JobTypeRadioWidget extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

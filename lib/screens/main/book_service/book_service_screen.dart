@@ -61,6 +61,7 @@ class BookServiceScreen extends StatelessWidget {
                           final title = controller.isPackage.value
                               ? controller.package.value!.title
                               : controller.service.value!.title;
+
                           final unitPrice = controller.isPackage.value
                               ? controller.package.value!.totalPrice
                               :

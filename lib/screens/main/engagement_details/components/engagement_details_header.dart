@@ -37,7 +37,7 @@ class EngagementDetailsHeader extends StatelessWidget {
           SizedBox(width: 16),
           Expanded(
             child: PrimaryText(
-              text: context.resources.strings.engagementDetails,
+              text: context.resources.strings.taskDetails,
               fontSize: 18,
               fontWeight: FontWeight.w700,
               textColor: context.resources.color.colorGrey,

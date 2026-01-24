@@ -34,8 +34,7 @@ class ServicesScreen extends StatelessWidget {
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
-                  if (controller.isLoading.value &&
-                      controller.services.isEmpty) {
+                  if (controller.isLoading.value) {
                     return ListView.separated(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       itemCount: 5,

@@ -181,7 +181,7 @@ class ProjectItem extends StatelessWidget {
                     SizedBox(height: 4),
 
                     PrimaryText(
-                      text: context.resources.strings.remaining,
+                      text: context.resources.strings.earnings,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       textColor: context.resources.color.colorGrey7,

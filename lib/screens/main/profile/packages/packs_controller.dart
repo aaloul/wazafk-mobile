@@ -7,6 +7,7 @@ import 'package:wazafak_app/utils/utils.dart';
 import '../../../../components/sheets/success_sheet.dart';
 import '../../../../utils/Prefs.dart';
 import '../../../../utils/res/AppIcons.dart';
+import '../../../../utils/res/Resources.dart';
 
 class PacksController extends GetxController {
   final _repository = PackagesListRepository();
@@ -40,13 +41,13 @@ class PacksController extends GetxController {
         }
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load packages',
+          response.message ?? Resources.of(Get.context!).strings.failedToLoadPackages,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading packages: $e',
+        Resources.of(Get.context!).strings.errorLoadingPackages(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading packages: $e');
@@ -75,26 +76,27 @@ class PacksController extends GetxController {
         package.checked.value = newStatus == 1;
         packages.refresh();
 
+        final strings = Resources.of(Get.context!).strings;
         SuccessSheet.show(
           Get.context!,
-          title: package.checked.value ? 'Package Posted' : 'Package Disabled',
+          title: package.checked.value ? strings.packagePosted : strings.packageDisabled,
           image: package.checked.value
               ? AppIcons.servicePosted
               : AppIcons.serviceRemoved,
           description: package.checked.value
-              ? 'Your Package is now live! Keep an eye out for opportunities.'
-              : 'Your Package will be disable, you can activate it later .',
-          buttonText: 'View Profile',
+              ? strings.packageNowLiveDescription
+              : strings.packageDisabledDescription,
+          buttonText: strings.viewMyPackages,
         );
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to update package status',
+          response.message ?? Resources.of(Get.context!).strings.failedToUpdatePackageStatus,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating package status: $e',
+        Resources.of(Get.context!).strings.errorUpdatingPackageStatus(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error updating package status: $e');

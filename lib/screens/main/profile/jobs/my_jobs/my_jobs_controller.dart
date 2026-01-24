@@ -75,26 +75,27 @@ class MyJobsController extends GetxController {
         job.checked.value = newStatus == 1;
         jobs.refresh();
 
+        final strings = Resources.of(Get.context!).strings;
         SuccessSheet.show(
           Get.context!,
-          title: job.checked.value ? 'Job Posted' : 'Job Disabled',
+          title: job.checked.value ? strings.jobPosted : strings.jobDisabled,
           image: job.checked.value
               ? AppIcons.servicePosted
               : AppIcons.serviceRemoved,
           description: job.checked.value
-              ? 'Your Job is now live! Keep an eye out for opportunities.'
-              : 'Your Job will be disable, you can activate it later .',
-          buttonText: 'View Profile',
+              ? strings.jobNowLiveDescription
+              : strings.jobDisabledDescription,
+          buttonText: strings.viewMyJobs,
         );
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to update job status',
+          response.message ?? Resources.of(Get.context!).strings.failedToUpdateJobStatus,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating job status: $e',
+        Resources.of(Get.context!).strings.errorUpdatingJobStatus(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {

@@ -109,7 +109,7 @@ class _VerifyFaceMatchBottomSheetState
                   SizedBox(height: 8),
                   PrimaryText(
                     text:
-                        context.resources.strings.pleaseUseCameraToVerifyEngagement,
+                        context.resources.strings.pleaseUseCameraToVerifyTask,
                     fontSize: 14,
                     textColor: context.resources.color.colorGrey7,
                     textAlign: TextAlign.center,

@@ -7,6 +7,7 @@ import 'package:wazafak_app/utils/utils.dart';
 import '../../../../components/sheets/success_sheet.dart';
 import '../../../../utils/Prefs.dart';
 import '../../../../utils/res/AppIcons.dart';
+import '../../../../utils/res/Resources.dart';
 
 class ServicesController extends GetxController {
   final _repository = ServicesListRepository();
@@ -41,13 +42,13 @@ class ServicesController extends GetxController {
         }
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to load services',
+          response.message ?? Resources.of(Get.context!).strings.failedToLoadServices,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error loading services: $e',
+        Resources.of(Get.context!).strings.errorLoadingServices(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading services: $e');
@@ -76,26 +77,27 @@ class ServicesController extends GetxController {
         service.checked.value = newStatus == 1;
         services.refresh();
 
+        final strings = Resources.of(Get.context!).strings;
         SuccessSheet.show(
           Get.context!,
-          title: service.checked.value ? 'Service Posted' : 'Service Disabled',
+          title: service.checked.value ? strings.servicePosted : strings.serviceDisabled,
           image: service.checked.value
               ? AppIcons.servicePosted
               : AppIcons.serviceRemoved,
           description: service.checked.value
-              ? 'Your service is now live! Keep an eye out for opportunities.'
-              : 'Your service will be disable, you can activate it later .',
-          buttonText: 'View Profile',
+              ? strings.serviceNowLiveDescription
+              : strings.serviceDisabledDescription,
+          buttonText: strings.viewMyServices,
         );
       } else {
         constants.showSnackBar(
-          response.message ?? 'Failed to update service status',
+          response.message ?? Resources.of(Get.context!).strings.failedToUpdateServiceStatus,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        'Error updating service status: $e',
+        Resources.of(Get.context!).strings.errorUpdatingServiceStatus(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error updating service status: $e');

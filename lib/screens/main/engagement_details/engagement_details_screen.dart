@@ -121,7 +121,7 @@ class EngagementDetailsScreen extends StatelessWidget {
             TopHeader(hasBack: true, title: Resources
                 .of(context)
                 .strings
-                .engagement),
+                .task),
             SizedBox(height: 16),
 
             Obx(() {
@@ -141,7 +141,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                   child: Center(
                     child: PrimaryText(
                       text: context.resources.strings
-                          .noEngagementDetailsAvailable,
+                          .noTaskDetailsAvailable,
                       fontSize: 14,
                       textColor: context.resources.color.colorGrey,
                     ),
@@ -1352,7 +1352,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   SizedBox(height: 4),
                                   PrimaryText(
                                     text:
-                                        context.resources.strings.yourEngagementRequestPendingApproval,
+                                        context.resources.strings.yourTaskRequestPendingApproval,
                                     fontSize: 14,
                                     textColor:
                                         context.resources.color.colorGrey7,
@@ -1395,7 +1395,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                           title: Resources
                               .of(context)
                               .strings
-                              .finishEngagement,
+                              .finishTask,
                           onPressed: () {
                             // Set action for after face verification
                             controller.faceVerificationAction =
@@ -1585,7 +1585,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   child: PrimaryButton(
-                    title: Resources.of(context).strings.rateEngagement,
+                    title: Resources.of(context).strings.rateTask,
                     onPressed: () {
                       Get.toNamed(
                         RouteConstant.rateEngagementScreen,

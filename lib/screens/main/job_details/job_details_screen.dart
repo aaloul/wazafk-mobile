@@ -310,7 +310,7 @@ class JobDetailsScreen extends StatelessWidget {
                               if (job.hasEngagement == 1)
                                 PrimaryButton(
                                   title:
-                                      context.resources.strings.viewEngagement,
+                                      context.resources.strings.viewTask,
                                   onPressed: () {
                                     Get.toNamed(
                                       RouteConstant.engagementDetailsScreen,

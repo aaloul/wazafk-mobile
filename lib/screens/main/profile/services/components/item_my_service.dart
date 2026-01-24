@@ -45,7 +45,11 @@ class _ItemMyServiceState extends State<ItemMyService> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(RouteConstant.serviceDetailsScreen, arguments: widget.service);
+      },
+      child: Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -136,6 +140,7 @@ class _ItemMyServiceState extends State<ItemMyService> {
           ),
         ],
       ),
+    ),
     );
   }
 }

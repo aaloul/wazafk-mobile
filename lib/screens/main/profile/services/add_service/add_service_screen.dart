@@ -55,16 +55,17 @@ class AddServiceScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
 
-                    LabeledTextFiled(
+                    Obx(() => LabeledTextFiled(
                       controller: controller.titleController,
                       hint: context.resources.strings.title,
                       label: context.resources.strings.title,
                       isMandatory: true,
                       isPassword: false,
                       inputType: TextInputType.text,
-                    ),
+                      enabled: !controller.isEditMode.value,
+                    )),
 
-                    MultilineLabeledTextField(
+                    Obx(() => MultilineLabeledTextField(
                       controller: controller.descController,
                       label: context.resources.strings.description,
                       hint: context.resources.strings.enterYourDescription,
@@ -74,7 +75,8 @@ class AddServiceScreen extends StatelessWidget {
                       inputType: TextInputType.text,
                       isPassword: false,
                       isMandatory: true,
-                    ),
+                      enabled: !controller.isEditMode.value,
+                    )),
 
                     SizedBox(height: 12),
 
@@ -106,6 +108,7 @@ class AddServiceScreen extends StatelessWidget {
                         withArrow: true,
                         list: homeController.categories,
                         selected: exists ? selected : null,
+                        enabled: !controller.isEditMode.value,
                         onSelect: (category) {
                           controller.selectCategory(category);
                         },
@@ -144,6 +147,7 @@ class AddServiceScreen extends StatelessWidget {
                                       withArrow: true,
                                       list: controller.subcategories,
                                       selected: exists ? selected : null,
+                                      enabled: !controller.isEditMode.value,
                                       onSelect: (subcategory) {
                                         controller.selectSubcategory(
                                           subcategory,
@@ -170,6 +174,7 @@ class AddServiceScreen extends StatelessWidget {
                             controller.selectedPricingType.value.isNotEmpty
                             ? controller.selectedPricingType.value
                             : null,
+                        enabled: !controller.isEditMode.value,
                         onSelect: (value) {
                           controller.selectedPricingType.value = value;
                         },
@@ -269,7 +274,7 @@ class AddServiceScreen extends StatelessWidget {
                       fontSize: 16,
                       textColor: context.resources.color.colorGrey,
                     ),
-                    MultilineLabeledTextField(
+                    Obx(() => MultilineLabeledTextField(
                       controller: controller.workExperienceController,
                       label: context.resources.strings.enterYourExperience,
                       hint: context
@@ -282,11 +287,14 @@ class AddServiceScreen extends StatelessWidget {
                       inputType: TextInputType.text,
                       isPassword: false,
                       isMandatory: true,
-                    ),
+                      enabled: !controller.isEditMode.value,
+                    )),
 
                     SizedBox(height: 16),
 
-                    SkillsChooseWidget(),
+                    Obx(() => SkillsChooseWidget(
+                      enabled: !controller.isEditMode.value,
+                    )),
 
                     SizedBox(height: 16),
 

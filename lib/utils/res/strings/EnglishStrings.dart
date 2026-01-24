@@ -277,7 +277,7 @@ class EnglishStrings extends Strings {
   String get negotiate => "Negotiate";
 
   @override
-  String get finishEngagement => "Finish Engagement";
+  String get finishTask => "Finish Task";
 
   @override
   String get submitDispute => "Submit Dispute";
@@ -353,7 +353,7 @@ class EnglishStrings extends Strings {
 
   // Navigation & Screen Titles
   @override
-  String get engagement => "Engagement";
+  String get task => "Task";
 
   @override
   String get chat => "Chat";
@@ -371,7 +371,7 @@ class EnglishStrings extends Strings {
   String get allJobs => "All Jobs";
 
   @override
-  String get allEngagements => "All Engagements";
+  String get allTasks => "All Tasks";
 
   @override
   String get services => "Services";
@@ -531,6 +531,63 @@ class EnglishStrings extends Strings {
 
   @override
   String get servicePosted => "Service Posted Successfully";
+
+  @override
+  String get serviceDisabled => "Service Disabled";
+
+  @override
+  String get packageDisabled => "Package Disabled";
+
+  @override
+  String get jobDisabled => "Job Disabled";
+
+  @override
+  String get serviceNowLiveDescription => "Your service is now live! Keep an eye out for opportunities.";
+
+  @override
+  String get serviceDisabledDescription => "Your service has been disabled. You can activate it later.";
+
+  @override
+  String get packageNowLiveDescription => "Your package is now live! Keep an eye out for opportunities.";
+
+  @override
+  String get packageDisabledDescription => "Your package has been disabled. You can activate it later.";
+
+  @override
+  String get jobNowLiveDescription => "Your job is now live! Keep an eye out for opportunities.";
+
+  @override
+  String get jobDisabledDescription => "Your job has been disabled. You can activate it later.";
+
+  @override
+  String get failedToLoadServices => "Failed to load services";
+
+  @override
+  String errorLoadingServices(String error) => "Error loading services: $error";
+
+  @override
+  String get failedToUpdateServiceStatus => "Failed to update service status";
+
+  @override
+  String errorUpdatingServiceStatus(String error) => "Error updating service status: $error";
+
+  @override
+  String get failedToLoadPackages => "Failed to load packages";
+
+  @override
+  String errorLoadingPackages(String error) => "Error loading packages: $error";
+
+  @override
+  String get failedToUpdatePackageStatus => "Failed to update package status";
+
+  @override
+  String errorUpdatingPackageStatus(String error) => "Error updating package status: $error";
+
+  @override
+  String get failedToUpdateJobStatus => "Failed to update job status";
+
+  @override
+  String errorUpdatingJobStatus(String error) => "Error updating job status: $error";
 
   @override
   String get viewProfile => "View Profile";
@@ -698,10 +755,10 @@ class EnglishStrings extends Strings {
       "No change request details available";
 
   @override
-  String get noEngagementDetailsAvailable => "No engagement details available";
+  String get noTaskDetailsAvailable => "No task details available";
 
   @override
-  String get noEngagementsAvailable => "No engagements available";
+  String get noTasksAvailable => "No tasks available";
 
   @override
   String get noApplicantsYet => "No applicants yet";
@@ -877,7 +934,7 @@ class EnglishStrings extends Strings {
   @override
   String memberSince(String year) => "Member Since $year";
 
-  // Additional Engagement Strings
+  // Additional Task Strings
   @override
   String get negotiateTerms => "Negotiate Terms";
 
@@ -900,7 +957,7 @@ class EnglishStrings extends Strings {
   String get yourChangeRequestPendingApproval => "Your change request is pending approval";
 
   @override
-  String get yourEngagementRequestPendingApproval => "Your engagement request is pending approval";
+  String get yourTaskRequestPendingApproval => "Your request is pending approval";
 
   @override
   String get start => "Start";
@@ -942,7 +999,7 @@ class EnglishStrings extends Strings {
   String get newDueDate => "New Due Date";
 
   @override
-  String get engagementDetails => "Engagement Details";
+  String get taskDetails => "Task Details";
 
   @override
   String get uploadDeliverables => "Upload Deliverables";
@@ -1198,6 +1255,9 @@ class EnglishStrings extends Strings {
   String get noServicesSelected => "No services selected";
 
   @override
+  String get noSkillsSelected => "No skills selected";
+
+  @override
   String get imageSelected => "Image Selected";
 
   @override
@@ -1237,9 +1297,9 @@ class EnglishStrings extends Strings {
   String get briefDescriptionSuitableCandidate =>
       "Brief Description of why you are a suitable candidate for this job";
 
-  // Engagement Details
+  // Task Details
   @override
-  String get viewEngagement => "View Engagement";
+  String get viewTask => "View Task";
 
   @override
   String get viewApplications => "View Applications";
@@ -1306,7 +1366,7 @@ class EnglishStrings extends Strings {
   String get submitRating => "Submit Rating";
 
   @override
-  String get rateEngagement => "Rate Engagement";
+  String get rateTask => "Rate Task";
 
   @override
   String get rateFreelancer => "Rate Freelancer";
@@ -1327,7 +1387,7 @@ class EnglishStrings extends Strings {
   String get addComment => "Add a comment (optional)";
 
   @override
-  String get wouldYouLikeToRateThisEngagement => "Would you like to rate this engagement?";
+  String get wouldYouLikeToRateThisTask => "Would you like to rate this task?";
 
   @override
   String get rateNow => "Rate Now";
@@ -1586,6 +1646,9 @@ class EnglishStrings extends Strings {
   String get totalEarnings => "Total Earnings";
 
   @override
+  String get earnings => "Earnings";
+
+  @override
   String get activeJobs => "Active Jobs";
 
   @override
@@ -1672,7 +1735,7 @@ class EnglishStrings extends Strings {
   String get retakePhoto => "Retake Photo";
 
   @override
-  String get pleaseUseCameraToVerifyEngagement => "Please use your camera to capture a clear photo of your face to proceed with finishing this engagement";
+  String get pleaseUseCameraToVerifyTask => "Please use your camera to capture a clear photo of your face to proceed with finishing this task";
 
   @override
   String get pleaseUseCameraToVerifyJob => "Please use your camera to capture a clear photo of your face to proceed with applying for this job";
@@ -1774,7 +1837,7 @@ class EnglishStrings extends Strings {
   String errorLoadingAddresses(String error) => "Error loading addresses: $error";
 
   @override
-  String errorLoadingEngagements(String error) => "Error loading engagements: $error";
+  String errorLoadingTasks(String error) => "Error loading tasks: $error";
 
   @override
   String errorLoadingEmployerHomeData(String error) => "Error loading employer home data: $error";
@@ -1800,8 +1863,8 @@ class EnglishStrings extends Strings {
   String get jobInformationNotAvailable => "Job information not available";
 
   @override
-  String get engagementInformationNotAvailable =>
-      "Engagement information not available";
+  String get taskInformationNotAvailable =>
+      "Task information not available";
 
   // Face Verification Messages
   @override
@@ -1838,34 +1901,34 @@ class EnglishStrings extends Strings {
   String errorUploadingDocuments(String error) =>
       "Error uploading documents: $error";
 
-  // Engagement Messages
+  // Task Messages
   @override
-  String get failedToLoadEngagementDetails =>
-      "Failed to load engagement details";
+  String get failedToLoadTaskDetails =>
+      "Failed to load task details";
 
   @override
-  String get errorLoadingEngagementDetails =>
-      "Error loading engagement details";
+  String get errorLoadingTaskDetails =>
+      "Error loading task details";
 
   @override
-  String get engagementAcceptedSuccessfully =>
-      "Engagement accepted successfully";
+  String get taskAcceptedSuccessfully =>
+      "Task accepted successfully";
 
   @override
-  String get failedToAcceptEngagement => "Failed to accept engagement";
+  String get failedToAcceptTask => "Failed to accept task";
 
   @override
-  String get errorAcceptingEngagement => "Error accepting engagement";
+  String get errorAcceptingTask => "Error accepting task";
 
   @override
-  String get engagementRejectedSuccessfully =>
-      "Engagement rejected successfully";
+  String get taskRejectedSuccessfully =>
+      "Task rejected successfully";
 
   @override
-  String get failedToRejectEngagement => "Failed to reject engagement";
+  String get failedToRejectTask => "Failed to reject task";
 
   @override
-  String get errorRejectingEngagement => "Error rejecting engagement";
+  String get errorRejectingTask => "Error rejecting task";
 
   @override
   String get noDatesSelected => "No dates selected";
@@ -1920,39 +1983,39 @@ class EnglishStrings extends Strings {
   String get pleaseUploadDeliverablesFile => "Please upload deliverables file";
 
   @override
-  String get engagementFinishedSuccessfully =>
-      "Engagement finished successfully";
+  String get taskFinishedSuccessfully =>
+      "Task finished successfully";
 
   @override
-  String get failedToFinishEngagement => "Failed to finish engagement";
+  String get failedToFinishTask => "Failed to finish task";
 
   @override
-  String errorFinishingEngagement(String error) =>
-      "Error finishing engagement: $error";
+  String errorFinishingTask(String error) =>
+      "Error finishing task: $error";
 
   @override
-  String get finishEngagementAcceptedSuccessfully =>
-      "Finish engagement accepted successfully";
+  String get finishTaskAcceptedSuccessfully =>
+      "Finish task accepted successfully";
 
   @override
-  String get failedToAcceptFinishEngagement =>
-      "Failed to accept finish engagement";
+  String get failedToAcceptFinishTask =>
+      "Failed to accept finish task";
 
   @override
-  String errorAcceptingFinishEngagement(String error) =>
-      "Error accepting finish engagement: $error";
+  String errorAcceptingFinishTask(String error) =>
+      "Error accepting finish task: $error";
 
   @override
-  String get finishEngagementRejectedSuccessfully =>
-      "Finish engagement rejected successfully";
+  String get finishTaskRejectedSuccessfully =>
+      "Finish task rejected successfully";
 
   @override
-  String get failedToRejectFinishEngagement =>
-      "Failed to reject finish engagement";
+  String get failedToRejectFinishTask =>
+      "Failed to reject finish task";
 
   @override
-  String errorRejectingFinishEngagement(String error) =>
-      "Error rejecting finish engagement: $error";
+  String errorRejectingFinishTask(String error) =>
+      "Error rejecting finish task: $error";
 
   // Booking Messages
   @override
@@ -1986,7 +2049,7 @@ class EnglishStrings extends Strings {
   String get failedToLoadProfile => "Failed to load profile";
 
   @override
-  String get failedToLoadEngagements => "Failed to load engagements";
+  String get failedToLoadTasks => "Failed to load tasks";
 
   @override
   String get failedToLoadEmployerHomeData =>
@@ -2073,4 +2136,11 @@ class EnglishStrings extends Strings {
 
   @override
   String get viewMyPackages => "View My Packages";
+
+  // Conversation
+  @override
+  String get openConversation => "Open Conversation";
+
+  @override
+  String get wouldYouLikeToContactFreelancer => "Would you like to contact the freelancer?";
 }

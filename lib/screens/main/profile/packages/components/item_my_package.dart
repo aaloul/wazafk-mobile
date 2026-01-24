@@ -45,7 +45,11 @@ class _ItemMyPackageState extends State<ItemMyPackage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(RouteConstant.packageDetailsScreen, arguments: widget.package);
+      },
+      child: Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -129,6 +133,7 @@ class _ItemMyPackageState extends State<ItemMyPackage> {
           ),
         ],
       ),
+    ),
     );
   }
 }

@@ -35,6 +35,7 @@ class ProfileResponse {
 
 class Data {
   User? member;
+  DataCounts? messagingUnreadCounts;
   dynamic totalEarnings;
   dynamic nbActiveJobs;
   dynamic nbCompletedJobs;
@@ -42,6 +43,7 @@ class Data {
 
   Data({
     this.member,
+    this.messagingUnreadCounts,
     this.totalEarnings,
     this.nbActiveJobs,
     this.nbCompletedJobs,
@@ -50,6 +52,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     member: json["member"] == null ? null : User.fromJson(json["member"]),
+    messagingUnreadCounts: json["messaging_unread_counts"] == null ? null : DataCounts.fromJson(json["messaging_unread_counts"]),
     totalEarnings: json["total_earnings"],
     nbActiveJobs: json["nb_active_jobs"],
     nbCompletedJobs: json["nb_completed_jobs"],
@@ -58,9 +61,36 @@ class Data {
 
   Map<String, dynamic> toJson() => {
     "member": member?.toJson(),
+    "messaging_unread_counts": messagingUnreadCounts?.toJson(),
     "total_earnings": totalEarnings,
     "nb_active_jobs": nbActiveJobs,
     "nb_completed_jobs": nbCompletedJobs,
     "success_rate": successRate,
   };
 }
+
+class DataCounts {
+  dynamic notificationsCount;
+  dynamic chatMessagesCount;
+  dynamic supportMessagesCount;
+
+  DataCounts({
+    this.notificationsCount,
+    this.chatMessagesCount,
+    this.supportMessagesCount,
+  });
+
+  factory DataCounts.fromJson(Map<String, dynamic> json) => DataCounts(
+    notificationsCount: json["notifications_count"],
+    chatMessagesCount: json["chat_messages_count"],
+    supportMessagesCount: json["support_messages_count"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "notifications_count": notificationsCount,
+    "chat_messages_count": chatMessagesCount,
+    "support_messages_count": supportMessagesCount,
+  };
+}
+
+

@@ -7,7 +7,9 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import '../add_job_controller.dart';
 
 class JobAddressChooseWidget extends StatelessWidget {
-  const JobAddressChooseWidget({super.key});
+  const JobAddressChooseWidget({super.key, this.enabled = true});
+
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +37,19 @@ class JobAddressChooseWidget extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Obx(
-          () => GestureDetector(
-            onTap: () {
-              SheetHelper.showSingleAddressSheet(
-                context,
-                selectedAddress: controller.selectedAddress.value,
-                onAddressSelected: (address) {
-                  controller.selectAddress(address);
-                },
-              );
-            },
-            child: Container(
+          () => IgnorePointer(
+            ignoring: !enabled,
+            child: GestureDetector(
+              onTap: () {
+                SheetHelper.showSingleAddressSheet(
+                  context,
+                  selectedAddress: controller.selectedAddress.value,
+                  onAddressSelected: (address) {
+                    controller.selectAddress(address);
+                  },
+                );
+              },
+              child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: context.resources.color.colorWhite,
@@ -70,14 +74,16 @@ class JobAddressChooseWidget extends StatelessWidget {
                           : context.resources.color.colorGrey8,
                     ),
                   ),
-                  Icon(
-                    Icons.keyboard_arrow_down,
-                    color: context.resources.color.colorGrey,
-                    size: 24,
-                  ),
+                  if (enabled)
+                    Icon(
+                      Icons.keyboard_arrow_down,
+                      color: context.resources.color.colorGrey,
+                      size: 24,
+                    ),
                 ],
               ),
             ),
+          ),
           ),
         ),
       ],

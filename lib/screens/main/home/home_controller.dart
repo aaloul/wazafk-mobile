@@ -337,6 +337,18 @@ class HomeController extends GetxController {
         nbCompletedJobs.value = response.data!.nbCompletedJobs ?? 0;
         successRate.value = response.data!.successRate?.toString() ?? '0';
 
+
+        // Update individual counts
+        notificationsCount.value = response.data!.messagingUnreadCounts?.notificationsCount ?? 0;
+        chatMessagesCount.value = response.data!.messagingUnreadCounts?.chatMessagesCount?? 0;
+        supportMessagesCount.value = response.data!.messagingUnreadCounts?.supportMessagesCount ?? 0;
+
+        // Calculate total
+        totalUnreadCount.value =
+            chatMessagesCount.value +
+                supportMessagesCount.value;
+
+
         // Update user preferences with fresh data
         if (response.data!.member != null) {
           final user = response.data!.member!;
@@ -384,13 +396,13 @@ class HomeController extends GetxController {
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .failedToLoadEngagements,
+              .failedToLoadTasks,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
       constants.showSnackBar(
-        Resources.of(Get.context!).strings.errorLoadingEngagements(e.toString()),
+        Resources.of(Get.context!).strings.errorLoadingTasks(e.toString()),
         SnackBarStatus.ERROR,
       );
       print('Error loading engagements: $e');

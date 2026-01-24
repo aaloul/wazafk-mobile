@@ -24,7 +24,7 @@ class AllEngagementsScreen extends StatelessWidget {
             TopHeader(hasBack: true, title: Resources
                 .of(context)
                 .strings
-                .allEngagements),
+                .allTasks),
             SizedBox(height: 16),
             Expanded(
               child: Obx(() {
@@ -42,7 +42,7 @@ class AllEngagementsScreen extends StatelessWidget {
                     !controller.isLoading.value) {
                   return Center(
                     child: Text(
-                      context.resources.strings.noEngagementsAvailable,
+                      context.resources.strings.noTasksAvailable,
                       style: TextStyle(
                         fontSize: 16,
                         color: context.resources.color.colorGrey14,

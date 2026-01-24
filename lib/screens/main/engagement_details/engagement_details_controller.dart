@@ -169,17 +169,17 @@ class EngagementDetailsController extends GetxController {
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .failedToLoadEngagementDetails,
+              .failedToLoadTaskDetails,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      print('Error fetching engagement details: $e');
+      print('Error fetching Task details: $e');
       constants.showSnackBar(
         Resources
             .of(Get.context!)
             .strings
-            .errorLoadingEngagementDetails,
+            .errorLoadingTaskDetails,
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -203,7 +203,7 @@ class EngagementDetailsController extends GetxController {
           Resources
               .of(Get.context!)
               .strings
-              .engagementAcceptedSuccessfully,
+              .taskAcceptedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -219,17 +219,17 @@ class EngagementDetailsController extends GetxController {
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .failedToAcceptEngagement,
+              .failedToAcceptTask,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      print('Error accepting engagement: $e');
+      print('Error accepting Task: $e');
       constants.showSnackBar(
         Resources
             .of(Get.context!)
             .strings
-            .errorAcceptingEngagement,
+            .errorAcceptingTask,
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -253,7 +253,7 @@ class EngagementDetailsController extends GetxController {
           Resources
               .of(Get.context!)
               .strings
-              .engagementRejectedSuccessfully,
+              .taskRejectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -269,17 +269,17 @@ class EngagementDetailsController extends GetxController {
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .failedToRejectEngagement,
+              .failedToRejectTask,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      print('Error rejecting engagement: $e');
+      print('Error rejecting Task: $e');
       constants.showSnackBar(
         Resources
             .of(Get.context!)
             .strings
-            .errorRejectingEngagement,
+            .errorRejectingTask,
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -479,7 +479,7 @@ class EngagementDetailsController extends GetxController {
         Resources
             .of(Get.context!)
             .strings
-            .engagementInformationNotAvailable,
+            .taskInformationNotAvailable,
         SnackBarStatus.ERROR,
       );
       return;
@@ -743,16 +743,16 @@ class EngagementDetailsController extends GetxController {
     if (engagement.value?.hashcode == null) return;
 
     // Validate that file is uploaded
-    if (deliverableFile.value == null) {
-      constants.showSnackBar(
-        Resources
-            .of(Get.context!)
-            .strings
-            .pleaseUploadDeliverablesFile,
-        SnackBarStatus.ERROR,
-      );
-      return;
-    }
+    // if (deliverableFile.value == null) {
+    //   constants.showSnackBar(
+    //     Resources
+    //         .of(Get.context!)
+    //         .strings
+    //         .pleaseUploadDeliverablesFile,
+    //     SnackBarStatus.ERROR,
+    //   );
+    //   return;
+    // }
 
     try {
       isFinishingEngagement.value = true;
@@ -767,7 +767,7 @@ class EngagementDetailsController extends GetxController {
           Resources
               .of(Get.context!)
               .strings
-              .engagementFinishedSuccessfully,
+              .taskFinishedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -794,17 +794,17 @@ class EngagementDetailsController extends GetxController {
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .failedToFinishEngagement,
+              .failedToFinishTask,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      print('Error finishing engagement: $e');
+      print('Error finishing Task: $e');
       constants.showSnackBar(
         Resources
             .of(Get.context!)
             .strings
-            .errorFinishingEngagement(e.toString()),
+            .errorFinishingTask(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -830,7 +830,7 @@ class EngagementDetailsController extends GetxController {
           Resources
               .of(Get.context!)
               .strings
-              .finishEngagementAcceptedSuccessfully,
+              .finishTaskAcceptedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -849,7 +849,7 @@ class EngagementDetailsController extends GetxController {
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .failedToAcceptFinishEngagement,
+              .failedToAcceptFinishTask,
           SnackBarStatus.ERROR,
         );
       }
@@ -859,7 +859,7 @@ class EngagementDetailsController extends GetxController {
         Resources
             .of(Get.context!)
             .strings
-            .errorAcceptingFinishEngagement(e.toString()),
+            .errorAcceptingFinishTask(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
@@ -885,7 +885,7 @@ class EngagementDetailsController extends GetxController {
           Resources
               .of(Get.context!)
               .strings
-              .finishEngagementRejectedSuccessfully,
+              .finishTaskRejectedSuccessfully,
           SnackBarStatus.SUCCESS,
         );
 
@@ -894,29 +894,64 @@ class EngagementDetailsController extends GetxController {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
 
-        // Go back to previous screen
-        Get.back(result: true);
+        // Show bottom sheet asking employer to contact freelancer
+        _showContactFreelancerDialog();
       } else {
         constants.showSnackBar(
           response.message ?? Resources
               .of(Get.context!)
               .strings
-              .failedToRejectFinishEngagement,
+              .failedToRejectFinishTask,
           SnackBarStatus.ERROR,
         );
       }
     } catch (e) {
-      print('Error rejecting finish engagement: $e');
+      print('Error rejecting finish Task: $e');
       constants.showSnackBar(
         Resources
             .of(Get.context!)
             .strings
-            .errorRejectingFinishEngagement(e.toString()),
+            .errorRejectingFinishTask(e.toString()),
         SnackBarStatus.ERROR,
       );
     } finally {
       isRejectingFinishEngagement.value = false;
     }
+  }
+
+  void _showContactFreelancerDialog() {
+    if (engagement.value == null) return;
+
+    // Get freelancer info
+    final freelancerHashcode = engagement.value!.freelancerHashcode;
+    final freelancerName = '${engagement.value!.freelancerFirstName ?? ''} ${engagement.value!.freelancerLastName ?? ''}'.trim();
+
+    if (freelancerHashcode == null || freelancerHashcode.isEmpty) {
+      return;
+    }
+
+    // Show dialog asking user to contact freelancer
+    DialogHelper.showAgreementPopup(
+      Get.context!,
+      Resources.of(Get.context!).strings.wouldYouLikeToContactFreelancer,
+      Resources.of(Get.context!).strings.openConversation,
+      Resources.of(Get.context!).strings.cancel,
+      () {
+        // Close dialog
+        Navigator.pop(Get.context!);
+
+        // Navigate to conversation screen
+        Get.toNamed(
+          RouteConstant.conversationMessagesScreen,
+          arguments: {
+            'member_hashcode': freelancerHashcode,
+            'member_name': freelancerName.isNotEmpty ? freelancerName : 'Freelancer',
+          },
+        );
+      },
+      false.obs, // Not a loading state
+      agreeColor: Get.context!.resources.color.colorPrimary,
+    );
   }
 
   Future<void> initializeCamera() async {
@@ -1116,7 +1151,7 @@ class EngagementDetailsController extends GetxController {
     // Show dialog asking user to rate
     DialogHelper.showAgreementPopup(
       Get.context!,
-      Resources.of(Get.context!).strings.wouldYouLikeToRateThisEngagement,
+      Resources.of(Get.context!).strings.wouldYouLikeToRateThisTask,
       Resources.of(Get.context!).strings.rateNow,
       Resources.of(Get.context!).strings.later,
       () {

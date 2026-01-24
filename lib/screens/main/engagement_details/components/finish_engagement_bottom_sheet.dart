@@ -40,7 +40,7 @@ class FinishEngagementBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PrimaryText(
-                    text: context.resources.strings.finishEngagement,
+                    text: context.resources.strings.finishTask,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     textColor: context.resources.color.colorGrey,

@@ -185,7 +185,7 @@ abstract class Strings {
 
   String get negotiate;
 
-  String get finishEngagement;
+  String get finishTask;
 
   String get submitDispute;
 
@@ -236,7 +236,7 @@ abstract class Strings {
   String get editProfileImage;
 
   // Navigation & Screen Titles
-  String get engagement;
+  String get task;
 
   String get chat;
 
@@ -248,7 +248,7 @@ abstract class Strings {
 
   String get allJobs;
 
-  String get allEngagements;
+  String get allTasks;
 
   String get services;
 
@@ -355,6 +355,44 @@ abstract class Strings {
   String get serviceUpdated;
 
   String get servicePosted;
+
+  String get serviceDisabled;
+
+  String get packageDisabled;
+
+  String get jobDisabled;
+
+  String get serviceNowLiveDescription;
+
+  String get serviceDisabledDescription;
+
+  String get packageNowLiveDescription;
+
+  String get packageDisabledDescription;
+
+  String get jobNowLiveDescription;
+
+  String get jobDisabledDescription;
+
+  String get failedToLoadServices;
+
+  String errorLoadingServices(String error);
+
+  String get failedToUpdateServiceStatus;
+
+  String errorUpdatingServiceStatus(String error);
+
+  String get failedToLoadPackages;
+
+  String errorLoadingPackages(String error);
+
+  String get failedToUpdatePackageStatus;
+
+  String errorUpdatingPackageStatus(String error);
+
+  String get failedToUpdateJobStatus;
+
+  String errorUpdatingJobStatus(String error);
 
   String get viewProfile;
 
@@ -463,9 +501,9 @@ abstract class Strings {
 
   String get noChangeRequestDetailsAvailable;
 
-  String get noEngagementDetailsAvailable;
+  String get noTaskDetailsAvailable;
 
-  String get noEngagementsAvailable;
+  String get noTasksAvailable;
 
   String get noApplicantsYet;
 
@@ -581,7 +619,7 @@ abstract class Strings {
 
   String memberSince(String year);
 
-  // Additional Engagement Strings
+  // Additional Task Strings
   String get negotiateTerms;
 
   String get reason;
@@ -596,7 +634,7 @@ abstract class Strings {
 
   String get yourChangeRequestPendingApproval;
 
-  String get yourEngagementRequestPendingApproval;
+  String get yourTaskRequestPendingApproval;
 
   String get start;
 
@@ -624,7 +662,7 @@ abstract class Strings {
 
   String get newDueDate;
 
-  String get engagementDetails;
+  String get taskDetails;
 
   String get uploadDeliverables;
 
@@ -795,6 +833,8 @@ abstract class Strings {
 
   String get noServicesSelected;
 
+  String get noSkillsSelected;
+
   String get imageSelected;
 
   String get uploadImage;
@@ -821,8 +861,8 @@ abstract class Strings {
 
   String get briefDescriptionSuitableCandidate;
 
-  // Engagement Details
-  String get viewEngagement;
+  // Task Details
+  String get viewTask;
 
   String get viewApplications;
 
@@ -867,7 +907,7 @@ abstract class Strings {
   // Rating
   String get submitRating;
 
-  String get rateEngagement;
+  String get rateTask;
 
   String get rateFreelancer;
 
@@ -881,7 +921,7 @@ abstract class Strings {
 
   String get addComment;
 
-  String get wouldYouLikeToRateThisEngagement;
+  String get wouldYouLikeToRateThisTask;
 
   String get rateNow;
 
@@ -1056,6 +1096,8 @@ abstract class Strings {
   // Statistics
   String get totalEarnings;
 
+  String get earnings;
+
   String get activeJobs;
 
   String get completed;
@@ -1114,7 +1156,7 @@ abstract class Strings {
 
   String get retakePhoto;
 
-  String get pleaseUseCameraToVerifyEngagement;
+  String get pleaseUseCameraToVerifyTask;
 
   String get pleaseUseCameraToVerifyJob;
 
@@ -1183,7 +1225,7 @@ abstract class Strings {
 
   String errorLoadingAddresses(String error);
 
-  String errorLoadingEngagements(String error);
+  String errorLoadingTasks(String error);
 
   String errorLoadingEmployerHomeData(String error);
 
@@ -1198,7 +1240,7 @@ abstract class Strings {
 
   String get jobInformationNotAvailable;
 
-  String get engagementInformationNotAvailable;
+  String get taskInformationNotAvailable;
 
   // Face Verification Messages
   String get faceVerifiedSuccessfully;
@@ -1222,22 +1264,22 @@ abstract class Strings {
 
   String errorUploadingDocuments(String error);
 
-  // Engagement Messages
-  String get failedToLoadEngagementDetails;
+  // Task Messages
+  String get failedToLoadTaskDetails;
 
-  String get errorLoadingEngagementDetails;
+  String get errorLoadingTaskDetails;
 
-  String get engagementAcceptedSuccessfully;
+  String get taskAcceptedSuccessfully;
 
-  String get failedToAcceptEngagement;
+  String get failedToAcceptTask;
 
-  String get errorAcceptingEngagement;
+  String get errorAcceptingTask;
 
-  String get engagementRejectedSuccessfully;
+  String get taskRejectedSuccessfully;
 
-  String get failedToRejectEngagement;
+  String get failedToRejectTask;
 
-  String get errorRejectingEngagement;
+  String get errorRejectingTask;
 
   String get noDatesSelected;
 
@@ -1269,23 +1311,23 @@ abstract class Strings {
 
   String get pleaseUploadDeliverablesFile;
 
-  String get engagementFinishedSuccessfully;
+  String get taskFinishedSuccessfully;
 
-  String get failedToFinishEngagement;
+  String get failedToFinishTask;
 
-  String errorFinishingEngagement(String error);
+  String errorFinishingTask(String error);
 
-  String get finishEngagementAcceptedSuccessfully;
+  String get finishTaskAcceptedSuccessfully;
 
-  String get failedToAcceptFinishEngagement;
+  String get failedToAcceptFinishTask;
 
-  String errorAcceptingFinishEngagement(String error);
+  String errorAcceptingFinishTask(String error);
 
-  String get finishEngagementRejectedSuccessfully;
+  String get finishTaskRejectedSuccessfully;
 
-  String get failedToRejectFinishEngagement;
+  String get failedToRejectFinishTask;
 
-  String errorRejectingFinishEngagement(String error);
+  String errorRejectingFinishTask(String error);
 
   // Booking Messages
   String get pleaseSelectDateRange;
@@ -1308,7 +1350,7 @@ abstract class Strings {
 
   String get failedToLoadProfile;
 
-  String get failedToLoadEngagements;
+  String get failedToLoadTasks;
 
   String get failedToLoadEmployerHomeData;
 
@@ -1363,4 +1405,8 @@ abstract class Strings {
   String get viewMyServices;
   String get viewMyJobs;
   String get viewMyPackages;
+
+  // Conversation
+  String get openConversation;
+  String get wouldYouLikeToContactFreelancer;
 }
