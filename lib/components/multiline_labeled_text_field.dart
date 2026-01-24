@@ -81,12 +81,10 @@ class MultilineLabeledTextField extends StatelessWidget {
             decoration: BoxDecoration(
               color: enabled ?? true
                   ? context.resources.color.colorWhite
-                  : context.resources.color.colorWhite,
+                  : context.resources.color.colorGrey4,
               border: Border.all(
                 width: 1,
-                color: enabled ?? true
-                    ? context.resources.color.colorGrey2
-                    : context.resources.color.colorGrey2,
+                color: context.resources.color.colorGrey2,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),

@@ -20,10 +20,10 @@ class JobApplicantItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        if (applicant != null) {
+        if (engagement != null) {
           Get.toNamed(
-            RouteConstant.freelancerMemberProfileScreen,
-            arguments: applicant,
+            RouteConstant.engagementDetailsScreen,
+            arguments: engagement,
           );
         }
       },

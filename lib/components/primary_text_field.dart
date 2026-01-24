@@ -64,7 +64,9 @@ class PrimaryTextField extends StatelessWidget {
         height: height ?? AppDimensions.textFieldHeight,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: backgroundColor ?? context.resources.color.colorWhite,
+            color: enabled ?? true
+                ? (backgroundColor ?? context.resources.color.colorWhite)
+                : context.resources.color.colorGrey4,
             border: Border.all(
                 width: 1, color: borderColor ?? context.resources.color.colorGrey2),
             borderRadius: BorderRadius.all(

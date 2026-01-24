@@ -868,6 +868,8 @@ abstract class Strings {
 
   String get disableTask;
 
+  String get enableJob;
+
   String get viewChanges;
 
   String get submitAndFinish;

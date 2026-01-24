@@ -1308,6 +1308,9 @@ class EnglishStrings extends Strings {
   String get disableTask => "Disable Task";
 
   @override
+  String get enableJob => "Enable Job";
+
+  @override
   String get viewChanges => "View Changes";
 
   @override
@@ -2139,7 +2142,7 @@ class EnglishStrings extends Strings {
 
   // Conversation
   @override
-  String get openConversation => "Open Conversation";
+  String get openConversation => "Contact Now";
 
   @override
   String get wouldYouLikeToContactFreelancer => "Would you like to contact the freelancer?";

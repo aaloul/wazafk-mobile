@@ -1308,6 +1308,9 @@ class ArabicStrings extends Strings {
   String get disableTask => "تعطيل المهمة";
 
   @override
+  String get enableJob => "تفعيل الوظيفة";
+
+  @override
   String get viewChanges => "عرض التغييرات";
 
   @override
@@ -2115,7 +2118,7 @@ class ArabicStrings extends Strings {
 
   // Conversation
   @override
-  String get openConversation => "فتح المحادثة";
+  String get openConversation => "تواصل الان";
 
   @override
   String get wouldYouLikeToContactFreelancer => "هل تريد التواصل مع المستقل؟";

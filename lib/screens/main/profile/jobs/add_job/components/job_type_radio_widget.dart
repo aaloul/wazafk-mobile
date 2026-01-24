@@ -70,7 +70,7 @@ class JobTypeRadioWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? context.resources.color.colorGreen4
-              : context.resources.color.colorWhite,
+              : (enabled ? context.resources.color.colorWhite : context.resources.color.colorGrey4),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected

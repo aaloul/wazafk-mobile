@@ -92,7 +92,9 @@ class AddPackageScreen extends StatelessWidget {
                         child: Container(
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: context.resources.color.colorWhite,
+                            color: controller.isEditMode.value
+                                ? context.resources.color.colorGrey4
+                                : context.resources.color.colorWhite,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: context.resources.color.colorGrey8,

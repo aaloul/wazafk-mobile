@@ -78,10 +78,10 @@ class CategoryChooser extends StatelessWidget {
                 ),
                 closedFillColor: enabled ?? true
                     ? context.resources.color.colorWhite
-                    : context.resources.color.colorWhite,
+                    : context.resources.color.colorGrey4,
                 expandedFillColor: enabled ?? true
                     ? context.resources.color.colorWhite
-                    : context.resources.color.colorWhite,
+                    : context.resources.color.colorGrey4,
                 headerStyle: TextStyle(
                   color: context.resources.color.colorGrey3,
                   fontWeight: labelFontWeight ?? FontWeight.w400,

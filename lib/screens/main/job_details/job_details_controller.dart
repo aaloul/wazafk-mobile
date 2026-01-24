@@ -4,6 +4,7 @@ import 'package:wazafak_app/repository/favorite/add_favorite_job_repository.dart
 import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
 import 'package:wazafak_app/repository/job/job_detail_repository.dart';
 import 'package:wazafak_app/repository/job/job_status_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../utils/res/Resources.dart';
@@ -18,6 +19,7 @@ class JobDetailsController extends GetxController {
   var isLoading = false.obs;
   var isUpdatingStatus = false.obs;
   var isTogglingFavorite = false.obs;
+  var isFromMyJobs = false;
 
   @override
   void onInit() {
@@ -27,8 +29,24 @@ class JobDetailsController extends GetxController {
 
     isLoading.value = true;
 
-    // Handle both Job object and String hashcode
-    if (arguments != null && arguments is Job) {
+    // Handle Map with job and isFromMyJobs flag
+    if (arguments != null && arguments is Map<String, dynamic>) {
+      final jobArg = arguments['job'];
+      isFromMyJobs = arguments['isFromMyJobs'] ?? false;
+
+      if (jobArg is Job) {
+        job.value = jobArg;
+        if (jobArg.hashcode != null) {
+          getJobDetails(jobArg.hashcode!);
+        } else {
+          isLoading.value = false;
+        }
+      } else {
+        isLoading.value = false;
+      }
+    }
+    // Handle both Job object and String hashcode (for backwards compatibility)
+    else if (arguments != null && arguments is Job) {
       job.value = arguments;
 
       // Fetch fresh details from API if hashcode is available
@@ -47,7 +65,10 @@ class JobDetailsController extends GetxController {
 
   Future<void> getJobDetails(String hashcode) async {
     try {
-      final response = await _jobDetailRepository.getJob(hashcode);
+      final response = await _jobDetailRepository.getJob(
+        hashcode,
+        memberHashcode: isFromMyJobs ? Prefs.getId : null,
+      );
 
       if (response.success == true && response.data != null) {
         // Parse the job from response
@@ -110,7 +131,7 @@ class JobDetailsController extends GetxController {
         );
 
         // Refresh job details to get updated status
-        await refreshJobDetails();
+        // await refreshJobDetails();
 
         // Go back after successful disable
         Get.back();
@@ -126,6 +147,49 @@ class JobDetailsController extends GetxController {
           .strings
           .errorDisablingJob(e.toString()), SnackBarStatus.ERROR);
       print('Error disabling job: $e');
+    } finally {
+      isUpdatingStatus.value = false;
+    }
+  }
+
+  Future<void> enableJob() async {
+    if (job.value == null || job.value!.hashcode == null) {
+      constants.showSnackBar(
+        'Job information not available',
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    try {
+      isUpdatingStatus.value = true;
+
+      // Status 1 means enabled/active
+      final response = await _jobStatusRepository.updateJobStatus(
+        job.value!.hashcode!,
+        1,
+      );
+
+      if (response.success == true) {
+        constants.showSnackBar(
+          response.message ?? 'Job enabled successfully',
+          SnackBarStatus.SUCCESS,
+        );
+
+        // Refresh job details to get updated status
+        await refreshJobDetails();
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to enable job',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error enabling job: $e',
+        SnackBarStatus.ERROR,
+      );
+      print('Error enabling job: $e');
     } finally {
       isUpdatingStatus.value = false;
     }

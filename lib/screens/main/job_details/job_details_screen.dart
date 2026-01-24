@@ -357,15 +357,25 @@ class JobDetailsScreen extends StatelessWidget {
                                             .colorPrimary,
                                       ),
                                     )
-                                  : PrimaryOutlinedButton(
+                                  : job.status != 1
+                                    ? PrimaryButton(
+                                        title: context
+                                            .resources
+                                            .strings
+                                            .enableJob,
+                                        onPressed: () {
+                                          controller.enableJob();
+                                        },
+                                      )
+                                    : PrimaryOutlinedButton(
                                         title: context
                                             .resources
                                             .strings
                                             .disableTask,
                                         onPressed: () {
-                                        controller.disableJob();
-                                      },
-                                    ),
+                                          controller.disableJob();
+                                        },
+                                      ),
                             ),
                           ],
                         ),

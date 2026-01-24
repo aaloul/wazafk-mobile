@@ -18,22 +18,26 @@ class JobAddressChooseWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            PrimaryText(
-              text: context.resources.strings.location,
-              textColor: context.resources.color.colorGrey3,
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-            ),
-            const SizedBox(width: 4),
-            PrimaryText(
-              text: '*',
-              textColor: context.resources.color.colorGrey3,
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-            ),
-          ],
+        Obx(
+          () => Row(
+            children: [
+              PrimaryText(
+                text: context.resources.strings.location,
+                textColor: context.resources.color.colorGrey3,
+                fontWeight: FontWeight.w500,
+                fontSize: 15,
+              ),
+              if (controller.selectedJobType.value != 'Remote') ...[
+                const SizedBox(width: 4),
+                PrimaryText(
+                  text: '*',
+                  textColor: context.resources.color.colorGrey3,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
+              ],
+            ],
+          ),
         ),
         SizedBox(height: 8),
         Obx(
@@ -52,7 +56,9 @@ class JobAddressChooseWidget extends StatelessWidget {
               child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: context.resources.color.colorWhite,
+                color: enabled
+                    ? context.resources.color.colorWhite
+                    : context.resources.color.colorGrey4,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: context.resources.color.colorGrey2,

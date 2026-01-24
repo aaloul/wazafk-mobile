@@ -43,7 +43,10 @@ class _ItemMyJobState extends State<ItemMyJob> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(RouteConstant.jobDetailsScreen, arguments: widget.job);
+        Get.toNamed(RouteConstant.jobDetailsScreen, arguments: {
+          'job': widget.job,
+          'isFromMyJobs': true,
+        });
       },
       child: Container(
       width: double.infinity,
