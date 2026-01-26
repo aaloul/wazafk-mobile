@@ -124,6 +124,24 @@ class ChangeRequestBottomSheet extends StatelessWidget {
                         SizedBox(height: 16),
                       ],
 
+                      // Message
+                      if (changeRequest.message != null &&
+                          changeRequest.message!.isNotEmpty) ...[
+                        PrimaryText(
+                          text: context.resources.strings.message,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          textColor: context.resources.color.colorGrey,
+                        ),
+                        SizedBox(height: 8),
+                        PrimaryText(
+                          text: changeRequest.message!,
+                          fontSize: 14,
+                          textColor: context.resources.color.colorGrey,
+                        ),
+                        SizedBox(height: 16),
+                      ],
+
                       // Unit Price
                       if (changeRequest.unitPrice != null) ...[
                         Row(

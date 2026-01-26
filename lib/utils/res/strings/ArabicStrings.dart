@@ -219,6 +219,15 @@ class ArabicStrings extends Strings {
   String get startTypingToSearch => "ابدأ الكتابة للبحث...";
 
   @override
+  String get recentSearches => "عمليات البحث الأخيرة";
+
+  @override
+  String get clearAll => "مسح الكل";
+
+  @override
+  String get searchHistoryCleared => "تم مسح سجل البحث";
+
+  @override
   String get chooseLocation => "اختر الموقع";
 
   @override
@@ -492,6 +501,16 @@ class ArabicStrings extends Strings {
   @override
   String get pleaseSelectAtLeastOneAddress =>
       "الرجاء تحديد عنوان واحد على الأقل";
+
+  @override
+  String get pleaseSelectAtLeastOneArea =>
+      "الرجاء تحديد منطقة واحدة على الأقل";
+
+  @override
+  String get selectAreas => "اختر المناطق";
+
+  @override
+  String get noAreasAvailable => "لا توجد مناطق متاحة";
 
   @override
   String get pleaseEnterWorkExperience => "الرجاء إدخال خبرتك في العمل";

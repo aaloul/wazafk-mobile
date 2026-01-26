@@ -292,6 +292,7 @@ class ChangeRequest {
   String? receiverFirstName;
   String? receiverLastName;
   String? changedFields;
+  String? message;
   int? estimatedHours;
   DateTime? startDatetime;
   DateTime? expiryDatetime;
@@ -305,6 +306,7 @@ class ChangeRequest {
   ChangeRequest({
     this.hashcode,
     this.engagementHashcode,
+    this.message,
     this.requester,
     this.requesterHashcode,
     this.requesterFirstName,
@@ -328,6 +330,7 @@ class ChangeRequest {
       ChangeRequest(
         hashcode: json["hashcode"],
         engagementHashcode: json["engagement_hashcode"],
+        message: json["message"],
         requester: json["requester"],
         requesterHashcode: json["requester_hashcode"],
         requesterFirstName: json["requester_first_name"],
@@ -355,6 +358,7 @@ class ChangeRequest {
         "hashcode": hashcode,
         "engagement_hashcode": engagementHashcode,
         "requester": requester,
+        "message": message,
         "requester_hashcode": requesterHashcode,
         "requester_first_name": requesterFirstName,
         "requester_last_name": requesterLastName,

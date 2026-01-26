@@ -86,7 +86,7 @@ class PacksController extends GetxController {
           description: package.checked.value
               ? strings.packageNowLiveDescription
               : strings.packageDisabledDescription,
-          buttonText: strings.viewMyPackages,
+          buttonText: strings.close,
         );
       } else {
         constants.showSnackBar(

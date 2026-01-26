@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
 import 'package:wazafak_app/components/sheets/success_sheet.dart';
-import 'package:wazafak_app/model/AddressesResponse.dart';
+import 'package:wazafak_app/model/AreasResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
@@ -39,7 +39,7 @@ class AddServiceController extends GetxController {
 
   var selectedPricingType = ''.obs;
   var selectedSkills = <Skill>[].obs;
-  var selectedAddresses = <Address>[].obs;
+  var selectedAreas = <AreaModel>[].obs;
   var isLoading = false.obs;
   var availableSkills = <Skill>[].obs;
   var isLoadingSkills = false.obs;
@@ -174,20 +174,13 @@ class AddServiceController extends GetxController {
       portfolioImageUrl.value = service.portfolio;
     }
 
-    // Set selected addresses (convert Area to Address)
+    // Set selected areas
     if (service.areas != null) {
-      selectedAddresses.value = service.areas!
+      selectedAreas.value = service.areas!
           .map(
-            (area) => Address(
-              hashcode: area.hashcode,
-              label: area.label,
-              city: area.city,
-              address: area.address,
-              street: area.street,
-              building: area.building,
-              apartment: area.apartment,
-              latitude: area.latitude,
-              longitude: area.longitude,
+            (area) => AreaModel(
+              code: area.code,
+              name: area.name,
             ),
           )
           .toList();
@@ -286,49 +279,6 @@ class AddServiceController extends GetxController {
     }
   }
 
-  String? _getDurationStringFromMinutes(int? minutes) {
-    if (minutes == null) return null;
-
-    switch (minutes) {
-      case 15:
-        return Resources
-            .of(Get.context!)
-            .strings
-            .fifteenMinutes;
-      case 30:
-        return Resources
-            .of(Get.context!)
-            .strings
-            .thirtyMinutes;
-      case 45:
-        return Resources
-            .of(Get.context!)
-            .strings
-            .fortyFiveMinutes;
-      case 60:
-        return Resources
-            .of(Get.context!)
-            .strings
-            .sixtyMinutes;
-      case 90:
-        return Resources
-            .of(Get.context!)
-            .strings
-            .ninetyMinutes;
-      case 120:
-        return Resources
-            .of(Get.context!)
-            .strings
-            .oneHundredTwentyMinutes;
-      case 180:
-        return Resources
-            .of(Get.context!)
-            .strings
-            .oneHundredEightyMinutes;
-      default:
-        return null;
-    }
-  }
 
   void _initializeWorkingHours() {
     workingHours.value = [
@@ -478,16 +428,16 @@ class AddServiceController extends GetxController {
     return selectedSkills.any((s) => s.hashcode == skill.hashcode);
   }
 
-  void toggleAddressSelection(Address address) {
-    if (isAddressSelected(address)) {
-      selectedAddresses.removeWhere((a) => a.hashcode == address.hashcode);
+  void toggleAreaSelection(AreaModel area) {
+    if (isAreaSelected(area)) {
+      selectedAreas.removeWhere((a) => a.code == area.code);
     } else {
-      selectedAddresses.add(address);
+      selectedAreas.add(area);
     }
   }
 
-  bool isAddressSelected(Address address) {
-    return selectedAddresses.any((a) => a.hashcode == address.hashcode);
+  bool isAreaSelected(AreaModel area) {
+    return selectedAreas.any((a) => a.code == area.code);
   }
 
   Future<void> pickPortfolioImage(BuildContext context) async {
@@ -537,12 +487,12 @@ class AddServiceController extends GetxController {
           .pleaseEnterDescription, SnackBarStatus.ERROR);
       return false;
     }
-    if (selectedAddresses.isEmpty) {
+    if (selectedAreas.isEmpty) {
       constants.showSnackBar(
         Resources
             .of(Get.context!)
             .strings
-            .pleaseSelectAtLeastOneAddress,
+            .pleaseSelectAtLeastOneArea,
         SnackBarStatus.ERROR,
       );
       return false;
@@ -624,7 +574,7 @@ class AddServiceController extends GetxController {
         'pricing_type': selectedPricingType.value == Resources.of(Get.context!).strings.hourlyRateOption ? 'U' : 'T',
         'experience': workExperienceController.text,
         'skills': selectedSkills.map((s) => s.hashcode).toList(),
-        'areas': selectedAddresses.map((a) => a.hashcode).toList(),
+        'locations': selectedAreas.map((a) => a.code).join(','),
         'availability': workingHoursData,
       };
 

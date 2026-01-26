@@ -80,6 +80,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                         border: HexColor("#E7F3EE"),
                         icon: AppIcons.packs,
                       ),
+                      SizedBox(height: 10),
+                      LargeMenuItem(
+                      title: context.resources.strings.jobs,
+                      onClick: () {
+                          controller.navigateToJobs();
+                        },
+                        color: HexColor("#EBECF3"),
+                        border: HexColor("#EBECF3"),
+                        icon: AppIcons.projects,
+                      ),
 
                       ListView.builder(
                         padding: EdgeInsets.zero,

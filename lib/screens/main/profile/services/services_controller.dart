@@ -87,7 +87,7 @@ class ServicesController extends GetxController {
           description: service.checked.value
               ? strings.serviceNowLiveDescription
               : strings.serviceDisabledDescription,
-          buttonText: strings.viewMyServices,
+          buttonText: strings.close,
         );
       } else {
         constants.showSnackBar(

@@ -320,6 +320,57 @@ class ServiceDetailsScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ],
+
+                                    // Covered Areas
+                                    if (service.areas != null &&
+                                        service.areas!.isNotEmpty) ...[
+                                      PrimaryText(
+                                        text: context.resources.strings.areasYouCover,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
+                                        textColor: context.resources.color
+                                            .colorGrey,
+                                      ),
+                                      SizedBox(height: 8),
+                                      Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: service.areas!.map((area) {
+                                          return Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 8,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius
+                                                  .circular(24),
+                                              border: Border.all(
+                                                color:
+                                                context.resources.color
+                                                    .colorGrey4,
+                                              ),
+                                            ),
+                                            child: PrimaryText(
+                                              text: area.name ?? '',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              textColor:
+                                              context.resources.color.colorGrey,
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                      SizedBox(height: 16),
+                                      Container(
+                                        width: double.infinity,
+                                        height: 1,
+                                        color: context.resources.color.colorGrey
+                                            .withOpacity(.25),
+                                        margin: EdgeInsets.symmetric(
+                                          vertical: 16,
+                                        ),
+                                      ),
+                                    ],
                                   ],
                                 ),
                               ),

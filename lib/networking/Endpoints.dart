@@ -17,6 +17,7 @@ class Endpoints {
   static const aboutUs = 'app/aboutUs';
   static const freelancerHome = 'home/freelancerHome';
   static const employerHome = 'home/employerHome';
+  static const areas = 'app/areas';
 
   //ACCOUNT
   static const login = 'account/login';
@@ -145,6 +146,9 @@ class Endpoints {
   //SEARCH
   static const employerSearch = 'search/employerSearch';
   static const freelancerSearch = 'search/freelancerSearch';
+  static const searchHistory = 'search/searchHistory';
+  static const suggestSearch = 'search/suggestSearch';
+  static const clearSearchHistory = 'search/clearSearchHistory';
 }
 
 class Params {

@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 
+import 'AreasResponse.dart';
 import 'SkillsResponse.dart';
 
 ServicesResponse servicesResponseFromJson(String str) =>
@@ -82,7 +83,7 @@ class Service {
   int? status;
   DateTime? createdAt;
   List<Skill>? skills;
-  List<Area>? areas;
+  List<AreaModel>? areas;
   List<Availability>? availability;
   List<Package>? packages;
   bool? isFavorite;
@@ -153,9 +154,9 @@ class Service {
     skills: json["skills"] == null
         ? []
         : List<Skill>.from(json["skills"]!.map((x) => Skill.fromJson(x))),
-    areas: json["areas"] == null
+    areas: json["locations"] == null
         ? []
-        : List<Area>.from(json["areas"]!.map((x) => Area.fromJson(x))),
+        : List<AreaModel>.from(json["locations"]!.map((x) => AreaModel.fromJson(x))),
     availability: json["availability"] == null
         ? []
         : List<Availability>.from(

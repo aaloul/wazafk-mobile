@@ -73,6 +73,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 focusNode: _searchFocusNode,
                 hint: context.resources.strings.searchJobsServicesPackages,
                 borderRadius: 0,
+                onTextChanged: (text) {
+                  controller.onSearchTextChanged(text);
+                },
                 onTextChangedWithDelay: (text) {
                   controller.search(text);
                 },
@@ -87,7 +90,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   return Center(child: ProgressBar());
                 }
 
+                // Show suggestions while typing
+                if (controller.showSuggestions.value && controller.searchSuggestions.isNotEmpty) {
+                  return _buildSuggestionsView(context, controller);
+                }
+
                 if (controller.searchQuery.value.isEmpty) {
+                  // Show search history
+                  if (controller.searchHistory.isNotEmpty) {
+                    return _buildHistoryView(context, controller);
+                  }
+
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -229,6 +242,140 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildHistoryView(BuildContext context, SearchController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              PrimaryText(
+                text: context.resources.strings.recentSearches,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                textColor: context.resources.color.colorGrey,
+              ),
+              Obx(() => controller.isClearingHistory.value
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: context.resources.color.colorPrimary,
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: () => controller.clearSearchHistory(),
+                      child: PrimaryText(
+                        text: context.resources.strings.clearAll,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        textColor: context.resources.color.colorPrimary,
+                      ),
+                    )),
+            ],
+          ),
+        ),
+        SizedBox(height: 12),
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            itemCount: controller.searchHistory.length,
+            itemBuilder: (context, index) {
+              final history = controller.searchHistory[index];
+              return GestureDetector(
+                onTap: () => controller.selectHistoryItem(history),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: context.resources.color.colorGrey2,
+                        width: 0.5,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.history,
+                        size: 20,
+                        color: context.resources.color.colorGrey8,
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: PrimaryText(
+                          text: history.search ?? '',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          textColor: context.resources.color.colorGrey,
+                        ),
+                      ),
+                      Icon(
+                        Icons.north_west,
+                        size: 16,
+                        color: context.resources.color.colorGrey8,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSuggestionsView(BuildContext context, SearchController controller) {
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      itemCount: controller.searchSuggestions.length,
+      itemBuilder: (context, index) {
+        final suggestion = controller.searchSuggestions[index];
+        return GestureDetector(
+          onTap: () => controller.selectSuggestion(suggestion.search ?? ''),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: context.resources.color.colorGrey2,
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.search,
+                  size: 20,
+                  color: context.resources.color.colorGrey8,
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: PrimaryText(
+                    text: suggestion.search ?? '',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    textColor: context.resources.color.colorGrey,
+                  ),
+                ),
+                Icon(
+                  Icons.north_west,
+                  size: 16,
+                  color: context.resources.color.colorGrey8,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

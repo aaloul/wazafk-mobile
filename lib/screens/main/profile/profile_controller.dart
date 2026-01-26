@@ -328,6 +328,9 @@ class ProfileController extends GetxController {
   void navigateToPacks() {
     Get.toNamed(RouteConstant.packsScreen);
   }
+  void navigateToJobs() {
+    Get.toNamed(RouteConstant.myJobsScreen);
+  }
 
   @override
   void onInit() {

@@ -146,6 +146,12 @@ abstract class Strings {
 
   String get startTypingToSearch;
 
+  String get recentSearches;
+
+  String get clearAll;
+
+  String get searchHistoryCleared;
+
   String get chooseLocation;
 
   String get selectExpiryDate;
@@ -328,6 +334,12 @@ abstract class Strings {
   String get pleaseEnterTotalPrice;
 
   String get pleaseSelectAtLeastOneAddress;
+
+  String get pleaseSelectAtLeastOneArea;
+
+  String get selectAreas;
+
+  String get noAreasAvailable;
 
   String get pleaseEnterWorkExperience;
 

@@ -4,7 +4,9 @@ import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
+import 'package:wazafak_app/model/SearchHistoryResponse.dart';
 import 'package:wazafak_app/model/SearchResponse.dart';
+import 'package:wazafak_app/model/SearchSuggestionResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_job_repository.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_package_repository.dart';
@@ -13,8 +15,11 @@ import 'package:wazafak_app/repository/favorite/favorites_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_package_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_service_repository.dart';
+import 'package:wazafak_app/repository/search/clear_search_repository.dart';
 import 'package:wazafak_app/repository/search/employer_search_repository.dart';
 import 'package:wazafak_app/repository/search/freelancer_search_repository.dart';
+import 'package:wazafak_app/repository/search/search_history_repository.dart';
+import 'package:wazafak_app/repository/search/search_suggestion_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -32,6 +37,9 @@ class SearchController extends GetxController {
   final _removeFavoriteServiceRepository = RemoveFavoriteServiceRepository();
   final _addFavoritePackageRepository = AddFavoritePackageRepository();
   final _removeFavoritePackageRepository = RemoveFavoritePackageRepository();
+  final _searchHistoryRepository = SearchHistoryRepository();
+  final _searchSuggestionRepository = SearchSuggestionRepository();
+  final _clearSearchRepository = ClearSearchRepository();
 
   var searchQuery = ''.obs;
   var isLoading = false.obs;
@@ -40,6 +48,14 @@ class SearchController extends GetxController {
 
   // Results for different types
   var searchResults = <SearchData>[].obs;
+
+  // Search history and suggestions
+  var searchHistory = <SearchHistory>[].obs;
+  var searchSuggestions = <SearchSuggestion>[].obs;
+  var isLoadingHistory = false.obs;
+  var isLoadingSuggestions = false.obs;
+  var isClearingHistory = false.obs;
+  var showSuggestions = false.obs;
 
   // Pagination
   var currentPage = 1.obs;
@@ -57,17 +73,20 @@ class SearchController extends GetxController {
       selectedCategory.value = Get.arguments as Category;
     }
 
-    search('');
+    // Fetch search history on init
+    fetchSearchHistory();
   }
 
   Future<void> search(String query) async {
     searchQuery.value = query;
+    showSuggestions.value = false;
 
     if (query.isEmpty) {
       searchResults.clear();
       currentPage.value = 1;
       hasMorePages.value = true;
       totalResults.value = 0;
+      searchSuggestions.clear();
       return;
     }
 
@@ -141,6 +160,96 @@ class SearchController extends GetxController {
       print('Error searching: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchSearchHistory() async {
+    try {
+      isLoadingHistory.value = true;
+      final response = await _searchHistoryRepository.getSearchHistory();
+      if (response.success == true && response.data != null) {
+        searchHistory.value = response.data!;
+      }
+    } catch (e) {
+      print('Error fetching search history: $e');
+    } finally {
+      isLoadingHistory.value = false;
+    }
+  }
+
+  Future<void> fetchSearchSuggestions(String hint) async {
+    if (hint.isEmpty) {
+      searchSuggestions.clear();
+      showSuggestions.value = false;
+      return;
+    }
+
+    try {
+      isLoadingSuggestions.value = true;
+      showSuggestions.value = true;
+      final response = await _searchSuggestionRepository.getSearchSuggestion(hint: hint);
+      if (response.success == true && response.data != null) {
+        searchSuggestions.value = response.data!;
+      } else {
+        searchSuggestions.clear();
+      }
+    } catch (e) {
+      print('Error fetching search suggestions: $e');
+      searchSuggestions.clear();
+    } finally {
+      isLoadingSuggestions.value = false;
+    }
+  }
+
+  Future<void> clearSearchHistory() async {
+    try {
+      isClearingHistory.value = true;
+      final response = await _clearSearchRepository.clearSearch();
+      if (response.success == true) {
+        searchHistory.clear();
+        constants.showSnackBar(
+          Resources.of(Get.context!).strings.searchHistoryCleared,
+          SnackBarStatus.SUCCESS,
+        );
+      } else {
+        constants.showSnackBar(
+          response.message ?? 'Failed to clear search history',
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      print('Error clearing search history: $e');
+      constants.showSnackBar(
+        'Error clearing search history',
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isClearingHistory.value = false;
+    }
+  }
+
+  void onSearchTextChanged(String text) {
+    if (text.isEmpty) {
+      searchSuggestions.clear();
+      showSuggestions.value = false;
+      searchResults.clear();
+      searchQuery.value = '';
+    } else {
+      fetchSearchSuggestions(text);
+    }
+  }
+
+  void selectSuggestion(String suggestion) {
+    searchController.text = suggestion;
+    showSuggestions.value = false;
+    search(suggestion);
+  }
+
+  void selectHistoryItem(SearchHistory history) {
+    if (history.search != null) {
+      searchController.text = history.search!;
+      showSuggestions.value = false;
+      search(history.search!);
     }
   }
 

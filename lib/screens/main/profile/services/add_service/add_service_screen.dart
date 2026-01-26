@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/area_choose_widget.dart';
 import 'package:wazafak_app/components/category_chooser.dart';
 import 'package:wazafak_app/components/labeled_text_field.dart';
 import 'package:wazafak_app/components/primary_button.dart';
@@ -7,7 +8,6 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
-import 'package:wazafak_app/screens/main/profile/services/add_service/components/address_choose_widget.dart';
 import 'package:wazafak_app/screens/main/profile/services/add_service/components/skills_choose_widget.dart';
 import 'package:wazafak_app/screens/main/profile/services/add_service/components/working_hours_bottom_sheet.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -80,7 +80,13 @@ class AddServiceScreen extends StatelessWidget {
 
                     SizedBox(height: 12),
 
-                    AddressChooseWidget(),
+                    Obx(() => AreaChooseWidget(
+                      selectedAreas: controller.selectedAreas,
+                      onAreasChanged: (areas) {
+                        controller.selectedAreas.value = areas;
+                      },
+                      enabled: !controller.isEditMode.value,
+                    )),
 
                     SizedBox(height: 8),
 

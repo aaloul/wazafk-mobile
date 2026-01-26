@@ -85,7 +85,7 @@ class MyJobsController extends GetxController {
           description: job.checked.value
               ? strings.jobNowLiveDescription
               : strings.jobDisabledDescription,
-          buttonText: strings.viewMyJobs,
+          buttonText: strings.close,
         );
       } else {
         constants.showSnackBar(

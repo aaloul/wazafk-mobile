@@ -219,6 +219,15 @@ class EnglishStrings extends Strings {
   String get startTypingToSearch => "Start typing to search";
 
   @override
+  String get recentSearches => "Recent Searches";
+
+  @override
+  String get clearAll => "Clear All";
+
+  @override
+  String get searchHistoryCleared => "Search history cleared";
+
+  @override
   String get chooseLocation => "Choose Location";
 
   @override
@@ -491,6 +500,16 @@ class EnglishStrings extends Strings {
   @override
   String get pleaseSelectAtLeastOneAddress =>
       "Please select at least one address";
+
+  @override
+  String get pleaseSelectAtLeastOneArea =>
+      "Please select at least one area";
+
+  @override
+  String get selectAreas => "Select Areas";
+
+  @override
+  String get noAreasAvailable => "No areas available";
 
   @override
   String get pleaseEnterWorkExperience => "Please enter your work experience";

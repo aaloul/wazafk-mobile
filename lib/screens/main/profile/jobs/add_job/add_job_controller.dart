@@ -408,6 +408,7 @@ class AddJobController extends GetxController {
         'responsibilities': responsibilitiesController.text.trim(),
         'requirememts': requirementsController.text.trim(),
         'work_location_type': workLocationType,
+        if(selectedAddress.value != null)
         'address': selectedAddress.value!.hashcode,
         'start_datetime': formattedStartDateTime,
         'skills': selectedSkills.map((s) => s.hashcode).toList(),

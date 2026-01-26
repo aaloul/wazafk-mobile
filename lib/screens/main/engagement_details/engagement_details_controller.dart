@@ -404,11 +404,7 @@ class EngagementDetailsController extends GetxController {
       }
 
       if (negotiationMessageController.text.trim().isNotEmpty) {
-        if (isJob.value) {
-          data['message_to_client'] = negotiationMessageController.text;
-        } else {
-          data['message_to_freelancer'] = negotiationMessageController.text;
-        }
+          data['message'] = negotiationMessageController.text;
       }
 
       // Add end date if available
