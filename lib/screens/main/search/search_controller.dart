@@ -235,7 +235,10 @@ class SearchController extends GetxController {
       searchResults.clear();
       searchQuery.value = '';
     } else {
-      fetchSearchSuggestions(text);
+      showSuggestions.value = true;
+      // if (text.length > 2) {
+        fetchSearchSuggestions(text);
+      // }
     }
   }
 

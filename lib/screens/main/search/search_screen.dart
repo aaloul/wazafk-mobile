@@ -74,10 +74,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 hint: context.resources.strings.searchJobsServicesPackages,
                 borderRadius: 0,
                 onTextChanged: (text) {
-                  controller.onSearchTextChanged(text);
                 },
                 onTextChangedWithDelay: (text) {
-                  controller.search(text);
+                  controller.onSearchTextChanged(text);
+
+                  // controller.search(text);
                 },
                 enabled: true,
               ),
@@ -91,7 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 }
 
                 // Show suggestions while typing
-                if (controller.showSuggestions.value && controller.searchSuggestions.isNotEmpty) {
+                if (controller.showSuggestions.value) {
                   return _buildSuggestionsView(context, controller);
                 }
 
@@ -333,13 +334,37 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildSuggestionsView(BuildContext context, SearchController controller) {
+    // If loading suggestions, show loading indicator
+    if (controller.isLoadingSuggestions.value) {
+      return Center(child: ProgressBar());
+    }
+
+    // Build the list of suggestions
+    final suggestions = controller.searchSuggestions.toList();
+    final searchText = controller.searchController.text.trim();
+
+    // If no suggestions but there's search text, show the search text as suggestion
+    final bool showSearchTextAsSuggestion = suggestions.isEmpty && searchText.isNotEmpty;
+    final int itemCount = showSearchTextAsSuggestion ? 1 : suggestions.length;
+
+    if (itemCount == 0) {
+      return SizedBox.shrink();
+    }
+
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      itemCount: controller.searchSuggestions.length,
+      itemCount: itemCount,
       itemBuilder: (context, index) {
-        final suggestion = controller.searchSuggestions[index];
+        final String suggestionText;
+
+        if (showSearchTextAsSuggestion) {
+          suggestionText = searchText;
+        } else {
+          suggestionText = suggestions[index].search ?? '';
+        }
+
         return GestureDetector(
-          onTap: () => controller.selectSuggestion(suggestion.search ?? ''),
+          onTap: () => controller.selectSuggestion(suggestionText),
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
@@ -360,7 +385,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(width: 12),
                 Expanded(
                   child: PrimaryText(
-                    text: suggestion.search ?? '',
+                    text: suggestionText,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     textColor: context.resources.color.colorGrey,
