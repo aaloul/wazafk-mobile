@@ -16,6 +16,8 @@ class PhoneNumberController extends GetxController {
   Future<void> checkMemberExists() async {
     String mobile = phoneController.text.toString();
 
+    Utils().dismissKeyboard(Get.context!);
+
     if (mobile.trim().isEmpty) {
       return;
     }

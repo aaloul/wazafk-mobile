@@ -16,13 +16,17 @@ class IdentityTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 48,
+      height: 52,
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 16),
-      padding: EdgeInsets.all(4),
+      padding: EdgeInsets.all(3),
       decoration: BoxDecoration(
-        color: context.resources.color.colorGrey4,
-        borderRadius: BorderRadius.circular(120),
+        color: context.resources.color.colorWhite,
+        border: Border.all(
+          width: 1,
+          color: context.resources.color.colorGrey25
+        ),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -34,20 +38,24 @@ class IdentityTabBar extends StatelessWidget {
               },
               child: Container(
                 height: double.infinity,
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(1),
                 decoration: BoxDecoration(
-                  color: selected == "personal_id"
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorGrey4,
-                  borderRadius: BorderRadius.circular(120),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    width: 1,
+                    color: selected == "personal_id"
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorWhite,
+                  ),
                 ),
                 child: Center(
                   child: PrimaryText(
                     text: Resources.of(context).strings.personalId,
-                    fontWeight: FontWeight.w500,
+                    fontWeight:selected == "personal_id"
+                        ? FontWeight.w500 :  FontWeight.w400,
                     textColor: selected == "personal_id"
-                        ? context.resources.color.colorWhite
-                        : context.resources.color.colorGrey3,
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorGrey27,
                   ),
                 ),
               ),
@@ -62,20 +70,24 @@ class IdentityTabBar extends StatelessWidget {
               },
               child: Container(
                 height: double.infinity,
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(1),
                 decoration: BoxDecoration(
-                  color: selected != "personal_id"
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorGrey4,
-                  borderRadius: BorderRadius.circular(120),
+                  border: Border.all(
+                    width: 1,
+                    color: selected != "personal_id"
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorWhite,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
                   child: PrimaryText(
                     text: Resources.of(context).strings.passport,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: selected != "personal_id"
+                        ?FontWeight.w500 :  FontWeight.w400,
                     textColor: selected != "personal_id"
-                        ? context.resources.color.colorWhite
-                        : context.resources.color.colorGrey3,
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorGrey27,
                   ),
                 ),
               ),

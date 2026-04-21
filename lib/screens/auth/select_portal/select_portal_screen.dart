@@ -4,8 +4,8 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
-import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
+import '../../../components/primary_button.dart';
 import '../../../components/top_header.dart';
 import 'components/portal_item.dart';
 
@@ -14,6 +14,9 @@ class SelectPortalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var isEmployer = false.obs;
+
     return Scaffold(
       backgroundColor: context.resources.color.background,
       body: SafeArea(
@@ -32,36 +35,52 @@ class SelectPortalScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PortalItem(
+                  Obx(()=>  PortalItem(
                       title: Resources
                           .of(context)
                           .strings
                           .freelancerPortal,
                       onClick: () {
                         Prefs.setUserMode('freelancer');
-                        Get.offAllNamed(RouteConstant.mainNavigationScreen);
-                      },
-                      color: HexColor("#E7F3EE"),
-                      border: HexColor("#00AEC81A"),
+                        isEmployer.value = false;
+                      }, selected: !isEmployer.value,
+                    ),
                     ),
                     SizedBox(height: 10),
 
-                    PortalItem(
+                    Obx(()=> PortalItem(
                       title: Resources
                           .of(context)
                           .strings
                           .employerPortal,
                       onClick: () {
+                        isEmployer.value = true;
                         Prefs.setUserMode('employer');
-                        Get.offAllNamed(RouteConstant.mainNavigationScreen);
-                      },
-                      color: HexColor("#D5ECEF"),
-                      border: HexColor("##00AEC81A"),
-                    ),
+                      }, selected: isEmployer.value,
+
+                    ),),
                   ],
                 ),
               ),
             ),
+
+            SafeArea(
+              child: Container(
+                margin: EdgeInsets.all(16),
+                child: PrimaryButton(
+                  title: Resources.of(context).strings.startYourJourney,
+                  onPressed: () {
+
+                    if(Prefs.getUserMode == 'employer'){
+                      Get.offAllNamed(RouteConstant.mainNavigationScreen);
+                    }else{
+                      Get.offAllNamed(RouteConstant.mainNavigationScreen);
+                    }
+                  },
+                ),
+              ),
+            )
+
           ],
         ),
       ),

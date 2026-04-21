@@ -399,6 +399,9 @@ class EnglishStrings extends Strings {
   String get emailRequired => "Email is required";
 
   @override
+  String get invalidEmail => "Please enter a valid email address";
+
+  @override
   String get passwordRequired => "Password is required";
 
   @override
@@ -1067,7 +1070,7 @@ class EnglishStrings extends Strings {
 
   @override
   String get messageAndDateRates =>
-      "Message and date rates may apply. By continuing, you agree to our ";
+      "By continuing, you agree to our ";
 
   @override
   String get termsOfUse => "Terms of Use";
@@ -2165,4 +2168,12 @@ class EnglishStrings extends Strings {
 
   @override
   String get wouldYouLikeToContactFreelancer => "Would you like to contact the freelancer?";
+
+  @override
+  String get verifyUserId => "To protect our community and prevent fake accounts, we verify every user’s ID.";
+  @override
+  String get verifyPassport => "To protect our community and prevent fake accounts, we verify every user’s passport.";
+  @override
+  String get onceApproved => "Once approved, you’ll have full access to Wazafk.";
+
 }

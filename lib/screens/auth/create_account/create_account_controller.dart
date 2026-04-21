@@ -360,6 +360,13 @@ class CreateAccountController extends GetxController {
       );
       return;
     }
+    if (!GetUtils.isEmail(emailController.text.trim())) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.invalidEmail,
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
     if (passwordController.text.isEmpty) {
       constants.showSnackBar(
         Resources.of(Get.context!).strings.passwordRequired,

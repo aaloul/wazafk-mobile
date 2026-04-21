@@ -19,16 +19,22 @@ class InterestItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
         decoration: BoxDecoration(
           color: option.selected.value
-              ? context.resources.color.colorPrimary
-              : context.resources.color.colorGrey4,
-          borderRadius: BorderRadius.circular(100),
+              ? context.resources.color.colorWhite
+              : context.resources.color.background2,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            width: 1,
+            color: option.selected.value
+                ? context.resources.color.colorPrimary
+                : context.resources.color.colorGrey25
+          )
         ),
         child: PrimaryText(
           text: option.name.toString(),
           fontWeight: FontWeight.w500,
           textColor: option.selected.value
-              ? context.resources.color.colorWhite
-              : context.resources.color.colorGrey,
+              ? context.resources.color.colorPrimary
+              : context.resources.color.colorGrey26,
         ),
       ),
     );

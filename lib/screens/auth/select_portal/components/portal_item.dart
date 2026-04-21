@@ -6,15 +6,14 @@ class PortalItem extends StatelessWidget {
   const PortalItem({
     super.key,
     required this.title,
-    required this.onClick,
-    required this.color,
-    required this.border,
+    required this.onClick, required this.selected,
+
   });
 
+  final bool selected;
   final String title;
   final Function onClick;
-  final Color color;
-  final Color border;
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +21,36 @@ class PortalItem extends StatelessWidget {
       onTap: () {
         onClick.call();
       },
-      child: Container(
+      child:
+
+
+      Container(
         width: double.infinity,
-        height: 75,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: border, width: 1),
+            color: selected
+                ? context.resources.color.colorWhite
+                : context.resources.color.background2,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+                width: 1,
+                color: selected
+                    ? context.resources.color.colorPrimary
+                    : context.resources.color.colorGrey25
+            )
         ),
-        child: Center(
-          child: PrimaryText(
-            text: title,
-            textColor: context.resources.color.colorPrimary,
-            fontWeight: FontWeight.w900,
-          ),
+        child: PrimaryText(
+          text: title.toString(),
+          textAlign: TextAlign.center,
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+          textColor: selected
+              ? context.resources.color.colorPrimary
+              : context.resources.color.colorGrey26,
         ),
-      ),
+      )
+
+
     );
   }
 }

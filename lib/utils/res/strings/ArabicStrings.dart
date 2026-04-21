@@ -261,7 +261,8 @@ class ArabicStrings extends Strings {
   String get listKeyResponsibilities => "قائمة المسؤوليات الرئيسية";
 
   @override
-  String get listRequiredSkillsQualifications => "قائمة المهارات والمؤهلات المطلوبة";
+  String get listRequiredSkillsQualifications =>
+      "قائمة المهارات والمؤهلات المطلوبة";
 
   // Button Labels
   @override
@@ -399,6 +400,9 @@ class ArabicStrings extends Strings {
   String get emailRequired => "البريد الإلكتروني مطلوب";
 
   @override
+  String get invalidEmail => "يرجى إدخال بريد إلكتروني صحيح";
+
+  @override
   String get passwordRequired => "كلمة المرور مطلوبة";
 
   @override
@@ -414,7 +418,8 @@ class ArabicStrings extends Strings {
   String get pleaseConfirmNewPassword => "الرجاء تأكيد كلمة المرور الجديدة";
 
   @override
-  String get passwordMustBeAtLeast6Characters => "يجب أن تكون كلمة المرور 6 أحرف على الأقل";
+  String get passwordMustBeAtLeast6Characters =>
+      "يجب أن تكون كلمة المرور 6 أحرف على الأقل";
 
   @override
   String get pleaseEnterValidOtp => "الرجاء إدخال رمز التحقق الصحيح";
@@ -503,8 +508,7 @@ class ArabicStrings extends Strings {
       "الرجاء تحديد عنوان واحد على الأقل";
 
   @override
-  String get pleaseSelectAtLeastOneArea =>
-      "الرجاء تحديد منطقة واحدة على الأقل";
+  String get pleaseSelectAtLeastOneArea => "الرجاء تحديد منطقة واحدة على الأقل";
 
   @override
   String get selectAreas => "اختر المناطق";
@@ -565,13 +569,15 @@ class ArabicStrings extends Strings {
   String get serviceNowLiveDescription => "خدمتك الآن نشطة! ترقب الفرص.";
 
   @override
-  String get serviceDisabledDescription => "تم تعطيل خدمتك. يمكنك تفعيلها لاحقاً.";
+  String get serviceDisabledDescription =>
+      "تم تعطيل خدمتك. يمكنك تفعيلها لاحقاً.";
 
   @override
   String get packageNowLiveDescription => "باقتك الآن نشطة! ترقب الفرص.";
 
   @override
-  String get packageDisabledDescription => "تم تعطيل باقتك. يمكنك تفعيلها لاحقاً.";
+  String get packageDisabledDescription =>
+      "تم تعطيل باقتك. يمكنك تفعيلها لاحقاً.";
 
   @override
   String get jobNowLiveDescription => "وظيفتك الآن نشطة! ترقب الفرص.";
@@ -589,7 +595,8 @@ class ArabicStrings extends Strings {
   String get failedToUpdateServiceStatus => "فشل تحديث حالة الخدمة";
 
   @override
-  String errorUpdatingServiceStatus(String error) => "خطأ في تحديث حالة الخدمة: $error";
+  String errorUpdatingServiceStatus(String error) =>
+      "خطأ في تحديث حالة الخدمة: $error";
 
   @override
   String get failedToLoadPackages => "فشل تحميل الباقات";
@@ -601,13 +608,15 @@ class ArabicStrings extends Strings {
   String get failedToUpdatePackageStatus => "فشل تحديث حالة الباقة";
 
   @override
-  String errorUpdatingPackageStatus(String error) => "خطأ في تحديث حالة الباقة: $error";
+  String errorUpdatingPackageStatus(String error) =>
+      "خطأ في تحديث حالة الباقة: $error";
 
   @override
   String get failedToUpdateJobStatus => "فشل تحديث حالة الوظيفة";
 
   @override
-  String errorUpdatingJobStatus(String error) => "خطأ في تحديث حالة الوظيفة: $error";
+  String errorUpdatingJobStatus(String error) =>
+      "خطأ في تحديث حالة الوظيفة: $error";
 
   @override
   String get viewProfile => "عرض الملف الشخصي";
@@ -975,7 +984,8 @@ class ArabicStrings extends Strings {
   String get changeRequest => "طلب تغيير";
 
   @override
-  String get yourChangeRequestPendingApproval => "طلب التغيير الخاص بك قيد الموافقة";
+  String get yourChangeRequestPendingApproval =>
+      "طلب التغيير الخاص بك قيد الموافقة";
 
   @override
   String get yourTaskRequestPendingApproval => "طلبك  قيد الموافقة";
@@ -1550,7 +1560,6 @@ class ArabicStrings extends Strings {
   @override
   String get shareApp => "مشاركة التطبيق";
 
-
   @override
   String get aboutUs => "معلومات عنا";
 
@@ -1757,13 +1766,16 @@ class ArabicStrings extends Strings {
   String get retakePhoto => "إعادة التقاط الصورة";
 
   @override
-  String get pleaseUseCameraToVerifyTask => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في إنهاء هذه المهمة";
+  String get pleaseUseCameraToVerifyTask =>
+      "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في إنهاء هذه المهمة";
 
   @override
-  String get pleaseUseCameraToVerifyJob => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في التقديم على هذه الوظيفة";
+  String get pleaseUseCameraToVerifyJob =>
+      "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في التقديم على هذه الوظيفة";
 
   @override
-  String get pleaseUseCameraToVerifyService => "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في حجز هذه الخدمة";
+  String get pleaseUseCameraToVerifyService =>
+      "يرجى استخدام الكاميرا لالتقاط صورة واضحة لوجهك للمتابعة في حجز هذه الخدمة";
 
   // Location
   @override
@@ -1792,7 +1804,6 @@ class ArabicStrings extends Strings {
   @override
   String get verifyAndBook => "تحقق واحجز";
 
-
   // Common Success Messages
   @override
   String get imageCapturedSuccessfully => "تم التقاط الصورة بنجاح";
@@ -1816,7 +1827,8 @@ class ArabicStrings extends Strings {
   String get packageImageSelectedSuccessfully => "تم اختيار صورة الباقة بنجاح";
 
   @override
-  String get portfolioImageSelectedSuccessfully => "تم اختيار صورة المحفظة بنجاح";
+  String get portfolioImageSelectedSuccessfully =>
+      "تم اختيار صورة المحفظة بنجاح";
 
   // Common Error Messages
   @override
@@ -1859,7 +1871,8 @@ class ArabicStrings extends Strings {
   String errorLoadingTasks(String error) => "خطأ في تحميل المهام: $error";
 
   @override
-  String errorLoadingEmployerHomeData(String error) => "خطأ في تحميل بيانات صفحة صاحب العمل الرئيسية: $error";
+  String errorLoadingEmployerHomeData(String error) =>
+      "خطأ في تحميل بيانات صفحة صاحب العمل الرئيسية: $error";
 
   // Information Not Available Messages
   @override
@@ -1872,7 +1885,8 @@ class ArabicStrings extends Strings {
   String get packageInformationNotAvailable => "معلومات الباقة غير متاحة";
 
   @override
-  String get servicePackageInformationNotAvailable => "معلومات الخدمة/الباقة غير متاحة";
+  String get servicePackageInformationNotAvailable =>
+      "معلومات الخدمة/الباقة غير متاحة";
 
   @override
   String get jobInformationNotAvailable => "معلومات الوظيفة غير متاحة";
@@ -1995,12 +2009,10 @@ class ArabicStrings extends Strings {
   String get failedToFinishTask => "فشل إنهاء المهمة";
 
   @override
-  String errorFinishingTask(String error) =>
-      "خطأ في إنهاء المهمة: $error";
+  String errorFinishingTask(String error) => "خطأ في إنهاء المهمة: $error";
 
   @override
-  String get finishTaskAcceptedSuccessfully =>
-      "تم قبول إنهاء المهمة بنجاح";
+  String get finishTaskAcceptedSuccessfully => "تم قبول إنهاء المهمة بنجاح";
 
   @override
   String get failedToAcceptFinishTask => "فشل قبول إنهاء المهمة";
@@ -2010,8 +2022,7 @@ class ArabicStrings extends Strings {
       "خطأ في قبول إنهاء المهمة: $error";
 
   @override
-  String get finishTaskRejectedSuccessfully =>
-      "تم رفض إنهاء المهمة بنجاح";
+  String get finishTaskRejectedSuccessfully => "تم رفض إنهاء المهمة بنجاح";
 
   @override
   String get failedToRejectFinishTask => "فشل رفض إنهاء المهمة";
@@ -2121,7 +2132,8 @@ class ArabicStrings extends Strings {
   String get endConversation => "إنهاء المحادثة";
 
   @override
-  String get areYouSureEndConversation => "هل أنت متأكد أنك تريد إنهاء هذه المحادثة؟";
+  String get areYouSureEndConversation =>
+      "هل أنت متأكد أنك تريد إنهاء هذه المحادثة؟";
 
   @override
   String get conversationEndedSuccessfully => "تم إنهاء المحادثة بنجاح";
@@ -2142,4 +2154,15 @@ class ArabicStrings extends Strings {
   @override
   String get wouldYouLikeToContactFreelancer => "هل تريد التواصل مع المستقل؟";
 
+  @override
+  String get verifyUserId =>
+      "لحماية مجتمعنا ومنع الحسابات الوهمية، نقوم بالتحقق من هوية كل مستخدم.";
+
+  @override
+  String get verifyPassport =>
+      "لحماية مجتمعنا ومنع الحسابات الوهمية، نقوم بالتحقق من جواز سفر كل مستخدم.";
+
+  @override
+  String get onceApproved =>
+      "بمجرد الموافقة، ستتمكن من الوصول الكامل إلى وظفك.";
 }

@@ -47,15 +47,15 @@ class VerificationScreen extends StatelessWidget {
                   textColor: context.resources.color.colorBlackMain,
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 8),
                 PrimaryText(
                   text: Resources
                       .of(context)
                       .strings
                       .otpHasBeenSent,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w900,
-                  textColor: context.resources.color.colorGrey,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  textColor: context.resources.color.colorGrey26,
                   textAlign: TextAlign.center,
                 ),
 

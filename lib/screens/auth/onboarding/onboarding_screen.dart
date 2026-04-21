@@ -7,7 +7,6 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../../../model/BannersResponse.dart';
@@ -218,7 +217,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           ? 'Get Started'
                           : 'Next',
                       onPressed: _nextPage,
-                      icon: AppIcons.arrowRight,
+                      // icon: AppIcons.arrowRight,
                     ),
                   ),
                   // Animated Skip button

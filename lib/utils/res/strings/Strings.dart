@@ -267,6 +267,8 @@ abstract class Strings {
 
   String get emailRequired;
 
+  String get invalidEmail;
+
   String get passwordRequired;
 
   String get newPasswordRequired;
@@ -1423,4 +1425,8 @@ abstract class Strings {
   // Conversation
   String get openConversation;
   String get wouldYouLikeToContactFreelancer;
+
+  String get verifyUserId;
+  String get verifyPassport;
+  String get onceApproved;
 }

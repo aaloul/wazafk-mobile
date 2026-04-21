@@ -24,19 +24,19 @@ class PhoneTextFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(
-          color: context.resources.color.colorGrey3,
-          width: .5,
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          CountryCodePicker(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(
+              color: context.resources.color.colorGrey25,
+              width: .5,
+            ),
+          ),
+          child: CountryCodePicker(
             onChanged: (cc) {
               onCCChanged(cc.dialCode.toString());
             },
@@ -50,13 +50,21 @@ class PhoneTextFiled extends StatelessWidget {
               onCCChanged(cc?.dialCode.toString());
             },
           ),
-          Container(
-            height: 24,
-            width: 1,
-            color: context.resources.color.colorGrey7,
-          ),
+        ),
 
-          Expanded(
+        SizedBox(
+          width: 8,
+        ),
+
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(
+                color: context.resources.color.colorGrey25,
+                width: .5,
+              ),
+            ),
             child: TextFormField(
               textAlignVertical: TextAlignVertical.top,
               obscureText: false,
@@ -97,8 +105,8 @@ class PhoneTextFiled extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

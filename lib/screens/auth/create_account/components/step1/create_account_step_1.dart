@@ -62,140 +62,158 @@ class CreateAccountStep1 extends StatelessWidget {
 
                   SizedBox(height: 16),
 
-                  LabeledTextFiled(
-                    label: Resources
-                        .of(context)
-                        .strings
-                        .firstName,
-                    hint: Resources
-                        .of(context)
-                        .strings
-                        .firstName,
-                    inputType: TextInputType.text,
-                    isPassword: false,
-                    isMandatory: true,
-                    controller: dataController.firstNameController,
-                  ),
-                  LabeledTextFiled(
-                    label: Resources
-                        .of(context)
-                        .strings
-                        .lastName,
-                    hint: Resources
-                        .of(context)
-                        .strings
-                        .lastName,
-                    inputType: TextInputType.text,
-                    isPassword: false,
-                    isMandatory: true,
-                    controller: dataController.lastNameController,
-                  ),
-                  LabeledTextFiled(
-                    label: Resources
-                        .of(context)
-                        .strings
-                        .title,
-                    hint: Resources
-                        .of(context)
-                        .strings
-                        .title,
-                    inputType: TextInputType.text,
-                    isPassword: false,
-                    isMandatory: false,
-                    isOptional: true,
-                    controller: dataController.titleController,
-                  ),
-                  LabeledTextFiled(
-                    label: Resources
-                        .of(context)
-                        .strings
-                        .emailAddress,
-                    hint: Resources
-                        .of(context)
-                        .strings
-                        .emailAddress,
-                    inputType: TextInputType.emailAddress,
-                    isPassword: false,
-                    isMandatory: true,
-                    controller: dataController.emailController,
-                  ),
 
-                  Obx(
-                    () => PrimaryChooser(
-                      label: Resources
-                          .of(context)
-                          .strings
-                          .gender,
-                      text: Resources
-                          .of(context)
-                          .strings
-                          .gender,
-                      selected: dataController.selectedGender.value,
-                      onSelect: (value) {
-                        dataController.selectedGender.value = value;
-                      },
-                      withArrow: true,
-                      isMandatory: true,
-                      list: dataController.genders,
-                      isMultiSelect: false,
+                  Card(
+                    color: Colors.white,
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 16),
+                      child: Column(
+                      children: [
+                        LabeledTextFiled(
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .firstName,
+                          hint: Resources
+                              .of(context)
+                              .strings
+                              .firstName,
+                          inputType: TextInputType.text,
+                          isPassword: false,
+                          isMandatory: true,
+                          controller: dataController.firstNameController,
+                        ),
+                        LabeledTextFiled(
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .lastName,
+                          hint: Resources
+                              .of(context)
+                              .strings
+                              .lastName,
+                          inputType: TextInputType.text,
+                          isPassword: false,
+                          isMandatory: true,
+                          controller: dataController.lastNameController,
+                        ),
+                        LabeledTextFiled(
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .title,
+                          hint: Resources
+                              .of(context)
+                              .strings
+                              .title,
+                          inputType: TextInputType.text,
+                          isPassword: false,
+                          isMandatory: false,
+                          isOptional: true,
+                          controller: dataController.titleController,
+                        ),
+                        LabeledTextFiled(
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .emailAddress,
+                          hint: Resources
+                              .of(context)
+                              .strings
+                              .emailAddress,
+                          inputType: TextInputType.emailAddress,
+                          isPassword: false,
+                          isMandatory: true,
+                          controller: dataController.emailController,
+                        ),
 
-                  Obx(
-                    () => DateChooser(
-                      text: dataController.selectedDate.value == null
-                          ? 'dd/MM/yyyy'
-                          : DateFormat(
+                        Obx(
+                              () => PrimaryChooser(
+                            label: Resources
+                                .of(context)
+                                .strings
+                                .gender,
+                            text: Resources
+                                .of(context)
+                                .strings
+                                .gender,
+                            selected: dataController.selectedGender.value,
+                            onSelect: (value) {
+                              dataController.selectedGender.value = value;
+                            },
+                            withArrow: true,
+                            isMandatory: true,
+                            list: dataController.genders,
+                            isMultiSelect: false,
+                          ),
+                        ),
+
+                        Obx(
+                              () => DateChooser(
+                            text: dataController.selectedDate.value == null
+                                ? 'dd/MM/yyyy'
+                                : DateFormat(
                               'dd/MM/yyyy',
                             ).format(dataController.selectedDate.value!),
-                      isMandatory: false,
-                      onSelectDate: (d) {
-                        dataController.selectedDate.value = d;
-                      },
-                      label: Resources
-                          .of(context)
-                          .strings
-                          .dateOfBirth,
-                      minDate: DateTime(1900),
-                      maxDate: DateTime.now().subtract(Duration(days: 18 * 365 + 4)),
+                            isMandatory: false,
+                            onSelectDate: (d) {
+                              dataController.selectedDate.value = d;
+                            },
+                            label: Resources
+                                .of(context)
+                                .strings
+                                .dateOfBirth,
+                            minDate: DateTime(1900),
+                            maxDate: DateTime.now().subtract(Duration(days: 18 * 365 + 4)),
+                          ),
+                        ),
+                        LabeledTextFiled(
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .password,
+                          hint: Resources
+                              .of(context)
+                              .strings
+                              .newPassword,
+                          inputType: TextInputType.visiblePassword,
+                          isPassword: true,
+                          isMandatory: true,
+                          controller: dataController.passwordController,
+                        ),
+                        LabeledTextFiled(
+                          label: Resources
+                              .of(context)
+                              .strings
+                              .confirmPassword,
+                          hint: Resources
+                              .of(context)
+                              .strings
+                              .confirmPassword,
+                          inputType: TextInputType.visiblePassword,
+                          isPassword: true,
+                          isMandatory: true,
+                          controller: dataController.confirmPasswordController,
+                        ),
+
+                        SizedBox(height: 16),
+                      ],
+                    ),
                     ),
                   ),
-                  LabeledTextFiled(
-                    label: Resources
-                        .of(context)
-                        .strings
-                        .password,
-                    hint: Resources
-                        .of(context)
-                        .strings
-                        .newPassword,
-                    inputType: TextInputType.visiblePassword,
-                    isPassword: true,
-                    isMandatory: true,
-                    controller: dataController.passwordController,
-                  ),
-                  LabeledTextFiled(
-                    label: Resources
-                        .of(context)
-                        .strings
-                        .confirmPassword,
-                    hint: Resources
-                        .of(context)
-                        .strings
-                        .confirmPassword,
-                    inputType: TextInputType.visiblePassword,
-                    isPassword: true,
-                    isMandatory: true,
-                    controller: dataController.confirmPasswordController,
-                  ),
+                  SizedBox(height: 8),
 
-                  SizedBox(height: 16),
+
                 ],
               ),
             ),
           ),
 
-          SizedBox(height: 16),
+          SizedBox(height: 8),
 
           PrimaryButton(
             title: Resources

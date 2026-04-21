@@ -27,8 +27,16 @@ class PhoneNumberScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 80),
+                SizedBox(height: 40),
+                PrimaryText(
+                  text: Resources.of(context).strings.loginRegister,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  textColor: context.resources.color.colorBlackMain,
+                  textAlign: TextAlign.center,
+                ),
 
+                SizedBox(height: 32),
                 Center(
                   child: Image.asset(
                     AppIcons.phoneScreenImage,
@@ -39,129 +47,110 @@ class PhoneNumberScreen extends StatelessWidget {
 
                 SizedBox(height: 32),
 
-                PrimaryText(
-                  text: Resources
-                      .of(context)
-                      .strings
-                      .loginRegister,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  textColor: context.resources.color.colorBlackMain,
-                  textAlign: TextAlign.center,
-                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PrimaryText(
+                      text: '${context.resources.strings.phoneNumber}*',
+                      fontWeight: FontWeight.w500,
+                      textColor: context.resources.color.colorGrey26,
+                      fontSize: 14,
+                    ),
+                    SizedBox(height: 10),
 
-                SizedBox(height: 24),
-                PhoneTextFiled(
-                  hint: Resources
-                      .of(context)
-                      .strings
-                      .phoneNumber,
-                  controller: dataController.phoneController,
-                  onCCChanged: (cc) {
-                    dataController.cc = cc;
-                  },
-                ),
+                    PhoneTextFiled(
+                      hint: Resources.of(context).strings.phoneNumber,
+                      controller: dataController.phoneController,
+                      onCCChanged: (cc) {
+                        dataController.cc = cc;
+                      },
+                    ),
 
-                // LabeledTextFiled(
-                //   label: 'Phone Number',
-                //   hint: '',
-                //   isPassword: false,
-                //   controller: dataController.phoneController,
-                //   isMandatory: true,
-                //   inputType: TextInputType.phone,
-                // ),
-                SizedBox(height: 20),
+                    SizedBox(height: 24),
 
-                GestureDetector(
-                  onTap: () {},
-                  child: Text.rich(
-                    TextSpan(
-                        text: Resources
-                            .of(context)
-                            .strings
-                            .messageAndDateRates,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: context.resources.color.colorGrey3,
+                    Obx(
+                      () => dataController.isLoading.value
+                          ? ProgressBar()
+                          : PrimaryButton(
+                              title: Resources.of(context).strings.continueBtn,
+                              onPressed: () {
+                                dataController.checkMemberExists();
+                              },
+                            ),
+                    ),
+                    SizedBox(height: 24),
+
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text.rich(
+                        TextSpan(
+                          text: Resources.of(
+                            context,
+                          ).strings.messageAndDateRates,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: context.resources.color.colorGrey3,
+                          ),
+                          children: [
+                            WidgetSpan(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                    RouteConstant.termsScreen,
+                                    arguments: {'type': 'terms'},
+                                  );
+                                },
+                                child: Text(
+                                  Resources.of(context).strings.termsOfUse,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: context.resources.color.colorPrimary,
+                                    // decoration: TextDecoration.combine([
+                                    //   TextDecoration.underline,
+                                    // ]),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                              text: Resources.of(context).strings.and,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: context.resources.color.colorGrey3,
+                              ),
+                            ),
+                            WidgetSpan(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                    RouteConstant.termsScreen,
+                                    arguments: {'type': 'privacy'},
+                                  );
+                                },
+                                child: Text(
+                                  Resources.of(context).strings.privacyPolicy,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: context.resources.color.colorPrimary,
+                                    // decoration: TextDecoration.combine([
+                                    //   TextDecoration.underline,
+                                    // ]),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        children: [
-                          WidgetSpan(
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.toNamed(
-                                  RouteConstant.termsScreen,
-                                  arguments: {'type': 'terms'},
-                                );
-                              },
-                              child: Text(
-                                Resources
-                                    .of(context)
-                                    .strings
-                                    .termsOfUse,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: context.resources.color.colorPrimary,
-                                  decoration: TextDecoration.combine([
-                                    TextDecoration.underline,
-                                  ]),
-                                ),
-                              ),
-                            ),
-                          ),
-                          TextSpan(
-                            text: Resources
-                                .of(context)
-                                .strings
-                                .and,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: context.resources.color.colorGrey3,
-                            ),
-                          ),
-                          WidgetSpan(
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.toNamed(
-                                  RouteConstant.termsScreen,
-                                  arguments: {'type': 'privacy'},
-                                );
-                              },
-                              child: Text(
-                                Resources
-                                    .of(context)
-                                    .strings
-                                    .privacyPolicy,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: context.resources.color.colorPrimary,
-                                  decoration: TextDecoration.combine([
-                                    TextDecoration.underline,
-                                  ]),
-                                ),
-                              ),
-                            ),
-                          )
-                        ]),
-                  ),
+                      ),
+                    ),
+
+                    SizedBox(height: 40),
+                  ],
                 ),
-
-
-                SizedBox(height: 40),
-
-                Obx(() =>
-                dataController.isLoading.value ? ProgressBar() : PrimaryButton(
-                    title: Resources
-                        .of(context)
-                        .strings
-                        .continueBtn, onPressed: () {
-                  dataController.checkMemberExists();
-                }),),
-                SizedBox(height: 20),
-
               ],
             ),
           ),

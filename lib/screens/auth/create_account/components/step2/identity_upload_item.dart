@@ -64,7 +64,7 @@ class IdentityUploadItem extends StatelessWidget {
           onTap: () => onClick(),
           child: SizedBox(
             width: double.infinity,
-            height: 170,
+            height: 150,
             child: DottedBorder(
               options: RoundedRectDottedBorderOptions(
                 color: context.resources.color.colorGrey2,

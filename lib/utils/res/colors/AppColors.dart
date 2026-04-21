@@ -5,7 +5,7 @@ import 'hex_color.dart';
 
 class AppColors implements BaseColors {
   @override
-  Color get colorPrimary => HexColor('#767BA9');
+  Color get colorPrimary => HexColor('#3CA0ED');
 
   @override
   Color get colorBlackMain => HexColor('#0F0F0F');
@@ -14,7 +14,7 @@ class AppColors implements BaseColors {
   Color get background => HexColor('#FFFFFF');
 
   @override
-  Color get background2 => HexColor('#F5F5F5');
+  Color get background2 => HexColor('#FAFAFA');
 
   @override
   Color get colorWhite => HexColor('#FFFFFF');
@@ -129,4 +129,13 @@ class AppColors implements BaseColors {
 
   @override
   Color get colorGrey23 => HexColor('#9F9F9F');
+
+  @override
+  Color get colorGrey25 => HexColor('#E5E5E5');
+
+  @override
+  Color get colorGrey26 => HexColor('#60656F');
+
+  @override
+  Color get colorGrey27 => HexColor('#B1B1B1');
 }

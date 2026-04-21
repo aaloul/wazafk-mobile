@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/auth/create_account/components/step2/create_account_step_2.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import 'package:wazafak_app/utils/res/Resources.dart';
 
+import '../../../components/primary_text.dart';
+import '../../../utils/res/AppIcons.dart';
+import '../../../utils/utils.dart';
 import 'components/create_account_steps.dart';
 import 'components/step1/create_account_step_1.dart';
 import 'components/step3/create_account_step_3.dart';
@@ -38,29 +39,75 @@ class CreateAccountScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: context.resources.color.background,
+        backgroundColor: context.resources.color.background2,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TopHeader(
-                title: Resources.of(context).strings.createAccount,
-                onBack: () {
-                  if (dataController.index.value == 0) {
-                    SystemNavigator.pop();
-                  } else {
-                    if (dataController.faceImage.value == null &&
-                        dataController.index.value == 3) {
-                      dataController.index.value =
-                          dataController.index.value - 2;
-                    } else {
-                      dataController.index.value =
-                          dataController.index.value - 1;
-                    }
-                  }
-                },
+
+              Container(
+                decoration: BoxDecoration(
+                  color: context.resources.color.colorWhite,
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                       GestureDetector(
+                            onTap: () {
+                              if (dataController.index.value == 0) {
+                                SystemNavigator.pop();
+                              } else {
+                                if (dataController.faceImage.value == null &&
+                                    dataController.index.value == 3) {
+                                  dataController.index.value =
+                                      dataController.index.value - 2;
+                                } else {
+                                  dataController.index.value =
+                                      dataController.index.value - 1;
+                                }
+                              }
+                            },
+                            child: RotatedBox(
+                              quarterTurns: Utils().isRTL() ? 2 : 0,
+                              child: Image.asset(
+                                AppIcons.back2,
+                                width: 32,
+                              ),
+                          )),
+
+
+
+                        PrimaryText(
+                          textAlign: TextAlign.center,
+                          text: context.resources.strings.createAccount,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          textColor:context.resources.color.colorGrey,
+                        ),
+
+
+                        SizedBox()
+
+
+
+                      ],
+                    ),
+
+                    SizedBox(height: 16),
+
+                    Obx(
+                          () => CreateAccountSteps(
+                        index: dataController.index.value,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 24),
+
+
 
               Expanded(
                 child: Container(
@@ -68,11 +115,7 @@ class CreateAccountScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Obx(
-                        () => CreateAccountSteps(
-                          index: dataController.index.value,
-                        ),
-                      ),
+
                       SizedBox(height: 16),
 
                       Obx(
