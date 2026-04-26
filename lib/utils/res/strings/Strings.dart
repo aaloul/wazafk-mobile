@@ -1441,4 +1441,6 @@ abstract class Strings {
   String get verifyUserId;
   String get verifyPassport;
   String get onceApproved;
+  String get voucher;
+  String get legal;
 }

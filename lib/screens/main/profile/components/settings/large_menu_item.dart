@@ -29,37 +29,45 @@ class LargeMenuItem extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16),
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         width: double.infinity,
-        height: 75,
+        height: 65,
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(color: border, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              spreadRadius: 0,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
         child: Row(
           children: [
-            Image.asset(icon, width: 30),
+            Image.asset(icon, width: 32),
 
             Container(
-              width: 2,
-              height: 22,
-              margin: EdgeInsets.symmetric(horizontal: 14),
-              color: context.resources.color.colorGrey.withOpacity(.1),
+              width: 1.5,
+              height: 30,
+              margin: EdgeInsets.symmetric(horizontal: 12),
+              color: context.resources.color.colorGrey29,
             ),
 
             Expanded(
               child: PrimaryText(
                 text: title,
-                fontSize: 16,
-                fontWeight: FontWeight.w900,
-                textColor: context.resources.color.colorGrey,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                textColor: context.resources.color.colorGrey26,
               ),
             ),
 
             RotatedBox(
               quarterTurns: Utils().isRTL() ? 2 : 0,
-              child: Image.asset(AppIcons.arrowRight2, width: 18),
+              child: Image.asset(AppIcons.arrowRight3, width: 24),
             ),
           ],
         ),

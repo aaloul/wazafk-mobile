@@ -25,14 +25,14 @@ class ProfileController extends GetxController {
           .strings
           .settings,
       items: [
-        SettingsModel(
-          title: Resources
-              .of(Get.context!)
-              .strings
-              .personalInformation,
-          icon: AppIcons.menuPersonalInfo,
-          id: 0,
-        ),
+        // SettingsModel(
+        //   title: Resources
+        //       .of(Get.context!)
+        //       .strings
+        //       .personalInformation,
+        //   icon: AppIcons.menuPersonalInfo,
+        //   id: 0,
+        // ),
         SettingsModel(
           title: Resources
               .of(Get.context!)
@@ -65,46 +65,46 @@ class ProfileController extends GetxController {
           icon: AppIcons.menuSecurity,
           id: 4,
         ),
-        SettingsModel(
-          title: Resources
-              .of(Get.context!)
-              .strings
-              .paymentsAndEarnings,
-          icon: AppIcons.menuEarnings,
-          id: 5,
-        ),
-        SettingsModel(
-          title: Resources
-              .of(Get.context!)
-              .strings
-              .privacyAndSharing,
-          icon: AppIcons.menuPrivacy,
-          id: 6,
-        ),
-        SettingsModel(
-          title: Resources
-              .of(Get.context!)
-              .strings
-              .changeLanguage,
-          icon: AppIcons.menuLanguage,
-          id: 7,
-        ),
-        SettingsModel(
-          title: Resources
-              .of(Get.context!)
-              .strings
-              .wayOfPayment,
-          icon: AppIcons.menuPayment,
-          id: 8,
-        ),
-        SettingsModel(
-          title: Resources
-              .of(Get.context!)
-              .strings
-              .workingDays,
-          icon: AppIcons.menuWorkingDays,
-          id: 9,
-        ),
+        // SettingsModel(
+        //   title: Resources
+        //       .of(Get.context!)
+        //       .strings
+        //       .paymentsAndEarnings,
+        //   icon: AppIcons.menuEarnings,
+        //   id: 5,
+        // ),
+        // SettingsModel(
+        //   title: Resources
+        //       .of(Get.context!)
+        //       .strings
+        //       .privacyAndSharing,
+        //   icon: AppIcons.menuPrivacy,
+        //   id: 6,
+        // ),
+        // SettingsModel(
+        //   title: Resources
+        //       .of(Get.context!)
+        //       .strings
+        //       .changeLanguage,
+        //   icon: AppIcons.menuLanguage,
+        //   id: 7,
+        // ),
+        // SettingsModel(
+        //   title: Resources
+        //       .of(Get.context!)
+        //       .strings
+        //       .wayOfPayment,
+        //   icon: AppIcons.menuPayment,
+        //   id: 8,
+        // ),
+        // SettingsModel(
+        //   title: Resources
+        //       .of(Get.context!)
+        //       .strings
+        //       .workingDays,
+        //   icon: AppIcons.menuWorkingDays,
+        //   id: 9,
+        // ),
       ],
     ),
     SettingsGroup(
@@ -117,6 +117,10 @@ class ProfileController extends GetxController {
             .of(Get.context!)
             .strings
             .shareApp, icon: AppIcons.menuShare, id: 10),
+        SettingsModel(title: Resources
+            .of(Get.context!)
+            .strings
+            .voucher, icon: AppIcons.voucher, id: 30),
       ],
     ),
     SettingsGroup(
@@ -128,21 +132,52 @@ class ProfileController extends GetxController {
         SettingsModel(title: Resources
             .of(Get.context!)
             .strings
-            .aboutUs, icon: AppIcons.menuAbout, id: 11),
+            .aboutUs, icon: AppIcons.menuShare, id: 11),
         SettingsModel(title: Resources
             .of(Get.context!)
             .strings
-            .helpCenter, icon: AppIcons.menuHelp, id: 12),
+            .helpCenter, icon: AppIcons.voucher, id: 12),
         SettingsModel(
           title: Resources
               .of(Get.context!)
               .strings
               .giveUsFeedback,
-          icon: AppIcons.menuFeedback,
+          icon: AppIcons.menuShare,
           id: 13,
         ),
       ],
     ),
+
+        SettingsGroup(
+          title: Resources
+              .of(Get.context!)
+              .strings
+              .legal,
+          items: [
+
+            SettingsModel(
+              title: Resources
+                  .of(Get.context!)
+                  .strings
+                  .privacyAndSharing,
+              icon: AppIcons.menuPrivacy,
+              id: 6,
+            ),
+
+            SettingsModel(
+              title: Resources
+                  .of(Get.context!)
+                  .strings
+                  .termsOfUse,
+              icon: AppIcons.voucher,
+              id: 8,
+            ),
+
+
+
+          ],
+        ),
+
     SettingsGroup(
       title: '',
       items: [

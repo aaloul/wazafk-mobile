@@ -7,7 +7,7 @@ import '../../../../components/primary_network_image.dart';
 import '../../../../components/primary_text.dart';
 import '../../../../utils/Prefs.dart';
 import '../../../../utils/res/AppIcons.dart';
-import '../../home/components/statistics/home_statistics_widget.dart';
+import '../../home/components/home_header.dart';
 import '../../home/home_controller.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -15,70 +15,191 @@ class ProfileHeader extends StatelessWidget {
 
   final controller = Get.find<HomeController>();
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: context.resources.color.colorPrimary,
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0x994EA9EE), // rgba(78, 169, 238, 0.6)
+            Colors.white,
+          ],
+        ),
+      ),
       child: Column(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
-              Obx(() =>
-                  Container(
-                width: 50,
-                height: 50,
-                padding: EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                    color: context.resources.color.colorWhite,
-                    shape: BoxShape.circle
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(1000),
-                  child: PrimaryNetworkImage(
-                    url: controller.profileData.value?.image ?? Prefs.getAvatar,
-                    width: double.infinity,
-                    height: double.infinity,
+              Obx(
+                () => SizedBox(
+                  width: 47,
+                  height: 47,
+                  child: ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(1000),
+                    child: PrimaryNetworkImage(
+                      url:
+                          controller.profileData.value?.image ??
+                          Prefs.getAvatar,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
                   ),
                 ),
               ),
-              ),
 
-              SizedBox(width: 12,),
+              SizedBox(width: 10),
 
-              Expanded(
-                child: Obx(() =>
-                PrimaryText(
-                  text: "${controller.profileData.value?.firstName ??
-                      Prefs.getFName} ${controller.profileData.value
-                      ?.lastName ?? Prefs.getLName}",
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  textColor: context.resources.color.colorWhite,),
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PrimaryText(
+                      text:
+                          "${controller.profileData.value?.firstName ?? Prefs.getFName} ${controller.profileData.value?.lastName ?? Prefs.getLName}",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      textColor: context.resources.color.colorBlack,
+                    ),
+
+                    SizedBox(height: 4),
+
+                    Obx(
+                      () => UserTypeTabBar(
+                        isFreelancer: controller.isFreelancerMode.value,
+                        onSelect: (isFreelancer) {
+                          controller.toggleUserMode(isFreelancer);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
-
-              GestureDetector(onTap: () {},
-                  child: Image.asset(AppIcons.profile, width: 20,
-                    color: context.resources.color.colorWhite,)),
-
-              Container(
-                height: 24,
-                width: 1,
-                margin: EdgeInsets.symmetric(horizontal: 8),
-                color: context.resources.color.colorWhite.withOpacity(.7),
-              ),
-              GestureDetector(onTap: () {},
-                  child: Image.asset(AppIcons.file, width: 20,
-                      color: context.resources.color.colorWhite)),
             ],
           ),
 
+          SizedBox(height: 16),
+
+          SizedBox(
+            height: 172,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(12),
+                    child: Image.asset(AppIcons.profileBg, fit: BoxFit.cover),
+                  ),
+                ),
+
+                Positioned.fill(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PrimaryText(
+                                    text: 'Your Balance',
+                                    textColor:
+                                        context.resources.color.colorSnowWhite,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                  SizedBox(height: 2),
+                                  PrimaryText(
+                                    text: '\$${controller.walletBalance.value}',
+                                    textColor:
+                                        context.resources.color.colorWhite,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 24,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            Image.asset(AppIcons.logoW, width: 70),
+                          ],
+                        ),
+
+                        Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: context.resources.color.colorWhite.withAlpha(
+                            30,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 14),
+                        ),
+
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(AppIcons.topUp, width: 38),
+                                SizedBox(height: 4),
+                                PrimaryText(
+                                  text: 'Top Up',
+                                  fontWeight: FontWeight.w600,
+                                  textColor:
+                                      context.resources.color.colorSnowWhite,
+                                  fontSize: 12,
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(width: 16,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(AppIcons.withdraw, width: 38),
+                                SizedBox(height: 4),
+                                PrimaryText(
+                                  text: 'Withdraw',
+                                  fontWeight: FontWeight.w600,
+                                  textColor:
+                                      context.resources.color.colorSnowWhite,
+                                  fontSize: 12,
+                                ),
+                              ],
+                            ),
+
+                            Spacer(),
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(AppIcons.history, width: 38),
+                                SizedBox(height: 4),
+                                PrimaryText(
+                                  text: 'History',
+                                  fontWeight: FontWeight.w600,
+                                  textColor:
+                                  context.resources.color.colorSnowWhite,
+                                  fontSize: 12,
+                                ),
+                              ],
+                            ),
+
+
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           // Verification Status
           Obx(() {
             final isVerified = controller.profileData.value?.idVerified == 1;
@@ -90,7 +211,7 @@ class ProfileHeader extends StatelessWidget {
               margin: EdgeInsets.only(top: 12),
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: context.resources.color.colorWhite.withOpacity(.15),
+                color: context.resources.color.colorPrimary.withOpacity(.30),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -115,7 +236,9 @@ class ProfileHeader extends StatelessWidget {
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: context.resources.color.colorWhite,
                         borderRadius: BorderRadius.circular(6),
@@ -133,31 +256,6 @@ class ProfileHeader extends StatelessWidget {
             );
           }),
 
-          Container(
-            height: 1,
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(vertical: 16),
-            color: context.resources.color.colorWhite.withOpacity(.25),
-          ),
-
-          Row(
-            children: [
-              Obx(() =>
-                  StatisticsItem(
-                    title: context.resources.strings.totalEarnings,
-                    value: '\$${controller.totalEarnings.value}',
-
-              ),
-              ),
-              SizedBox(width: 12),
-              Obx(() =>
-                  StatisticsItem(
-                    title: context.resources.strings.wallet,
-                    value: '\$${controller.walletBalance.value}',
-              ),
-              ),
-            ],
-          ),
 
         ],
       ),

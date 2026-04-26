@@ -4,7 +4,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-import '../components/member_profile_header.dart';
+import '../components/employer_profile_header.dart';
 import '../components/member_rating_info.dart';
 import 'employer_member_profile_controller.dart';
 
@@ -42,24 +42,11 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                     () => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MemberProfileHeader( user: controller.user.value!, isEmployer: true,
+                      EmployerProfileHeader( user: controller.user.value!,
                       ),
 
                       SizedBox(height: 16),
 
-
-
-                      Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: context.resources.color.colorGrey.withOpacity(
-                          .25,
-                        ),
-                        margin: EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 8,
-                        ),
-                      ),
 
                       MemberRatingInfo(
                         memberProfile: controller.memberProfile.value!,

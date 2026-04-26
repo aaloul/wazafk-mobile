@@ -16,17 +16,25 @@ class SettingsGroupWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      decoration: BoxDecoration(
+        color: context.resources.color.colorWhite,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: context.resources.color.colorGrey25,
+          width: 1,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 24),
           if (settingsGroup.title.isNotEmpty)
             PrimaryText(
               text: settingsGroup.title,
-              fontWeight: FontWeight.w900,
-              fontSize: 16,
-              textColor: context.resources.color.colorGrey3,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              textColor: context.resources.color.colorBlack2,
             ),
           if (settingsGroup.title.isNotEmpty) SizedBox(height: 14),
           ListView.builder(
@@ -71,42 +79,49 @@ class SettingItem extends StatelessWidget {
     return InkWell(
       onTap: () => onClick(settingsModel.id),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 13, horizontal: 14),
         width: double.infinity,
-        decoration: BoxDecoration(
-          color: context.resources.color.colorWhite,
-          borderRadius: BorderRadius.only(
-            bottomLeft: index == totalLength - 1
-                ? Radius.circular(10)
-                : Radius.circular(0),
-            bottomRight: index == totalLength - 1
-                ? Radius.circular(10)
-                : Radius.circular(0),
-            topRight: index == 0 ? Radius.circular(10) : Radius.circular(0),
-            topLeft: index == 0 ? Radius.circular(10) : Radius.circular(0),
-          ),
-          border: Border.all(color: context.resources.color.colorGrey9),
-        ),
-        child: Row(
+        decoration: BoxDecoration(color: context.resources.color.colorWhite),
+        child: Column(
           children: [
-            Image.asset(settingsModel.icon, height: 24, width: 24),
+            Row(
+              children: [
+                Image.asset(
+                  settingsModel.icon,
+                  height: 24,
+                  width: 24,
+                  color: context.resources.color.colorGrey29,
+                ),
+                Container(
+                  width: 1,
+                  height: 20,
+                  margin: EdgeInsets.symmetric(horizontal: 14),
+                  color: context.resources.color.colorGrey25,
+                ),
+                Expanded(
+                  child: PrimaryText(
+                    text: settingsModel.title,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    textColor: context.resources.color.colorGrey26,
+                  ),
+                ),
+                RotatedBox(
+                  quarterTurns: Utils().isRTL() ? 2 : 0,
+                  child: Image.asset(
+                    AppIcons.arrowRight2,
+                    width: 18,
+                    color: context.resources.color.colorGrey26  ,
+                  ),
+                ),
+              ],
+            ),
+
+            if(index != totalLength -1)
             Container(
-              width: 2,
-              height: 22,
-              margin: EdgeInsets.symmetric(horizontal: 14),
-              color: context.resources.color.colorGrey.withOpacity(.1),
-            ),
-            Expanded(
-              child: PrimaryText(
-                text: settingsModel.title,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                textColor: context.resources.color.colorGrey10,
-              ),
-            ),
-            RotatedBox(
-              quarterTurns: Utils().isRTL() ? 2 : 0,
-              child: Image.asset(AppIcons.arrowRight2, width: 18),
+              width: double.infinity,
+              height: 1,
+              margin: EdgeInsets.symmetric(vertical: 12),
+              color: context.resources.color.colorGrey25,
             ),
           ],
         ),

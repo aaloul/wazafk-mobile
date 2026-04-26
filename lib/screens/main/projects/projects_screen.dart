@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/skeletons/job_item_skeleton.dart';
 import 'package:wazafak_app/components/skeletons/project_item_skeleton.dart';
-import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/projects/projects_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
+import '../../../components/search_widget.dart';
 import '../../../components/tabs_widget.dart';
+import '../../../constants/route_constant.dart';
+import '../../../utils/res/AppIcons.dart';
 import 'components/jobs/projects_job_item.dart';
 import 'components/projects/project_item.dart';
 
@@ -34,31 +37,83 @@ class ProjectsScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(
-                hasBack: false,
-                title: Resources
+
+          Container(
+              decoration: BoxDecoration(
+                color: context.resources.color.colorWhite,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                  ),
+                ],
+              ),
+            child: Column(
+              children: [
+                SizedBox(height: 16,),
+
+                PrimaryText(text: Resources
                     .of(context)
                     .strings
                     .projects,
+                textColor: context.resources.color.colorBlack4,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,),
 
-              ),
+                SizedBox(height: 16,),
 
+                Obx(
+                      () =>
+                      TabsWidget(
+                        tabs: [
+                          context.resources.strings.ongoingProject,
+                          context.resources.strings.pending,
+                          context.resources.strings.closedPaused,
+                          context.resources.strings.savedJobs
+                        ],
+                        onSelect: (tab) {
+                          controller.selectedTab.value = tab;
+                        },
+                        selectedTab: controller.selectedTab.value,
+                        margin: 10,
+                      ),
+                ),
+                SizedBox(height: 16,),
+                Row(
+                  children: [
+                    SizedBox(width: 16),
 
-              Obx(
-                    () =>
-                    TabsWidget(
-                      tabs: [
-                        context.resources.strings.ongoingProject,
-                        context.resources.strings.pending,
-                        context.resources.strings.closedPaused,
-                        context.resources.strings.savedJobs
-                      ],
-                      onSelect: (tab) {
-                        controller.selectedTab.value = tab;
-                      },
-                      selectedTab: controller.selectedTab.value,
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(RouteConstant.searchScreen);
+                        },
+                        child: AbsorbPointer(child: SearchWidget(enabled: false,borderRadius: 12,height: 45,)),
+                      ),
                     ),
-              ),
+                    SizedBox(width: 8),
+                    Container(
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: context.resources.color.colorPrimary,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(child: Image.asset(AppIcons.filter, width: 20,color: context.resources.color.colorWhite,)),
+                    ),
+                    SizedBox(width: 16),
+
+                  ],
+                ),
+
+                SizedBox(height: 16,),
+
+              ],
+            ),
+          ),
+
 
               Expanded(
                 child: Obx(() => _buildTabContent(context)),

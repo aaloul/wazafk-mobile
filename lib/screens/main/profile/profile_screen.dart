@@ -65,9 +65,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                       onClick: () {
                           controller.navigateToServices();
                         },
-                        color: HexColor("#CDE9EE"),
-                        border: HexColor("#CDE9EE"),
-                        icon: AppIcons.services,
+                        color: HexColor("#E5E5E5"),
+                        border: HexColor("#E5E5E5"),
+                        icon: AppIcons.bag,
                       ),
 
                       SizedBox(height: 10),
@@ -76,20 +76,20 @@ class _ProfileScreenState extends State<ProfileScreen>
                       onClick: () {
                           controller.navigateToPacks();
                         },
-                        color: HexColor("#E7F3EE"),
-                        border: HexColor("#E7F3EE"),
-                        icon: AppIcons.packs,
+                        color: HexColor("#E5E5E5"),
+                        border: HexColor("#E5E5E5"),
+                        icon: AppIcons.package,
                       ),
-                      SizedBox(height: 10),
-                      LargeMenuItem(
-                      title: context.resources.strings.jobs,
-                      onClick: () {
-                          controller.navigateToJobs();
-                        },
-                        color: HexColor("#EBECF3"),
-                        border: HexColor("#EBECF3"),
-                        icon: AppIcons.projects,
-                      ),
+                       SizedBox(height: 8),
+                      // LargeMenuItem(
+                      // title: context.resources.strings.jobs,
+                      // onClick: () {
+                      //     controller.navigateToJobs();
+                      //   },
+                      //   color: HexColor("#EBECF3"),
+                      //   border: HexColor("#EBECF3"),
+                      //   icon: AppIcons.projects,
+                      // ),
 
                       ListView.builder(
                         padding: EdgeInsets.zero,

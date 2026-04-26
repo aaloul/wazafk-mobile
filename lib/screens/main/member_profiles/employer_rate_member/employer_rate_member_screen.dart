@@ -9,8 +9,8 @@ import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
+import '../components/employer_profile_header.dart';
 import '../components/member_info_header.dart';
-import '../components/member_profile_header.dart';
 import '../components/member_rating_info.dart';
 import 'employer_rate_member_controller.dart';
 
@@ -49,12 +49,11 @@ class EmployerRateMemberScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          MemberProfileHeader(
+                          EmployerProfileHeader(
                             user: User(
                               image: controller.memberImage.toString(),
                               hashcode: controller.memberHashcode.toString(),
                             ),
-                            isEmployer: false,
                           ),
 
                           SizedBox(height: 10),

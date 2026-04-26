@@ -23,68 +23,65 @@ class TabsWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: margin ?? 0),
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
-      child: Column(
-        children: [
-          Container(height: 4, color: context.resources.color.background2),
-          isScrollable
-              ? SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: _buildScrollableTabs(context),
-            ),
-          )
-              : Row(
-            mainAxisSize: MainAxisSize.max,
-            children: _buildExpandedTabs(context),
-          ),
-          Container(height: 8, color: context.resources.color.background2),
-        ],
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: context.resources.color.colorBlueL,
       ),
+      child: isScrollable
+          ? SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: _buildScrollableTabs(context)),
+            )
+          : Row(
+              mainAxisSize: MainAxisSize.max,
+              children: _buildExpandedTabs(context),
+            ),
     );
   }
 
   List<Widget> _buildExpandedTabs(BuildContext context) {
     return tabs.map((tab) {
+      final isSelected = selectedTab == tab;
       return Expanded(
         flex: 1,
-        child: Row(
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  onSelect(tab);
-                },
-                child: Container(
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                    color: selectedTab == tab.toString()
-                        ? context.resources.color.colorPrimary
-                        : context.resources.color.colorWhite,
-                  ),
-                  child: Center(
-                    child: PrimaryText(
-                      textAlign: TextAlign.center,
-                      text: tab.toString(),
-                      textColor: selectedTab == tab.toString()
-                          ? context.resources.color.colorWhite
-                          : context.resources.color.colorGrey,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
+        child: GestureDetector(
+          onTap: () => onSelect(tab),
+          child: Container(
+            height: 42,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: isSelected
+                  ? context.resources.color.colorWhite
+                  : Colors.transparent,
+              border: isSelected
+                  ? Border.all(
+                      color: context.resources.color.colorPrimary,
+                      width: 1,
+                    )
+                  : null,
+              boxShadow: isSelected
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xA64EA9EE),
+                        blurRadius: 2,
+                        spreadRadius: 0,
+                        offset: Offset.zero,
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Center(
+              child: PrimaryText(
+                textAlign: TextAlign.center,
+                text: tab,
+                textColor: isSelected
+                    ? context.resources.color.colorPrimary
+                    : context.resources.color.colorGrey27,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
               ),
             ),
-            Container(
-              width: .5,
-              height: 20,
-              color: context.resources.color.colorGrey,
-            )
-          ],
+          ),
         ),
       );
     }).toList();
@@ -92,40 +89,46 @@ class TabsWidget extends StatelessWidget {
 
   List<Widget> _buildScrollableTabs(BuildContext context) {
     return tabs.map((tab) {
-      return Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              onSelect(tab);
-            },
-            child: Container(
-              height: 40,
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(0),
-                color: selectedTab == tab.toString()
-                    ? context.resources.color.colorPrimary
-                    : context.resources.color.colorWhite,
-              ),
-              child: Center(
-                child: PrimaryText(
-                  textAlign: TextAlign.center,
-                  text: tab.toString(),
-                  textColor: selectedTab == tab.toString()
-                      ? context.resources.color.colorWhite
-                      : context.resources.color.colorGrey,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
-                ),
-              ),
+      final isSelected = selectedTab == tab;
+      return GestureDetector(
+        onTap: () => onSelect(tab),
+        child: Container(
+          height: 42,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: isSelected
+                ? context.resources.color.colorWhite
+                : Colors.transparent,
+            border: isSelected
+                ? Border.all(
+                    color: context.resources.color.colorPrimary,
+                    width: 1,
+                  )
+                : null,
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: const Color(0xA64EA9EE),
+                      blurRadius: 2,
+                      spreadRadius: 0,
+                      offset: Offset.zero,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Center(
+            child: PrimaryText(
+              textAlign: TextAlign.center,
+              text: tab,
+              textColor: isSelected
+                  ? context.resources.color.colorPrimary
+                  : context.resources.color.colorGrey27,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
             ),
           ),
-          Container(
-            width: .5,
-            height: 20,
-            color: context.resources.color.colorGrey,
-          )
-        ],
+        ),
       );
     }).toList();
   }

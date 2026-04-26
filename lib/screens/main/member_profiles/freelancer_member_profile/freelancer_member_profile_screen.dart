@@ -9,8 +9,8 @@ import 'package:wazafak_app/screens/main/member_profiles/components/packages/mem
 import 'package:wazafak_app/screens/main/member_profiles/components/services/member_services_carousel.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+import '../components/freelancer_profile_header.dart';
 import '../components/member_info_widget.dart';
-import '../components/member_profile_header.dart';
 import 'freelancer_member_profile_controller.dart';
 
 class FreelancerMemberProfileScreen extends StatelessWidget {
@@ -46,8 +46,8 @@ class FreelancerMemberProfileScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MemberProfileHeader(
-                        isFavorite: controller.user.value!.isFavorite ?? false, user: controller.user.value!, isEmployer: false,
+                      FreelancerProfileHeader(
+                        isFavorite: controller.user.value!.isFavorite ?? false, user: controller.user.value!,
                       ),
 
                       SizedBox(height: 10),

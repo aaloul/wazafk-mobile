@@ -49,13 +49,13 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Get.toNamed(RouteConstant.searchScreen);
                           },
-                          child: AbsorbPointer(child: SearchWidget(enabled: false,borderRadius: 12,)),
+                          child: AbsorbPointer(child: SearchWidget(enabled: false,borderRadius: 12,height: 45,)),
                         ),
                       ),
                       SizedBox(width: 8),
                       Container(
-                        width: 48,
-                        height: 48,
+                        width: 45,
+                        height: 45,
                         decoration: BoxDecoration(
                           color: context.resources.color.colorPrimary,
                           borderRadius: BorderRadius.circular(12),

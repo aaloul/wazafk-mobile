@@ -11,22 +11,21 @@ import '../../../../model/LoginResponse.dart';
 import '../../../../utils/res/AppIcons.dart';
 import '../../../../utils/utils.dart';
 
-class MemberProfileHeader extends StatefulWidget {
-  const MemberProfileHeader({
+class FreelancerProfileHeader extends StatefulWidget {
+  const FreelancerProfileHeader({
     super.key,
     this.isFavorite = false,
-    required this.user, required this.isEmployer,
+    required this.user
   });
 
   final User user;
   final bool isFavorite;
-  final bool isEmployer;
 
   @override
-  State<MemberProfileHeader> createState() => _MemberProfileHeaderState();
+  State<FreelancerProfileHeader> createState() => _MemberProfileHeaderState();
 }
 
-class _MemberProfileHeaderState extends State<MemberProfileHeader> {
+class _MemberProfileHeaderState extends State<FreelancerProfileHeader> {
   final AddFavoriteMemberRepository _addFavoriteRepository =
       AddFavoriteMemberRepository();
   final RemoveFavoriteMemberRepository _removeFavoriteRepository =

@@ -103,4 +103,10 @@ abstract class BaseColors {
   Color get colorPrimaryLight;
 
   Color get colorSnowWhite;
+
+  Color get colorBlueL;
+
+  Color get colorBlueL2;
+
+  Color get colorBlack4;
 }

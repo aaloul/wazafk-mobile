@@ -257,12 +257,8 @@ class UserTypeTabBar extends StatelessWidget {
     return Container(
       height: 35,
       decoration: BoxDecoration(
-        color: context.resources.color.colorGrey28,
-        border: Border.all(
-          width: 1,
-          color: context.resources.color.colorGrey25,
-        ),
-        borderRadius: BorderRadius.circular(6),
+        color: context.resources.color.colorBlueL,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
@@ -272,23 +268,24 @@ class UserTypeTabBar extends StatelessWidget {
             },
             child: Container(
               height: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(8),
                 color: isFreelancer
                     ? context.resources.color.colorWhite
-                    : context.resources.color.colorGrey28,
-                border: Border.all(
-                  width: 1,
-                  color: isFreelancer
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorGrey28,
-                ),
+                    : Colors.transparent,
+                border: isFreelancer
+                    ? Border.all(
+                        width: 1,
+                        color: context.resources.color.colorPrimary,
+                      )
+                    : null,
               ),
               child: Center(
                 child: PrimaryText(
                   text: Resources.of(context).strings.freelancer,
                   fontWeight: FontWeight.w600,
+                  fontSize: 12,
                   textColor: isFreelancer
                       ? context.resources.color.colorPrimary
                       : context.resources.color.colorGrey27,
@@ -303,23 +300,24 @@ class UserTypeTabBar extends StatelessWidget {
             },
             child: Container(
               height: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: !isFreelancer
                     ? context.resources.color.colorWhite
-                    : context.resources.color.colorGrey28,
-                border: Border.all(
-                  width: 1,
-                  color: !isFreelancer
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorGrey28,
-                ),
-                borderRadius: BorderRadius.circular(6),
+                    : Colors.transparent,
+                border: !isFreelancer
+                    ? Border.all(
+                        width: 1,
+                        color: context.resources.color.colorPrimary,
+                      )
+                    : null,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
                 child: PrimaryText(
                   text: Resources.of(context).strings.employer,
                   fontWeight: FontWeight.w600,
+                  fontSize: 12,
                   textColor: !isFreelancer
                       ? context.resources.color.colorPrimary
                       : context.resources.color.colorGrey27,

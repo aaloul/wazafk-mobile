@@ -12,7 +12,6 @@ import '../../../components/multiline_labeled_text_field.dart';
 import '../../../utils/res/AppIcons.dart';
 import '../member_profiles/components/member_info_header.dart';
 import '../member_profiles/components/member_info_widget.dart';
-import '../member_profiles/components/member_profile_header.dart';
 import '../member_profiles/components/member_skills_widget.dart';
 
 class RateEngagementScreen extends StatelessWidget {
@@ -54,9 +53,9 @@ class RateEngagementScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Member Profile Header
-                      MemberProfileHeader(
-                        isFavorite: user.isFavorite ?? false, user: user, isEmployer: false,
-                      ),
+                      // MemberProfileHeader(
+                      //   isFavorite: user.isFavorite ?? false, user: user, isEmployer: false,
+                      // ),
 
                       SizedBox(height: 10),
                       // Title

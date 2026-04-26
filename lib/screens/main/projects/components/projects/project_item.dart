@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
+import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
-import '../../../../../components/primary_text.dart';
 import '../../../../../utils/res/AppIcons.dart';
 
 class ProjectItem extends StatelessWidget {
@@ -16,207 +16,203 @@ class ProjectItem extends StatelessWidget {
 
   final Engagement engagement;
 
-  void _handleTap() {
-    // Navigate to engagement details screen
-    Get.toNamed(RouteConstant.engagementDetailsScreen, arguments: engagement);
+  String _getTitle(BuildContext context) {
+    switch (engagement.type) {
+      case 'SB':
+        return engagement.services?.first.title ??
+            context.resources.strings.notAvailableShort;
+      case 'PB':
+        return engagement.package?.title ??
+            context.resources.strings.notAvailableShort;
+      default:
+        return engagement.job?.title ??
+            context.resources.strings.notAvailableShort;
+    }
+  }
+
+  String _getOtherPartyName() {
+    return engagement.clientHashcode.toString() == Prefs.getId
+        ? '${engagement.freelancerFirstName ?? ''} ${engagement.freelancerLastName ?? ''}'.trim()
+        : '${engagement.clientFirstName ?? ''} ${engagement.clientLastName ?? ''}'.trim();
+  }
+
+  String _getOtherPartyTitle(BuildContext context) {
+    return engagement.clientHashcode.toString() == Prefs.getId
+        ? engagement.freelancerTitle ??
+            context.resources.strings.notAvailableShort
+        : engagement.clientTitle ??
+            context.resources.strings.notAvailableShort;
+  }
+
+  String _getOtherPartyImage() {
+    return engagement.clientHashcode.toString() == Prefs.getId
+        ? engagement.freelancerImage.toString()
+        : engagement.clientImage.toString();
+  }
+
+  String _getOtherPartyRating() {
+    return engagement.clientHashcode.toString() == Prefs.getId
+        ? engagement.freelancerRating ?? '0'
+        : engagement.clientRating ?? '0';
+  }
+
+  String _getDueDate(BuildContext context) {
+    if (engagement.expiryDatetime == null) {
+      return context.resources.strings.notAvailableShort;
+    }
+    return DateFormat('dd-MM-yyyy').format(engagement.expiryDatetime!);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _handleTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.symmetric(vertical: 6),
-        decoration: BoxDecoration(
-          color: engagement.type.toString() == 'SB'
-              ? context.resources.color.colorBlue4.withOpacity(.5)
-              : engagement.type.toString() == 'PB'
-              ? context.resources.color.colorGreen5.withOpacity(.5)
-              : context.resources.color.colorWhite,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: context.resources.color.colorGrey18,
-            width: 2,
+      onTap: () =>
+          Get.toNamed(RouteConstant.engagementDetailsScreen, arguments: engagement),
+      child: Card(
+        color: context.resources.color.colorWhite,
+        elevation: 8,
+        shadowColor: Colors.black26,
+        margin: EdgeInsets.only(bottom: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(
+            color: context.resources.color.colorGrey15,
+            width: 1,
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      PrimaryText(
-                        text: engagement.type.toString() == 'SB'
-                            ? engagement.services?.first.title.toString() ??
-                                  context.resources.strings.notAvailableShort
-                            : engagement.type.toString() == 'PB'
-                            ? engagement.package?.title.toString() ?? context.resources.strings.notAvailableShort
-                            : engagement.job?.title.toString() ?? context.resources.strings.notAvailableShort,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        textColor: context.resources.color.colorBlack3,
-                      ),
-
-                      PrimaryText(
-                        text: engagement.description ?? context.resources.strings.notAvailableShort,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        textColor: context.resources.color.colorBlack3,
-                      ),
-                    ],
-                  ),
-                ),
-
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: HexColor(engagement.statusColor.toString()),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: PrimaryText(
-                    text: engagement.statusLabel.toString(),
-                    textColor: context.resources.color.colorWhite,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
-
-            Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: context.resources.color.colorBlue,
-                      width: 2,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header: title + description | status badge
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PrimaryText(
+                          text: _getTitle(context),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          textColor: context.resources.color.colorGrey16,
+                        ),
+                        SizedBox(height: 4),
+                        PrimaryText(
+                          text: engagement.description ??
+                              context.resources.strings.notAvailableShort,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          textColor: context.resources.color.colorGrey26,
+                          maxLines: 1,
+                        ),
+                      ],
                     ),
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(9999),
-                    child: PrimaryNetworkImage(
-                      url: engagement.clientHashcode.toString() == Prefs.getId
-                          ? engagement.freelancerImage.toString()
-                          : engagement.clientImage.toString(),
-                      width: 32,
-                      height: 32,
+                  SizedBox(width: 8),
+                  // Status badge
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                    margin: EdgeInsets.only(top: 2),
+                    decoration: BoxDecoration(
+                      color: context.resources.color.colorGrey30,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                ),
-
-                SizedBox(width: 6),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PrimaryText(
-                        text:
-                            engagement.clientHashcode.toString() == Prefs.getId
-                            ? "${engagement.freelancerFirstName} ${engagement.freelancerLastName}"
-                            : "${engagement.clientFirstName} ${engagement.clientLastName}",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                        textColor: context.resources.color.colorBlack,
-                      ),
-                      PrimaryText(
-                        text:
-                            engagement.clientHashcode.toString() == Prefs.getId
-                            ? engagement.freelancerTitle ?? context.resources.strings.notAvailableShort
-                            : engagement.clientTitle ?? context.resources.strings.notAvailableShort,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 11,
-                        textColor: context.resources.color.colorBlack,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 12),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PrimaryText(
-                        text: '\$${engagement.totalPrice.toString()}',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        textColor: context.resources.color.colorGreen6,
-                      ),
-                      SizedBox(height: 4),
-
-                      PrimaryText(
-                        text: context.resources.strings.totalValue,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        textColor: context.resources.color.colorGrey7,
-                      ),
-                    ],
-                  ),
-                ),
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PrimaryText(
-                      text: '\$${engagement.remaining ?? '-'}',
-                      fontSize: 16,
+                    child: PrimaryText(
+                      text: engagement.statusLabel.toString(),
+                      textColor: HexColor(engagement.statusColor.toString()),
                       fontWeight: FontWeight.w700,
-                      textColor: context.resources.color.colorBlue3,
+                      fontSize: 12,
                     ),
-
-                    SizedBox(height: 4),
-
-                    PrimaryText(
-                      text: context.resources.strings.earnings,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      textColor: context.resources.color.colorGrey7,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            Container(
-              width: double.infinity,
-              height: 1,
-              margin: EdgeInsets.symmetric(vertical: 12),
-              color: context.resources.color.colorPrimary.withOpacity(.25),
-            ),
-
-            Row(
-              children: [
-                Image.asset(
-                  AppIcons.calendar,
-                  width: 20,
-                  color: context.resources.color.colorGrey7,
-                ),
-                SizedBox(width: 6),
-                Expanded(
-                  child: PrimaryText(
-                    text:
-                        "${context.resources.strings.due}: ${engagement.expiryDatetime != null ? DateFormat('MMM dd,yyyy').format(engagement.expiryDatetime!) : context.resources.strings.notAvailableShort}",
-                    textColor: context.resources.color.colorGrey7,
-                    fontWeight: FontWeight.w500,
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+
+
+              Row(
+                children: [
+                  Image.asset(
+                    AppIcons.calendar,
+                    width: 14,
+                    color: context.resources.color.colorPrimary,
+                  ),
+                  SizedBox(width: 3),
+                  PrimaryText(
+                    text: _getDueDate(context),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    textColor: context.resources.color.colorPrimary,
+                  ),
+                ],
+              ),
+              // Divider
+              Container(
+                width: double.infinity,
+                height: 1,
+                margin: EdgeInsets.symmetric(vertical: 12),
+                color: context.resources.color.colorGrey20,
+              ),
+
+              // Footer: avatar | name + due date | price
+              Row(
+                children: [
+                  Container(
+                    width: 35,
+                    height: 35,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: context.resources.color.colorPrimary,
+                        width: 2,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: PrimaryNetworkImage(
+                        url: _getOtherPartyImage(),
+                        width: 35,
+                        height: 35,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            PrimaryText(
+                              text: _getOtherPartyName(),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            SizedBox(width: 6),
+                            Image.asset(AppIcons.star2, width: 12),
+                            SizedBox(width: 2),
+                            PrimaryText(
+                              text: _getOtherPartyRating(),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  PrimaryText(
+                    text: '\$${engagement.totalPrice ?? '0'}',
+                    textColor: context.resources.color.colorPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

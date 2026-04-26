@@ -34,6 +34,9 @@ class AppColors implements BaseColors {
   Color get colorBlack3 => HexColor('#1A1C1E');
 
   @override
+  Color get colorBlack4 => HexColor('#2E3440');
+
+  @override
   Color get colorGrey => HexColor('#787878');
 
   @override
@@ -155,4 +158,10 @@ class AppColors implements BaseColors {
 
   @override
   Color get colorGrey31 => HexColor('#A0A0A0');
+
+  @override
+  Color get colorBlueL => HexColor('#F3F9FE');
+
+  @override
+  Color get colorBlueL2 => HexColor('#DCEEFC');
 }

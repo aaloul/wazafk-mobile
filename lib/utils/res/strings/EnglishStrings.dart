@@ -1130,7 +1130,7 @@ class EnglishStrings extends Strings {
   String get pins => "Pins";
 
   @override
-  String get ongoingProject => "Ongoing Project";
+  String get ongoingProject => "Active";
 
   @override
   String get savedJobs => "Saved Jobs";
@@ -1293,6 +1293,12 @@ class EnglishStrings extends Strings {
 
   @override
   String get applicationCommissionFees => "Commission Fees";
+
+  @override
+  String get voucher => "Voucher";
+
+  @override
+  String get legal => "Legal";
 
   @override
   String get howLongWillItTake => "How long Will It Take?";
@@ -1537,10 +1543,10 @@ class EnglishStrings extends Strings {
   String get personalInformation => "Personal Information";
 
   @override
-  String get myDocuments => "My Documents";
+  String get myDocuments => "Documents";
 
   @override
-  String get packs => "Packs";
+  String get packs => "Work Packages";
 
   @override
   String get myAddresses => "My Addresses";

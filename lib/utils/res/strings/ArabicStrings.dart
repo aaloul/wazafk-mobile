@@ -1138,7 +1138,7 @@ class ArabicStrings extends Strings {
   String get pins => "المثبتات";
 
   @override
-  String get ongoingProject => "المشاريع الجارية";
+  String get ongoingProject => "نشط";
 
   @override
   String get savedJobs => "الوظائف المحفوظة";
@@ -1303,6 +1303,12 @@ class ArabicStrings extends Strings {
 
   @override
   String get howLongWillItTake => "كم من الوقت سيستغرق؟";
+
+  @override
+  String get voucher => "قسيمة";
+
+  @override
+  String get legal => "قانوني";
 
   @override
   String get selectDuration => "حدد المدة";
