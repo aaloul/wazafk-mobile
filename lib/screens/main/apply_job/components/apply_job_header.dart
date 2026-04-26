@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/screens/main/job_details/job_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -11,8 +10,8 @@ import '../../../../components/progress_bar.dart';
 import '../../../../utils/Prefs.dart';
 import '../../../../utils/utils.dart';
 
-class JobDetailsHeader extends StatelessWidget {
-  const JobDetailsHeader({super.key, required this.job});
+class ApplyJobHeader extends StatelessWidget {
+  const ApplyJobHeader({super.key, required this.job});
 
   final Job job;
 
@@ -130,70 +129,75 @@ class JobDetailsHeader extends StatelessWidget {
             ),
           ),
 
-          // Category
-          if (job.categoryName != null)
-            SizedBox(height: 6),
-          if (job.categoryName != null)
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              child: PrimaryText(
-                text: job.parentCategoryName != null
-                    ? "${job.parentCategoryName} / ${job.categoryName}"
-                    : job.categoryName.toString(),
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                textColor: context.resources.color.colorGrey,
-              ),
-            ),
-          SizedBox(height: 8),
+
+          SizedBox(height: 2),
 
           Row(
             children: [
-              Row(
-                children: [
-                  SizedBox(width: 16,),
-                  Image.asset(
-                    AppIcons.location,
-                    width: 14,
-                    color: context.resources.color.colorGrey26,
-                  ),
-                  SizedBox(width: 5),
-                  PrimaryText(
-                    text:
-                    job.address?.city ??
-                        context.resources.strings.notAvailable,
-                    textColor: context.resources.color.colorGrey26,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
-                  ),
-                ],
-              ),
-
-              Spacer(),
-
-              Row(
-                children: [
-                  Image.asset(
-                    AppIcons.calendar,
-                    width: 18,
-                    color: context.resources.color.colorGrey,
-                  ),
-                  SizedBox(width: 6),
-                  PrimaryText(
-                    text: DateFormat(
-                      'dd-MM-yyyy hh:mm a',
-                    ).format(job.startDatetime!),
-                    textColor: context.resources.color.colorGrey29,
-                    fontSize: 13,
-                  ),
-                ],
-              ),
-
               SizedBox(width: 16,),
-
+              Image.asset(
+                AppIcons.location,
+                width: 14,
+                color: context.resources.color.colorGrey26,
+              ),
+              SizedBox(width: 5),
+              PrimaryText(
+                text:
+                job.address?.city ??
+                    context.resources.strings.notAvailable,
+                textColor: context.resources.color.colorGrey26,
+                fontWeight: FontWeight.w500,
+                fontSize: 13,
+              ),
             ],
           ),
-          SizedBox(height: 12),
+
+
+
+          // Skills
+          if (job.skills != null &&
+              job.skills!.isNotEmpty) ...[
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: job.skills!.map((skill) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context
+                              .resources
+                              .color
+                              .colorPrimaryLight,
+                          borderRadius: BorderRadius.circular(
+                            24,
+                          ),
+                        ),
+                        child: PrimaryText(
+                          text: skill.name ?? '',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          textColor: context
+                              .resources
+                              .color
+                              .colorPrimary,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+
 
         ],
       ),

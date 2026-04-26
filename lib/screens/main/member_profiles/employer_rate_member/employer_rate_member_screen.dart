@@ -5,6 +5,7 @@ import 'package:wazafak_app/components/multiline_labeled_text_field.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -49,9 +50,11 @@ class EmployerRateMemberScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           MemberProfileHeader(
-                            avatar: controller.memberImage.toString(),
-                            memberHashcode: controller.memberHashcode
-                                .toString(),
+                            user: User(
+                              image: controller.memberImage.toString(),
+                              hashcode: controller.memberHashcode.toString(),
+                            ),
+                            isEmployer: false,
                           ),
 
                           SizedBox(height: 10),
@@ -68,8 +71,12 @@ class EmployerRateMemberScreen extends StatelessWidget {
 
                           Center(
                             child: PrimaryText(
-                              text: controller.memberProfile.value?.member
-                                  ?.title ??
+                              text:
+                                  controller
+                                      .memberProfile
+                                      .value
+                                      ?.member
+                                      ?.title ??
                                   context.resources.strings.notAvailable,
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -78,26 +85,26 @@ class EmployerRateMemberScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 20),
 
-                          Obx(() =>
-                          controller.isLoadingProfile.value
-                              ? Container()
-                              : MemberInfoHeader(
-                            memberProfile: controller.memberProfile.value!,
-                            isEmployer: true,),),
+                          Obx(
+                            () => controller.isLoadingProfile.value
+                                ? Container()
+                                : MemberInfoHeader(
+                                    memberProfile:
+                                        controller.memberProfile.value!,
+                                    isEmployer: true,
+                                  ),
+                          ),
 
                           Container(
                             width: double.infinity,
                             height: 1,
                             color: context.resources.color.colorGrey
-                                .withOpacity(
-                              .25,
-                            ),
+                                .withOpacity(.25),
                             margin: EdgeInsets.symmetric(
                               vertical: 16,
                               horizontal: 8,
                             ),
                           ),
-
 
                           // Member Ratings Display
                           Obx(() {
@@ -109,23 +116,20 @@ class EmployerRateMemberScreen extends StatelessWidget {
                             }
 
                             return MemberRatingInfo(
-                              memberProfile: controller.memberProfile.value!,);
+                              memberProfile: controller.memberProfile.value!,
+                            );
                           }),
 
                           Container(
                             width: double.infinity,
                             height: 1,
                             color: context.resources.color.colorGrey
-                                .withOpacity(
-                              .25,
-                            ),
+                                .withOpacity(.25),
                             margin: EdgeInsets.symmetric(
                               vertical: 16,
                               horizontal: 8,
                             ),
                           ),
-
-
 
                           // Rating Criteria List
                           Obx(() {

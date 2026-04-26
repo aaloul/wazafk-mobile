@@ -146,8 +146,7 @@ class ProfileHeader extends StatelessWidget {
                   StatisticsItem(
                     title: context.resources.strings.totalEarnings,
                     value: '\$${controller.totalEarnings.value}',
-                textIcon: "\$",
-                icon: "",
+
               ),
               ),
               SizedBox(width: 12),
@@ -155,7 +154,6 @@ class ProfileHeader extends StatelessWidget {
                   StatisticsItem(
                     title: context.resources.strings.wallet,
                     value: '\$${controller.walletBalance.value}',
-                icon: AppIcons.wallet,
               ),
               ),
             ],

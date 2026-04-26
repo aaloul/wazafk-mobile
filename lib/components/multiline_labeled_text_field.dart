@@ -26,11 +26,21 @@ class MultilineLabeledTextField extends StatelessWidget {
     required this.isPassword,
     required this.isMandatory,
     this.enabled,
+    this.labelColor,
+    this.background,
+    this.borderColor,
+    this.textColor,
+    this.hintTextColor,
   });
 
   final bool isPassword;
   final bool isMandatory;
   final bool? enabled;
+  final Color? labelColor;
+  final Color? background;
+  final Color? borderColor;
+  final Color? textColor;
+  final Color? hintTextColor;
   final String label;
   final FontWeight? labelFontWeight;
   final String hint;
@@ -59,7 +69,7 @@ class MultilineLabeledTextField extends StatelessWidget {
               children: [
                 PrimaryText(
                   text: label,
-                  textColor: context.resources.color.colorGrey3,
+                  textColor:labelColor ??  context.resources.color.colorGrey3,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
                   fontSize: labelFontSize ?? AppThemeValues.textSize18,
                 ),
@@ -67,7 +77,7 @@ class MultilineLabeledTextField extends StatelessWidget {
                 if (isMandatory)
                   PrimaryText(
                     text: '*',
-                    textColor: context.resources.color.colorGrey3,
+                    textColor: labelColor ??  context.resources.color.colorGrey3,
                     fontWeight: labelFontWeight ?? FontWeight.w500,
                     fontSize: AppThemeValues.textSize16,
                   ),
@@ -80,11 +90,11 @@ class MultilineLabeledTextField extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: enabled ?? true
-                  ? context.resources.color.colorWhite
+                  ? background ?? context.resources.color.colorWhite
                   : context.resources.color.colorGrey4,
               border: Border.all(
                 width: 1,
-                color: context.resources.color.colorGrey2,
+                color: borderColor ?? context.resources.color.colorGrey2,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
@@ -110,7 +120,7 @@ class MultilineLabeledTextField extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: AppThemeValues.textSize17,
-                color: context.resources.color.colorGrey,
+                color:textColor ??  context.resources.color.colorGrey,
               ),
               decoration: InputDecoration(
                 filled: true,
@@ -125,7 +135,7 @@ class MultilineLabeledTextField extends StatelessWidget {
                 disabledBorder: InputBorder.none,
                 hintText: hint,
                 hintStyle: TextStyle(
-                  color: context.resources.color.colorGrey13,
+                  color: hintTextColor  ??  context.resources.color.colorGrey13,
                   fontWeight: FontWeight.w400,
                   fontFamily: 'DM Sans Text',
                   fontSize: AppThemeValues.textSize16,

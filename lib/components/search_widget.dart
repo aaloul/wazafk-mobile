@@ -63,11 +63,11 @@ class SearchWidget extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: margin ?? 0),
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: context.resources.color.colorWhite,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(borderRadius ?? 8),
             border: Border.all(
-              color: borderColor ?? context.resources.color.colorWhite,
-              width: 0.5,
+              color: borderColor ?? const Color(0xFFE5E5E5),
+              width: 1,
             ),
           ),
           child: Center(
@@ -81,7 +81,7 @@ class SearchWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: SizedBox(
-                    height: height ?? 42,
+                    height: height ?? 48,
                     child: TextFormField(
                       focusNode: focusNode,
                       textAlignVertical: TextAlignVertical.top,

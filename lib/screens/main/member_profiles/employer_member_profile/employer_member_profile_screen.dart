@@ -4,7 +4,6 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-import '../components/member_info_header.dart';
 import '../components/member_profile_header.dart';
 import '../components/member_rating_info.dart';
 import 'employer_member_profile_controller.dart';
@@ -43,40 +42,12 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                     () => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MemberProfileHeader(
-                        avatar: controller.user.value!.image.toString(),
-                        memberHashcode: controller.user.value!.hashcode
-                            .toString(),
+                      MemberProfileHeader( user: controller.user.value!, isEmployer: true,
                       ),
 
-                      SizedBox(height: 10),
+                      SizedBox(height: 16),
 
-                      // Title
-                      Center(
-                        child: PrimaryText(
-                          text: '${user.firstName} ${user.lastName}',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
-                          textColor: context.resources.color.colorGrey,
-                        ),
-                      ),
 
-                      // Category
-                      Center(
-                        child: PrimaryText(
-                            text: user.title ?? 'N/A',
-                            fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          textColor: context.resources.color.colorGrey,
-                        ),
-                      ),
-
-                      SizedBox(height: 20),
-
-                      MemberInfoHeader(
-                        memberProfile: controller.memberProfile.value!,
-                        isEmployer: true,
-                      ),
 
                       Container(
                         width: double.infinity,

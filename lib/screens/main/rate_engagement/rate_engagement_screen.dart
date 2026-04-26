@@ -55,9 +55,7 @@ class RateEngagementScreen extends StatelessWidget {
                     children: [
                       // Member Profile Header
                       MemberProfileHeader(
-                        avatar: user.image.toString(),
-                        memberHashcode: user.hashcode ?? '',
-                        isFavorite: user.isFavorite ?? false,
+                        isFavorite: user.isFavorite ?? false, user: user, isEmployer: false,
                       ),
 
                       SizedBox(height: 10),

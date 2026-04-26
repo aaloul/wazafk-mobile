@@ -11,8 +11,15 @@ class AppIcons {
   static const String phone = '${base}phone.png';
   static const String scan = '${base}scan.png';
   static const String back = '${base}back.png';
+  static const String files = '${base}files.png';
   static const String back2 = '${base}back2.png';
+  static const String back3 = '${base}back3.png';
+  static const String bag = '${base}bag.png';
+  static const String netProfit = '${base}net_profit.png';
+  static const String commission = '${base}commission.png';
+  static const String checkCircle = '${base}check_circle.png';
   static const String calendar = '${base}calendar.png';
+  static const String applyBg = '${base}apply_bg.png';
   static const String arrowDown = '${base}arrow_down.png';
   static const String addImage = '${base}add_image.png';
   static const String activity = '${base}activity.png';

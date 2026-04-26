@@ -631,6 +631,8 @@ abstract class Strings {
 
   String get freelancer;
 
+  String get employer;
+
   String memberSince(String year);
 
   // Additional Task Strings
@@ -872,6 +874,16 @@ abstract class Strings {
   String get cvSelected;
 
   String get uploadCv;
+
+  String get chooseFile;
+
+  String get perProject;
+
+  String get clientRequested;
+
+  String get ofProfit;
+
+  String get maxFileSizeNote;
 
   String get briefDescriptionSuitableCandidate;
 

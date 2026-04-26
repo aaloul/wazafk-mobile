@@ -39,25 +39,35 @@ class HomeCategoryItem extends StatelessWidget {
       width: 75,
       child: Column(
         children: [
-          Container(
+          SizedBox(
             width: 75,
             height: 75,
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
+            child: Card(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                width: .5,
-                color: context.resources.color.colorBlue,
+              elevation: 12,
+              shadowColor: Colors.black26,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(
+                  color: context.resources.color.colorGrey15,
+                  width: 1,
+                ),
+              ),
+              child: SizedBox(
+                width: 75,
+                height: 75,
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: PrimaryNetworkImage(
+                    url: category.icon.toString(),
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
               ),
             ),
-            child: PrimaryNetworkImage(
-              url: category.icon.toString(),
-              width: double.infinity,
-              height: double.infinity,
-            ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 2),
 
           PrimaryText(
             text: category.name.toString(),

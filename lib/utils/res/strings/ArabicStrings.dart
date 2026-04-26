@@ -1245,7 +1245,7 @@ class ArabicStrings extends Strings {
   String get jobDetailsNotAvailable => "تفاصيل الوظيفة غير متوفرة";
 
   @override
-  String get amountRequiredForThisJob => "المبلغ المطلوب لهذه الوظيفة";
+  String get amountRequiredForThisJob => "تقدير السعر *";
 
   @override
   String get perHour => "/ ساعة";
@@ -1296,10 +1296,10 @@ class ArabicStrings extends Strings {
   String get youllReceive => "ستحصل على";
 
   @override
-  String get profit => "(الربح)";
+  String get profit => "صافي الربح";
 
   @override
-  String get applicationCommissionFees => "رسوم عمولة التطبيق ";
+  String get applicationCommissionFees => "رسوم عمولة";
 
   @override
   String get howLongWillItTake => "كم من الوقت سيستغرق؟";
@@ -1314,13 +1314,28 @@ class ArabicStrings extends Strings {
   String get description => "الوصف";
 
   @override
-  String get attachments => "المرفقات";
+  String get attachments => "أرفق سيرتك الذاتية";
 
   @override
   String get cvSelected => "تم اختيار السيرة الذاتية";
 
   @override
   String get uploadCv => "رفع السيرة الذاتية";
+
+  @override
+  String get chooseFile => "اختر ملفاً";
+
+  @override
+  String get perProject => "/ مشروع";
+
+  @override
+  String get clientRequested => "طلب العميل";
+
+  @override
+  String get ofProfit => "من الربح";
+
+  @override
+  String get maxFileSizeNote => "الحجم الأقصى (10 ميجابايت) - JPG/PNG/PDF";
 
   @override
   String get briefDescriptionSuitableCandidate =>
@@ -1674,19 +1689,19 @@ class ArabicStrings extends Strings {
 
   // Statistics
   @override
-  String get totalEarnings => "إجمالي الأرباح";
+  String get totalEarnings => "إجمالي\nالأرباح";
 
   @override
   String get earnings => "الأرباح";
 
   @override
-  String get activeJobs => "الوظائف النشطة";
+  String get activeJobs => "الوظائف\nالنشطة";
 
   @override
   String get completed => "المكتملة";
 
   @override
-  String get successRate => "معدل النجاح";
+  String get successRate => "معدل\nالنجاح";
 
   @override
   String get wallet => "المحفظة";
@@ -2137,6 +2152,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get conversationEndedSuccessfully => "تم إنهاء المحادثة بنجاح";
+
+  @override
+  String get employer => "صاحب العمل";
 
   @override
   String get viewMyServices => "عرض خدماتي";

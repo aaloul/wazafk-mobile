@@ -1,86 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
-import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../skeletons/home_category_skeleton.dart';
 import 'home_category_item.dart';
 
 class HomeCategoriesWidget extends StatelessWidget {
-  const HomeCategoriesWidget({super.key});
+  const HomeCategoriesWidget({super.key, required this.isFreelancerMode});
+
+  final bool isFreelancerMode;
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: PrimaryText(
-                  text: context.resources.strings.services,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  controller.onViewAllCategories();
-                },
-                child: PrimaryText(
-                  text: context.resources.strings.viewAll,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  textColor: context.resources.color.colorGrey14,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          Obx(() {
-            if (controller.isLoadingCategories.value &&
-                controller.categories.isEmpty) {
-              return SizedBox(
-                height: 108,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  separatorBuilder: (context, index) => SizedBox(width: 10),
-                  itemBuilder: (context, index) => HomeCategorySkeleton(),
-                ),
-              );
-            }
+    return Column(
+      children: [
 
-            if (controller.categories.isEmpty) {
-              return SizedBox(
-                height: 100,
-                child: Center(child: Text(Resources
-                    .of(context)
-                    .strings
-                    .noCategoriesAvailable)),
-              );
-            }
+        if(!isFreelancerMode)
+        SizedBox(height: 20),
+        Obx(() {
+          final isLoading = isFreelancerMode
+              ? controller.isLoadingJobCategories.value
+              : controller.isLoadingCategories.value;
+          final list = isFreelancerMode
+              ? controller.jobCategories
+              : controller.categories;
 
+          if (isLoading && list.isEmpty) {
             return SizedBox(
               height: 108,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: controller.categories.length,
+                itemCount: 5,
                 separatorBuilder: (context, index) => SizedBox(width: 10),
-                itemBuilder: (context, index) {
-                  final category = controller.categories[index];
-                  return HomeCategoryItem(category: category);
-                },
+                itemBuilder: (context, index) => HomeCategorySkeleton(),
               ),
             );
-          }),
-        ],
-      ),
+          }
+
+          if (list.isEmpty) {
+            return SizedBox(
+              height: 100,
+              child: Center(child: Text(Resources
+                  .of(context)
+                  .strings
+                  .noCategoriesAvailable)),
+            );
+          }
+
+          return SizedBox(
+            height: 102,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: list.length,
+              separatorBuilder: (context, index) => SizedBox(width: 10),
+              itemBuilder: (context, index) {
+                final category = list[index];
+                return HomeCategoryItem(category: category);
+              },
+            ),
+          );
+        }),
+      ],
     );
   }
 }

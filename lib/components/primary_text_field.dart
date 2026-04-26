@@ -31,6 +31,7 @@ class PrimaryTextField extends StatelessWidget {
     this.endIconClick,
     this.borderRadius,
     this.textAlign,
+    this.hintColor,
     this.textAlignVertical,
   });
 
@@ -49,6 +50,7 @@ class PrimaryTextField extends StatelessWidget {
   int? maxLength;
   Color? borderColor;
   Color? backgroundColor;
+  Color? hintColor;
   FontWeight? fontWeight;
   int? maxLines;
   TextInputAction? textInputAction;
@@ -154,7 +156,7 @@ class PrimaryTextField extends StatelessWidget {
                       hintText: hint,
                       hintStyle:TextStyle(
                               fontFamily: 'DM Sans Text',
-                          color: context.resources.color.colorGrey2,
+                          color: hintColor ?? context.resources.color.colorGrey2,
                               fontWeight: fontWeight ?? FontWeight.w400,
                               fontSize: fontSize ?? AppThemeValues.textSize16)
 

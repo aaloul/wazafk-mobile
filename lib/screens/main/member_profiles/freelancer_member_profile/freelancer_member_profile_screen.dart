@@ -9,7 +9,6 @@ import 'package:wazafak_app/screens/main/member_profiles/components/packages/mem
 import 'package:wazafak_app/screens/main/member_profiles/components/services/member_services_carousel.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-import '../components/member_info_header.dart';
 import '../components/member_info_widget.dart';
 import '../components/member_profile_header.dart';
 import 'freelancer_member_profile_controller.dart';
@@ -48,51 +47,11 @@ class FreelancerMemberProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MemberProfileHeader(
-                        avatar: controller.user.value!.image.toString(),
-                        memberHashcode: controller.user.value!.hashcode ?? '',
-                        isFavorite: controller.user.value!.isFavorite ?? false,
+                        isFavorite: controller.user.value!.isFavorite ?? false, user: controller.user.value!, isEmployer: false,
                       ),
 
                       SizedBox(height: 10),
 
-                      // Title
-                      Center(
-                        child: PrimaryText(
-                          text: '${user.firstName} ${user.lastName}',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
-                          textColor: context.resources.color.colorGrey,
-                        ),
-                      ),
-
-                      // Category
-                      Center(
-                        child: PrimaryText(
-                          text: user.title ?? 'N/A',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          textColor: context.resources.color.colorGrey,
-                        ),
-                      ),
-
-                      SizedBox(height: 20),
-
-                      MemberInfoHeader(
-                        memberProfile: controller.memberProfile.value!,
-                        isEmployer: false,
-                      ),
-
-                      Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: context.resources.color.colorGrey.withOpacity(
-                          .25,
-                        ),
-                        margin: EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 8,
-                        ),
-                      ),
 
                       MemberInfoWidget(
                         user: controller.memberProfile.value!.member!,

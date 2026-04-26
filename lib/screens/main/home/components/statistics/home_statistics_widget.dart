@@ -3,11 +3,23 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import 'package:wazafak_app/utils/res/AppIcons.dart';
-import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
-class HomeStatisticsWidget extends StatelessWidget {
+class HomeStatisticsWidget extends StatefulWidget {
   const HomeStatisticsWidget({super.key});
+
+  @override
+  State<HomeStatisticsWidget> createState() => _HomeStatisticsWidgetState();
+}
+
+class _HomeStatisticsWidgetState extends State<HomeStatisticsWidget> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,52 +27,73 @@ class HomeStatisticsWidget extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 16),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      padding: EdgeInsets.symmetric( vertical: 14),
       decoration: BoxDecoration(
-        color: context.resources.color.colorPrimary,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: HexColor("#00AEC81A"), width: 1),
       ),
-      child: Obx(
-        () => Column(
-          children: [
-            Row(
-              children: [
-                StatisticsItem(
-                  title: context.resources.strings.totalEarnings,
-                  value: '\$${controller.totalEarnings.value}',
-                  textIcon: "\$",
-                  icon: "",
-                ),
-                SizedBox(width: 10),
-                StatisticsItem(
-                  title: context.resources.strings.activeJobs,
-                  value: '${controller.nbActiveJobs.value}',
-                  icon: AppIcons.time,
-                ),
-              ],
-            ),
+      child: Obx(() {
+        final pages = [
+          Row(
+            children: [
+              StatisticsItem(
+                title: context.resources.strings.totalEarnings,
+                value: '\$${controller.totalEarnings.value}',
+              ),
+              SizedBox(width: 10),
+              StatisticsItem(
+                title: context.resources.strings.activeJobs,
+                value: '${controller.nbActiveJobs.value}',
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              StatisticsItem(
+                title: context.resources.strings.completed,
+                value: '${controller.nbCompletedJobs.value}',
+              ),
+              SizedBox(width: 10),
+              StatisticsItem(
+                title: context.resources.strings.successRate,
+                value: '${controller.successRate.value}%',
+              ),
+            ],
+          ),
+        ];
 
-            SizedBox(height: 10),
-                Row(
-                  children: [
-                    StatisticsItem(
-                  title: context.resources.strings.completed,
-                  value: '${controller.nbCompletedJobs.value}',
-                      icon: AppIcons.completed,
-                    ),
-                    SizedBox(width: 10),
-                    StatisticsItem(
-                  title: context.resources.strings.successRate,
-                  value: '${controller.successRate.value}%',
-                      icon: AppIcons.chart,
-                    ),
-                  ],
-                ),
-              ],
+        return Column(
+          children: [
+            SizedBox(
+              height: 70,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() => _currentPage = index);
+                },
+                children: pages,
+              ),
             ),
-      ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(pages.length, (index) {
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 250),
+                  margin: EdgeInsets.symmetric(horizontal: 2),
+                  width: _currentPage == index ? 10 : 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: context.resources.color.colorPrimary.withOpacity(
+                      _currentPage == index ? 1 : 0.3,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                );
+              }),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -70,56 +103,45 @@ class StatisticsItem extends StatelessWidget {
     super.key,
     required this.title,
     required this.value,
-    required this.icon,
-    this.textIcon,
   });
 
   final String title;
   final String value;
-  final String icon;
-  final String? textIcon;
+
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         width: double.infinity,
+        height: 60,
         decoration: BoxDecoration(
-          color: context.resources.color.colorWhite,
-          borderRadius: BorderRadius.circular(6),
+          color: context.resources.color.colorPrimary,
+          borderRadius: BorderRadius.circular(12),
         ),
-        padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.symmetric( horizontal: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
+
                 Expanded(
                   child: PrimaryText(
                     text: title,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    textColor: context.resources.color.colorGrey8,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    textColor: context.resources.color.colorSnowWhite,
                   ),
                 ),
 
-                if (textIcon == null) Image.asset(icon, height: 24, width: 24),
-                if (textIcon != null)
-                  PrimaryText(
-                    text: "\$",
-                    fontSize: 20,
-                    fontWeight: FontWeight.w300,
-                    textColor: context.resources.color.colorGrey8,
-                  ),
-              ],
-            ),
-            SizedBox(height: 4),
+
+
+            SizedBox(width: 4),
 
             PrimaryText(
               text: value,
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              textColor: context.resources.color.colorGrey8,
+              textColor: context.resources.color.colorWhite,
             ),
           ],
         ),

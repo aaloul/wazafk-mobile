@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../../../../../components/primary_text.dart';
 
@@ -30,6 +28,7 @@ class FileUploadItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if(label.isNotEmpty)
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -59,58 +58,80 @@ class FileUploadItem extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: 8),
+        if(label.isNotEmpty)
+          const SizedBox(height: 8),
 
         GestureDetector(
           onTap: () => onClick(),
           child: Container(
-            color: context.resources.color.background,
             width: double.infinity,
-            height: 80,
-            child: DottedBorder(
-              options: RoundedRectDottedBorderOptions(
-                color: context.resources.color.colorGrey2,
-                strokeWidth: 1,
-                dashPattern: [8, 4],
-                radius: Radius.circular(10),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: imagePath != null
-                    ? (isPdf
-                          ? Center(
-                              child: Icon(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFECEFF6),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                if (imagePath != null)
+                  Expanded(
+                    child: isPdf
+                        ? Row(
+                            children: [
+                              Icon(
                                 Icons.picture_as_pdf,
                                 color: context.resources.color.colorPrimary,
-                                size: 48,
+                                size: 32,
                               ),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.file(
-                                File(imagePath!),
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Center(
-                                    child: Icon(
-                                      Icons.insert_drive_file,
-                                      color: context.resources.color.colorGrey,
-                                      size: 48,
-                                    ),
-                                  );
-                                },
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: PrimaryText(
+                                  text: imagePath!.split('/').last,
+                                  fontSize: 12,
+                                  maxLines: 1,
+                                  textColor: context.resources.color.colorGrey,
+                                ),
                               ),
-                            ))
-                    : Center(
-                        child: Image.asset(
-                          AppIcons.upload,
-                          width: 32,
-                          height: 32,
-                        ),
+                            ],
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(
+                              File(imagePath!),
+                              fit: BoxFit.cover,
+                              width: 40,
+                              height: 40,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                    Icons.insert_drive_file,
+                                    color: context.resources.color.colorGrey,
+                                    size: 32,
+                                  ),
+                            ),
+                          ),
+                  )
+                else
+                  Expanded(child: SizedBox.shrink()),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: context.resources.color.colorPrimary,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.upload, color: Colors.white, size: 16),
+                      SizedBox(width: 6),
+                      PrimaryText(
+                        text: context.resources.strings.chooseFile,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        textColor: Colors.white,
                       ),
-              ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

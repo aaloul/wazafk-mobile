@@ -1238,7 +1238,7 @@ class EnglishStrings extends Strings {
   String get jobDetailsNotAvailable => "Job details not available";
 
   @override
-  String get amountRequiredForThisJob => "Amount Required for This Job";
+  String get amountRequiredForThisJob => "Price estimation *";
 
   @override
   String get perHour => "/ Hour";
@@ -1289,10 +1289,10 @@ class EnglishStrings extends Strings {
   String get youllReceive => "You'll Receive";
 
   @override
-  String get profit => "(Profit)";
+  String get profit => "Net Profit";
 
   @override
-  String get applicationCommissionFees => "Application Commission Fees";
+  String get applicationCommissionFees => "Commission Fees";
 
   @override
   String get howLongWillItTake => "How long Will It Take?";
@@ -1307,13 +1307,28 @@ class EnglishStrings extends Strings {
   String get description => "Description";
 
   @override
-  String get attachments => "Attachments";
+  String get attachments => "Attach your CV";
 
   @override
   String get cvSelected => "CV Selected";
 
   @override
   String get uploadCv => "Upload CV";
+
+  @override
+  String get chooseFile => "Choose File";
+
+  @override
+  String get perProject => "/ Project";
+
+  @override
+  String get clientRequested => "Client requested";
+
+  @override
+  String get ofProfit => "of Profit";
+
+  @override
+  String get maxFileSizeNote => "Max size (10mb) - JPG/PNG/PDF";
 
   @override
   String get briefDescriptionSuitableCandidate =>
@@ -1668,19 +1683,19 @@ class EnglishStrings extends Strings {
 
   // Statistics
   @override
-  String get totalEarnings => "Total Earnings";
+  String get totalEarnings => "Total\nEarnings";
 
   @override
   String get earnings => "Earnings";
 
   @override
-  String get activeJobs => "Active Jobs";
+  String get activeJobs => "Active\nJobs";
 
   @override
   String get completed => "Completed";
 
   @override
-  String get successRate => "Success Rate";
+  String get successRate => "Success\nRate";
 
   @override
   String get wallet => "Wallet";
@@ -2135,6 +2150,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get amountDescending => "Amount Descending";
+
+  @override
+  String get employer => "Employer";
 
   // Help Center
   @override

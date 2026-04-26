@@ -19,25 +19,6 @@ class ServiceDetailsHeader extends StatelessWidget {
       height: 170,
       child: Stack(
         children: [
-          Positioned(
-            top: 0,
-            right: 0,
-            left: 0,
-            child: SizedBox(
-              height: 160,
-              child: ClipRRect(
-                borderRadius: BorderRadiusGeometry.only(
-                  bottomLeft: Radius.circular(40),
-                  bottomRight: Radius.circular(40),
-                ),
-                child: Image.asset(
-                  AppIcons.jobCover,
-                  fit: BoxFit.cover,
-                  height: 160,
-                ),
-              ),
-            ),
-          ),
 
           Positioned(
             top: 40,
@@ -53,7 +34,7 @@ class ServiceDetailsHeader extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Image.asset(
-                      AppIcons.back,
+                      AppIcons.back3,
                       width: 30,
                       color: context.resources.color.colorWhite,
                     ),
@@ -73,12 +54,25 @@ class ServiceDetailsHeader extends StatelessWidget {
                               height: 20,
                               child: ProgressBar(),
                             )
-                          : Image.asset(
-                              controller.isFavorite.value
-                                  ? AppIcons.banomarkOn
-                                  : AppIcons.banomark,
-                              width: 20,
-                              color: context.resources.color.colorWhite,
+                          : Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: context.resources.color.colorGrey15,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  controller.isFavorite.value
+                                      ? AppIcons.banomarkOn
+                                      : AppIcons.banomark,
+                                  width: 18,
+                                  color: context.resources.color.colorPrimary,
+                                ),
+                              ),
                             ),
                     ),
                   ),
