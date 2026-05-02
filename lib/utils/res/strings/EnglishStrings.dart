@@ -1375,7 +1375,7 @@ class EnglishStrings extends Strings {
   String get price => "Price";
 
   @override
-  String get estimatedHours => "Estimated Hours";
+  String get estimatedHours => "Time Estimation";
 
   @override
   String get selectDateRange => "Select Date Range";

@@ -1384,7 +1384,7 @@ class ArabicStrings extends Strings {
   String get price => "السعر";
 
   @override
-  String get estimatedHours => "الساعات المقدرة";
+  String get estimatedHours => "تقدير الوقت";
 
   @override
   String get selectDateRange => "حدد نطاق التاريخ";
