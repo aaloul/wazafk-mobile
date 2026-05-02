@@ -285,98 +285,194 @@ class AddJobScreen extends StatelessWidget {
 
                         GestureDetector(
                           onTap: () async {
-                            final TimeOfDay?
-                            picked = await showModalBottomSheet<TimeOfDay>(
+                            final TimeOfDay? picked = await showModalBottomSheet<TimeOfDay>(
                               context: context,
                               backgroundColor: Colors.transparent,
-                              builder: (BuildContext context) {
-                                return Container(
-                                  height: 450,
-                                  decoration: BoxDecoration(
-                                    color: context.resources.color.colorWhite,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
+                              builder: (context) {
+                                final current = controller.selectedTime.value ?? TimeOfDay.now();
+                                bool isPM = current.period == DayPeriod.pm;
+                                int selectedHour = current.hourOfPeriod == 0 ? 12 : current.hourOfPeriod;
+                                int selectedMinute = current.minute;
+                                return StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: context.resources.color.colorWhite,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(16),
+                                          topRight: Radius.circular(16),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          SizedBox(height: 28),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 16),
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
                                               child: PrimaryText(
-                                                text: context
-                                                    .resources
-                                                    .strings
-                                                    .cancel,
-                                                fontSize: 16,
-                                                textColor: context
-                                                    .resources
-                                                    .color
-                                                    .colorGrey,
-                                              ),
-                                            ),
-                                            PrimaryText(
-                                              text: context
-                                                  .resources
-                                                  .strings
-                                                  .selectTime,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
-                                              textColor:
-                                              context.resources.color.colorGrey,
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(
-                                                  context,
-                                                  controller.selectedTime.value ??
-                                                      TimeOfDay.now(),
-                                                );
-                                              },
-                                              child: PrimaryText(
-                                                text:
-                                                context.resources.strings.done,
+                                                text: context.resources.strings.setTime,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
-                                                textColor: context
-                                                    .resources
-                                                    .color
-                                                    .colorPrimary,
+                                                textColor: context.resources.color.colorBlack4,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Theme(
-                                          data: Theme.of(context).copyWith(
-                                            timePickerTheme: TimePickerThemeData(
-                                              dialHandColor: context
-                                                  .resources
-                                                  .color
-                                                  .colorPrimary,
-                                              dialBackgroundColor: context
-                                                  .resources
-                                                  .color
-                                                  .colorGrey9,
+                                          ),
+                                          SizedBox(height: 8),
+                                          SizedBox(
+                                            height: 120,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                SizedBox(
+                                                  width: 70,
+                                                  child: ListWheelScrollView.useDelegate(
+                                                    itemExtent: 40,
+                                                    perspective: 0.005,
+                                                    diameterRatio: 1.2,
+                                                    physics: FixedExtentScrollPhysics(),
+                                                    controller: FixedExtentScrollController(initialItem: selectedHour - 1),
+                                                    onSelectedItemChanged: (i) => setState(() => selectedHour = i + 1),
+                                                    childDelegate: ListWheelChildBuilderDelegate(
+                                                      childCount: 12,
+                                                      builder: (context, i) {
+                                                        final h = i + 1;
+                                                        return Center(
+                                                          child: PrimaryText(
+                                                            text: h.toString().padLeft(2, '0'),
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.w600,
+                                                            textColor: selectedHour == h
+                                                                ? context.resources.color.colorBlack4
+                                                                : context.resources.color.colorGrey,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                PrimaryText(text: ':', fontSize: 24, fontWeight: FontWeight.w600, textColor: context.resources.color.colorBlack4),
+                                                SizedBox(
+                                                  width: 70,
+                                                  child: ListWheelScrollView.useDelegate(
+                                                    itemExtent: 40,
+                                                    perspective: 0.005,
+                                                    diameterRatio: 1.2,
+                                                    physics: FixedExtentScrollPhysics(),
+                                                    controller: FixedExtentScrollController(initialItem: selectedMinute),
+                                                    onSelectedItemChanged: (i) => setState(() => selectedMinute = i),
+                                                    childDelegate: ListWheelChildBuilderDelegate(
+                                                      childCount: 60,
+                                                      builder: (context, i) => Center(
+                                                        child: PrimaryText(
+                                                          text: i.toString().padLeft(2, '0'),
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w600,
+                                                          textColor: selectedMinute == i
+                                                              ? context.resources.color.colorBlack4
+                                                              : context.resources.color.colorGrey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12),
+                                                SizedBox(
+                                                  width: 60,
+                                                  child: ListWheelScrollView.useDelegate(
+                                                    itemExtent: 40,
+                                                    perspective: 0.005,
+                                                    diameterRatio: 1.2,
+                                                    physics: FixedExtentScrollPhysics(),
+                                                    controller: FixedExtentScrollController(initialItem: isPM ? 1 : 0),
+                                                    onSelectedItemChanged: (i) => setState(() => isPM = i == 1),
+                                                    childDelegate: ListWheelChildBuilderDelegate(
+                                                      childCount: 2,
+                                                      builder: (context, i) {
+                                                        final isSelected = (i == 0 && !isPM) || (i == 1 && isPM);
+                                                        return Center(
+                                                          child: PrimaryText(
+                                                            text: i == 0 ? 'AM' : 'PM',
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.w600,
+                                                            textColor: isSelected
+                                                                ? context.resources.color.colorBlack4
+                                                                : context.resources.color.colorGrey,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                  ],
+                                                ),
+                                                IgnorePointer(
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                    children: [
+                                                      Container(height: 1, color: Color(0xFFE5E5E5)),
+                                                      SizedBox(height: 38),
+                                                      Container(height: 1, color: Color(0xFFE5E5E5)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          child: TimePickerDialog(
-                                            initialTime:
-                                            controller.selectedTime.value ??
-                                                TimeOfDay.now(),
+                                          Padding(
+                                            padding: EdgeInsets.all(16),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: ElevatedButton(
+                                                    onPressed: () {
+                                                      int hour24 = selectedHour == 12
+                                                          ? (isPM ? 12 : 0)
+                                                          : (isPM ? selectedHour + 12 : selectedHour);
+                                                      Navigator.pop(context, TimeOfDay(hour: hour24, minute: selectedMinute));
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: context.resources.color.colorPrimary,
+                                                      padding: EdgeInsets.symmetric(vertical: 12),
+                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                    ),
+                                                    child: PrimaryText(
+                                                      text: context.resources.strings.save,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w600,
+                                                      textColor: context.resources.color.colorWhite,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12),
+                                                Expanded(
+                                                  child: OutlinedButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    style: OutlinedButton.styleFrom(
+                                                      padding: EdgeInsets.symmetric(vertical: 12),
+                                                      side: BorderSide(color: context.resources.color.colorGrey25),
+                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                    ),
+                                                    child: PrimaryText(
+                                                      text: context.resources.strings.cancel,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w600,
+                                                      textColor: context.resources.color.colorGrey,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 );
                               },
                             );
@@ -542,102 +638,194 @@ class AddJobScreen extends StatelessWidget {
 
                         GestureDetector(
                           onTap: () async {
-                            final TimeOfDay?
-                            picked = await showModalBottomSheet<TimeOfDay>(
+                            final TimeOfDay? picked = await showModalBottomSheet<TimeOfDay>(
                               context: context,
                               backgroundColor: Colors.transparent,
-                              builder: (BuildContext context) {
-                                return Container(
-                                  height: 450,
-                                  decoration: BoxDecoration(
-                                    color: context.resources.color.colorWhite,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
+                              builder: (context) {
+                                final current = controller.selectedExpiryTime.value ?? TimeOfDay.now();
+                                bool isPM = current.period == DayPeriod.pm;
+                                int selectedHour = current.hourOfPeriod == 0 ? 12 : current.hourOfPeriod;
+                                int selectedMinute = current.minute;
+                                return StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: context.resources.color.colorWhite,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(16),
+                                          topRight: Radius.circular(16),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          SizedBox(height: 16),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 16),
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
                                               child: PrimaryText(
-                                                text: context
-                                                    .resources
-                                                    .strings
-                                                    .cancel,
-                                                fontSize: 16,
-                                                textColor: context
-                                                    .resources
-                                                    .color
-                                                    .colorGrey,
-                                              ),
-                                            ),
-                                            PrimaryText(
-                                              text: context
-                                                  .resources
-                                                  .strings
-                                                  .selectExpiryTime,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
-                                              textColor:
-                                              context.resources.color.colorGrey,
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(
-                                                  context,
-                                                  controller
-                                                      .selectedExpiryTime
-                                                      .value ??
-                                                      TimeOfDay.now(),
-                                                );
-                                              },
-                                              child: PrimaryText(
-                                                text:
-                                                context.resources.strings.done,
+                                                text: context.resources.strings.setTime,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
-                                                textColor: context
-                                                    .resources
-                                                    .color
-                                                    .colorPrimary,
+                                                textColor: context.resources.color.colorBlack4,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Theme(
-                                          data: Theme.of(context).copyWith(
-                                            timePickerTheme: TimePickerThemeData(
-                                              dialHandColor: context
-                                                  .resources
-                                                  .color
-                                                  .colorPrimary,
-                                              dialBackgroundColor: context
-                                                  .resources
-                                                  .color
-                                                  .colorGrey9,
+                                          ),
+                                          SizedBox(height: 8),
+                                          SizedBox(
+                                            height: 120,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                SizedBox(
+                                                  width: 70,
+                                                  child: ListWheelScrollView.useDelegate(
+                                                    itemExtent: 40,
+                                                    perspective: 0.005,
+                                                    diameterRatio: 1.2,
+                                                    physics: FixedExtentScrollPhysics(),
+                                                    controller: FixedExtentScrollController(initialItem: selectedHour - 1),
+                                                    onSelectedItemChanged: (i) => setState(() => selectedHour = i + 1),
+                                                    childDelegate: ListWheelChildBuilderDelegate(
+                                                      childCount: 12,
+                                                      builder: (context, i) {
+                                                        final h = i + 1;
+                                                        return Center(
+                                                          child: PrimaryText(
+                                                            text: h.toString().padLeft(2, '0'),
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.w600,
+                                                            textColor: selectedHour == h
+                                                                ? context.resources.color.colorBlack4
+                                                                : context.resources.color.colorGrey,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                PrimaryText(text: ':', fontSize: 24, fontWeight: FontWeight.w600, textColor: context.resources.color.colorBlack4),
+                                                SizedBox(
+                                                  width: 70,
+                                                  child: ListWheelScrollView.useDelegate(
+                                                    itemExtent: 40,
+                                                    perspective: 0.005,
+                                                    diameterRatio: 1.2,
+                                                    physics: FixedExtentScrollPhysics(),
+                                                    controller: FixedExtentScrollController(initialItem: selectedMinute),
+                                                    onSelectedItemChanged: (i) => setState(() => selectedMinute = i),
+                                                    childDelegate: ListWheelChildBuilderDelegate(
+                                                      childCount: 60,
+                                                      builder: (context, i) => Center(
+                                                        child: PrimaryText(
+                                                          text: i.toString().padLeft(2, '0'),
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w600,
+                                                          textColor: selectedMinute == i
+                                                              ? context.resources.color.colorBlack4
+                                                              : context.resources.color.colorGrey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12),
+                                                SizedBox(
+                                                  width: 60,
+                                                  child: ListWheelScrollView.useDelegate(
+                                                    itemExtent: 40,
+                                                    perspective: 0.005,
+                                                    diameterRatio: 1.2,
+                                                    physics: FixedExtentScrollPhysics(),
+                                                    controller: FixedExtentScrollController(initialItem: isPM ? 1 : 0),
+                                                    onSelectedItemChanged: (i) => setState(() => isPM = i == 1),
+                                                    childDelegate: ListWheelChildBuilderDelegate(
+                                                      childCount: 2,
+                                                      builder: (context, i) {
+                                                        final isSelected = (i == 0 && !isPM) || (i == 1 && isPM);
+                                                        return Center(
+                                                          child: PrimaryText(
+                                                            text: i == 0 ? 'AM' : 'PM',
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.w600,
+                                                            textColor: isSelected
+                                                                ? context.resources.color.colorBlack4
+                                                                : context.resources.color.colorGrey,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                  ],
+                                                ),
+                                                IgnorePointer(
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                    children: [
+                                                      Container(height: 1, color: Color(0xFFE5E5E5)),
+                                                      SizedBox(height: 38),
+                                                      Container(height: 1, color: Color(0xFFE5E5E5)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          child: TimePickerDialog(
-                                            initialTime:
-                                            controller
-                                                .selectedExpiryTime
-                                                .value ??
-                                                TimeOfDay.now(),
+                                          Padding(
+                                            padding: EdgeInsets.all(16),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: ElevatedButton(
+                                                    onPressed: () {
+                                                      int hour24 = selectedHour == 12
+                                                          ? (isPM ? 12 : 0)
+                                                          : (isPM ? selectedHour + 12 : selectedHour);
+                                                      Navigator.pop(context, TimeOfDay(hour: hour24, minute: selectedMinute));
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: context.resources.color.colorPrimary,
+                                                      padding: EdgeInsets.symmetric(vertical: 12),
+                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                    ),
+                                                    child: PrimaryText(
+                                                      text: context.resources.strings.save,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w600,
+                                                      textColor: context.resources.color.colorWhite,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12),
+                                                Expanded(
+                                                  child: OutlinedButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    style: OutlinedButton.styleFrom(
+                                                      padding: EdgeInsets.symmetric(vertical: 12),
+                                                      side: BorderSide(color: context.resources.color.colorGrey25),
+                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                    ),
+                                                    child: PrimaryText(
+                                                      text: context.resources.strings.cancel,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w600,
+                                                      textColor: context.resources.color.colorGrey,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 );
                               },
                             );

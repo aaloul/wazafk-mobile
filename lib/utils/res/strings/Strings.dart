@@ -164,6 +164,8 @@ abstract class Strings {
 
   String get selectTime;
 
+  String get setTime;
+
   String get selectDate;
 
   String get editJobPost;
@@ -1204,6 +1206,8 @@ abstract class Strings {
   String get selectLocation;
 
   String get confirm;
+
+  String get save;
 
   // Apply Language
   String get applyLanguage;

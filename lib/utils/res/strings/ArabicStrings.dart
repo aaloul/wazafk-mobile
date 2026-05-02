@@ -246,6 +246,9 @@ class ArabicStrings extends Strings {
   String get selectTime => "حدد الوقت";
 
   @override
+  String get setTime => "تعيين الوقت";
+
+  @override
   String get selectDate => "حدد التاريخ";
 
   @override
@@ -1821,6 +1824,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get confirm => "تأكيد";
+
+  @override
+  String get save => "حفظ";
 
   // Apply Language
   @override

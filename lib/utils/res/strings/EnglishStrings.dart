@@ -246,6 +246,9 @@ class EnglishStrings extends Strings {
   String get selectTime => "Select Time";
 
   @override
+  String get setTime => "Set Time";
+
+  @override
   String get selectDate => "Select Date";
 
   @override
@@ -1810,6 +1813,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get confirm => "Confirm";
+
+  @override
+  String get save => "Save";
 
   // Apply Language
   @override
