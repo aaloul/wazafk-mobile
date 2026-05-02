@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/NotificationsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -42,21 +41,20 @@ class NotificationItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(bottom: 12),
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(color: context.resources.color.colorWhite),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Icon
-            ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(99999999),
-              child: PrimaryNetworkImage(
-                url: notification.image.toString(),
-                width: 70,
-                height: 70,
-              ),
-            ),
+            // ClipRRect(
+            //   borderRadius: BorderRadiusGeometry.circular(99999999),
+            //   child: PrimaryNetworkImage(
+            //     url: notification.image.toString(),
+            //     width: 70,
+            //     height: 70,
+            //   ),
+            // ),
 
             // Container(
             //   width: 70,
@@ -68,12 +66,12 @@ class NotificationItem extends StatelessWidget {
             //   ),
             //   child: Image.asset(AppIcons.notification2),
             // ),
-            Container(
-              width: 1,
-              height: 50,
-              color: HexColor('#99999980').withOpacity(.5),
-              margin: EdgeInsets.symmetric(horizontal: 12),
-            ),
+            // Container(
+            //   width: 1,
+            //   height: 50,
+            //   color: HexColor('#99999980').withOpacity(.5),
+            //   margin: EdgeInsets.symmetric(horizontal: 12),
+            // ),
 
             // Content
             Expanded(
@@ -85,7 +83,7 @@ class NotificationItem extends StatelessWidget {
                     text: notification.title ?? '',
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
-                    textColor: context.resources.color.colorGrey,
+                    textColor: context.resources.color.colorBlack4,
                     maxLines: 2,
                   ),
 
@@ -93,9 +91,9 @@ class NotificationItem extends StatelessWidget {
 
                   PrimaryText(
                     text: notification.message ?? '',
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     fontSize: 13,
-                    textColor: context.resources.color.colorGrey3,
+                    textColor: context.resources.color.colorGrey26,
                     maxLines: 3,
                   ),
 
@@ -104,7 +102,7 @@ class NotificationItem extends StatelessWidget {
                     text: _getTimeAgo(notification.datetime),
                     fontWeight: FontWeight.w400,
                     fontSize: 11,
-                    textColor: context.resources.color.colorGrey19,
+                    textColor: context.resources.color.colorGrey29,
                   ),
                 ],
               ),
@@ -112,12 +110,12 @@ class NotificationItem extends StatelessWidget {
 
             if (isUnread)
               Container(
-                width: 8,
-                height: 8,
+                width: 10,
+                height: 10,
                 margin: EdgeInsets.only(left: 8),
                 decoration: BoxDecoration(
-                  color: context.resources.color.colorPrimary,
-                  borderRadius: BorderRadius.circular(4),
+                  color: HexColor('#E55959'),
+                  borderRadius: BorderRadius.circular(7),
                 ),
               ),
           ],

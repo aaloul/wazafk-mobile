@@ -56,12 +56,17 @@ class NotificationsListWidget extends StatelessWidget {
       return RefreshIndicator(
         onRefresh: controller.refreshNotifications,
         color: context.resources.color.colorPrimary,
-        child: ListView.builder(
+        child: ListView.separated(
           controller: controller.scrollController,
           padding: EdgeInsets.symmetric(vertical: 8),
           itemCount:
               controller.notifications.length +
               (controller.isLoadingMore.value ? 1 : 0),
+          separatorBuilder: (_, __) => Container(
+            height: 1,
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            color: Color(0xFFE9E9E9),
+          ),
           itemBuilder: (context, index) {
             if (index == controller.notifications.length) {
               return Center(
