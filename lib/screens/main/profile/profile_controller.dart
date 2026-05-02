@@ -224,7 +224,7 @@ class ProfileController extends GetxController {
         Get.toNamed(RouteConstant.changeLanguageScreen);
         break;
       case 8: // Way of Payment
-        Get.toNamed(RouteConstant.wayOfPaymentScreen);
+        Get.toNamed(RouteConstant.termsScreen);
         break;
       case 9: // Working Days
         Get.toNamed(RouteConstant.workingDaysScreen);

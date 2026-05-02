@@ -115,15 +115,15 @@ class ProjectItem extends StatelessWidget {
                   // Status badge
                   Container(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     margin: EdgeInsets.only(top: 2),
                     decoration: BoxDecoration(
-                      color: context.resources.color.colorGrey30,
-                      borderRadius: BorderRadius.circular(10),
+                      color: HexColor(engagement.statusColor.toString()),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: PrimaryText(
                       text: engagement.statusLabel.toString(),
-                      textColor: HexColor(engagement.statusColor.toString()),
+                      textColor: context.resources.color.colorWhite,
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
+import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -28,20 +29,12 @@ class TermsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-
-            Container(
-              width: double.infinity,
-              height: 160,
-              decoration: BoxDecoration(
-                  color: context.resources.color.colorPrimary,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(24),
-                      bottomRight: Radius.circular(24)
-                  )
-              ),
+            TopHeader(
+              title: title,
             ),
 
-            SizedBox(height: 24),
+
+            SizedBox(height: 16,),
 
             Expanded(
               child: Container(
@@ -49,15 +42,7 @@ class TermsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PrimaryText(
-                      text: title,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      textColor: context.resources.color.colorBlackMain,
-                      textAlign: TextAlign.center,
-                    ),
 
-                    SizedBox(height: 24),
 
                     if (content.isEmpty)
                       Center(

@@ -44,9 +44,12 @@ class ActivityScreen extends StatelessWidget {
               ),
 
 
+              SizedBox(height: 16,),
+
               Obx(
                     () =>
                     TabsWidget(
+                      margin: 16,
                       tabs: [
                         context.resources.strings.projectsAndServices,
                         context.resources.strings.pending,
@@ -59,6 +62,7 @@ class ActivityScreen extends StatelessWidget {
                       selectedTab: controller.selectedTab.value,
                     ),
               ),
+              SizedBox(height: 8,),
 
               Expanded(
                 child: Obx(() => _buildTabContent(context)),
