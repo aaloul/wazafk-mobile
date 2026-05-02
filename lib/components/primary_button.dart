@@ -15,6 +15,7 @@ class PrimaryButton extends StatelessWidget {
       this.color,
       this.enabled,
       this.icon,
+      this.leadingIcon,
       this.borderRadius,
       this.width,
       super.key});
@@ -29,6 +30,7 @@ class PrimaryButton extends StatelessWidget {
   double? margin;
   double? borderRadius;
   String? icon;
+  Widget? leadingIcon;
   FontWeight? fontWeight;
   bool? enabled = true;
 
@@ -55,30 +57,38 @@ class PrimaryButton extends StatelessWidget {
             onPressed.call();
           }
         },
-        child:icon != null  ?  Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            PrimaryText(
-              text: title,
-              fontSize: fontSize ?? 16,
-              fontWeight: fontWeight ?? FontWeight.w500,
-              textColor: textColor ?? context.resources.color.colorWhite,
-              textAlign: TextAlign.center,
-              height: 1.3,
-            ),
-            const SizedBox(width: 4,),
-            Image.asset(icon.toString(),width:24 , height: 24,)
-          ],
-        ) :Center(
-          child: PrimaryText(
-            text: title,
-            fontSize: fontSize ?? 16,
-            fontWeight: fontWeight ?? FontWeight.w500,
-            textColor: textColor ?? context.resources.color.colorWhite,
-            textAlign: TextAlign.center,
-            height: 1.3,
-          ),
-        ),
+        child: (leadingIcon != null || icon != null)
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (leadingIcon != null) ...[
+                    leadingIcon!,
+                    const SizedBox(width: 6),
+                  ],
+                  PrimaryText(
+                    text: title,
+                    fontSize: fontSize ?? 16,
+                    fontWeight: fontWeight ?? FontWeight.w500,
+                    textColor: textColor ?? context.resources.color.colorWhite,
+                    textAlign: TextAlign.center,
+                    height: 1.3,
+                  ),
+                  if (icon != null) ...[
+                    const SizedBox(width: 4),
+                    Image.asset(icon.toString(), width: 24, height: 24),
+                  ],
+                ],
+              )
+            : Center(
+                child: PrimaryText(
+                  text: title,
+                  fontSize: fontSize ?? 16,
+                  fontWeight: fontWeight ?? FontWeight.w500,
+                  textColor: textColor ?? context.resources.color.colorWhite,
+                  textAlign: TextAlign.center,
+                  height: 1.3,
+                ),
+              ),
       ),
     );
 

@@ -25,6 +25,7 @@ class TopHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 60,
       decoration: BoxDecoration(
         color: context.resources.color.colorWhite,
         boxShadow: [
@@ -36,7 +37,7 @@ class TopHeader extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      padding: const EdgeInsets.symmetric( horizontal: 12),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -57,9 +58,8 @@ class TopHeader extends StatelessWidget {
               child: RotatedBox(
                 quarterTurns: Utils().isRTL() ? 2 : 0,
                 child: Image.asset(
-                  AppIcons.back,
-                  width: 28,
-                  color: color ?? context.resources.color.colorGrey,
+                  AppIcons.back3,
+                  width: 32,
                 ),
               ),
                   )
@@ -71,7 +71,7 @@ class TopHeader extends StatelessWidget {
               text: title ?? '',
               fontWeight: FontWeight.w600,
               fontSize: 15,
-              textColor: color ?? context.resources.color.colorGrey,
+              textColor: color ?? context.resources.color.colorBlack4,
             ),
           ),
           if (endWidget != null)

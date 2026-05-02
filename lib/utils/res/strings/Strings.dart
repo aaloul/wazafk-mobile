@@ -128,6 +128,8 @@ abstract class Strings {
 
   String get briefDescription;
 
+  String get jobOverviewHint;
+
   String get enterYourPrice;
 
   String get enterEstimatedHours;
@@ -835,6 +837,8 @@ abstract class Strings {
 
   String get saveService;
 
+  String get postService;
+
   String daysSelected(int count);
 
   String get editPackage;
@@ -844,6 +848,8 @@ abstract class Strings {
   String get updatePackage;
 
   String get savePackage;
+
+  String get postPackage;
 
   String servicesSelected(int count);
 
@@ -963,6 +969,10 @@ abstract class Strings {
   String get unitPrice;
 
   String get totalPrice;
+
+  String get jobRate;
+
+  String get perJob;
 
   String get bufferTime;
 
@@ -1443,4 +1453,5 @@ abstract class Strings {
   String get onceApproved;
   String get voucher;
   String get legal;
+  String get edit;
 }

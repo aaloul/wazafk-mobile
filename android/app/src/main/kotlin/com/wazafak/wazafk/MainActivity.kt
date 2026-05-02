@@ -1,4 +1,4 @@
-package com.wazafak.wazafak_app
+package com.wazafak.wazafk
 
 import io.flutter.embedding.android.FlutterActivity
 

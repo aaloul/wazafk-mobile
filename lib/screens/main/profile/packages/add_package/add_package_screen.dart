@@ -10,18 +10,34 @@ import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/profile/packages/add_package/add_package_controller.dart';
 import 'package:wazafak_app/screens/main/profile/packages/add_package/components/package_working_hours_bottom_sheet.dart';
-import 'package:wazafak_app/screens/main/profile/packages/add_package/components/services_selection_bottom_sheet.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 class AddPackageScreen extends StatelessWidget {
   const AddPackageScreen({super.key});
+
+  static const _cardDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    border: Border.fromBorderSide(
+      BorderSide(color: Color(0xFFE5E5E5), width: 1),
+    ),
+  );
+
+  static const _cardShadow = [
+    BoxShadow(
+      color: Color(0x14000000),
+      blurRadius: 8,
+      spreadRadius: 0,
+      offset: Offset.zero,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddPackageController());
 
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
@@ -40,316 +56,311 @@ class AddPackageScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 8),
+                    // Card 1 — General Details
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(16),
+                      decoration: _cardDecoration.copyWith(
+                        boxShadow: _cardShadow,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
 
-                    PrimaryText(
-                      text: "${context.resources.strings.generalDetails}",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 16),
 
-                    Obx(() => LabeledTextFiled(
-                      controller: controller.titleController,
-                      hint: context.resources.strings.title,
-                      label: context.resources.strings.title,
-                      isMandatory: true,
-                      isPassword: false,
-                      inputType: TextInputType.text,
-                      enabled: !controller.isEditMode.value,
-                    )),
+                          Obx(() => LabeledTextFiled(
+                            controller: controller.titleController,
+                            hint: context.resources.strings.title,
+                            label: context.resources.strings.title,
+                            isMandatory: true,
+                            isPassword: false,
+                            inputType: TextInputType.text,
+                            enabled: !controller.isEditMode.value,
+                          )),
 
-                    Obx(() => MultilineLabeledTextField(
-                      controller: controller.descController,
-                      label: context.resources.strings.description,
-                      hint: context.resources.strings.enterPackageDescription,
-                      maxLines: 20,
-                      height: 100,
-                      margin: 0,
-                      inputType: TextInputType.text,
-                      isPassword: false,
-                      isMandatory: true,
-                      enabled: !controller.isEditMode.value,
-                    )),
+                          Obx(() => MultilineLabeledTextField(
+                            controller: controller.descController,
+                            label: context.resources.strings.description,
+                            hint: context.resources.strings.enterPackageDescription,
+                            maxLines: 20,
+                            height: 100,
+                            margin: 0,
+                            inputType: TextInputType.text,
+                            isPassword: false,
+                            isMandatory: true,
+                            enabled: !controller.isEditMode.value,
+                          )),
 
-                    SizedBox(height: 16),
+                          SizedBox(height: 8),
 
-                    PrimaryText(
-                      text: context.resources.strings.services,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 16),
-
-                    Obx(() => IgnorePointer(
-                      ignoring: controller.isEditMode.value,
-                      child: GestureDetector(
-                        onTap: () {
-                          ServicesSelectionBottomSheet.show(context);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: controller.isEditMode.value
-                                ? context.resources.color.colorGrey4
-                                : context.resources.color.colorWhite,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: context.resources.color.colorGrey8,
-                            ),
+                          PrimaryText(
+                            text: context.resources.strings.services,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            textColor: context.resources.color.colorGrey26,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.list_alt,
-                                    size: 20,
-                                    color: context.resources.color.colorGrey,
+                          SizedBox(height: 12),
+
+                          Obx(() {
+                            if (controller.isLoadingServices.value) {
+                              return Container(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                child: Center(child: ProgressBar()),
+                              );
+                            }
+                            if (controller.services.isEmpty) return SizedBox.shrink();
+                            final selectedHashcodes = controller.selectedServices
+                                .map((s) => s.hashcode)
+                                .toSet();
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 36,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: controller.services.length,
+                                    separatorBuilder: (_, __) => SizedBox(width: 8),
+                                    itemBuilder: (context, index) {
+                                      final service = controller.services[index];
+                                      final isSelected = selectedHashcodes.contains(service.hashcode);
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (!controller.isEditMode.value) {
+                                            controller.toggleServiceSelection(service);
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                          decoration: BoxDecoration(
+                                            color: isSelected
+                                                ? context.resources.color.colorPrimary.withAlpha(16)
+                                                : Colors.white,
+                                            borderRadius: BorderRadius.circular(6),
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? context.resources.color.colorPrimary
+                                                  : context.resources.color.colorGrey25,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: PrimaryText(
+                                              text: service.title ?? '',
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              textColor: isSelected
+                                                  ? context.resources.color.colorPrimary
+                                                  : context.resources.color.colorBlack4,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  SizedBox(width: 12),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                                SizedBox(height: 12),
+                              ],
+                            );
+                          }),
+
+
+
+                          LabeledTextFiled(
+                            controller: controller.totalPriceController,
+                            hint: context.resources.strings.totalPrice,
+                            label: context.resources.strings.totalPrice,
+                            isMandatory: true,
+                            isPassword: false,
+                            inputType: TextInputType.number,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    // Card 2 — Working Hours
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(16),
+                      decoration: _cardDecoration.copyWith(
+                        boxShadow: _cardShadow,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 4),
+
+                          PrimaryText(
+                            text: context.resources.strings.workingHours,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            textColor: context.resources.color.colorBlack4,
+                          ),
+                          SizedBox(height: 16),
+
+                          GestureDetector(
+                            onTap: () {
+                              PackageWorkingHoursBottomSheet.show(context);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: context.resources.color.colorWhite,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: context.resources.color.colorGrey8,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
                                     children: [
-                                      PrimaryText(
-                                        text: context
-                                            .resources
-                                            .strings
-                                            .selectServices,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                        textColor:
-                                            context.resources.color.colorPrimary,
+                                      Icon(
+                                        Icons.access_time,
+                                        size: 20,
+                                        color: context.resources.color.colorGrey,
                                       ),
-                                      SizedBox(height: 4),
-                                      Obx(() {
-                                        final selectedCount =
-                                            controller.selectedServices.length;
-                                        return PrimaryText(
-                                          text: selectedCount > 0
-                                              ? context.resources.strings.servicesSelected(selectedCount)
-                                              : context.resources.strings.noServicesSelected,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                          textColor:
-                                              context.resources.color.colorGrey,
-                                        );
-                                      }),
+                                      SizedBox(width: 12),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          PrimaryText(
+                                            text: context.resources.strings.workingHours,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                            textColor: context.resources.color.colorPrimary,
+                                          ),
+                                          SizedBox(height: 4),
+                                          Obx(() {
+                                            final enabledDays = controller.workingHours
+                                                .where((day) => day.isEnabled)
+                                                .length;
+                                            return PrimaryText(
+                                              text: context.resources.strings.daysSelected(enabledDays),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                              textColor: context.resources.color.colorGrey,
+                                            );
+                                          }),
+                                        ],
+                                      ),
                                     ],
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16,
+                                    color: context.resources.color.colorGrey,
                                   ),
                                 ],
                               ),
-                              if (!controller.isEditMode.value)
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 16,
-                                  color: context.resources.color.colorGrey,
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-
-                    SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.price} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 8),
-
-                    // LabeledTextFiled(
-                    //   controller: controller.unitPriceController,
-                    //   hint: context.resources.strings.unitPrice,
-                    //   label: context.resources.strings.unitPrice,
-                    //   isMandatory: true,
-                    //   isPassword: false,
-                    //   inputType: TextInputType.number,
-                    // ),
-
-                    LabeledTextFiled(
-                      controller: controller.totalPriceController,
-                      hint: context.resources.strings.totalPrice,
-                      label: context.resources.strings.totalPrice,
-                      isMandatory: true,
-                      isPassword: false,
-                      inputType: TextInputType.number,
-                    ),
-
-                    SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.workingHours} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 16),
-
-                    GestureDetector(
-                      onTap: () {
-                        PackageWorkingHoursBottomSheet.show(context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: context.resources.color.colorWhite,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: context.resources.color.colorGrey8,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.access_time,
-                                  size: 20,
-                                  color: context.resources.color.colorGrey,
-                                ),
-                                SizedBox(width: 12),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    PrimaryText(
-                                      text: context
-                                          .resources
-                                          .strings
-                                          .workingHours,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      textColor:
-                                          context.resources.color.colorPrimary,
-                                    ),
-                                    SizedBox(height: 4),
-                                    Obx(() {
-                                      final enabledDays = controller
-                                          .workingHours
-                                          .where((day) => day.isEnabled)
-                                          .length;
-                                      return PrimaryText(
-                                        text: context.resources.strings.daysSelected(enabledDays),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        textColor:
-                                            context.resources.color.colorGrey,
-                                      );
-                                    }),
-                                  ],
-                                ),
-                              ],
                             ),
+                          ),
 
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: context.resources.color.colorGrey,
-
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
+
                     SizedBox(height: 16),
 
-                    PrimaryText(
-                      text: "${context.resources.strings.coverImage}",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
+                    // Card 3 — Cover Image
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(16),
+                      decoration: _cardDecoration.copyWith(
+                        boxShadow: _cardShadow,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PrimaryText(
+                            text: context.resources.strings.coverImage,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            textColor: context.resources.color.colorBlack4,
+                          ),
+                          SizedBox(height: 8),
 
-                    SizedBox(height: 8),
+                          Obx(() {
+                            final hasLocalImage = controller.packageImage.value != null;
+                            final hasUrlImage = controller.packageImageUrl.value != null;
 
-                    Obx(() {
-                      final hasLocalImage =
-                          controller.packageImage.value != null;
-                      final hasUrlImage =
-                          controller.packageImageUrl.value != null;
+                            if (hasUrlImage || hasLocalImage || controller.isEditMode.value) {
+                              return Container();
+                            }
 
-                      if (hasUrlImage || hasLocalImage || controller.isEditMode.value) {
-                        return Container();
-                      }
+                            return FileUploadItem(
+                              label: controller.packageImage.value != null ||
+                                      controller.packageImageUrl.value != null
+                                  ? context.resources.strings.imageSelected
+                                  : context.resources.strings.uploadImage,
+                              isMandatory: false,
+                              isOptional: false,
+                              onClick: () {
+                                controller.pickPackageImage(context);
+                              },
+                            );
+                          }),
 
-                      return FileUploadItem(
-                        label:
-                            controller.packageImage.value != null ||
-                                controller.packageImageUrl.value != null
-                            ? context.resources.strings.imageSelected
-                            : context.resources.strings.uploadImage,
-                        isMandatory: false,
-                        isOptional: false,
-                        onClick: () {
-                          controller.pickPackageImage(context);
-                        },
-                      );
-                    }),
+                          Obx(() {
+                            final hasLocalImage = controller.packageImage.value != null;
+                            final hasUrlImage = controller.packageImageUrl.value != null;
 
-                    // Show selected image (local file or URL)
-                    Obx(() {
-                      final hasLocalImage =
-                          controller.packageImage.value != null;
-                      final hasUrlImage =
-                          controller.packageImageUrl.value != null;
+                            if (!hasLocalImage && !hasUrlImage) {
+                              return SizedBox.shrink();
+                            }
 
-                      if (!hasLocalImage && !hasUrlImage) {
-                        return SizedBox.shrink();
-                      }
-
-                      return Container(
-                        margin: EdgeInsets.only(top: 8),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: hasLocalImage
-                                  ? Image.file(
-                                      controller.packageImage.value!,
-                                      height: 150,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : PrimaryNetworkImage(
-                                      height: 150,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                      url: controller.packageImageUrl.value!,
-                                    ),
-                            ),
-                            if (!controller.isEditMode.value)
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    controller.removePackageImage();
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: context.resources.color.colorWhite,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 20,
-                                      color: context.resources.color.colorPrimary,
-                                    ),
+                            return Container(
+                              margin: EdgeInsets.only(top: 8),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: hasLocalImage
+                                        ? Image.file(
+                                            controller.packageImage.value!,
+                                            height: 150,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : PrimaryNetworkImage(
+                                            height: 150,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                            url: controller.packageImageUrl.value!,
+                                          ),
                                   ),
-                                ),
+                                  if (!controller.isEditMode.value)
+                                    Positioned(
+                                      top: 8,
+                                      right: 8,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.removePackageImage();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                            color: context.resources.color.colorWhite,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 20,
+                                            color: context.resources.color.colorPrimary,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
-                          ],
-                        ),
-                      );
-                    }),
+                            );
+                          }),
+                        ],
+                      ),
+                    ),
 
                     SizedBox(height: 24),
                   ],
@@ -364,7 +375,7 @@ class AddPackageScreen extends StatelessWidget {
                     : PrimaryButton(
                         title: controller.isEditMode.value
                             ? context.resources.strings.updatePackage
-                            : context.resources.strings.savePackage,
+                            : context.resources.strings.postPackage,
                         onPressed: () {
                           controller.addPackage();
                         },

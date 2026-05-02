@@ -8,17 +8,30 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
-import 'package:wazafak_app/screens/main/profile/services/add_service/components/skills_choose_widget.dart';
 import 'package:wazafak_app/screens/main/profile/services/add_service/components/working_hours_bottom_sheet.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../components/multiline_labeled_text_field.dart';
-import '../../../../../components/primary_chooser.dart';
 import '../../../../../utils/res/Resources.dart';
 import 'add_service_controller.dart';
 
 class AddServiceScreen extends StatelessWidget {
   const AddServiceScreen({super.key});
+
+  static const _cardDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    border: Border.fromBorderSide(
+      BorderSide(color: Color(0xFFE5E5E5), width: 1),
+    ),
+  );
+
+  static const _cardShadow = BoxShadow(
+    color: Color(0x14000000),
+    blurRadius: 8,
+    spreadRadius: 0,
+    offset: Offset(0, 0),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +39,7 @@ class AddServiceScreen extends StatelessWidget {
     final homeController = Get.find<HomeController>();
 
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
@@ -47,338 +60,535 @@ class AddServiceScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: 8),
 
-                    PrimaryText(
-                      text: "${context.resources.strings.generalDetails}",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 16),
+                    // Card 1 — General Details
+                    Container(
+                      decoration: _cardDecoration.copyWith(
+                        boxShadow: const [_cardShadow],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Obx(() => LabeledTextFiled(
+                                  controller: controller.titleController,
+                                  hint: context.resources.strings.title,
+                                  label: context.resources.strings.title,
+                                  isMandatory: true,
+                                  isPassword: false,
+                                  inputType: TextInputType.text,
+                                  enabled: !controller.isEditMode.value,
+                                )),
 
-                    Obx(() => LabeledTextFiled(
-                      controller: controller.titleController,
-                      hint: context.resources.strings.title,
-                      label: context.resources.strings.title,
-                      isMandatory: true,
-                      isPassword: false,
-                      inputType: TextInputType.text,
-                      enabled: !controller.isEditMode.value,
-                    )),
+                            Obx(() => MultilineLabeledTextField(
+                                  controller: controller.descController,
+                                  label:
+                                      context.resources.strings.description,
+                                  hint: context
+                                      .resources.strings.enterYourDescription,
+                                  maxLines: 20,
+                                  height: 100,
+                                  margin: 0,
+                                  inputType: TextInputType.text,
+                                  isPassword: false,
+                                  isMandatory: true,
+                                  enabled: !controller.isEditMode.value,
+                                )),
 
-                    Obx(() => MultilineLabeledTextField(
-                      controller: controller.descController,
-                      label: context.resources.strings.description,
-                      hint: context.resources.strings.enterYourDescription,
-                      maxLines: 20,
-                      height: 100,
-                      margin: 0,
-                      inputType: TextInputType.text,
-                      isPassword: false,
-                      isMandatory: true,
-                      enabled: !controller.isEditMode.value,
-                    )),
 
-                    SizedBox(height: 12),
 
-                    Obx(() => AreaChooseWidget(
-                      selectedAreas: controller.selectedAreas,
-                      onAreasChanged: (areas) {
-                        controller.selectedAreas.value = areas;
-                      },
-                      enabled: !controller.isEditMode.value,
-                    )),
+                            // Category dropdown
+                            Obx(() {
+                              if (homeController.categories.isEmpty) {
+                                return Container(
+                                  padding:
+                                      EdgeInsets.symmetric(vertical: 16),
+                                  child: Center(child: ProgressBar()),
+                                );
+                              }
+                              final selected =
+                                  controller.selectedCategory.value;
+                              final exists = selected != null &&
+                                  homeController.categories.any(
+                                      (c) => c.hashcode == selected.hashcode);
+                              return CategoryChooser(
+                                label: context.resources.strings.category,
+                                text:
+                                    context.resources.strings.selectCategory,
+                                isMandatory: true,
+                                withArrow: true,
+                                list: homeController.categories,
+                                selected: exists ? selected : null,
+                                enabled: !controller.isEditMode.value,
+                                onSelect: (category) {
+                                  controller.selectCategory(category);
+                                },
+                              );
+                            }),
 
-                    SizedBox(height: 8),
-
-                    Obx(() {
-                      // Don't render if list is empty
-                      if (homeController.categories.isEmpty) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Center(child: ProgressBar()),
-                        );
-                      }
-
-                      // Only pass selected if it exists in the list
-                      final selected = controller.selectedCategory.value;
-                      final exists =
-                          selected != null &&
-                          homeController.categories.any(
-                            (c) => c.hashcode == selected.hashcode,
-                          );
-
-                      return CategoryChooser(
-                        label: context.resources.strings.category,
-                        text: context.resources.strings.selectCategory,
-                        isMandatory: true,
-                        withArrow: true,
-                        list: homeController.categories,
-                        selected: exists ? selected : null,
-                        enabled: !controller.isEditMode.value,
-                        onSelect: (category) {
-                          controller.selectCategory(category);
-                        },
-                      );
-                    }),
-
-                    Obx(
-                      () => controller.isLoadingSubcategories.value
-                          ? Container(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              child: Center(child: ProgressBar()),
-                            )
-                          : controller.subcategories.isNotEmpty
-                          ? Column(
-                              children: [
-                                Builder(
-                                  builder: (context) {
-                                    // Only pass selected if it exists in the list
-                                    final selected =
-                                        controller.selectedSubcategory.value;
-                                    final exists =
-                                        selected != null &&
-                                        controller.subcategories.any(
-                                          (c) =>
-                                              c.hashcode == selected.hashcode,
-                                        );
-
-                                    return CategoryChooser(
-                                      label:
-                                          context.resources.strings.subcategory,
-                                      text: context
-                                          .resources
-                                          .strings
-                                          .selectSubcategory,
-                                      isMandatory: true,
-                                      withArrow: true,
-                                      list: controller.subcategories,
-                                      selected: exists ? selected : null,
-                                      enabled: !controller.isEditMode.value,
-                                      onSelect: (subcategory) {
-                                        controller.selectSubcategory(
-                                          subcategory,
+                            // Subcategory chips
+                            Obx(() {
+                              if (controller.isLoadingSubcategories.value) {
+                                return Container(
+                                  padding:
+                                      EdgeInsets.symmetric(vertical: 16),
+                                  child: Center(child: ProgressBar()),
+                                );
+                              }
+                              if (controller.subcategories.isEmpty) {
+                                return SizedBox.shrink();
+                              }
+                              final selectedHashcode =
+                                  controller.selectedSubcategory.value?.hashcode;
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 4),
+                                  SizedBox(
+                                    height: 36,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:
+                                          controller.subcategories.length,
+                                      separatorBuilder: (_, __) =>
+                                          SizedBox(width: 8),
+                                      itemBuilder: (context, index) {
+                                        final sub =
+                                            controller.subcategories[index];
+                                        final isSelected =
+                                            selectedHashcode == sub.hashcode;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            if (!controller.isEditMode.value) {
+                                              controller
+                                                  .selectSubcategory(sub);
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 14, vertical: 6),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? context.resources.color
+                                                      .colorPrimary
+                                                      .withAlpha(16)
+                                                  : Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                              border: Border.all(
+                                                color: isSelected
+                                                    ? context.resources.color
+                                                        .colorPrimary
+                                                    : context.resources.color
+                                                        .colorGrey25,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: PrimaryText(
+                                                text: sub.name ?? '',
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                textColor: isSelected
+                                                    ? context.resources.color
+                                                        .colorPrimary
+                                                    : context.resources.color
+                                                        .colorBlack4,
+                                              ),
+                                            ),
+                                          ),
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                                SizedBox(height: 12),
-                              ],
-                            )
-                          : SizedBox.shrink(),
-                    ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                ],
+                              );
+                            }),
 
-                    Obx(
-                      () => PrimaryChooser(
-                        label: context.resources.strings.pricingType,
-                        text: context.resources.strings.pricingType,
-                        isMandatory: true,
-                        withArrow: true,
-                        isMultiSelect: false,
-                        list: controller.pricingTypeOptions,
-                        selected:
-                            controller.selectedPricingType.value.isNotEmpty
-                            ? controller.selectedPricingType.value
-                            : null,
-                        enabled: !controller.isEditMode.value,
-                        onSelect: (value) {
-                          controller.selectedPricingType.value = value;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 12),
 
-                    Obx(
-                      () =>
-                          controller.selectedPricingType.value ==
-                              Resources.of(
-                                Get.context!,
-                              ).strings.hourlyRateOption
-                          ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                PrimaryText(
-                                  text:
-                                      "${context.resources.strings.hourlyRate} *",
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                                SizedBox(height: 8),
+                            SizedBox(height: 12),
 
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: LabeledTextFiled(
+                            Obx(() => AreaChooseWidget(
+                              selectedAreas: controller.selectedAreas,
+                              onAreasChanged: (areas) {
+                                controller.selectedAreas.value = areas;
+                              },
+                              enabled: !controller.isEditMode.value,
+                            )),
+
+                            SizedBox(height: 12),
+
+                            // Pricing type chips
+                            Obx(() {
+                              final selected =
+                                  controller.selectedPricingType.value;
+                              final options =
+                                  controller.pricingTypeOptions;
+                              return Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  PrimaryText(
+                                    text:
+                                        "${context.resources.strings.pricingType} *",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    textColor: context
+                                        .resources.color.colorGrey26,
+                                  ),
+                                  SizedBox(height: 8),
+                                  SizedBox(
+                                    height: 36,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: options.length,
+                                      separatorBuilder: (_, __) =>
+                                          SizedBox(width: 8),
+                                      itemBuilder: (context, index) {
+                                        final option = options[index];
+                                        final isSelected =
+                                            selected == option;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            if (!controller
+                                                .isEditMode.value) {
+                                              controller
+                                                  .selectedPricingType
+                                                  .value = option;
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 14,
+                                                vertical: 6),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? context.resources.color
+                                                      .colorPrimary
+                                                      .withAlpha(16)
+                                                  : Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                              border: Border.all(
+                                                color: isSelected
+                                                    ? context.resources.color
+                                                        .colorPrimary
+                                                    : context.resources.color
+                                                        .colorGrey25,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: PrimaryText(
+                                                text: option,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                textColor: isSelected
+                                                    ? context.resources.color
+                                                        .colorPrimary
+                                                    : context.resources.color
+                                                        .colorBlack4,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
+                            SizedBox(height: 12),
+
+                            Obx(() =>
+                                controller.selectedPricingType.value ==
+                                        Resources.of(Get.context!).strings
+                                            .hourlyRateOption
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: LabeledTextFiled(
+                                              controller: controller
+                                                  .hourlyRateController,
+                                              hint: context.resources.strings
+                                                  .amountInUsd,
+                                              label: context.resources.strings
+                                                  .startingAt,
+                                              isMandatory: true,
+                                              isPassword: false,
+                                              inputType:
+                                                  TextInputType.number,
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 24),
+                                            child: PrimaryText(
+                                              text: context
+                                                  .resources.strings.perHour,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              textColor: context
+                                                  .resources.color.colorGrey,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : LabeledTextFiled(
                                         controller:
-                                            controller.hourlyRateController,
+                                            controller.totalPriceController,
                                         hint: context
-                                            .resources
-                                            .strings
-                                            .amountInUsd,
+                                            .resources.strings.amountInUsd,
                                         label: context
-                                            .resources
-                                            .strings
-                                            .startingAt,
+                                            .resources.strings.startingAt,
                                         isMandatory: true,
                                         isPassword: false,
                                         inputType: TextInputType.number,
-                                      ),
-                                    ),
+                                      )),
 
-                                    SizedBox(width: 8),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 24),
-                                      child: PrimaryText(
-                                        text: context.resources.strings.perHour,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w900,
-                                        textColor:
-                                            context.resources.color.colorGrey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                PrimaryText(
-                                  text:
-                                      "${context.resources.strings.totalPrice} *",
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16,
-                                  textColor: context.resources.color.colorGrey,
-                                ),
-                                SizedBox(height: 8),
-                                LabeledTextFiled(
-                                  controller:
-                                  controller.totalPriceController,
-                                  hint: context
-                                      .resources
-                                      .strings
-                                      .amountInUsd,
-                                  label: context
-                                      .resources
-                                      .strings
-                                      .startingAt,
-                                  isMandatory: true,
-                                  isPassword: false,
-                                  inputType: TextInputType.number,
-                                ),
-                              ],
-                            ),
-                    ),
+                            SizedBox(height: 8),
 
-                    SizedBox(height: 16),
+                            Obx(() => MultilineLabeledTextField(
+                              controller:
+                              controller.workExperienceController,
+                              label: context
+                                  .resources.strings.workExperience,
+                              hint: context.resources.strings
+                                  .briefDescriptionSuitableCandidate,
+                              maxLines: 20,
+                              height: 100,
+                              margin: 0,
+                              inputType: TextInputType.text,
+                              isPassword: false,
+                              isMandatory: true,
+                              enabled: !controller.isEditMode.value,
+                            )),
 
-                    PrimaryText(
-                      text: "${context.resources.strings.workExperience} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    Obx(() => MultilineLabeledTextField(
-                      controller: controller.workExperienceController,
-                      label: context.resources.strings.enterYourExperience,
-                      hint: context
-                          .resources
-                          .strings
-                          .briefDescriptionSuitableCandidate,
-                      maxLines: 20,
-                      height: 100,
-                      margin: 0,
-                      inputType: TextInputType.text,
-                      isPassword: false,
-                      isMandatory: true,
-                      enabled: !controller.isEditMode.value,
-                    )),
-
-                    SizedBox(height: 16),
-
-                    Obx(() => SkillsChooseWidget(
-                      enabled: !controller.isEditMode.value,
-                    )),
-
-                    SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.workingHours} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 16),
-
-                    GestureDetector(
-                      onTap: () {
-                        WorkingHoursBottomSheet.show(context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: context.resources.color.colorWhite,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: context.resources.color.colorGrey8,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.access_time,
-                                  size: 20,
-                                  color: context.resources.color.colorGrey,
-                                ),
-                                SizedBox(width: 12),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    PrimaryText(
-                                      text: context
-                                          .resources
-                                          .strings
-                                          .workingHours,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      textColor:
-                                          context.resources.color.colorPrimary,
-                                    ),
-                                    SizedBox(height: 4),
-                                    Obx(() {
-                                      final enabledDays = controller
-                                          .workingHours
-                                          .where((day) => day.isEnabled)
-                                          .length;
-                                      return PrimaryText(
-                                        text: context.resources.strings.daysSelected(enabledDays),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        textColor:
-                                            context.resources.color.colorGrey,
-                                      );
-                                    }),
-                                  ],
-                                ),
-                              ],
-                            ),
-                        Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: context.resources.color.colorGrey,
-                            
-                            ),
                           ],
                         ),
                       ),
                     ),
 
-                    SizedBox(height: 24),
+                    SizedBox(height: 16),
+
+                    // Card 2 — Skills
+                    Obx(() {
+                      if (controller.isLoadingSkills.value) {
+                        return Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              decoration: _cardDecoration.copyWith(
+                                boxShadow: const [_cardShadow],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    PrimaryText(
+                                      text: context.resources.strings.skills,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      textColor: context.resources.color.colorGrey26,
+                                    ),
+                                    SizedBox(height: 8),
+                                    Center(child: ProgressBar()),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                          ],
+                        );
+                      }
+                      if (controller.availableSkills.isEmpty) {
+                        return SizedBox.shrink();
+                      }
+                      final selectedHashcodes = controller.selectedSkills
+                          .map((s) => s.hashcode)
+                          .toSet();
+                      return Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: _cardDecoration.copyWith(
+                              boxShadow: const [_cardShadow],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PrimaryText(
+                                    text: context.resources.strings.skills,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    textColor:
+                                        context.resources.color.colorGrey26,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: controller.availableSkills
+                                        .map((skill) {
+                                      final isSelected = selectedHashcodes
+                                          .contains(skill.hashcode);
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (!controller.isEditMode.value) {
+                                            controller
+                                                .toggleSkillSelection(skill);
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 14, vertical: 7),
+                                          decoration: BoxDecoration(
+                                            color: isSelected
+                                                ? context.resources.color
+                                                    .colorPrimary
+                                                    .withAlpha(16)
+                                                : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? context.resources.color
+                                                      .colorPrimary
+                                                  : context.resources.color
+                                                      .colorGrey29,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          child: PrimaryText(
+                                            text: skill.name ?? '',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            textColor: isSelected
+                                                ? context
+                                                    .resources.color.colorPrimary
+                                                : context
+                                                    .resources.color.colorGrey26,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                        ],
+                      );
+                    }),
+
+                    // Card 3 — Experience & Availability
+                    Container(
+                      decoration: _cardDecoration.copyWith(
+                        boxShadow: const [_cardShadow],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+
+                            PrimaryText(
+                              text:
+                                  "${context.resources.strings.workingHours}",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              textColor:
+                                  context.resources.color.colorGrey26,
+                            ),
+                            SizedBox(height: 8),
+
+                            GestureDetector(
+                              onTap: () {
+                                WorkingHoursBottomSheet.show(context);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: context.resources.color.colorWhite,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color:
+                                        context.resources.color.colorGrey2,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.access_time,
+                                          size: 20,
+                                          color: Color(0xFFC6C6C6),
+                                        ),
+                                        SizedBox(width: 12),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            PrimaryText(
+                                              text: context.resources.strings
+                                                  .workingHours,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14,
+                                              textColor: context
+                                                  .resources.color.colorPrimary,
+                                            ),
+                                            SizedBox(height: 4),
+                                            Obx(() {
+                                              final enabledDays = controller
+                                                  .workingHours
+                                                  .where((day) => day.isEnabled)
+                                                  .length;
+                                              return PrimaryText(
+                                                text: context.resources.strings
+                                                    .daysSelected(enabledDays),
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12,
+                                                textColor: context
+                                                    .resources.color.colorGrey,
+                                              );
+                                            }),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 16,
+                                      color:
+                                          context.resources.color.colorGrey,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 8),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -391,7 +601,7 @@ class AddServiceScreen extends StatelessWidget {
                     : PrimaryButton(
                         title: controller.isEditMode.value
                             ? context.resources.strings.updateService
-                            : context.resources.strings.saveService,
+                            : context.resources.strings.postService,
                         onPressed: () {
                           controller.addService();
                         },

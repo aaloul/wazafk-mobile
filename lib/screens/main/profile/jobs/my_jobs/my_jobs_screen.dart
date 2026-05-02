@@ -27,10 +27,21 @@ class MyJobsScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: false, title: Resources
+              TopHeader(hasBack: true, title: Resources
                   .of(context)
                   .strings
                   .myJobs),
+              SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: PrimaryButton(
+                  title: Resources.of(context).strings.createNewJob,
+                  leadingIcon: Icon(Icons.add_circle_outline, color: Colors.white, size: 20),
+                  onPressed: () {
+                    Get.toNamed(RouteConstant.addJobScreen);
+                  },
+                ),
+              ),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -66,22 +77,6 @@ class MyJobsScreen extends StatelessWidget {
                 }),
               ),
 
-              SizedBox(height: 8),
-
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: PrimaryButton(
-                  title: Resources
-                      .of(context)
-                      .strings
-                      .createNewJob,
-                  onPressed: () {
-                    Get.toNamed(RouteConstant.addJobScreen);
-                  },
-                ),
-              ),
-
-              SizedBox(height: 16),
             ],
           ),
         ),

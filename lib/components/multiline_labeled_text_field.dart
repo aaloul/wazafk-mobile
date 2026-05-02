@@ -69,15 +69,15 @@ class MultilineLabeledTextField extends StatelessWidget {
               children: [
                 PrimaryText(
                   text: label,
-                  textColor:labelColor ??  context.resources.color.colorGrey3,
+                  textColor:labelColor ??  context.resources.color.colorGrey26,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
-                  fontSize: labelFontSize ?? AppThemeValues.textSize18,
+                  fontSize: labelFontSize ?? AppThemeValues.textSize16,
                 ),
                 const SizedBox(width: 4),
                 if (isMandatory)
                   PrimaryText(
                     text: '*',
-                    textColor: labelColor ??  context.resources.color.colorGrey3,
+                    textColor: labelColor ??  context.resources.color.colorGrey26,
                     fontWeight: labelFontWeight ?? FontWeight.w500,
                     fontSize: AppThemeValues.textSize16,
                   ),

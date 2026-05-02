@@ -1,8 +1,7 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/components/sheets/sheets_helper.dart';
+import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../add_job_controller.dart';
@@ -16,167 +15,77 @@ class JobSkillsChooseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<AddJobController>();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        PrimaryText(
-          text: "${context.resources.strings.skills} *",
-          fontWeight: FontWeight.w900,
-          fontSize: 16,
-          textColor: context.resources.color.colorGrey,
-        ),
+    return Obx(() {
+      if (controller.isLoadingSkills.value) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PrimaryText(
+              text: "${context.resources.strings.skills} *",
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              textColor: context.resources.color.colorGrey26,
+            ),
+            SizedBox(height: 8),
+            Center(child: ProgressBar()),
+            SizedBox(height: 12),
+          ],
+        );
+      }
 
-        SizedBox(height: 8),
-        PrimaryText(
-          text: context.resources.strings.skillsAdditionNote,
-          fontWeight: FontWeight.w500,
-          fontSize: 14,
-          textColor: context.resources.color.colorGrey3,
-        ),
+      if (controller.categorySkills.isEmpty) return SizedBox.shrink();
 
-        SizedBox(height: 12),
+      final selectedHashcodes =
+          controller.selectedSkills.map((s) => s.hashcode).toSet();
 
-        Obx(() {
-          if (controller.selectedSkills.isEmpty) {
-            if (!enabled) {
-              return PrimaryText(
-                text: context.resources.strings.noSkillsSelected,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                textColor: context.resources.color.colorGrey,
-              );
-            }
-            return GestureDetector(
-              onTap: () {
-                SheetHelper.showSkillsSheet(
-                  context,
-                  selectedSkills: controller.selectedSkills,
-                  onSkillsSelected: (skills) {
-                    controller.selectedSkills.value = skills;
-                  },
-                  availableSkills: controller.categorySkills,
-                  isLoadingSkills: controller.isLoadingSkills.value,
-                );
-              },
-              child: DottedBorder(
-                options: RoundedRectDottedBorderOptions(
-                  radius: Radius.circular(16),
-                  color: context.resources.color.colorGrey2,
-                  strokeWidth: 1,
-                  dashPattern: [3, 3],
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: context.resources.color.colorWhite,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.add,
-                        size: 14,
-                        color: context.resources.color.colorGrey,
-                      ),
-                      PrimaryText(
-                        text: context.resources.strings.add,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        textColor: context.resources.color.colorGrey,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }
-          return Wrap(
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PrimaryText(
+            text: "${context.resources.strings.skills}",
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            textColor: context.resources.color.colorGrey26,
+          ),
+          SizedBox(height: 8),
+          Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: [
-              ...controller.selectedSkills.map(
-                (skill) => Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            children: controller.categorySkills.map((skill) {
+              final isSelected = selectedHashcodes.contains(skill.hashcode);
+              return GestureDetector(
+                onTap: () {
+                  if (enabled) controller.toggleSkill(skill);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
-                    color: context.resources.color.colorPrimary,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      PrimaryText(
-                        text: skill.name ?? '',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        textColor: context.resources.color.colorWhite,
-                      ),
-                      if (enabled) ...[
-                        SizedBox(width: 6),
-                        GestureDetector(
-                          onTap: () {
-                            controller.toggleSkill(skill);
-                          },
-                          child: Icon(
-                            Icons.close,
-                            size: 14,
-                            color: context.resources.color.colorWhite,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
-              if (enabled)
-                GestureDetector(
-                  onTap: () {
-                    SheetHelper.showSkillsSheet(
-                      context,
-                      selectedSkills: controller.selectedSkills,
-                      onSkillsSelected: (skills) {
-                        controller.selectedSkills.value = skills;
-                      },
-                      availableSkills: controller.categorySkills,
-                      isLoadingSkills: controller.isLoadingSkills.value,
-                    );
-                  },
-                  child: DottedBorder(
-                    options: RoundedRectDottedBorderOptions(
-                      radius: Radius.circular(16),
-                      color: context.resources.color.colorGrey2,
-                      strokeWidth: 1,
-                      dashPattern: [3, 3],
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: context.resources.color.colorWhite,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 14,
-                            color: context.resources.color.colorGrey,
-                          ),
-                          PrimaryText(
-                            text: context.resources.strings.add,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            textColor: context.resources.color.colorGrey,
-                          ),
-                        ],
-                      ),
+                    color: isSelected
+                        ? context.resources.color.colorPrimary.withAlpha(16)
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isSelected
+                          ? context.resources.color.colorPrimary
+                          : context.resources.color.colorGrey29,
+                      width: 1,
                     ),
                   ),
+                  child: PrimaryText(
+                    text: skill.name ?? '',
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    textColor: isSelected
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorGrey26,
+                  ),
                 ),
-            ],
-          );
-        }),
-      ],
-    );
+              );
+            }).toList(),
+          ),
+          SizedBox(height: 12),
+        ],
+      );
+    });
   }
 }

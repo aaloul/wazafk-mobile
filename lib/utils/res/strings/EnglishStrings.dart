@@ -192,6 +192,9 @@ class EnglishStrings extends Strings {
   String get briefDescription => "Brief Description...";
 
   @override
+  String get jobOverviewHint => "Share your experience in this type of work. This helps clients understand your skills and trust your service.";
+
+  @override
   String get enterYourPrice => "Enter your price";
 
   @override
@@ -331,7 +334,7 @@ class EnglishStrings extends Strings {
   String get add => "Add";
 
   @override
-  String get createNewJob => "Create New Job";
+  String get createNewJob => "New Job";
 
   @override
   String get editAddress => "Edit Address";
@@ -343,10 +346,10 @@ class EnglishStrings extends Strings {
   String get saveAddress => "Save Address";
 
   @override
-  String get createNewPack => "Create New Pack";
+  String get createNewPack => "New Pack";
 
   @override
-  String get createNewService => "Create New Service";
+  String get createNewService => "New Service";
 
   @override
   String get updateProfile => "Update Profile";
@@ -543,16 +546,16 @@ class EnglishStrings extends Strings {
   String get yourServiceIsNowLive => "Your service is now live!";
 
   @override
-  String get packageUpdated => "Package Updated Successfully";
+  String get packageUpdated => "Package Updated";
 
   @override
-  String get packagePosted => "Package Posted Successfully";
+  String get packagePosted => "Package Posted";
 
   @override
-  String get serviceUpdated => "Service Updated Successfully";
+  String get serviceUpdated => "Service Updated";
 
   @override
-  String get servicePosted => "Service Posted Successfully";
+  String get servicePosted => "Service Posted";
 
   @override
   String get serviceDisabled => "Service Disabled";
@@ -1112,7 +1115,7 @@ class EnglishStrings extends Strings {
   String get projects => "Projects";
 
   @override
-  String get myJobs => "My Jobs";
+  String get myJobs => "Job Posts";
 
   @override
   String get activity => "Activity";
@@ -1256,6 +1259,9 @@ class EnglishStrings extends Strings {
   String get saveService => "Save Service";
 
   @override
+  String get postService => "Post Service";
+
+  @override
   String daysSelected(int count) => "$count days selected";
 
   @override
@@ -1269,6 +1275,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get savePackage => "Save Package";
+
+  @override
+  String get postPackage => "Post Package";
 
   @override
   String servicesSelected(int count) => "$count service(s) selected";
@@ -1455,6 +1464,12 @@ class EnglishStrings extends Strings {
   String get totalPrice => "Total Price";
 
   @override
+  String get jobRate => "Job Rate";
+
+  @override
+  String get perJob => "/Job";
+
+  @override
   String get bufferTime => "Buffer Time";
 
   @override
@@ -1473,7 +1488,7 @@ class EnglishStrings extends Strings {
   String get packDetails => "Pack Details";
 
   @override
-  String get coverImage => "Cover Image*";
+  String get coverImage => "Cover Image";
 
   @override
   String get areasYouCover => "Areas You Cover";
@@ -2189,6 +2204,8 @@ class EnglishStrings extends Strings {
   // Conversation
   @override
   String get openConversation => "Contact Now";
+  @override
+  String get edit => "Edit";
 
   @override
   String get wouldYouLikeToContactFreelancer => "Would you like to contact the freelancer?";

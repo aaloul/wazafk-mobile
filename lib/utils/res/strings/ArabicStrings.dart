@@ -192,6 +192,9 @@ class ArabicStrings extends Strings {
   String get briefDescription => "وصف موجز...";
 
   @override
+  String get jobOverviewHint => "شارك خبرتك في هذا النوع من العمل. يساعد ذلك العملاء على فهم مهاراتك والثقة بخدمتك.";
+
+  @override
   String get enterYourPrice => "أدخل السعر الخاص بك";
 
   @override
@@ -332,7 +335,7 @@ class ArabicStrings extends Strings {
   String get add => "إضافة";
 
   @override
-  String get createNewJob => "إنشاء وظيفة جديدة";
+  String get createNewJob => "وظيفة جديدة";
 
   @override
   String get editAddress => "تعديل العنوان";
@@ -344,10 +347,10 @@ class ArabicStrings extends Strings {
   String get saveAddress => "حفظ العنوان";
 
   @override
-  String get createNewPack => "إنشاء باقة جديدة";
+  String get createNewPack => "باقة جديدة";
 
   @override
-  String get createNewService => "إنشاء خدمة جديدة";
+  String get createNewService => "خدمة جديدة";
 
   @override
   String get updateProfile => "تحديث الملف الشخصي";
@@ -1120,7 +1123,7 @@ class ArabicStrings extends Strings {
   String get projects => "المشاريع";
 
   @override
-  String get myJobs => "وظائفي";
+  String get myJobs => "إعلانات الوظائف";
 
   @override
   String get activity => "النشاط";
@@ -1263,6 +1266,9 @@ class ArabicStrings extends Strings {
   String get saveService => "حفظ الخدمة";
 
   @override
+  String get postService => "نشر الخدمة";
+
+  @override
   String daysSelected(int count) => "تم تحديد $count أيام";
 
   @override
@@ -1276,6 +1282,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get savePackage => "حفظ الباقة";
+
+  @override
+  String get postPackage => "نشر الباقة";
 
   @override
   String servicesSelected(int count) => "تم تحديد $count خدمة";
@@ -1310,6 +1319,8 @@ class ArabicStrings extends Strings {
   @override
   String get legal => "قانوني";
 
+  @override
+  String get edit => "تعديل";
   @override
   String get selectDuration => "حدد المدة";
 
@@ -1460,6 +1471,12 @@ class ArabicStrings extends Strings {
 
   @override
   String get totalPrice => "السعر الإجمالي";
+
+  @override
+  String get jobRate => "أجر الوظيفة";
+
+  @override
+  String get perJob => "/ وظيفة";
 
   @override
   String get bufferTime => "وقت الاحتياط";

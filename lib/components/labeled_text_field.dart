@@ -66,9 +66,9 @@ class LabeledTextFiled extends StatelessWidget {
             children: [
               PrimaryText(
                 text: label,
-                textColor: context.resources.color.colorGrey3,
+                textColor: context.resources.color.colorGrey26,
                 fontWeight: labelFontWeight ?? FontWeight.w500,
-                fontSize: 15,
+                fontSize: 14,
               ),
               const SizedBox(
                 width: 1,
@@ -76,15 +76,15 @@ class LabeledTextFiled extends StatelessWidget {
               if (isMandatory)
                 PrimaryText(
                   text: '*',
-                    textColor: context.resources.color.colorGrey3,
+                    textColor: context.resources.color.colorGrey26,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
-                  fontSize: 15
+                  fontSize: 14
                 ),
               if (isOptional ?? false)
                 Flexible(
                   child: PrimaryText(
                     text:'(optional)',
-                    textColor: context.resources.color.colorGrey3,
+                    textColor: context.resources.color.colorGrey26,
                     fontWeight: labelFontWeight ?? FontWeight.w400,
                     maxLines: 1,
                     fontSize: 14,

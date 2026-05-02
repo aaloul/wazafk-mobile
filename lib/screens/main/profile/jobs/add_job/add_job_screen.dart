@@ -25,7 +25,7 @@ class AddJobScreen extends StatelessWidget {
     final homeController = Get.find<HomeController>();
 
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
@@ -41,693 +41,782 @@ class AddJobScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Color(0xFFE5E5E5), width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x14000000),
+                        blurRadius: 8,
+                        spreadRadius: 0,
+                        offset: Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
 
-                    PrimaryText(
-                      text: context.resources.strings.generalDetails,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 16),
-
-                    LabeledTextFiled(
-                      controller: controller.titleController,
-                      hint: context.resources.strings.title,
-                      label: context.resources.strings.title,
-                      isMandatory: true,
-                      isPassword: false,
-                      inputType: TextInputType.text,
-                      enabled: !controller.isEditMode,
-                    ),
-
-                    SizedBox(height: 8),
-
-                    JobAddressChooseWidget(enabled: !controller.isEditMode),
-
-                    SizedBox(height: 8),
-
-                    Obx(() {
-                      // Show loading indicator while categories are being fetched
-                      if (homeController.isLoadingJobCategories.value ||
-                          homeController.jobCategories.isEmpty) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Center(child: ProgressBar()),
-                        );
-                      }
-
-                      return Obx(
-                        () => CategoryChooser(
-                          label: context.resources.strings.category,
-                          text: context.resources.strings.selectCategory,
+                        LabeledTextFiled(
+                          controller: controller.titleController,
+                          hint: context.resources.strings.title,
+                          label: context.resources.strings.title,
                           isMandatory: true,
-                          withArrow: true,
-                          list: homeController.jobCategories,
-                          selected: controller.selectedCategory.value,
+                          isPassword: false,
+                          inputType: TextInputType.text,
                           enabled: !controller.isEditMode,
-                          onSelect: (category) {
-                            if (category != null) {
-                              controller.selectCategory(category);
-                            }
-                          },
                         ),
-                      );
-                    }),
 
-                    Obx(
-                      () => controller.isLoadingSubcategories.value
-                          ? Container(
+
+                        Obx(() {
+                          // Show loading indicator while categories are being fetched
+                          if (homeController.isLoadingJobCategories.value ||
+                              homeController.jobCategories.isEmpty) {
+                            return Container(
                               padding: EdgeInsets.symmetric(vertical: 16),
                               child: Center(child: ProgressBar()),
-                            )
-                          : controller.subcategories.isNotEmpty
-                          ? Column(
-                              children: [
-                                CategoryChooser(
-                                  label: context.resources.strings.subcategory,
-                                  text: context
-                                      .resources
-                                      .strings
-                                      .selectSubcategory,
-                                  isMandatory: true,
-                                  withArrow: true,
-                                  list: controller.subcategories,
-                                  selected:
-                                      controller.selectedSubcategory.value,
-                                  enabled: !controller.isEditMode,
-                                  onSelect: (subcategory) {
-                                    if (subcategory != null) {
-                                      controller.selectSubcategory(subcategory);
-                                    }
+                            );
+                          }
+
+                          return Obx(
+                                () => CategoryChooser(
+                              label: context.resources.strings.category,
+                              text: context.resources.strings.selectCategory,
+                              isMandatory: true,
+                              withArrow: true,
+                              list: homeController.jobCategories,
+                              selected: controller.selectedCategory.value,
+                              enabled: !controller.isEditMode,
+                              onSelect: (category) {
+                                if (category != null) {
+                                  controller.selectCategory(category);
+                                }
+                              },
+                            ),
+                          );
+                        }),
+
+                        Obx(() {
+                          if (controller.isLoadingSubcategories.value) {
+                            return Container(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Center(child: ProgressBar()),
+                            );
+                          }
+                          if (controller.subcategories.isEmpty) return SizedBox.shrink();
+                          final selectedHashcode = controller.selectedSubcategory.value?.hashcode;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 4),
+
+                              SizedBox(
+                                height: 36,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: controller.subcategories.length,
+                                  separatorBuilder: (_, __) => SizedBox(width: 8),
+                                  itemBuilder: (context, index) {
+                                    final sub = controller.subcategories[index];
+                                    final isSelected = selectedHashcode == sub.hashcode;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (!(controller.isEditMode)) {
+                                          controller.selectSubcategory(sub);
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                        decoration: BoxDecoration(
+                                          color: isSelected
+                                              ? context.resources.color.colorPrimary.withAlpha(16)
+                                              : Colors.white,
+                                          borderRadius: BorderRadius.circular(6),
+                                          border: Border.all(
+                                            color: isSelected
+                                                ? context.resources.color.colorPrimary
+                                                : context.resources.color.colorGrey25,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: PrimaryText(
+                                            text: sub.name ?? '',
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            textColor: isSelected
+                                                ? context.resources.color.colorPrimary
+                                                : context.resources.color.colorBlack4,
+                                          ),
+                                        ),
+                                      ),
+                                    );
                                   },
                                 ),
-                                SizedBox(height: 12),
-                              ],
-                            )
-                          : SizedBox.shrink(),
-                    ),
-
-                    SizedBox(height: 12),
-
-                    JobTypeRadioWidget(enabled: !controller.isEditMode),
-
-                    SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.startDate} *",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      textColor: context.resources.color.colorGrey3,
-                    ),
-                    SizedBox(height: 8),
-
-                    GestureDetector(
-                      onTap: () async {
-                        await showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 400,
-                              decoration: BoxDecoration(
-                                color: context.resources.color.colorWhite,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
                               ),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 16),
-                                  PrimaryText(
-                                    text: context
-                                        .resources
-                                        .strings
-                                        .selectDateRange,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    textColor:
-                                        context.resources.color.colorGrey,
+                              SizedBox(height: 12),
+                            ],
+                          );
+                        }),
+
+                        
+
+                        SizedBox(height: 8),
+
+                        JobTypeRadioWidget(enabled: !controller.isEditMode),
+
+                        SizedBox(height: 12),
+
+                        JobAddressChooseWidget(enabled: !controller.isEditMode),
+
+                        SizedBox(height: 16),
+
+                        PrimaryText(
+                          text: "${context.resources.strings.startDate} *",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          textColor: context.resources.color.colorGrey26,
+                        ),
+                        SizedBox(height: 8),
+
+                        GestureDetector(
+                          onTap: () async {
+                            await showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: 400,
+                                  decoration: BoxDecoration(
+                                    color: context.resources.color.colorWhite,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
                                   ),
-                                  Expanded(
-                                    child: CalendarDatePicker(
-                                      initialDate:
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 16),
+                                      PrimaryText(
+                                        text: context
+                                            .resources
+                                            .strings
+                                            .selectDateRange,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        textColor:
+                                        context.resources.color.colorGrey,
+                                      ),
+                                      Expanded(
+                                        child: CalendarDatePicker(
+                                          initialDate:
                                           controller.selectedDate.value ??
-                                          DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime.now().add(
-                                        Duration(days: 365),
-                                      ),
-                                      onDateChanged: (DateTime date) {
-                                        controller.selectDate(date);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Obx(
-                        () => Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: context.resources.color.colorWhite,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: context.resources.color.colorGrey2,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: PrimaryText(
-                                  text: controller.selectedDate.value != null
-                                      ? DateFormat(
-                                          'MMM dd, yyyy',
-                                        ).format(controller.selectedDate.value!)
-                                      : context.resources.strings.selectDate,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  textColor:
-                                      controller.selectedDate.value != null
-                                      ? context.resources.color.colorGrey
-                                      : context.resources.color.colorGrey8,
-                                ),
-                              ),
-                              Icon(
-                                Icons.calendar_today,
-                                size: 20,
-                                color: context.resources.color.colorGrey,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 12),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.startTime} *",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      textColor: context.resources.color.colorGrey3,
-                    ),
-                    SizedBox(height: 8),
-
-                    GestureDetector(
-                      onTap: () async {
-                        final TimeOfDay?
-                        picked = await showModalBottomSheet<TimeOfDay>(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 450,
-                              decoration: BoxDecoration(
-                                color: context.resources.color.colorWhite,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(16),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: PrimaryText(
-                                            text: context
-                                                .resources
-                                                .strings
-                                                .cancel,
-                                            fontSize: 16,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorGrey,
+                                              DateTime.now(),
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime.now().add(
+                                            Duration(days: 365),
                                           ),
-                                        ),
-                                        PrimaryText(
-                                          text: context
-                                              .resources
-                                              .strings
-                                              .selectTime,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                          textColor:
-                                              context.resources.color.colorGrey,
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(
-                                              context,
-                                              controller.selectedTime.value ??
-                                                  TimeOfDay.now(),
-                                            );
+                                          onDateChanged: (DateTime date) {
+                                            controller.selectDate(date);
+                                            Navigator.pop(context);
                                           },
-                                          child: PrimaryText(
-                                            text:
-                                                context.resources.strings.done,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorPrimary,
-                                          ),
                                         ),
-                                      ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Obx(
+                                () => Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: context.resources.color.colorWhite,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: context.resources.color.colorGrey2,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: PrimaryText(
+                                      text: controller.selectedDate.value != null
+                                          ? DateFormat(
+                                        'MMM dd, yyyy',
+                                      ).format(controller.selectedDate.value!)
+                                          : context.resources.strings.selectDate,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      textColor:
+                                      controller.selectedDate.value != null
+                                          ? context.resources.color.colorGrey
+                                          : context.resources.color.colorGrey8,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                        timePickerTheme: TimePickerThemeData(
-                                          dialHandColor: context
-                                              .resources
-                                              .color
-                                              .colorPrimary,
-                                          dialBackgroundColor: context
-                                              .resources
-                                              .color
-                                              .colorGrey9,
-                                        ),
-                                      ),
-                                      child: TimePickerDialog(
-                                        initialTime:
-                                            controller.selectedTime.value ??
-                                            TimeOfDay.now(),
-                                      ),
-                                    ),
+                                  Icon(
+                                    Icons.calendar_today,
+                                    size: 20,
+                                    color: Color(0xFFC6C6C6),
                                   ),
                                 ],
                               ),
-                            );
-                          },
-                        );
-                        if (picked != null) {
-                          controller.selectTime(picked);
-                        }
-                      },
-                      child: Obx(
-                        () => Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: context.resources.color.colorWhite,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: context.resources.color.colorGrey2,
                             ),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: PrimaryText(
-                                  text: controller.selectedTime.value != null
-                                      ? controller.selectedTime.value!.format(
-                                          context,
-                                        )
-                                      : context.resources.strings.selectTime,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  textColor:
-                                      controller.selectedTime.value != null
-                                      ? context.resources.color.colorGrey
-                                      : context.resources.color.colorGrey8,
-                                ),
-                              ),
-                              Icon(
-                                Icons.access_time,
-                                size: 20,
-                                color: context.resources.color.colorGrey,
-                              ),
-                            ],
-                          ),
                         ),
-                      ),
-                    ),
 
-                    SizedBox(height: 16),
+                        SizedBox(height: 12),
 
-                    PrimaryText(
-                      text: context.resources.strings.expiryDate,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      textColor: context.resources.color.colorGrey3,
-                    ),
-                    SizedBox(height: 8),
+                        PrimaryText(
+                          text: "${context.resources.strings.startTime} *",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          textColor: context.resources.color.colorGrey26,
+                        ),
+                        SizedBox(height: 8),
 
-                    GestureDetector(
-                      onTap: () async {
-                        await showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 400,
-                              decoration: BoxDecoration(
-                                color: context.resources.color.colorWhite,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 16),
-                                  PrimaryText(
-                                    text: context
-                                        .resources
-                                        .strings
-                                        .selectExpiryDate,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    textColor:
-                                        context.resources.color.colorGrey,
-                                  ),
-                                  Expanded(
-                                    child: CalendarDatePicker(
-                                      initialDate:
-                                          controller.selectedExpiryDate.value ??
-                                          DateTime.now().add(
-                                            Duration(days: 30),
-                                          ),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime.now().add(
-                                        Duration(days: 365),
-                                      ),
-                                      onDateChanged: (DateTime date) {
-                                        controller.selectExpiryDate(date);
-                                        Navigator.pop(context);
-                                      },
+                        GestureDetector(
+                          onTap: () async {
+                            final TimeOfDay?
+                            picked = await showModalBottomSheet<TimeOfDay>(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: 450,
+                                  decoration: BoxDecoration(
+                                    color: context.resources.color.colorWhite,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
                                     ),
                                   ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Obx(
-                        () => Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: context.resources.color.colorWhite,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: context.resources.color.colorGrey2,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: PrimaryText(
-                                  text:
-                                      controller.selectedExpiryDate.value !=
-                                          null
-                                      ? DateFormat('MMM dd, yyyy').format(
-                                          controller.selectedExpiryDate.value!,
-                                        )
-                                      : context.resources.strings.selectExpiryDate,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  textColor:
-                                      controller.selectedExpiryDate.value !=
-                                          null
-                                      ? context.resources.color.colorGrey
-                                      : context.resources.color.colorGrey8,
-                                ),
-                              ),
-                              Icon(
-                                Icons.calendar_today,
-                                size: 20,
-                                color: context.resources.color.colorGrey,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 12),
-
-                    PrimaryText(
-                      text: context.resources.strings.expiryTime,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      textColor: context.resources.color.colorGrey3,
-                    ),
-                    SizedBox(height: 8),
-
-                    GestureDetector(
-                      onTap: () async {
-                        final TimeOfDay?
-                        picked = await showModalBottomSheet<TimeOfDay>(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 450,
-                              decoration: BoxDecoration(
-                                color: context.resources.color.colorWhite,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(16),
-                                    child: Row(
-                                      mainAxisAlignment:
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: Row(
+                                          mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: PrimaryText(
-                                            text: context
-                                                .resources
-                                                .strings
-                                                .cancel,
-                                            fontSize: 16,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorGrey,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: PrimaryText(
+                                                text: context
+                                                    .resources
+                                                    .strings
+                                                    .cancel,
+                                                fontSize: 16,
+                                                textColor: context
+                                                    .resources
+                                                    .color
+                                                    .colorGrey,
+                                              ),
+                                            ),
+                                            PrimaryText(
+                                              text: context
+                                                  .resources
+                                                  .strings
+                                                  .selectTime,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                              textColor:
+                                              context.resources.color.colorGrey,
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                  context,
+                                                  controller.selectedTime.value ??
+                                                      TimeOfDay.now(),
+                                                );
+                                              },
+                                              child: PrimaryText(
+                                                text:
+                                                context.resources.strings.done,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                textColor: context
+                                                    .resources
+                                                    .color
+                                                    .colorPrimary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Theme(
+                                          data: Theme.of(context).copyWith(
+                                            timePickerTheme: TimePickerThemeData(
+                                              dialHandColor: context
+                                                  .resources
+                                                  .color
+                                                  .colorPrimary,
+                                              dialBackgroundColor: context
+                                                  .resources
+                                                  .color
+                                                  .colorGrey9,
+                                            ),
+                                          ),
+                                          child: TimePickerDialog(
+                                            initialTime:
+                                            controller.selectedTime.value ??
+                                                TimeOfDay.now(),
                                           ),
                                         ),
-                                        PrimaryText(
-                                          text: context
-                                              .resources
-                                              .strings
-                                              .selectExpiryTime,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                          textColor:
-                                              context.resources.color.colorGrey,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                            if (picked != null) {
+                              controller.selectTime(picked);
+                            }
+                          },
+                          child: Obx(
+                                () => Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: context.resources.color.colorWhite,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: context.resources.color.colorGrey2,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: PrimaryText(
+                                      text: controller.selectedTime.value != null
+                                          ? controller.selectedTime.value!.format(
+                                        context,
+                                      )
+                                          : context.resources.strings.selectTime,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      textColor:
+                                      controller.selectedTime.value != null
+                                          ? context.resources.color.colorGrey
+                                          : context.resources.color.colorGrey8,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 20,
+                                    color: Color(0xFFC6C6C6),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: 16),
+
+                        PrimaryText(
+                          text: context.resources.strings.expiryDate,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          textColor: context.resources.color.colorGrey26,
+                        ),
+                        SizedBox(height: 8),
+
+                        GestureDetector(
+                          onTap: () async {
+                            await showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: 400,
+                                  decoration: BoxDecoration(
+                                    color: context.resources.color.colorWhite,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 16),
+                                      PrimaryText(
+                                        text: context
+                                            .resources
+                                            .strings
+                                            .selectExpiryDate,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        textColor:
+                                        context.resources.color.colorGrey,
+                                      ),
+                                      Expanded(
+                                        child: CalendarDatePicker(
+                                          initialDate:
+                                          controller.selectedExpiryDate.value ??
+                                              DateTime.now().add(
+                                                Duration(days: 30),
+                                              ),
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime.now().add(
+                                            Duration(days: 365),
+                                          ),
+                                          onDateChanged: (DateTime date) {
+                                            controller.selectExpiryDate(date);
+                                            Navigator.pop(context);
+                                          },
                                         ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(
-                                              context,
-                                              controller
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Obx(
+                                () => Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: context.resources.color.colorWhite,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: context.resources.color.colorGrey2,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: PrimaryText(
+                                      text:
+                                      controller.selectedExpiryDate.value !=
+                                          null
+                                          ? DateFormat('MMM dd, yyyy').format(
+                                        controller.selectedExpiryDate.value!,
+                                      )
+                                          : context.resources.strings.selectExpiryDate,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      textColor:
+                                      controller.selectedExpiryDate.value !=
+                                          null
+                                          ? context.resources.color.colorGrey
+                                          : context.resources.color.colorGrey8,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.calendar_today,
+                                    size: 20,
+                                    color: Color(0xFFC6C6C6),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: 12),
+
+                        PrimaryText(
+                          text: context.resources.strings.expiryTime,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          textColor: context.resources.color.colorGrey26,
+                        ),
+                        SizedBox(height: 8),
+
+                        GestureDetector(
+                          onTap: () async {
+                            final TimeOfDay?
+                            picked = await showModalBottomSheet<TimeOfDay>(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: 450,
+                                  decoration: BoxDecoration(
+                                    color: context.resources.color.colorWhite,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: PrimaryText(
+                                                text: context
+                                                    .resources
+                                                    .strings
+                                                    .cancel,
+                                                fontSize: 16,
+                                                textColor: context
+                                                    .resources
+                                                    .color
+                                                    .colorGrey,
+                                              ),
+                                            ),
+                                            PrimaryText(
+                                              text: context
+                                                  .resources
+                                                  .strings
+                                                  .selectExpiryTime,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                              textColor:
+                                              context.resources.color.colorGrey,
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                  context,
+                                                  controller
                                                       .selectedExpiryTime
                                                       .value ??
-                                                  TimeOfDay.now(),
-                                            );
-                                          },
-                                          child: PrimaryText(
-                                            text:
+                                                      TimeOfDay.now(),
+                                                );
+                                              },
+                                              child: PrimaryText(
+                                                text:
                                                 context.resources.strings.done,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorPrimary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                        timePickerTheme: TimePickerThemeData(
-                                          dialHandColor: context
-                                              .resources
-                                              .color
-                                              .colorPrimary,
-                                          dialBackgroundColor: context
-                                              .resources
-                                              .color
-                                              .colorGrey9,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                textColor: context
+                                                    .resources
+                                                    .color
+                                                    .colorPrimary,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      child: TimePickerDialog(
-                                        initialTime:
+                                      Expanded(
+                                        child: Theme(
+                                          data: Theme.of(context).copyWith(
+                                            timePickerTheme: TimePickerThemeData(
+                                              dialHandColor: context
+                                                  .resources
+                                                  .color
+                                                  .colorPrimary,
+                                              dialBackgroundColor: context
+                                                  .resources
+                                                  .color
+                                                  .colorGrey9,
+                                            ),
+                                          ),
+                                          child: TimePickerDialog(
+                                            initialTime:
                                             controller
                                                 .selectedExpiryTime
                                                 .value ??
-                                            TimeOfDay.now(),
+                                                TimeOfDay.now(),
+                                          ),
+                                        ),
                                       ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                            if (picked != null) {
+                              controller.selectExpiryTime(picked);
+                            }
+                          },
+                          child: Obx(
+                                () => Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: context.resources.color.colorWhite,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: context.resources.color.colorGrey2,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: PrimaryText(
+                                      text:
+                                      controller.selectedExpiryTime.value !=
+                                          null
+                                          ? controller.selectedExpiryTime.value!
+                                          .format(context)
+                                          : context.resources.strings.selectExpiryTime,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      textColor:
+                                      controller.selectedExpiryTime.value !=
+                                          null
+                                          ? context.resources.color.colorGrey
+                                          : context.resources.color.colorGrey8,
                                     ),
+                                  ),
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 20,
+                                    color: Color(0xFFC6C6C6),
                                   ),
                                 ],
                               ),
-                            );
-                          },
-                        );
-                        if (picked != null) {
-                          controller.selectExpiryTime(picked);
-                        }
-                      },
-                      child: Obx(
-                        () => Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: context.resources.color.colorWhite,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: context.resources.color.colorGrey2,
                             ),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: PrimaryText(
-                                  text:
-                                      controller.selectedExpiryTime.value !=
-                                          null
-                                      ? controller.selectedExpiryTime.value!
-                                            .format(context)
-                                      : context.resources.strings.selectExpiryTime,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  textColor:
-                                      controller.selectedExpiryTime.value !=
-                                          null
-                                      ? context.resources.color.colorGrey
-                                      : context.resources.color.colorGrey8,
-                                ),
-                              ),
-                              Icon(
-                                Icons.access_time,
-                                size: 20,
-                                color: context.resources.color.colorGrey,
-                              ),
-                            ],
-                          ),
                         ),
+
+
+                        SizedBox(height: 8),
+
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: LabeledTextFiled(
+                                controller: controller.totalPriceController,
+                                hint: context.resources.strings.amountInUsd,
+                                label: context.resources.strings.jobRate,
+                                isMandatory: true,
+                                isPassword: false,
+                                inputType: TextInputType.number,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, bottom: 12),
+                              child: PrimaryText(
+                                text: context.resources.strings.perJob,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                textColor: context.resources.color.colorGrey,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      ],
+                    )
+                    )
+                    ),
+
+
+                    SizedBox(height: 16),
+
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Color(0xFFE5E5E5), width: 1),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x14000000),
+                            blurRadius: 8,
+                            spreadRadius: 0,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
                       ),
-                    ),
+
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 16),
+                        child:Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            PrimaryText(
+                              text: context.resources.strings.jobDetails,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              textColor: context.resources.color.colorBlack4,
+                            ),
+
+                            SizedBox(height: 16),
+
+
+                            JobSkillsChooseWidget(enabled: !controller.isEditMode),
+
+
+
+                            MultilineLabeledTextField(
+                              controller: controller.overviewController,
+                              label: context.resources.strings.overview,
+                              hint: context.resources.strings.briefDescription,
+                              maxLines: 20,
+                              height: 100,
+                              margin: 0,
+                              inputType: TextInputType.text,
+                              isPassword: false,
+                              isMandatory: true,
+                              enabled: !controller.isEditMode,
+                            ),
+
+                            SizedBox(height: 8),
+
+                            MultilineLabeledTextField(
+                              controller: controller.responsibilitiesController,
+                              label: context.resources.strings.responsibilities,
+                              hint: context.resources.strings.listKeyResponsibilities,
+                              maxLines: 20,
+                              height: 100,
+                              margin: 0,
+                              inputType: TextInputType.text,
+                              isPassword: false,
+                              isMandatory: true,
+                              enabled: !controller.isEditMode,
+                            ),
+
+                            SizedBox(height: 8),
+
+                            MultilineLabeledTextField(
+                              controller: controller.requirementsController,
+                              label: context.resources.strings.requirements,
+                              hint: context.resources.strings.listRequiredSkillsQualifications,
+                              maxLines: 20,
+                              height: 100,
+                              margin: 0,
+                              inputType: TextInputType.text,
+                              isPassword: false,
+                              isMandatory: true,
+                              enabled: !controller.isEditMode,
+                            ),
+
+
+                            ]))),
+
+
+
 
                     SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.totalPrice} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                    SizedBox(height: 8),
-
-                    LabeledTextFiled(
-                      controller: controller.totalPriceController,
-                      hint: context.resources.strings.amountInUsd,
-                      label: context.resources.strings.totalPrice,
-                      isMandatory: true,
-                      isPassword: false,
-                      inputType: TextInputType.number,
-                    ),
-
-                    SizedBox(height: 16),
-
-                    JobSkillsChooseWidget(enabled: !controller.isEditMode),
-
-                    SizedBox(height: 16),
-
-                    PrimaryText(
-                      text: "${context.resources.strings.jobDetails} *",
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-
-                    MultilineLabeledTextField(
-                      controller: controller.overviewController,
-                      label: context.resources.strings.overview,
-                      hint: context.resources.strings.briefDescription,
-                      maxLines: 20,
-                      height: 100,
-                      margin: 0,
-                      inputType: TextInputType.text,
-                      isPassword: false,
-                      isMandatory: true,
-                      enabled: !controller.isEditMode,
-                    ),
-
-                    SizedBox(height: 8),
-
-                    MultilineLabeledTextField(
-                      controller: controller.responsibilitiesController,
-                      label: context.resources.strings.responsibilities,
-                      hint: context.resources.strings.listKeyResponsibilities,
-                      maxLines: 20,
-                      height: 100,
-                      margin: 0,
-                      inputType: TextInputType.text,
-                      isPassword: false,
-                      isMandatory: true,
-                      enabled: !controller.isEditMode,
-                    ),
-
-                    SizedBox(height: 8),
-
-                    MultilineLabeledTextField(
-                      controller: controller.requirementsController,
-                      label: context.resources.strings.requirements,
-                      hint: context.resources.strings.listRequiredSkillsQualifications,
-                      maxLines: 20,
-                      height: 100,
-                      margin: 0,
-                      inputType: TextInputType.text,
-                      isPassword: false,
-                      isMandatory: true,
-                      enabled: !controller.isEditMode,
-                    ),
-
-                    SizedBox(height: 24),
                   ],
                 ),
               ),
             ),
+
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              margin: EdgeInsets.symmetric(horizontal: 16),
               child: Obx(
                 () => controller.isLoading.value
                     ? ProgressBar()
@@ -741,6 +830,8 @@ class AddJobScreen extends StatelessWidget {
                       ),
               ),
             ),
+            SizedBox(height: 16),
+
           ],
         ),
       ),

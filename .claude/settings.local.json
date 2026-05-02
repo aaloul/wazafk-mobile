@@ -20,7 +20,8 @@
       "Bash(grep:*)",
       "Bash(do grep -q \"get $key\" lib/utils/res/strings/Strings.dart)",
       "Bash(echo:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebFetch(domain:www.figma.com)"
     ],
     "deny": [],
     "ask": []

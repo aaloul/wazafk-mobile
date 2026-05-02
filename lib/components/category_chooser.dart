@@ -4,7 +4,6 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
-import '../utils/res/AppIcons.dart';
 import '../utils/res/AppTheme.dart';
 
 class CategoryChooser extends StatelessWidget {
@@ -48,17 +47,17 @@ class CategoryChooser extends StatelessWidget {
               children: [
                 PrimaryText(
                   text: label,
-                  textColor: context.resources.color.colorGrey3,
+                  textColor: context.resources.color.colorGrey26,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: 14,
                 ),
                 const SizedBox(width: 4),
                 if (isMandatory)
                   PrimaryText(
                     text: '*',
-                    textColor: context.resources.color.colorGrey3,
+                    textColor: context.resources.color.colorGrey26,
                     fontWeight: labelFontWeight ?? FontWeight.w500,
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
               ],
             ),
@@ -74,36 +73,47 @@ class CategoryChooser extends StatelessWidget {
               ),
               decoration: CustomDropdownDecoration(
                 listItemStyle: TextStyle(
-                  color: context.resources.color.colorGrey3,
+                  color: context.resources.color.colorPrimary,
                 ),
-                closedFillColor: enabled ?? true
-                    ? context.resources.color.colorWhite
-                    : context.resources.color.colorGrey4,
-                expandedFillColor: enabled ?? true
-                    ? context.resources.color.colorWhite
-                    : context.resources.color.colorGrey4,
+                closedFillColor: Colors.white,
+                expandedFillColor: Colors.white,
                 headerStyle: TextStyle(
-                  color: context.resources.color.colorGrey3,
+                  color: context.resources.color.colorPrimary,
                   fontWeight: labelFontWeight ?? FontWeight.w400,
-                  fontSize: AppThemeValues.textSize18,
+                  fontSize: AppThemeValues.textSize16,
                 ),
-                closedSuffixIcon: RotatedBox(
-                  quarterTurns: 1,
-                  child: RotatedBox(
-                    quarterTurns: 3,
-                    child: Image.asset(
-                      AppIcons.arrowDown,
-                      width: 12,
-                      color: context.resources.color.colorGrey,
+                closedSuffixIcon: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: context.resources.color.colorPrimary,
+                      width: 1.5,
                     ),
                   ),
+                  child: Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: context.resources.color.colorPrimary,
+                    size: 14,
+                  ),
                 ),
-                expandedSuffixIcon: RotatedBox(
-                  quarterTurns: 2,
-                  child: Image.asset(
-                    AppIcons.arrowDown,
-                    width: 12,
-                    color: context.resources.color.colorGrey,
+                expandedSuffixIcon: Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: context.resources.color.colorPrimary,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.keyboard_arrow_up_rounded,
+                    color: context.resources.color.colorPrimary,
+                    size: 20,
                   ),
                 ),
                 closedBorder: Border.all(

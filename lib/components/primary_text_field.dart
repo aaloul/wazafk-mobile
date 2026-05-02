@@ -33,6 +33,7 @@ class PrimaryTextField extends StatelessWidget {
     this.textAlign,
     this.hintColor,
     this.textAlignVertical,
+    this.suffixText,
   });
 
   final String hint;
@@ -43,6 +44,7 @@ class PrimaryTextField extends StatelessWidget {
   String? startText = '';
   String? startIcon = '';
   String? endIcon = '';
+  String? suffixText;
   double? height;
   double? margin;
   double? fontSize;

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/screens/main/activity/activity_screen.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/screens/main/home/home_screen.dart';
-import 'package:wazafak_app/screens/main/profile/jobs/my_jobs/my_jobs_screen.dart';
 import 'package:wazafak_app/screens/main/profile/profile_screen.dart';
 import 'package:wazafak_app/screens/main/projects/projects_screen.dart';
 import 'package:wazafak_app/screens/main/search/search_screen.dart';
@@ -28,12 +27,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       // Freelancer: Home, Projects, Search, Profile (no Activity)
       return [HomeScreen(), ProjectsScreen(), SearchScreen(), ProfileScreen()];
     } else {
-      // Employer: Home, My Jobs, Search, Activity, Profile
+      // Employer: Home, Activity, Search, Profile
       return [
         HomeScreen(),
-        MyJobsScreen(),
-        SearchScreen(),
         ActivityScreen(),
+        SearchScreen(),
         ProfileScreen(),
       ];
     }
@@ -46,21 +44,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _handleModeChange(bool isFreelancerMode) {
-    if (_previousMode != null && _previousMode != isFreelancerMode) {
-      // Mode has changed
-      if (isFreelancerMode && _selectedIndex == 3) {
-        // Switching from employer to freelancer and user was on Activity tab
-        // Reset to Home since Activity tab doesn't exist in freelancer mode
-        setState(() {
-          _selectedIndex = 0;
-        });
-      } else if (_selectedIndex >= (isFreelancerMode ? 4 : 5)) {
-        // Index is out of bounds for the new mode
-        setState(() {
-          _selectedIndex = 0;
-        });
-      }
-    }
     _previousMode = isFreelancerMode;
   }
 
@@ -114,7 +97,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               unselectedItemColor: context.resources.color.colorGrey,
               selectedFontSize: 12,
               unselectedFontSize: 12,
-              items: _buildNavigationItems(context, isFreelancerMode),
+              items: _buildNavigationItems(context),
             ),
           ),
         );
@@ -140,13 +123,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         unselectedItemColor: context.resources.color.colorGrey,
         selectedFontSize: 12,
         unselectedFontSize: 12,
-        items: _buildNavigationItems(context, isFreelancerMode),
+        items: _buildNavigationItems(context),
       ),
     );
   }
 
-  List<BottomNavigationBarItem> _buildNavigationItems(BuildContext context,
-      bool isFreelancerMode) {
+  List<BottomNavigationBarItem> _buildNavigationItems(BuildContext context) {
     final items = <BottomNavigationBarItem>[
       BottomNavigationBarItem(
         icon: Image.asset(
@@ -175,13 +157,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           width: 22,
           color: context.resources.color.colorPrimary,
         ),
-        label: isFreelancerMode ? Resources
+        label: Resources
             .of(context)
             .strings
-            .projects : Resources
-            .of(context)
-            .strings
-            .myJobs,
+            .projects ,
       ),
       BottomNavigationBarItem(
         icon: Image.asset(
@@ -199,32 +178,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             .strings
             .search,
       ),
-    ];
 
-    // Add Activity tab only for employers
-    if (!isFreelancerMode) {
-      items.add(
-        BottomNavigationBarItem(
-          icon: Image.asset(
-            AppIcons.activity,
-            width: 22,
-            color: context.resources.color.colorGrey,
-          ),
-          activeIcon: Image.asset(
-            AppIcons.activity,
-            width: 22,
-            color: context.resources.color.colorPrimary,
-          ),
-          label: Resources
-              .of(context)
-              .strings
-              .activity,
-        ),
-      );
-    }
-
-    // Profile tab is always shown
-    items.add(
       BottomNavigationBarItem(
         icon: Image.asset(
           AppIcons.profile,
@@ -241,7 +195,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             .strings
             .profile,
       ),
-    );
+    ];
 
     return items;
   }

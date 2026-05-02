@@ -51,63 +51,56 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: context.resources.color.background2,
       body: SafeArea(
-        child: Column(
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
               ProfileHeader(),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20),
 
-                      LargeMenuItem(
-                      title: context.resources.strings.services,
-                      onClick: () {
-                          controller.navigateToServices();
-                        },
-                        color: HexColor("#E5E5E5"),
-                        border: HexColor("#E5E5E5"),
-                        icon: AppIcons.bag,
-                      ),
+              SizedBox(height: 20),
 
-                      SizedBox(height: 10),
-                      LargeMenuItem(
-                      title: context.resources.strings.packs,
-                      onClick: () {
-                          controller.navigateToPacks();
-                        },
-                        color: HexColor("#E5E5E5"),
-                        border: HexColor("#E5E5E5"),
-                        icon: AppIcons.package,
-                      ),
-                       SizedBox(height: 8),
-                      // LargeMenuItem(
-                      // title: context.resources.strings.jobs,
-                      // onClick: () {
-                      //     controller.navigateToJobs();
-                      //   },
-                      //   color: HexColor("#EBECF3"),
-                      //   border: HexColor("#EBECF3"),
-                      //   icon: AppIcons.projects,
-                      // ),
-
-                      ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemCount: controller.settingsGroups.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, groupIndex) {
-                          final group = controller.settingsGroups[groupIndex];
-                          return SettingsGroupWidget(settingsGroup: group);
-                        },
-                      ),
-
-                      SizedBox(height: 24),
-                    ],
+              Obx(() => homeController.isFreelancerMode.value
+                  ? Column(
+                children: [
+                  LargeMenuItem(
+                    title: context.resources.strings.services,
+                    onClick: () => controller.navigateToServices(),
+                    color: HexColor("#E5E5E5"),
+                    border: HexColor("#E5E5E5"),
+                    icon: AppIcons.bag,
                   ),
-                ),
+                  SizedBox(height: 10),
+                  LargeMenuItem(
+                    title: context.resources.strings.packs,
+                    onClick: () => controller.navigateToPacks(),
+                    color: HexColor("#E5E5E5"),
+                    border: HexColor("#E5E5E5"),
+                    icon: AppIcons.package,
+                  ),
+                ],
+              )
+                  : LargeMenuItem(
+                title: context.resources.strings.jobsPosted,
+                onClick: () => controller.navigateToJobs(),
+                color: HexColor("#E5E5E5"),
+                border: HexColor("#E5E5E5"),
+                icon: AppIcons.bag,
+              )),
+              SizedBox(height: 10),
+
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: controller.settingsGroups.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, groupIndex) {
+                  final group = controller.settingsGroups[groupIndex];
+                  return SettingsGroupWidget(settingsGroup: group);
+                },
               ),
+
+              SizedBox(height: 24),
             ],
+          ),
         ),
       ),
     );

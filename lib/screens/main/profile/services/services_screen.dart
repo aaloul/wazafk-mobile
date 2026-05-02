@@ -31,6 +31,21 @@ class ServicesScreen extends StatelessWidget {
                   .of(context)
                   .strings
                   .services),
+              SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: PrimaryButton(
+                  title: Resources
+                      .of(context)
+                      .strings
+                      .createNewService,
+                  leadingIcon: Icon(Icons.add_circle_outline, color: Colors.white, size: 20),
+                  onPressed: () {
+                    Get.toNamed(RouteConstant.addServiceScreen);
+                  },
+                ),
+              ),
+
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -69,20 +84,7 @@ class ServicesScreen extends StatelessWidget {
 
               SizedBox(height: 8),
 
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: PrimaryButton(
-                  title: Resources
-                      .of(context)
-                      .strings
-                      .createNewService,
-                  onPressed: () {
-                    Get.toNamed(RouteConstant.addServiceScreen);
-                  },
-                ),
-              ),
 
-              SizedBox(height: 16),
             ],
           ),
         ),

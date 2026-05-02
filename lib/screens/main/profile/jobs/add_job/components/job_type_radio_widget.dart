@@ -10,16 +10,14 @@ class JobTypeRadioWidget extends StatelessWidget {
 
   final bool enabled;
 
-  String _getWorkLocationTypeLabel(BuildContext context, String type) {
+  static const _types = ['Onsite', 'Remote', 'Hybrid'];
+
+  String _label(BuildContext context, String type) {
     switch (type) {
-      case 'Remote':
-        return context.resources.strings.remote;
-      case 'Hybrid':
-        return context.resources.strings.hybrid;
-      case 'Onsite':
-        return context.resources.strings.onsite;
-      default:
-        return type;
+      case 'Remote':  return context.resources.strings.remote;
+      case 'Hybrid':  return context.resources.strings.hybrid;
+      case 'Onsite':  return context.resources.strings.onsite;
+      default:        return type;
     }
   }
 
@@ -30,94 +28,70 @@ class JobTypeRadioWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PrimaryText(
-          text: "${context.resources.strings.jobType} *",
-          fontWeight: FontWeight.w500,
-          fontSize: 14,
-          textColor: context.resources.color.colorGrey3,
-        ),
-        SizedBox(height: 12),
-        Obx(
-          () => Column(
-            children: [
-              _buildJobTypeRadio(context, controller, 'Onsite'),
-              SizedBox(height: 8),
-              _buildJobTypeRadio(context, controller, 'Remote'),
-              SizedBox(height: 8),
-              _buildJobTypeRadio(context, controller, 'Hybrid'),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildJobTypeRadio(
-    BuildContext context,
-    AddJobController controller,
-    String jobType,
-  ) {
-    final isSelected = controller.selectedJobType.value == jobType;
-
-    return IgnorePointer(
-      ignoring: !enabled,
-      child: GestureDetector(
-        onTap: () {
-          controller.selectJobType(jobType);
-        },
-        child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? context.resources.color.colorGreen4
-              : (enabled ? context.resources.color.colorWhite : context.resources.color.colorGrey4),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: isSelected
-                ? context.resources.color.colorGrey4
-                : context.resources.color.colorGrey4,
-            width: isSelected ? 1 : 1,
-          ),
-        ),
-        child: Row(
+        Row(
           children: [
-            Expanded(
-              child: PrimaryText(
-                text: _getWorkLocationTypeLabel(context, jobType),
-                fontSize: 14,
-                fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
-                textColor: context.resources.color.colorGrey8,
-              ),
+            PrimaryText(
+              text: context.resources.strings.jobType,
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              textColor: context.resources.color.colorGrey26,
             ),
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorGrey2,
-                  width: 2,
-                ),
-              ),
-              child: isSelected
-                  ? Center(
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: context.resources.color.colorPrimary,
-                        ),
-                      ),
-                    )
-                  : null,
+            SizedBox(width: 4),
+            PrimaryText(
+              text: '*',
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              textColor: context.resources.color.colorGrey26,
             ),
           ],
         ),
-      ),
-    ),
+        SizedBox(height: 8),
+        Obx(() {
+          final selectedType = controller.selectedJobType.value;
+          return SizedBox(
+            height: 36,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _types.length,
+              separatorBuilder: (_, __) => SizedBox(width: 8),
+              itemBuilder: (context, index) {
+                final type = _types[index];
+                final isSelected = selectedType == type;
+                return GestureDetector(
+                  onTap: () {
+                    if (enabled) controller.selectJobType(type);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? context.resources.color.colorPrimary.withAlpha(16)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(
+                        color: isSelected
+                            ? context.resources.color.colorPrimary
+                            : context.resources.color.colorGrey25,
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: PrimaryText(
+                        text: _label(context, type),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        textColor: isSelected
+                            ? context.resources.color.colorPrimary
+                            : context.resources.color.colorBlack4,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        }),
+      ],
     );
   }
 }

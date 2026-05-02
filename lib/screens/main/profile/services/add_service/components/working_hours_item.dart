@@ -3,8 +3,6 @@ import 'package:wazafak_app/components/primary_switch.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/WorkingHoursModel.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
-import 'package:wazafak_app/utils/res/colors/hex_color.dart';
-
 class WorkingHoursItem extends StatelessWidget {
   final WorkingHoursDay workingDay;
   final int index;
@@ -27,9 +25,17 @@ class WorkingHoursItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 16),
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        color: workingDay.isEnabled ? HexColor("#E7F3EE") : HexColor("#EDEDED"),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: HexColor("#00AEC81A")),
+        border: Border.all(color: Color(0xFFE5E5E5), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x14000000),
+            blurRadius: 8,
+            spreadRadius: 0,
+            offset: Offset(0, 0),
+          ),
+        ],
       ),
       child: Column(
         children: [

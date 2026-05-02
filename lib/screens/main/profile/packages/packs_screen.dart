@@ -31,6 +31,17 @@ class PacksScreen extends StatelessWidget {
                   .of(context)
                   .strings
                   .packs),
+              SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: PrimaryButton(
+                  title: Resources.of(context).strings.createNewPack,
+                  leadingIcon: Icon(Icons.add_circle_outline, color: Colors.white, size: 20),
+                  onPressed: () async {
+                    Get.toNamed(RouteConstant.addPackageScreen);
+                  },
+                ),
+              ),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -67,22 +78,6 @@ class PacksScreen extends StatelessWidget {
                 }),
               ),
 
-              SizedBox(height: 8),
-
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: PrimaryButton(
-                  title: Resources
-                      .of(context)
-                      .strings
-                      .createNewPack,
-                  onPressed: () async {
-                    Get.toNamed(RouteConstant.addPackageScreen);
-                  },
-                ),
-              ),
-
-              SizedBox(height: 16),
             ],
           ),
         ),

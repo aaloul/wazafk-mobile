@@ -10,7 +10,7 @@
 
 
     <application
-        android:label="Wazafak"
+        android:label="Wazafk"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
