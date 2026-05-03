@@ -1458,4 +1458,6 @@ abstract class Strings {
   String get voucher;
   String get legal;
   String get edit;
+
+  String get locationPin;
 }

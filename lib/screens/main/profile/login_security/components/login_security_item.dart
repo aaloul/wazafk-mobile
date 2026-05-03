@@ -10,16 +10,12 @@ class LoginSecurityItem extends StatelessWidget {
     super.key,
     required this.title,
     required this.onClick,
-    required this.color,
-    required this.border,
     required this.icon,
   });
 
   final String title;
   final String icon;
   final Function onClick;
-  final Color color;
-  final Color border;
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +24,34 @@ class LoginSecurityItem extends StatelessWidget {
         onClick.call();
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16),
-        padding: EdgeInsets.symmetric(horizontal: 24),
         width: double.infinity,
-        height: 75,
+        padding: EdgeInsets.symmetric(vertical: 3),
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: border, width: 1),
+          color: context.resources.color.colorWhite,
         ),
         child: Row(
           children: [
             Image.asset(icon, width: 22),
 
-            SizedBox(width: 8),
+            Container(
+              width: 1,
+              height: 20,
+              color: context.resources.color.colorGrey25,
+              margin: EdgeInsets.symmetric(horizontal: 12),
+            ),
 
             Expanded(
               child: PrimaryText(
                 text: title,
-                fontSize: 14,
-                fontWeight: FontWeight.w900,
-                textColor: context.resources.color.colorGrey11,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                textColor: context.resources.color.colorGrey26,
               ),
             ),
 
             RotatedBox(
               quarterTurns: Utils().isRTL() ? 2 : 0,
-              child: Image.asset(AppIcons.arrowRight2, width: 18),
+              child: Image.asset(AppIcons.arrowRight2, width: 18,color: context.resources.color.colorGrey26,),
             ),
           ],
         ),

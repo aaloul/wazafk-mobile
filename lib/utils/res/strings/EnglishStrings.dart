@@ -2214,6 +2214,9 @@ class EnglishStrings extends Strings {
   String get edit => "Edit";
 
   @override
+  String get locationPin => "Location Pin";
+
+  @override
   String get wouldYouLikeToContactFreelancer => "Would you like to contact the freelancer?";
 
   @override

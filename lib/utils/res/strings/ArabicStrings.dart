@@ -1324,6 +1324,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get edit => "تعديل";
+
+  @override
+  String get locationPin => "الموقع المحدد";
   @override
   String get selectDuration => "حدد المدة";
 

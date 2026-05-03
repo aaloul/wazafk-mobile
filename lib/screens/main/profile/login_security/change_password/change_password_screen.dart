@@ -11,12 +11,27 @@ import 'change_password_controller.dart';
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
 
+  static const _cardDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    border: Border.fromBorderSide(
+      BorderSide(color: Color(0xFFE5E5E5), width: 1),
+    ),
+    boxShadow: [
+      BoxShadow(
+        color: Color(0x14000000),
+        blurRadius: 12,
+        offset: Offset(0, 4),
+      ),
+    ],
+  );
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ChangePasswordController());
 
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
@@ -29,29 +44,38 @@ class ChangePasswordScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    LabeledTextFiled(
-                      controller: controller.currentPasswordController,
-                      hint: context.resources.strings.oldPassword,
-                      label: context.resources.strings.oldPassword,
-                      isMandatory: true,
-                      isPassword: true,
-                      inputType: TextInputType.visiblePassword,
-                    ),
-                    LabeledTextFiled(
-                      controller: controller.newPasswordController,
-                      hint: context.resources.strings.newPassword,
-                      label: context.resources.strings.newPassword,
-                      isMandatory: true,
-                      isPassword: true,
-                      inputType: TextInputType.visiblePassword,
-                    ),
-                    LabeledTextFiled(
-                      controller: controller.confirmPasswordController,
-                      hint: context.resources.strings.confirmPassword,
-                      label: context.resources.strings.confirmPassword,
-                      isMandatory: true,
-                      isPassword: true,
-                      inputType: TextInputType.visiblePassword,
+                    Container(
+                      width: double.infinity,
+                      decoration: _cardDecoration,
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                      child: Column(
+                        children: [
+                          LabeledTextFiled(
+                            controller: controller.currentPasswordController,
+                            hint: context.resources.strings.oldPassword,
+                            label: context.resources.strings.oldPassword,
+                            isMandatory: true,
+                            isPassword: true,
+                            inputType: TextInputType.visiblePassword,
+                          ),
+                          LabeledTextFiled(
+                            controller: controller.newPasswordController,
+                            hint: context.resources.strings.newPassword,
+                            label: context.resources.strings.newPassword,
+                            isMandatory: true,
+                            isPassword: true,
+                            inputType: TextInputType.visiblePassword,
+                          ),
+                          LabeledTextFiled(
+                            controller: controller.confirmPasswordController,
+                            hint: context.resources.strings.confirmPassword,
+                            label: context.resources.strings.confirmPassword,
+                            isMandatory: true,
+                            isPassword: true,
+                            inputType: TextInputType.visiblePassword,
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 32),
                   ],

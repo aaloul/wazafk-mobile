@@ -21,7 +21,9 @@
       "Bash(do grep -q \"get $key\" lib/utils/res/strings/Strings.dart)",
       "Bash(echo:*)",
       "Bash(find:*)",
-      "WebFetch(domain:www.figma.com)"
+      "WebFetch(domain:www.figma.com)",
+      "Bash(Get-Content \"C:\\\\Users\\\\husse\\\\AndroidStudioProjects\\\\wazafak_app\\\\lib\\\\utils\\\\res\\\\strings\\\\Strings.dart\")",
+      "Bash(Measure-Object -Line)"
     ],
     "deny": [],
     "ask": []

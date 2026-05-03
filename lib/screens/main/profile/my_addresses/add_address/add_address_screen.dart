@@ -61,7 +61,7 @@ class AddAddressScreen extends StatelessWidget {
                     if (hasLocation) ...[
                       SizedBox(height: 8,),
 
-                      PrimaryText(text: 'Location Pin',fontWeight: FontWeight.w600,fontSize: 14,),
+                      PrimaryText(text: Resources.of(context).strings.locationPin, fontWeight: FontWeight.w600, fontSize: 14,),
                       SizedBox(height: 8,),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
