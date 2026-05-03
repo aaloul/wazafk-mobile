@@ -95,29 +95,30 @@ class AddressListWidget extends StatelessWidget {
         Row(
           children: [
             PrimaryText(
-              text: context.resources.strings.chooseLocation,
-              textColor: context.resources.color.colorGrey3,
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
+              text: context.resources.strings.selectAddress,
+              textColor: context.resources.color.colorBlack4,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
             ),
-            const SizedBox(width: 4),
-            PrimaryText(
-              text: '*',
-              textColor: context.resources.color.colorGrey3,
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-            ),
+            // const SizedBox(width: 4),
+            // PrimaryText(
+            //   text: '*',
+            //   textColor: context.resources.color.colorGrey3,
+            //   fontWeight: FontWeight.w500,
+            //   fontSize: 15,
+            // ),
           ],
         ),
         SizedBox(height: 12),
         ...addresses
             .map((address) => _buildAddressItem(context, controller, address))
-            .toList(),
-        SizedBox(height: 8),
+            ,
+        SizedBox(height: 4),
 
         PrimaryOutlinedButton(
           title: Resources.of(context).strings.addNewAddress,
-          fontSize: 16,
+          height: 45,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
           onPressed: () async {
             Get.toNamed(RouteConstant.selectLocationScreen);
@@ -143,7 +144,7 @@ class AddressListWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             color: isSelected
-                ? context.resources.color.colorGreen4
+                ? context.resources.color.colorPrimaryLight
                 : context.resources.color.colorWhite,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
@@ -163,15 +164,15 @@ class AddressListWidget extends StatelessWidget {
                       text: address.label ?? context.resources.strings.address,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      textColor: context.resources.color.colorGrey,
+                      textColor: context.resources.color.colorBlack4,
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: 2),
                     PrimaryText(
                       text:
                           '${address.city.toString()}, ${address.street.toString()}, ${address.building.toString()}',
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      textColor: context.resources.color.colorGrey19,
+                      textColor: context.resources.color.colorGrey29,
                       maxLines: 2,
                     ),
                   ],

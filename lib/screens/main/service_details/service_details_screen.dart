@@ -342,6 +342,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                               padding: EdgeInsets.all(12),
                               decoration: _cardDecoration,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (service.description.toString().isNotEmpty)
                                     Column(
@@ -370,7 +371,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                                   .resources
                                                   .strings
                                                   .notAvailable,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           textColor:
                                               context.resources.color.colorGrey,
@@ -383,6 +384,8 @@ class ServiceDetailsScreen extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(height: 16),
+
                                         PrimaryText(
                                           text: context
                                               .resources
@@ -405,7 +408,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                                   .resources
                                                   .strings
                                                   .notAvailable,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           textColor:
                                               context.resources.color.colorGrey,
@@ -424,7 +427,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                                   // Skills
                                   if (service.skills != null &&
                                       service.skills!.isNotEmpty) ...[
+                                    SizedBox(height: 16),
                                     Container(
+
                                       width: double.infinity,
                                       margin: EdgeInsets.symmetric(
                                         horizontal: 16,
@@ -435,7 +440,6 @@ class ServiceDetailsScreen extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(height: 16),
 
                                           PrimaryText(
                                             text: context
@@ -459,7 +463,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                               return Container(
                                                 padding: EdgeInsets.symmetric(
                                                   horizontal: 8,
-                                                  vertical: 3,
+                                                  vertical: 6,
                                                 ),
                                                 decoration: BoxDecoration(
                                                   color: context
@@ -476,7 +480,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                                   textColor: context
                                                       .resources
                                                       .color
-                                                      .colorGrey,
+                                                      .colorPrimary,
                                                 ),
                                               );
                                             }).toList(),

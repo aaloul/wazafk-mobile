@@ -17,6 +17,7 @@ class AppIcons {
   static const String box = '${base}box.png';
   static const String bag = '${base}bag.png';
   static const String arrowGo = '${base}arrow_go.png';
+  static const String address = '${base}address.png';
   static const String netProfit = '${base}net_profit.png';
   static const String commission = '${base}commission.png';
   static const String checkCircle = '${base}check_circle.png';
