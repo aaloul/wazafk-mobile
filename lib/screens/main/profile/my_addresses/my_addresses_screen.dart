@@ -27,47 +27,60 @@ class MyAddressesScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              TopHeader(hasBack: true, title: Resources
-                  .of(context)
-                  .strings
-                  .myAddresses),
+              TopHeader(
+                hasBack: true,
+                title: Resources.of(context).strings.myAddresses,
+              ),
+              SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: PrimaryButton(
+                  title: Resources.of(context).strings.addNewAddress,
+                  leadingIcon: Icon(
+                    Icons.add_circle_outline,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    Get.toNamed(RouteConstant.selectLocationScreen);
+                  },
+                ),
+              ),
               SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
                     return ListView.separated(
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       itemCount: 5,
                       separatorBuilder: (context, index) =>
-                          SizedBox(height: 12),
-                      itemBuilder: (context, index) => MyAddressItemSkeleton(),
+                          SizedBox(height: 10),
+                      itemBuilder: (context, index) =>
+                          MyAddressItemSkeleton(),
                     );
                   }
 
                   if (controller.addresses.isEmpty) {
-                    return Center(child: Text(Resources
-                        .of(context)
-                        .strings
-                        .noAddressesFound));
+                    return Center(
+                      child: Text(
+                          Resources.of(context).strings.noAddressesFound),
+                    );
                   }
 
                   return ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                     itemCount: controller.addresses.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 12),
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: 10),
                     itemBuilder: (context, index) {
                       final address = controller.addresses[index];
                       return MyAddressItem(
                         address: address,
-                        onClick: () {
-                          // Handle address click
-                        },
+                        onClick: () {},
                         onEditClick: () async {
                           final result = await Get.toNamed(
                             RouteConstant.selectLocationScreen,
-                            arguments: {
-                              'address': address
-                            },
+                            arguments: {'address': address},
                           );
                           if (result == true) {
                             controller.fetchAddresses();
@@ -75,7 +88,8 @@ class MyAddressesScreen extends StatelessWidget {
                         },
                         onDeleteClick: () {
                           if (address.hashcode != null) {
-                            controller.confirmDeleteAddress(address.hashcode!);
+                            controller
+                                .confirmDeleteAddress(address.hashcode!);
                           }
                         },
                       );
@@ -83,21 +97,6 @@ class MyAddressesScreen extends StatelessWidget {
                   );
                 }),
               ),
-              SizedBox(height: 0),
-
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: PrimaryButton(
-                    title: Resources
-                        .of(context)
-                        .strings
-                        .addNewAddress, onPressed: () async {
-                  Get.toNamed(RouteConstant.selectLocationScreen);
-                }),
-              ),
-
-              SizedBox(height: 20),
-
             ],
           ),
         ),

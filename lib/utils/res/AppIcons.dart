@@ -15,6 +15,7 @@ class AppIcons {
   static const String back2 = '${base}back2.png';
   static const String back3 = '${base}back3.png';
   static const String box = '${base}box.png';
+  static const String threeDots = '${base}three_dots.png';
   static const String bag = '${base}bag.png';
   static const String arrowGo = '${base}arrow_go.png';
   static const String address = '${base}address.png';
