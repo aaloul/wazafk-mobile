@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 class PackageCarouselItem extends StatelessWidget {
@@ -13,23 +13,14 @@ class PackageCarouselItem extends StatelessWidget {
     required this.package,
     required this.onBookNow,
     this.isFocused = false,
+    this.showShadow = false,
   });
 
   final Package package;
   final VoidCallback onBookNow;
   final bool isFocused;
+  final bool showShadow;
 
-  String _getCategoryText() {
-    if (package.services == null || package.services!.isEmpty) {
-      return 'Package';
-    }
-
-    final firstService = package.services!.first;
-    if (firstService.parentCategoryName != null) {
-      return '${firstService.parentCategoryName}/${firstService.categoryName}';
-    }
-    return firstService.categoryName ?? 'Package';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,33 +30,51 @@ class PackageCarouselItem extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 8),
-        padding: EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(horizontal: 0),
+        padding: EdgeInsets.symmetric(vertical: 16,horizontal: 10),
         decoration: BoxDecoration(
-          color: isFocused ? HexColor("#E7F3EE") : Colors.white,
+          color: showShadow ? Colors.white : (isFocused ? HexColor("#E7F3EE") : Colors.white),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: HexColor("#AEC81A").withOpacity(0.1),
-            width: 1,
-          ),
+          border: showShadow
+              ? null
+              : Border.all(
+                  color: HexColor("#AEC81A").withOpacity(0.7),
+                  width: 1,
+                ),
+          boxShadow: showShadow
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.18),
+                    blurRadius: 12,
+                    offset: Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
-        child: Column(
+        child:Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
+
+            Image.asset(AppIcons.box,width: 44,),
+            Container(
+              width: 1,
+              height: 50,
+              color: context.resources.color.colorGrey29,
+              margin: EdgeInsets.symmetric(horizontal: 8),
+            ),
+
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Title
                   PrimaryText(
                     text: package.title ?? 'N/A',
-                    textColor: context.resources.color.colorPrimary,
-                    fontWeight: FontWeight.w900,
-                    textAlign: TextAlign.center,
-                    fontSize: 14,
+                    textColor: context.resources.color.colorBlack4,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
                     maxLines: 2,
                   ),
 
@@ -73,47 +82,34 @@ class PackageCarouselItem extends StatelessWidget {
 
                   // Category
                   PrimaryText(
-                    text: _getCategoryText(),
-                    textColor: context.resources.color.colorGrey8,
+                    text: package.description ?? 'N/A',
+                    textColor: context.resources.color.colorGrey26,
                     fontWeight: FontWeight.w400,
-                    textAlign: TextAlign.center,
                     maxLines: 2,
-                    fontSize: 12,
+                    fontSize: 11,
                   ),
 
-                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
 
                   PrimaryText(
-                    text:
-                        '\$ ${package.totalPrice  ?? '0'}',
+                    text: '\$ ${package.totalPrice ?? '0'}',
                     textColor: context.resources.color.colorPrimary,
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                   ),
+
+                  SizedBox(height: 8,),
+
+                  Image.asset(AppIcons.arrowGo,width: 30,fit: BoxFit.contain,)
                 ],
               ),
-            ),
 
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              height: 1,
-              color: context.resources.color.colorPrimary.withOpacity(.2),
-            ),
-
-            SizedBox(height: 8),
-
-            // Book Now Button
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              width: double.infinity,
-              height: 40,
-              child: PrimaryButton(
-                title: context.resources.strings.bookNow,
-                onPressed: onBookNow,
-                fontSize: 14,
-              ),
-            ),
           ],
         ),
       ),

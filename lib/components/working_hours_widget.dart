@@ -48,6 +48,16 @@ class WorkingHoursWidget extends StatelessWidget {
     'sun': 'sunday',
   };
 
+  static const _cardDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    border: Border.fromBorderSide(
+      BorderSide(color: Color(0xFFE5E5E5), width: 1),
+    ),
+  );
+
+
+
   @override
   Widget build(BuildContext context) {
     if (availability.isEmpty) {
@@ -57,16 +67,21 @@ class WorkingHoursWidget extends StatelessWidget {
     // Sort availability by day order
     final sortedAvailability = _sortAvailability(availability);
 
-    return Container(
+    return            Container(
+      width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.all(12),
+      decoration: _cardDecoration,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
           PrimaryText(
             text: Resources.of(context).strings.workingDays,
-            fontSize: 16,
-            fontWeight: FontWeight.w900,
-            textColor: context.resources.color.colorGrey,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            textColor:
+            context.resources.color.colorBlack4,
           ),
           SizedBox(height: 12),
           ...sortedAvailability.map((day) => _buildDayRow(context, day)).toList(),
