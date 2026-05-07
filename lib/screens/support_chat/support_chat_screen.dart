@@ -43,7 +43,7 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.colorPrimaryLight,
       body: SafeArea(
         child: Column(
           children: [
@@ -132,135 +132,138 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                               dataController.removeAttachment();
                             },
                           ),
+
                         if(conversation.status.toString() == '0')
-                        Container(
-                          width: double.infinity,
-                          height: 1,
-                          color: context.resources.color.colorGrey4,
-                        ),
-                        if(conversation.status.toString() == '0')
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 12,
-                          ),
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              // Attachment button
-                              GestureDetector(
-                                onTap: () async {
-                                  final type =
-                                      await AttachmentOptionsBottomSheet.show(
-                                          context);
-                                  if (type != null) {
-                                    dataController
-                                        .handleAttachmentSelection(type);
-                                  }
-                                },
-                                child: Container(
-                                  width: 42,
-                                  height: 42,
-                                  decoration: BoxDecoration(
-                                    color: context.resources.color.colorPrimary
-                                        .withOpacity(0.1),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    Icons.attach_file,
-                                    color:
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
+                            child: Row(
+                              children: [
+                                // Attachment button
+                                GestureDetector(
+                                  onTap: () async {
+                                    final type =
+                                    await AttachmentOptionsBottomSheet.show(
+                                        context);
+                                    if (type != null) {
+                                      dataController
+                                          .handleAttachmentSelection(type);
+                                    }
+                                  },
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: context.resources.color.colorWhite,
+                                      borderRadius: BorderRadiusGeometry.circular(8),
+                                      border: Border.all(
+                                        color: context.resources.color.colorGrey25,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.attach_file,
+                                        color:
                                         context.resources.color.colorPrimary,
-                                    size: 22,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: context.resources.color.background2,
-                                    borderRadius: BorderRadius.circular(36),
-                                    border: Border.all(
-                                      color:
-                                          context.resources.color.background2,
-                                      width: 1,
+                                        size: 22,
+                                      ),
                                     ),
                                   ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: PrimaryTextField(
-                                          controller:
-                                              dataController.messageController,
-                                          hint: Resources.of(context)
-                                              .strings
-                                              .message,
-                                          borderRadius: 36,
-                                          borderColor: context
-                                              .resources.color.background2,
-                                          backgroundColor: context
-                                              .resources.color.background2,
-                                          inputType: TextInputType.text,
-                                        ),
-                                      ),
-                                      Container(
+                                ),
+                                const SizedBox(width: 8),
+
+                                // Text input
+                                Expanded(
+                                  child: Container(
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: context.resources.color.colorWhite,
+                                      borderRadius: BorderRadiusGeometry.circular(8),
+                                      border: Border.all(
+                                        color: context.resources.color.colorGrey25,
                                         width: 1,
-                                        height: 28,
-                                        color:
-                                            context.resources.color.colorGrey10,
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 8),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          dataController
-                                              .sendMessageWithAttachment();
-                                        },
-                                        child:  Container(
-                                          width: 30,
-                                          height: 36,
-                                          color: context
-                                              .resources.color.background2,
-                                          padding: EdgeInsets.all(3),
-                                          child: Image.asset(
-                                            AppIcons.send,
-                                            width: 22,
-                                            height: 22,
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: PrimaryTextField(
+                                            controller:
+                                            dataController.messageController,
+                                            hint: Resources.of(context)
+                                                .strings
+                                                .message,
+                                            borderRadius: 36,
+                                            borderColor: context
+                                                .resources.color.background2,
+                                            backgroundColor: context
+                                                .resources.color.background2,
+                                            inputType: TextInputType.text,
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                    ],
+                                        Container(
+                                          width: 1,
+                                          height: 28,
+                                          color:
+                                          context.resources.color.colorGrey10,
+                                          margin:
+                                          EdgeInsets.symmetric(horizontal: 8),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            dataController
+                                                .sendMessageWithAttachment();
+                                          },
+                                          child: Container(
+                                            width: 30,
+                                            height: 36,
+                                            color: context
+                                                .resources.color.colorWhite,
+                                            padding: EdgeInsets.all(3),
+                                            child: Image.asset(
+                                              AppIcons.send,
+                                              width: 22,
+                                              height: 22,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              // Voice recording button
-                              GestureDetector(
-                                onLongPressStart: (_) {
-                                  dataController.startVoiceRecording();
-                                },
-                                child: Container(
-                                  width: 42,
-                                  height: 42,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        context.resources.color.colorPrimary,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    Icons.mic,
-                                    color: Colors.white,
-                                    size: 22,
+
+                                const SizedBox(width: 8),
+
+                                // Voice recording button (long press)
+                                GestureDetector(
+                                  onLongPressStart: (_) {
+                                    dataController.startVoiceRecording();
+                                  },
+                                  child: Container(
+                                    width: 42,
+                                    height: 42,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color:
+                                      context.resources.color.colorPrimary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.mic,
+                                      color: Colors.white,
+                                      size: 22,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
                       ],
                     ),
             )

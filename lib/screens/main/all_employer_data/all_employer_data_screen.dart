@@ -22,7 +22,7 @@ class AllEmployerDataScreen extends StatelessWidget {
             TopHeader(title: Resources
                 .of(context)
                 .strings
-                .freelancersAndServices),
+                .services),
             SizedBox(height: 8),
 
             // Obx(() => TabsWidget(

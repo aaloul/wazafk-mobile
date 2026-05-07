@@ -21,6 +21,7 @@ class TopLevelTabBar extends StatelessWidget {
 
     return Container(
       height: 48,
+      padding: EdgeInsets.symmetric(horizontal: 12),
       width: double.infinity,
       decoration: BoxDecoration(color: context.resources.color.colorWhite),
       child: Row(
@@ -35,7 +36,8 @@ class TopLevelTabBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: selectedTab == Resources.of(context).strings.chatConversations
                       ? context.resources.color.colorPrimary
-                      : context.resources.color.colorWhite,
+                      : context.resources.color.colorGrey25,
+                  borderRadius: BorderRadiusGeometry.circular(46)
                 ),
                 child: Center(
                   child: Obx(() {
@@ -77,6 +79,7 @@ class TopLevelTabBar extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(width: 6,),
           Expanded(
             flex: 1,
             child: GestureDetector(
@@ -87,7 +90,9 @@ class TopLevelTabBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: selectedTab == Resources.of(context).strings.supportConversations
                       ? context.resources.color.colorPrimary
-                      : context.resources.color.colorWhite,
+                      : context.resources.color.colorGrey25,
+                    borderRadius: BorderRadiusGeometry.circular(46)
+
                 ),
                 child: Center(
                   child: Obx(() {

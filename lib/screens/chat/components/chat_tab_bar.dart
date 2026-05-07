@@ -31,21 +31,25 @@ class ChatTabBar extends StatelessWidget {
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(46),
-
-                  color:
-                      selectedTab == Resources.of(context).strings.ongoingChat
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorWhite,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color:
+                      selectedTab ==
+                          Resources.of(context).strings.ongoingChat
+                          ? context.resources.color.colorPrimary
+                          : context.resources.color.colorGrey25,
+                      width: 1
+                  ),
                 ),
                 child: Center(
                   child: PrimaryText(
                     text: Resources.of(context).strings.ongoingChat,
                     fontWeight: FontWeight.w500,
                     textColor:
-                    selectedTab == Resources.of(context).strings.ongoingChat
-                        ? context.resources.color.colorWhite
-                        : context.resources.color.colorGrey3,
+                      selectedTab ==
+                      Resources.of(context).strings.ongoingChat
+                      ? context.resources.color.colorPrimary
+                      : context.resources.color.colorGrey26,
                   ),
                 ),
               ),
@@ -61,13 +65,19 @@ class ChatTabBar extends StatelessWidget {
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(46),
+                  borderRadius: BorderRadius.circular(12),
 
-                  color:
+                  border: Border.all(
+                      color:
                       selectedTab ==
                           Resources.of(context).strings.activeEmployers
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorWhite,
+                          ? context.resources.color.colorPrimary
+                          : context.resources.color.colorGrey25,
+
+                    width: 1
+
+                  ),
+
                 ),
                 child: Center(
                   child: PrimaryText(
@@ -76,8 +86,8 @@ class ChatTabBar extends StatelessWidget {
                     textColor:
                         selectedTab ==
                             Resources.of(context).strings.activeEmployers
-                        ? context.resources.color.colorWhite
-                        : context.resources.color.colorGrey3,
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorGrey26,
                   ),
                 ),
               ),

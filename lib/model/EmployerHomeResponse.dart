@@ -4,9 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:wazafak_app/model/LoginResponse.dart';
-
-import 'PackagesResponse.dart';
 import 'ServicesResponse.dart';
 
 EmployerHomeResponse employerHomeResponseFromJson(String str) =>
@@ -37,68 +34,50 @@ class EmployerHomeResponse {
 }
 
 class EmployerHome {
-  int? page;
-  int? pageLimit;
-  int? total;
-  String? prevIndices;
-  String? pageIndices;
-  List<EmployerHomeData>? records;
+  Meta? meta;
+  List<Service>? records;
 
   EmployerHome({
-    this.page,
-    this.pageLimit,
-    this.prevIndices,
-    this.pageIndices,
-    this.total,
+    this.meta,
     this.records,
   });
 
   factory EmployerHome.fromJson(Map<String, dynamic> json) => EmployerHome(
-    page: json["page"],
-    pageLimit: json["page_limit"],
-    prevIndices: json["prev_indices"],
-    pageIndices: json["page_indices"],
-    total: json["total"],
-    records: json["records"] == null
+    meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
+    records: json["list"] == null
         ? []
-        : List<EmployerHomeData>.from(
-            json["records"]!.map((x) => EmployerHomeData.fromJson(x)),
+        : List<Service>.from(
+            json["list"]!.map((x) => Service.fromJson(x)),
           ),
   );
 
   Map<String, dynamic> toJson() => {
-    "page": page,
-    "page_limit": pageLimit,
-    "prev_indices": prevIndices,
-    "page_indices": pageIndices,
-    "total": total,
-    "records": records == null
+    "meta": meta?.toJson(),
+    "list": records == null
         ? []
         : List<dynamic>.from(records!.map((x) => x.toJson())),
   };
 }
 
-class EmployerHomeData {
-  String? entityType;
-  User? member;
-  Service? service;
-  Package? package;
+class Meta {
+  int? page;
+  int? last;
+  int? size;
+  int? total;
 
-  EmployerHomeData({this.entityType, this.member, this.service, this.package});
+  Meta({this.page, this.last, this.size, this.total});
 
-  factory EmployerHomeData.fromJson(
-    Map<String, dynamic> json,
-  ) => EmployerHomeData(
-    entityType: json["entity_type"],
-    member: json["member"] == null ? null : User.fromJson(json["member"]),
-    service: json["service"] == null ? null : Service.fromJson(json["service"]),
-    package: json["package"] == null ? null : Package.fromJson(json["package"]),
+  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+    page: json["page"],
+    last: json["last"],
+    size: json["size"],
+    total: json["total"],
   );
 
   Map<String, dynamic> toJson() => {
-    "entity_type": entityType,
-    "member": member?.toJson(),
-    "service": service?.toJson(),
-    "package": package?.toJson(),
+    "page": page,
+    "last": last,
+    "size": size,
+    "total": total,
   };
 }

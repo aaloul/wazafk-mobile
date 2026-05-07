@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
+import '../../../../../components/primary_text.dart';
+import '../../../../../constants/route_constant.dart';
+import '../../../../../utils/res/AppContextExtension.dart';
 import '../skeletons/home_job_skeleton.dart';
 import 'home_job_item.dart';
 
@@ -17,29 +20,31 @@ class HomeJobsWidget extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         children: [
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: PrimaryText(
-          //         text: context.resources.strings.availableJobs,
-          //         fontSize: 17,
-          //         fontWeight: FontWeight.w700,
-          //       ),
-          //     ),
-          //     GestureDetector(
-          //       onTap: () {
-          //         Get.toNamed(RouteConstant.allJobsScreen);
-          //       },
-          //       child: PrimaryText(
-          //         text: context.resources.strings.viewAll,
-          //         fontSize: 13,
-          //         fontWeight: FontWeight.w400,
-          //         textColor: context.resources.color.colorGrey14,
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // SizedBox(height: 16),
+          SizedBox(height: 8),
+
+          Row(
+            children: [
+              Expanded(
+                child: PrimaryText(
+                  text: context.resources.strings.availableJobs,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(RouteConstant.allJobsScreen);
+                },
+                child: PrimaryText(
+                  text: context.resources.strings.viewAll,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  textColor: context.resources.color.colorGrey14,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
           Obx(() {
             if (controller.isLoadingJobs.value && controller.jobs.isEmpty) {
               return ListView.separated(

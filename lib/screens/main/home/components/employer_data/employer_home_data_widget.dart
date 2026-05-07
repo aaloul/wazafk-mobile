@@ -6,8 +6,6 @@ import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../skeletons/home_freelancer_skeleton.dart';
-import 'home_freelancer_item.dart';
-import 'home_package_item.dart';
 import 'home_service_item.dart';
 
 class EmployerHomeDataWidget extends StatelessWidget {
@@ -85,25 +83,10 @@ class EmployerHomeDataWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final data = controller.employerData[index];
 
-              // Render different widgets based on entity type
-              if (data.entityType == 'MEMBER' && data.member != null) {
-                return HomeFreelancerItem(
-                  freelancer: data.member!,
-                  onFavoriteToggle: controller.toggleMemberFavorite,
-                );
-              } else if (data.entityType == 'SERVICE' && data.service != null) {
-                return HomeServiceItem(
-                  service: data.service!,
-                  onFavoriteToggle: controller.toggleServiceFavorite,
-                );
-              } else if (data.entityType == 'PACKAGE' && data.package != null) {
-                return HomePackageItem(
-                  package: data.package!,
-                  onFavoriteToggle: controller.togglePackageFavorite,
-                );
-              }
-              // Return empty container for unknown types
-              return SizedBox.shrink();
+              return HomeServiceItem(
+                service: data,
+                onFavoriteToggle: controller.toggleServiceFavorite,
+              );
             },
           ),
         ],

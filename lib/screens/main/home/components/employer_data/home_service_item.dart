@@ -213,7 +213,7 @@ class _HomeServiceItemState extends State<HomeServiceItem> {
                           children: [
                             PrimaryText(
                               text:
-                                  '${widget.service.memberFirstName ?? ''} ${widget.service.memberLastName ?? ''}'
+                                  '${widget.service.memberFirstName ?? ''}\n${widget.service.memberLastName ?? ''}'
                                       .trim(),
                               fontSize: 12,
                               fontWeight: FontWeight.w600,

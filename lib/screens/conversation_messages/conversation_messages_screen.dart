@@ -42,7 +42,7 @@ class _ConversationMessagesScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.colorPrimaryLight,
       body: SafeArea(
         child: Column(
           children: [
@@ -108,18 +108,13 @@ class _ConversationMessagesScreenState
                             ),
                           ),
 
-                        Container(
-                          width: double.infinity,
-                          height: 1,
-                          color: context.resources.color.colorGrey4,
-                        ),
+
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 12,
                           ),
-                          color: Colors.white,
-                          child: Row(
+                           child: Row(
                             children: [
                               // Attachment button
                               GestureDetector(
@@ -133,19 +128,23 @@ class _ConversationMessagesScreenState
                                   }
                                 },
                                 child: Container(
-                                  width: 42,
-                                  height: 42,
-                                  padding: EdgeInsets.all(10),
+                                  width: 50,
+                                  height: 50,
                                   decoration: BoxDecoration(
-                                    color: context.resources.color.colorPrimary
-                                        .withOpacity(0.1),
-                                    shape: BoxShape.circle,
+                                    color: context.resources.color.colorWhite,
+                                    borderRadius: BorderRadiusGeometry.circular(8),
+                                    border: Border.all(
+                                      color: context.resources.color.colorGrey25,
+                                      width: 1,
+                                    ),
                                   ),
-                                  child: Icon(
-                                    Icons.attach_file,
-                                    color:
-                                        context.resources.color.colorPrimary,
-                                    size: 22,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.attach_file,
+                                      color:
+                                          context.resources.color.colorPrimary,
+                                      size: 22,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -156,11 +155,10 @@ class _ConversationMessagesScreenState
                                 child: Container(
                                   height: 50,
                                   decoration: BoxDecoration(
-                                    color: context.resources.color.background2,
-                                    borderRadius: BorderRadius.circular(36),
+                                    color: context.resources.color.colorWhite,
+                                    borderRadius: BorderRadiusGeometry.circular(8),
                                     border: Border.all(
-                                      color:
-                                          context.resources.color.background2,
+                                      color: context.resources.color.colorGrey25,
                                       width: 1,
                                     ),
                                   ),
@@ -200,7 +198,7 @@ class _ConversationMessagesScreenState
                                           width: 30,
                                           height: 36,
                                           color: context
-                                              .resources.color.background2,
+                                              .resources.color.colorWhite,
                                           padding: EdgeInsets.all(3),
                                           child: Image.asset(
                                             AppIcons.send,

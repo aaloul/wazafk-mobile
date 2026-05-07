@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
     return FocusDetector(
       onFocusGained: () {
         controller.fetchProfile();
-        controller.fetchEngagements();
+        // controller.fetchEngagements();
         if (controller.isFreelancerMode.value) {
           controller.fetchJobs();
         } else {

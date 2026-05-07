@@ -22,18 +22,12 @@ class ContactListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12),
-        padding: EdgeInsets.all(12),
+      child: Column(
+        children: [
+          Container(
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.resources.color.colorWhite,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
         ),
         child: Row(
           children: [
@@ -41,15 +35,13 @@ class ContactListItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(99999999),
               child: PrimaryNetworkImage(
                 url: contact.image.toString(),
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
               ),
             ),
-            Container(
-              width: 1,
+            SizedBox(
+              width: 12,
               height: 40,
-              color: HexColor('#99999980').withOpacity(.5),
-              margin: EdgeInsets.symmetric(horizontal: 12),
             ),
             Expanded(
               child: Column(
@@ -58,20 +50,27 @@ class ContactListItem extends StatelessWidget {
                   PrimaryText(
                     text: contactName,
                     fontWeight: FontWeight.w600,
-                    textColor: context.resources.color.colorGrey23,
-                    fontSize: 16,
+                    textColor: context.resources.color.colorGrey26,
+                    fontSize: 12,
                   ),
                   SizedBox(height: 4),
                   PrimaryText(
                     text: contact.title ?? Resources.of(context).strings.notAvailableShort,
                     fontSize: 14,
-                    textColor: context.resources.color.colorGrey23,
+                    textColor: context.resources.color.colorGrey26,
                   ),
                 ],
               ),
             ),
           ],
         ),
+      ),
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: HexColor('#E9E9E9'),
+          ),
+        ],
       ),
     );
   }

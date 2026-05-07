@@ -270,7 +270,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
                           children: [
                             PrimaryText(
                               text:
-                                  '${widget.job.memberFirstName} ${widget.job.memberLastName}',
+                                  '${widget.job.memberFirstName}\n${widget.job.memberLastName}',
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),

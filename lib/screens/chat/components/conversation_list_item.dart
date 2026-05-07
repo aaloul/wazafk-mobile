@@ -26,18 +26,12 @@ class ConversationListItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12),
-        padding: EdgeInsets.all(12),
+      child: Column(
+        children: [
+          Container(
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.resources.color.colorWhite,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
         ),
         child: Row(
           children: [
@@ -45,15 +39,12 @@ class ConversationListItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(99999999),
               child: PrimaryNetworkImage(
                 url: conversation.image.toString(),
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
               ),
             ),
-            Container(
-              width: 1,
-              height: 40,
-              color: HexColor('#99999980').withOpacity(.5),
-              margin: EdgeInsets.symmetric(horizontal: 12),
+            SizedBox(
+              width: 12,
             ),
             Expanded(
               child: Column(
@@ -65,17 +56,18 @@ class ConversationListItem extends StatelessWidget {
                       Expanded(
                         child: PrimaryText(
                           text: conversationName,
-                          fontWeight: hasUnreadMessage
-                              ? FontWeight.w700
-                              : FontWeight.w600,
-                          textColor: context.resources.color.colorGrey23,
-                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          textColor: context.resources.color.colorGrey26,
+                          fontSize: 12,
                         ),
                       ),
                       if (lastMessageTime.isNotEmpty)
                         PrimaryText(
                           text: lastMessageTime,
                           fontSize: 12,
+                          fontWeight: hasUnreadMessage
+                              ? FontWeight.w600
+                              : FontWeight.w400,
                           textColor: hasUnreadMessage
                               ? context.resources.color.colorPrimary
                               : context.resources.color.colorGrey23.withOpacity(
@@ -94,13 +86,13 @@ class ConversationListItem extends StatelessWidget {
                               Resources.of(context).strings.noMessagesYet,
                           fontSize: 14,
                           textColor: hasUnreadMessage
-                              ? context.resources.color.colorGrey23
-                              : context.resources.color.colorGrey23.withOpacity(
+                              ? context.resources.color.colorGrey26
+                              : context.resources.color.colorGrey26.withOpacity(
                                   0.7,
                                 ),
                           fontWeight: hasUnreadMessage
-                              ? FontWeight.w500
-                              : FontWeight.normal,
+                              ? FontWeight.w600
+                              : FontWeight.w400,
                           maxLines: 2,
                         ),
                       ),
@@ -121,6 +113,13 @@ class ConversationListItem extends StatelessWidget {
             ),
           ],
         ),
+      ),
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: HexColor('#E9E9E9'),
+          ),
+        ],
       ),
     );
   }

@@ -5,11 +5,9 @@ import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
-import 'package:wazafak_app/model/EmployerHomeResponse.dart';
 import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
-import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/networking/services/wallet/get_wallet_service.dart';
@@ -64,7 +62,7 @@ class HomeController extends GetxController {
   var skills = <Skill>[].obs;
   var addresses = <Address>[].obs;
   var engagements = <Engagement>[].obs;
-  var employerData = <EmployerHomeData>[].obs;
+  var employerData = <Service>[].obs;
   var walletHashcode = ''.obs;
   var walletBalance = ''.obs;
   Rx<User?> profileData = Rx<User?>(null);
@@ -96,7 +94,7 @@ class HomeController extends GetxController {
     fetchSkills();
     fetchAddresses();
     fetchWallet();
-    fetchEngagements();
+    // fetchEngagements();
 
     // Load data based on mode
     if (isFreelancerMode.value) {
@@ -133,7 +131,7 @@ class HomeController extends GetxController {
     } else {
       fetchEmployerHome();
     }
-    fetchEngagements();
+    // fetchEngagements();
   }
 
   void loadCategoriesFromPrefs() {
@@ -214,7 +212,7 @@ class HomeController extends GetxController {
       final response = await _freelancerHomeRepository.getFreelancerHome();
 
       if (response.success == true && response.data != null) {
-        jobs.value = response.data!;
+        jobs.value = response.data?.records ?? [];
       } else {
         constants.showSnackBar(
           response.message ?? Resources
@@ -419,7 +417,7 @@ class HomeController extends GetxController {
 
       if (response.success == true && response.data != null) {
         // Filter data by entity type
-        employerData.value = response.data?.records ?? [];
+        employerData.value = response.data?.records  ?? [];
       } else {
         constants.showSnackBar(
           response.message ?? Resources
@@ -530,100 +528,6 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<bool> toggleMemberFavorite(User member) async {
-    if (member.hashcode == null) {
-      constants.showSnackBar(
-        Resources
-            .of(Get.context!)
-            .strings
-            .memberInformationNotAvailable,
-        SnackBarStatus.ERROR,
-      );
-      return false;
-    }
-
-    try {
-      final isFavorite = member.isFavorite == 1;
-
-      if (isFavorite) {
-        // Remove from favorites
-        final response = await _favoriteMembersRepository.removeFavoriteMember(
-          member.hashcode!,
-        );
-
-        if (response.success == true) {
-          // Update the member's favorite status in the employerData list
-          final index = employerData.indexWhere(
-            (data) => data.member?.hashcode == member.hashcode,
-          );
-          if (index != -1 && employerData[index].member != null) {
-            employerData[index].member!.isFavorite = 0;
-            employerData.refresh(); // Notify listeners
-          }
-
-          constants.showSnackBar(
-            response.message ?? Resources
-                .of(Get.context!)
-                .strings
-                .removedFromFavorites,
-            SnackBarStatus.SUCCESS,
-          );
-          return true;
-        } else {
-          constants.showSnackBar(
-            response.message ?? Resources
-                .of(Get.context!)
-                .strings
-                .failedToRemoveFromFavorites,
-            SnackBarStatus.ERROR,
-          );
-          return false;
-        }
-      } else {
-        // Add to favorites
-        final response = await _favoriteMembersRepository.addFavoriteMember(
-          member.hashcode!,
-        );
-
-        if (response.success == true) {
-          // Update the member's favorite status in the employerData list
-          final index = employerData.indexWhere(
-            (data) => data.member?.hashcode == member.hashcode,
-          );
-          if (index != -1 && employerData[index].member != null) {
-            employerData[index].member!.isFavorite = 1;
-            employerData.refresh(); // Notify listeners
-          }
-
-          constants.showSnackBar(
-            Resources
-                .of(Get.context!)
-                .strings
-                .addedToFavorites,
-            SnackBarStatus.SUCCESS,
-          );
-          return true;
-        } else {
-          constants.showSnackBar(
-            response.message ?? Resources
-                .of(Get.context!)
-                .strings
-                .failedToAddToFavorites,
-            SnackBarStatus.ERROR,
-          );
-          return false;
-        }
-      }
-    } catch (e) {
-      constants.showSnackBar(
-        'Error updating favorites: $e',
-        SnackBarStatus.ERROR,
-      );
-      print('Error toggling member favorite: $e');
-      return false;
-    }
-  }
-
   Future<bool> toggleServiceFavorite(Service service) async {
     if (service.hashcode == null) {
       constants.showSnackBar(
@@ -647,10 +551,10 @@ class HomeController extends GetxController {
         if (response.success == true) {
           // Update the service's favorite status in the employerData list
           final index = employerData.indexWhere(
-            (data) => data.service?.hashcode == service.hashcode,
+            (data) => data.hashcode == service.hashcode,
           );
-          if (index != -1 && employerData[index].service != null) {
-            employerData[index].service!.isFavorite = false;
+          if (index != -1) {
+            employerData[index].isFavorite = false;
             employerData.refresh(); // Notify listeners
           }
 
@@ -681,10 +585,10 @@ class HomeController extends GetxController {
         if (response.success == true) {
           // Update the service's favorite status in the employerData list
           final index = employerData.indexWhere(
-            (data) => data.service?.hashcode == service.hashcode,
+            (data) => data.hashcode == service.hashcode,
           );
-          if (index != -1 && employerData[index].service != null) {
-            employerData[index].service!.isFavorite = true;
+          if (index != -1) {
+            employerData[index].isFavorite = true;
             employerData.refresh(); // Notify listeners
           }
 
@@ -717,95 +621,6 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<bool> togglePackageFavorite(Package package) async {
-    if (package.hashcode == null) {
-      constants.showSnackBar(
-        'Package information not available',
-        SnackBarStatus.ERROR,
-      );
-      return false;
-    }
-
-    try {
-      final isFavorite = package.isFavorite ?? false;
-
-      if (isFavorite) {
-        // Remove from favorites
-        final response = await _removeFavoritePackageRepository
-            .removeFavoritePackage(package.hashcode!);
-
-        if (response.success == true) {
-          // Update the package's favorite status in the employerData list
-          final index = employerData.indexWhere(
-            (data) => data.package?.hashcode == package.hashcode,
-          );
-          if (index != -1 && employerData[index].package != null) {
-            employerData[index].package!.isFavorite = false;
-            employerData.refresh(); // Notify listeners
-          }
-
-          constants.showSnackBar(
-            response.message ?? Resources
-                .of(Get.context!)
-                .strings
-                .removedFromFavorites,
-            SnackBarStatus.SUCCESS,
-          );
-          return true;
-        } else {
-          constants.showSnackBar(
-            response.message ?? Resources
-                .of(Get.context!)
-                .strings
-                .failedToRemoveFromFavorites,
-            SnackBarStatus.ERROR,
-          );
-          return false;
-        }
-      } else {
-        // Add to favorites
-        final response = await _addFavoritePackageRepository.addFavoritePackage(
-          package.hashcode!,
-        );
-
-        if (response.success == true) {
-          // Update the package's favorite status in the employerData list
-          final index = employerData.indexWhere(
-            (data) => data.package?.hashcode == package.hashcode,
-          );
-          if (index != -1 && employerData[index].package != null) {
-            employerData[index].package!.isFavorite = true;
-            employerData.refresh(); // Notify listeners
-          }
-
-          constants.showSnackBar(
-            Resources
-                .of(Get.context!)
-                .strings
-                .addedToFavorites,
-            SnackBarStatus.SUCCESS,
-          );
-          return true;
-        } else {
-          constants.showSnackBar(
-            response.message ?? Resources
-                .of(Get.context!)
-                .strings
-                .failedToAddToFavorites,
-            SnackBarStatus.ERROR,
-          );
-          return false;
-        }
-      }
-    } catch (e) {
-      constants.showSnackBar(
-        'Error updating favorites: $e',
-        SnackBarStatus.ERROR,
-      );
-      print('Error toggling package favorite: $e');
-      return false;
-    }
-  }
 
   Future<void> initPusher() async {
     try {
@@ -872,7 +687,7 @@ class HomeController extends GetxController {
       fetchSkills(),
       fetchAddresses(),
       fetchWallet(),
-      fetchEngagements(),
+      // fetchEngagements(),
       if (isFreelancerMode.value) fetchJobs() else fetchEmployerHome(),
     ]);
   }

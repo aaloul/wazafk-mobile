@@ -30,9 +30,10 @@ class SupportConversationListItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12),
-        padding: EdgeInsets.all(12),
+      child: Column(
+        children: [
+          Container(
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.resources.color.colorWhite,
           boxShadow: [
@@ -49,11 +50,11 @@ class SupportConversationListItem extends StatelessWidget {
             isDispute
                 ? ParticipantsAvatarGrid(
                     participants: conversation.groupParticipants ?? [],
-                    size: 60,
+                    size: 45,
                   )
                 : Container(
-                    width: 60,
-                    height: 60,
+                    width: 45,
+                    height: 45,
                     decoration: BoxDecoration(
                       color: context.resources.color.colorPrimary.withOpacity(0.1),
                       shape: BoxShape.circle,
@@ -64,11 +65,8 @@ class SupportConversationListItem extends StatelessWidget {
                       size: 32,
                     ),
                   ),
-            Container(
-              width: 1,
-              height: 40,
-              color: HexColor('#99999980').withOpacity(.5),
-              margin: EdgeInsets.symmetric(horizontal: 12),
+            SizedBox(
+              width: 12,
             ),
             Expanded(
               child: Column(
@@ -81,8 +79,8 @@ class SupportConversationListItem extends StatelessWidget {
                         child: PrimaryText(
                           text: conversation.subject ?? Resources.of(context).strings.supportTicket,
                           fontWeight: FontWeight.w600,
-                          textColor: context.resources.color.colorGrey23,
-                          fontSize: 16,
+                          textColor: context.resources.color.colorGrey26,
+                          fontSize: 14,
                           maxLines: 1,
                         ),
                       ),
@@ -91,7 +89,7 @@ class SupportConversationListItem extends StatelessWidget {
                           text: lastMessageTime,
                           fontSize: 12,
                           textColor:
-                              context.resources.color.colorGrey23.withOpacity(
+                              context.resources.color.colorGrey26.withOpacity(
                             0.6,
                           ),
                         ),
@@ -133,6 +131,13 @@ class SupportConversationListItem extends StatelessWidget {
             ),
           ],
         ),
+      ),
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: HexColor('#E9E9E9'),
+          ),
+        ],
       ),
     );
   }

@@ -7,7 +7,7 @@ class ParticipantsAvatarGrid extends StatelessWidget {
   const ParticipantsAvatarGrid({
     super.key,
     required this.participants,
-    this.size = 60,
+    this.size = 45,
   });
 
   final List<GroupParticipant> participants;

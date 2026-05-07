@@ -30,18 +30,28 @@ class SupportTabBar extends StatelessWidget {
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(46),
-                  color: selectedTab == Resources.of(context).strings.support
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorWhite,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color:
+                      selectedTab ==
+                          Resources.of(context).strings.support
+                          ? context.resources.color.colorPrimary
+                          : context.resources.color.colorGrey25,
+                      width: 1
+                  ),
+
+                  // borderRadius: BorderRadius.circular(46),
+                  // color: selectedTab == Resources.of(context).strings.support
+                  //     ? context.resources.color.colorPrimary
+                  //     : context.resources.color.colorWhite,
                 ),
                 child: Center(
                   child: PrimaryText(
                     text: Resources.of(context).strings.support,
                     fontWeight: FontWeight.w500,
                     textColor: selectedTab == Resources.of(context).strings.support
-                        ? context.resources.color.colorWhite
-                        : context.resources.color.colorGrey3,
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorGrey26,
                   ),
                 ),
               ),
@@ -56,18 +66,24 @@ class SupportTabBar extends StatelessWidget {
                 height: double.infinity,
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(46),
-                  color: selectedTab == Resources.of(context).strings.dispute
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorWhite,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color:
+                      selectedTab ==
+                          Resources.of(context).strings.dispute
+                          ? context.resources.color.colorPrimary
+                          : context.resources.color.colorGrey25,
+                      width: 1
+                  ),
+
                 ),
                 child: Center(
                   child: PrimaryText(
                     text: Resources.of(context).strings.dispute,
                     fontWeight: FontWeight.w500,
                     textColor: selectedTab == Resources.of(context).strings.dispute
-                        ? context.resources.color.colorWhite
-                        : context.resources.color.colorGrey3,
+                        ? context.resources.color.colorPrimary
+                        : context.resources.color.colorGrey26,
                   ),
                 ),
               ),

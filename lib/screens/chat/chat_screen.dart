@@ -28,7 +28,7 @@ class ChatScreen extends StatelessWidget {
         controller.refreshAllConversations(showLoading: false);
       },
       child: Scaffold(
-        backgroundColor: context.resources.color.background2,
+        backgroundColor: context.resources.color.background,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
