@@ -21,7 +21,7 @@ class FreelancerMemberProfileScreen extends StatelessWidget {
     final controller = Get.put(FreelancerMemberProfileController());
 
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
@@ -57,12 +57,13 @@ class FreelancerMemberProfileScreen extends StatelessWidget {
                         user: controller.memberProfile.value!.member!,
                       ),
 
-                      MemberSkillsWidget(
-                        skills: controller.memberProfile.value?.skills ?? [],
-                      ),
-
                       MemberRatingInfo(
                         memberProfile: controller.memberProfile.value!,
+                        useFreelancerRatings: true,
+                      ),
+
+                      MemberSkillsWidget(
+                        skills: controller.memberProfile.value?.skills ?? [],
                       ),
 
                       MemberServicesCarousel(

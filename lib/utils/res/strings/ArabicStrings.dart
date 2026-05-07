@@ -1554,6 +1554,14 @@ class ArabicStrings extends Strings {
 
   @override
   String get workHistory => "سجل العمل";
+  @override
+  String get hiringHistory => "سجل التوظيف";
+  @override
+  String get jobsDone => "الوظائف المنجزة";
+  @override
+  String get hires => "التوظيفات";
+  @override
+  String get posts => "المنشورات";
 
   @override
   String get workPackages => "باقات العمل";
@@ -2215,4 +2223,7 @@ class ArabicStrings extends Strings {
   @override
   String get onceApproved =>
       "بمجرد الموافقة، ستتمكن من الوصول الكامل إلى وظفك.";
+
+  @override
+  String get profileReview => "مراجعة الملف";
 }

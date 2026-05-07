@@ -11,55 +11,49 @@ class MemberSkillsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (skills.isEmpty) return const SizedBox.shrink();
+
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: const Color(0xFFE5E5E5),
+          width: 1,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Skills Section
           PrimaryText(
             text: context.resources.strings.skills,
-            fontSize: 16,
-            fontWeight: FontWeight.w900,
-            textColor: context.resources.color.colorGrey,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            textColor: context.resources.color.colorBlack,
           ),
           SizedBox(height: 8),
-
-          // Check if we have skills
-          Builder(
-            builder: (context) {
-              if (skills.isEmpty) {
-                return PrimaryText(
-                  text: context.resources.strings.noSkillsAddedYet,
-                  fontSize: 14,
-                  textColor: context.resources.color.colorGrey,
-                );
-              }
-
-              return Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: skills.map((skill) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        color: context.resources.color.colorGrey4,
-                      ),
-                    ),
-                    child: PrimaryText(
-                      text: skill.name ?? 'Unknown',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      textColor: context.resources.color.colorGrey,
-                    ),
-                  );
-                }).toList(),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: skills.map((skill) {
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: context.resources.color.colorPrimaryLight,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: PrimaryText(
+                  text: skill.name ?? '',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  textColor: context.resources.color.colorPrimary,
+                ),
               );
-            },
+            }).toList(),
           ),
-          SizedBox(height: 16),
         ],
       ),
     );

@@ -11,10 +11,12 @@ class MemberJobsCarousel extends StatefulWidget {
     super.key,
     required this.engagements,
     this.isLoading = false,
+    this.title,
   });
 
   final List<Engagement> engagements;
   final bool isLoading;
+  final String? title;
 
   @override
   State<MemberJobsCarousel> createState() => _MemberJobsCarouselState();
@@ -41,14 +43,14 @@ class _MemberJobsCarouselState extends State<MemberJobsCarousel> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Jobs Carousel Section
+        SizedBox(height: 8),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: PrimaryText(
-            text: context.resources.strings.workHistory,
-            fontSize: 16,
-            fontWeight: FontWeight.w900,
-            textColor: context.resources.color.colorGrey,
+            text: widget.title ?? context.resources.strings.workHistory,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            textColor: context.resources.color.colorBlack4,
           ),
         ),
         SizedBox(height: 16),
@@ -57,7 +59,7 @@ class _MemberJobsCarouselState extends State<MemberJobsCarousel> {
             height: 165,
             enlargeCenterPage: false,
             enableInfiniteScroll: false,
-            viewportFraction: .8,
+            viewportFraction: 1,
             onPageChanged: (index, reason) {
               setState(() {
                 _currentPage = index;
@@ -81,8 +83,8 @@ class _MemberJobsCarouselState extends State<MemberJobsCarousel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.engagements.asMap().entries.map((entry) {
               return Container(
-                width: _currentPage == entry.key ? 12 : 12,
-                height: 12,
+                width: _currentPage == entry.key ? 10 : 10,
+                height: 10,
                 margin: EdgeInsets.symmetric(horizontal: 2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
@@ -97,12 +99,6 @@ class _MemberJobsCarouselState extends State<MemberJobsCarousel> {
 
         SizedBox(height: 8),
 
-        Container(
-          width: double.infinity,
-          height: 1,
-          color: context.resources.color.colorGrey.withOpacity(.25),
-          margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-        ),
       ],
     );
   }

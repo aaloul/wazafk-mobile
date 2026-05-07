@@ -1,25 +1,28 @@
 import 'package:get/get.dart';
+import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/model/MemberProfileResponse.dart';
+import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 class EmployerMemberProfileController extends GetxController {
   final ProfileRepository _profileRepository = ProfileRepository();
+  final EngagementsListRepository _engagementsListRepository = EngagementsListRepository();
 
   var user = Rxn<User>();
   var memberProfile = Rxn<MemberProfile>();
+  var engagements = <Engagement>[].obs;
   var isLoading = false.obs;
+  var isLoadingEngagements = false.obs;
 
   @override
   void onInit() {
     super.onInit();
 
-    // Get user from arguments
     final arguments = Get.arguments;
     if (arguments != null && arguments is User) {
       user.value = arguments;
-      // Fetch full member profile if we have the hashcode
       if (user.value?.hashcode != null) {
         fetchMemberProfile(user.value!.hashcode!);
       }
@@ -44,26 +47,11 @@ class EmployerMemberProfileController extends GetxController {
       if (response.success == true && response.data != null) {
         memberProfile.value = response.data;
 
-        // Debug logging
-        print('=== Member Profile Fetched ===');
-        print(
-          'Member: ${response.data!.member?.firstName} ${response.data!.member?.lastName}',
-        );
-        print('Skills count: ${response.data!.skills?.length ?? 0}');
-        if (response.data!.skills != null) {
-          for (var skill in response.data!.skills!) {
-            print('  - ${skill.name}');
-          }
-        }
-        print('Services count: ${response.data!.services?.length ?? 0}');
-        print('Packages count: ${response.data!.packages?.length ?? 0}');
-        print('Jobs count: ${response.data!.jobs?.length ?? 0}');
-        print('==============================');
-
-        // Update user with the full profile data
         if (response.data!.member != null) {
           user.value = response.data!.member;
         }
+
+        fetchMemberEngagements(memberHashcode);
       } else {
         if (response.message != null) {
           constants.showSnackBar(response.message!, SnackBarStatus.ERROR);
@@ -74,9 +62,29 @@ class EmployerMemberProfileController extends GetxController {
         'Error fetching member profile: $e',
         SnackBarStatus.ERROR,
       );
-      print('Error fetching member profile: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchMemberEngagements(String memberHashcode) async {
+    try {
+      isLoadingEngagements.value = true;
+
+      final response = await _engagementsListRepository.getEngagements(
+        filters: {
+          'employer': memberHashcode,
+          'status': '1',
+        },
+      );
+
+      if (response.success == true && response.data?.list != null) {
+        engagements.value = response.data!.list!;
+      }
+    } catch (e) {
+      print('Error fetching member engagements: $e');
+    } finally {
+      isLoadingEngagements.value = false;
     }
   }
 }

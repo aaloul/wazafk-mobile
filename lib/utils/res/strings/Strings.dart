@@ -1023,6 +1023,10 @@ abstract class Strings {
   String get skills;
 
   String get workHistory;
+  String get hiringHistory;
+  String get jobsDone;
+  String get hires;
+  String get posts;
 
   String get workPackages;
 
@@ -1460,4 +1464,5 @@ abstract class Strings {
   String get edit;
 
   String get locationPin;
+  String get profileReview;
 }

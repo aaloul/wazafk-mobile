@@ -131,9 +131,9 @@ class JobCarouselItem extends StatelessWidget {
             // Title (Job/Service/Package)
             PrimaryText(
               text: _getTitle(),
-              textColor: context.resources.color.colorPrimary,
-              fontWeight: FontWeight.w900,
-              fontSize: 15,
+              textColor: context.resources.color.colorBlack4,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
               maxLines: 1,
             ),
 

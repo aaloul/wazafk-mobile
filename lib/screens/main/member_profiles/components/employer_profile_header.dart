@@ -118,8 +118,8 @@ class _MemberProfileHeaderState extends State<EmployerProfileHeader> {
 
           Positioned(
             bottom: 0,
-            right: 20,
-            left: 20,
+            right: 16,
+            left: 16,
             child: Container(
               height: 65,
               decoration: BoxDecoration(
@@ -134,12 +134,12 @@ class _MemberProfileHeaderState extends State<EmployerProfileHeader> {
 
               child: Row(children: [
 
-                SizedBox(width: 16,),
+                SizedBox(width: 8,),
 
-                ProfileHeaderItem(icon: AppIcons.hires, title: 'Hires', value:  '${widget.user.nbHiredFreelancers ?? '0'}',),
-                ProfileHeaderItem(icon: AppIcons.bag, title: 'Posts', value: '${widget.user.nbJobPosts ?? '0'}',),
-                ProfileHeaderItem(icon: AppIcons.star, title: 'Rating', value: '${widget.user.rating}/5',),
-                SizedBox(width: 16,),
+                ProfileHeaderItem(icon: AppIcons.hires, title: context.resources.strings.hires, value: '${widget.user.nbHiredFreelancers ?? '0'}',),
+                ProfileHeaderItem(icon: AppIcons.bag, title: context.resources.strings.posts, value: '${widget.user.nbJobPosts ?? '0'}',),
+                ProfileHeaderItem(icon: AppIcons.star, title: context.resources.strings.rating, value: '${widget.user.rating}/5',),
+                SizedBox(width: 8,),
 
               ]),
             ),

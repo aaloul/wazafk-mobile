@@ -1543,6 +1543,14 @@ class EnglishStrings extends Strings {
 
   @override
   String get workHistory => "Work History";
+  @override
+  String get hiringHistory => "Hiring History";
+  @override
+  String get jobsDone => "Jobs Done";
+  @override
+  String get hires => "Hires";
+  @override
+  String get posts => "Posts";
 
   @override
   String get workPackages => "Work Packages";
@@ -2215,6 +2223,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get locationPin => "Location Pin";
+
+  @override
+  String get profileReview => "Profile Review";
 
   @override
   String get wouldYouLikeToContactFreelancer => "Would you like to contact the freelancer?";

@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/model/MemberProfileResponse.dart';
 import 'package:wazafak_app/screens/main/member_profiles/components/services/service_carousel_item.dart';
@@ -6,7 +5,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../components/primary_text.dart';
 
-class MemberServicesCarousel extends StatefulWidget {
+class MemberServicesCarousel extends StatelessWidget {
   const MemberServicesCarousel({
     super.key,
     required this.memberProfile,
@@ -16,65 +15,46 @@ class MemberServicesCarousel extends StatefulWidget {
   final MemberProfile memberProfile;
   final Function onBookService;
 
-  @override
-  State<MemberServicesCarousel> createState() => _MemberServicesCarouselState();
-}
-
-class _MemberServicesCarouselState extends State<MemberServicesCarousel> {
-  int _currentPage = 0;
+  static const _cardDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    border: Border.fromBorderSide(
+      BorderSide(color: Color(0xFFE5E5E5), width: 1),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Services Carousel Section
-        if (widget.memberProfile.services != null &&
-            widget.memberProfile.services!.isNotEmpty) ...[
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: PrimaryText(
-              text: context.resources.strings.services,
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-              textColor: context.resources.color.colorGrey,
-            ),
+    final services = memberProfile.services;
+    if (services == null || services.isEmpty) return const SizedBox.shrink();
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: _cardDecoration,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PrimaryText(
+            text: context.resources.strings.services,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            textColor: context.resources.color.colorBlack4,
           ),
-          SizedBox(height: 16),
-          CarouselSlider(
-            options: CarouselOptions(
-              height: 178,
-              enlargeCenterPage: false,
-              enableInfiniteScroll: false,
-              viewportFraction: 0.60,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-            ),
-            items: widget.memberProfile.services!.asMap().entries.map((entry) {
-              final index = entry.key;
-              final service = entry.value;
-              return ServiceCarouselItem(
+          const SizedBox(height: 16),
+          ...services.map(
+            (service) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: ServiceCarouselItem(
                 service: service,
-                isFocused: index == _currentPage,
-                onBookNow: () {
-                  widget.onBookService(service);
-                },
-              );
-            }).toList(),
-          ),
-          if (widget.memberProfile.services != null &&
-              widget.memberProfile.services!.isNotEmpty)
-            Container(
-              width: double.infinity,
-              height: 1,
-              color: context.resources.color.colorGrey.withOpacity(.25),
-              margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                showShadow: true,
+                onBookNow: () => onBookService(service),
+              ),
             ),
+          ),
         ],
-      ],
+      ),
     );
   }
 }

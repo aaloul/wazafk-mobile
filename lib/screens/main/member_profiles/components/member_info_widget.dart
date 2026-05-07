@@ -10,92 +10,90 @@ class MemberInfoWidget extends StatelessWidget {
 
   final User user;
 
+  static const _cardDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    border: Border.fromBorderSide(
+      BorderSide(color: Color(0xFFE5E5E5), width: 1),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PrimaryText(
-            text: context.resources.strings.about,
-            fontSize: 16,
-            fontWeight: FontWeight.w900,
-            textColor: context.resources.color.colorGrey,
-          ),
-
-          SizedBox(height: 4),
-
-          PrimaryText(
-            text: user.info.toString().isEmpty
-                ? context.resources.strings.notAvailable
-                : user.info ?? context.resources.strings.notAvailable,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            textColor: context.resources.color.colorGrey,
-          ),
-
-          SizedBox(height: 12),
-
-          //
-          // Row(
-          //   children: [
-          //     Image.asset(
-          //       AppIcons.location,
-          //       width: 20,
-          //       color: context.resources.color.colorGrey,
-          //     ),
-          //     SizedBox(width: 6),
-          //     PrimaryText(
-          //       text: "N/A",
-          //       textColor: context.resources.color.colorGrey,
-          //     ),
-          //   ],
-          // ),
-          //
-          // SizedBox(height: 6),
-          Row(
+    return Column(
+      children: [
+        // Member since card
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.all(12),
+          decoration: _cardDecoration,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                AppIcons.calendar,
-                width: 20,
-                color: context.resources.color.colorGrey,
+              Row(
+                children: [
+                  Image.asset(
+                    AppIcons.since,
+                    width: 20,
+                  ),
+                  SizedBox(width: 6),
+                  PrimaryText(
+                    text: context.resources.strings.memberSince(user.joinYear ?? ''),
+                    textColor: context.resources.color.colorGrey,
+                  ),
+                ],
               ),
-              SizedBox(width: 6),
+              if(user.website != null)
+                SizedBox(height: 8),
+              if(user.website != null)
+              Row(
+                children: [
+                  Image.asset(
+                    AppIcons.link,
+                    width: 20,
+                  ),
+                  SizedBox(width: 6),
+                  PrimaryText(
+                    text: user.website.toString() == 'null'
+                        ? 'N/A'
+                        : user.website ?? 'N/A',
+                    textColor: context.resources.color.colorGrey,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+
+        // About card
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.all(12),
+          decoration: _cardDecoration,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               PrimaryText(
-                text: context.resources.strings.memberSince(
-                    user.joinYear ?? ''),
+                text: context.resources.strings.about,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                textColor: context.resources.color.colorBlack4,
+              ),
+              SizedBox(height: 8),
+              PrimaryText(
+                text: user.info.toString().isEmpty
+                    ? context.resources.strings.notAvailable
+                    : user.info ?? context.resources.strings.notAvailable,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
                 textColor: context.resources.color.colorGrey,
               ),
             ],
           ),
-          SizedBox(height: 8),
-
-          Row(
-            children: [
-              Image.asset(
-                AppIcons.link,
-                width: 20,
-                color: context.resources.color.colorGrey,
-              ),
-              SizedBox(width: 6),
-              PrimaryText(
-                text: user.website.toString() == 'null'
-                    ? 'N/A'
-                    : user.website ?? 'N/A',
-                textColor: context.resources.color.colorGrey,
-              ),
-            ],
-          ),
-
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: context.resources.color.colorGrey.withOpacity(.25),
-            margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

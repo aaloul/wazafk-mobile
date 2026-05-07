@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/screens/main/member_profiles/components/jobs/member_jobs_carousel.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../components/employer_profile_header.dart';
+import '../components/member_info_widget.dart';
 import '../components/member_rating_info.dart';
 import 'employer_member_profile_controller.dart';
 
@@ -16,7 +18,7 @@ class EmployerMemberProfileScreen extends StatelessWidget {
     final controller = Get.put(EmployerMemberProfileController());
 
     return Scaffold(
-      backgroundColor: context.resources.color.background,
+      backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
@@ -41,20 +43,28 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                   child: Obx(
                     () => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      EmployerProfileHeader( user: controller.user.value!,
-                      ),
+                      children: [
+                        EmployerProfileHeader(user: controller.user.value!),
 
-                      SizedBox(height: 16),
+                        SizedBox(height: 10),
 
+                        MemberInfoWidget(
+                          user: controller.memberProfile.value!.member!,
+                        ),
 
-                      MemberRatingInfo(
-                        memberProfile: controller.memberProfile.value!,
-                      ),
+                        MemberRatingInfo(
+                          memberProfile: controller.memberProfile.value!,
+                        ),
 
-                      SizedBox(height: 24),
-                    ],
-                  ),
+                        MemberJobsCarousel(
+                          engagements: controller.engagements,
+                          isLoading: controller.isLoadingEngagements.value,
+                          title: context.resources.strings.hiringHistory,
+                        ),
+
+                        SizedBox(height: 24),
+                      ],
+                    ),
                   ),
                 );
               }),
