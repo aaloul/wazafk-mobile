@@ -570,7 +570,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                                       ),
                                       SizedBox(width: 6),
                                       PrimaryText(
-                                        text: '$memberFirstName $memberLastName',
+                                        text: '$memberFirstName\n$memberLastName',
                                         fontSize: 12,
                                         maxLines: 2,
                                         fontWeight: FontWeight.w600,
