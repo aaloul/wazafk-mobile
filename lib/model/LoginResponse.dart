@@ -58,6 +58,9 @@ class User {
   String? joinYear;
   String? timezone;
   String? language;
+  String? latitude;
+  String? longitude;
+  String? distance;
   int? idVerified;
   dynamic idVerifiedDatetime;
   dynamic documentType;
@@ -100,6 +103,9 @@ class User {
     this.joinYear,
     this.timezone,
     this.language,
+    this.latitude,
+    this.longitude,
+    this.distance,
     this.idVerified,
     this.idVerifiedDatetime,
     this.documentType,
@@ -145,6 +151,9 @@ class User {
     joinYear: json["join_year"],
     timezone: json["timezone"],
     language: json["language"],
+    latitude: json["latitude"]?.toString(),
+    longitude: json["longitude"]?.toString(),
+    distance: json["distance"]?.toString(),
     idVerified: json["id_verified"],
     idVerifiedDatetime: json["id_verified_datetime"],
     documentType: json["document_type"],

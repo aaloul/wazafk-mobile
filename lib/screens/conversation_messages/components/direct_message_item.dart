@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wazafak_app/components/linkified_text.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
@@ -58,9 +59,10 @@ class DirectMessage extends StatelessWidget {
                       // Text message
                       if (message.message != null &&
                           message.message!.isNotEmpty)
-                        PrimaryText(
-                          text: message.message.toString(),
+                        LinkifiedText(
+                          text: message.message!,
                           textColor: Colors.white,
+                          linkColor: Colors.white,
                           fontSize: 14,
                         ),
                     ],
@@ -159,8 +161,8 @@ class DirectMessage extends StatelessWidget {
                               // Text message
                               if (message.message != null &&
                                   message.message!.isNotEmpty)
-                                PrimaryText(
-                                  text: message.message.toString(),
+                                LinkifiedText(
+                                  text: message.message!,
                                   textColor: context.resources.color.colorBlack,
                                   fontSize: 14,
                                 ),

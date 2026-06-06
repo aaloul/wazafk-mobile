@@ -29,6 +29,7 @@ class AddPackageController extends GetxController {
   final totalPriceController = TextEditingController();
 
   var isLoading = false.obs;
+  var selectedWorkLocationType = Rxn<String>();
 
   final ImagePicker _imagePicker = ImagePicker();
   var packageImage = Rxn<File>();
@@ -154,6 +155,19 @@ class AddPackageController extends GetxController {
     // unitPriceController.text = package.unitPrice ?? '';
     totalPriceController.text = package.totalPrice ?? '';
 
+    // Set work location type
+    switch (package.workLocationType) {
+      case 'RMT':
+        selectedWorkLocationType.value = 'Remote';
+        break;
+      case 'HYB':
+        selectedWorkLocationType.value = 'Hybrid';
+        break;
+      case 'SIT':
+        selectedWorkLocationType.value = 'Onsite';
+        break;
+    }
+
 
 
     // Set package image URL if exists
@@ -196,6 +210,19 @@ class AddPackageController extends GetxController {
     descController.text = package['description'] ?? '';
     // unitPriceController.text = package['unit_price'] ?? '';
     totalPriceController.text = package['total_price'] ?? '';
+
+    // Set work location type
+    switch (package['work_location_type']) {
+      case 'RMT':
+        selectedWorkLocationType.value = 'Remote';
+        break;
+      case 'HYB':
+        selectedWorkLocationType.value = 'Hybrid';
+        break;
+      case 'SIT':
+        selectedWorkLocationType.value = 'Onsite';
+        break;
+    }
 
 
     // Set package image URL if exists
@@ -346,6 +373,13 @@ class AddPackageController extends GetxController {
           .pleaseEnterTotalPrice, SnackBarStatus.ERROR);
       return false;
     }
+    if (selectedWorkLocationType.value == null) {
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectJobType, SnackBarStatus.ERROR);
+      return false;
+    }
 
     return true;
   }
@@ -366,6 +400,19 @@ class AddPackageController extends GetxController {
         };
       }
 
+      String workLocationTypeCode = '';
+      switch (selectedWorkLocationType.value) {
+        case 'Remote':
+          workLocationTypeCode = 'RMT';
+          break;
+        case 'Hybrid':
+          workLocationTypeCode = 'HYB';
+          break;
+        case 'Onsite':
+          workLocationTypeCode = 'SIT';
+          break;
+      }
+
       final data = {
         'title': titleController.text.trim(),
         'description': descController.text.trim(),
@@ -375,6 +422,7 @@ class AddPackageController extends GetxController {
         // 'available_buffer': bufferMinutes,
         'availability': workingHoursData,
         'services': selectedServices.map((s) => s.hashcode).toList(),
+        'work_location_type': workLocationTypeCode,
       };
 
       // Add package image if selected

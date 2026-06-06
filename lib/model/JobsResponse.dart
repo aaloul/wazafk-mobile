@@ -86,6 +86,7 @@ class Job {
   String? responsibilities;
   String? requirememts;
   String? workLocationType;
+  String? type;
   Address? address;
   DateTime? startDatetime;
   DateTime? expiryDatetime;
@@ -128,6 +129,7 @@ class Job {
     this.responsibilities,
     this.requirememts,
     this.workLocationType,
+    this.type,
     this.address,
     this.startDatetime,
     this.expiryDatetime,
@@ -168,6 +170,7 @@ class Job {
     responsibilities: json["responsibilities"],
     requirememts: json["requirememts"],
     workLocationType: json["work_location_type"],
+    type: json["type"],
     address: json["address"] == null ? null : Address.fromJson(json["address"]),
     startDatetime: json["start_datetime"] == null ? null : DateTime.parse(
         json["start_datetime"]),

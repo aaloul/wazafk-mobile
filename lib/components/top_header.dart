@@ -14,6 +14,7 @@ class TopHeader extends StatelessWidget {
     this.endWidget,
     this.color,
     this.hasBack,
+    this.backgroundColor,
   });
 
   final String? title;
@@ -21,21 +22,22 @@ class TopHeader extends StatelessWidget {
   final bool? hasBack;
   final Widget? endWidget;
   final Color? color;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 60,
       decoration: BoxDecoration(
-        color: context.resources.color.colorWhite,
-        boxShadow: [
+        color: backgroundColor ?? context.resources.color.colorWhite,
+        boxShadow: backgroundColor == null ? [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             offset: Offset(0, 2),
             blurRadius: 4,
             spreadRadius: 0,
           ),
-        ],
+        ] : null,
       ),
       padding: const EdgeInsets.symmetric( horizontal: 12),
       child: Stack(

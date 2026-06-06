@@ -58,14 +58,14 @@ class NotificationsListWidget extends StatelessWidget {
         color: context.resources.color.colorPrimary,
         child: ListView.separated(
           controller: controller.scrollController,
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.zero,
           itemCount:
               controller.notifications.length +
               (controller.isLoadingMore.value ? 1 : 0),
-          separatorBuilder: (_, __) => Container(
+          separatorBuilder: (_, __) => Divider(
             height: 1,
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            color: Color(0xFFE9E9E9),
+            thickness: 1,
+            color: context.resources.color.colorGrey4,
           ),
           itemBuilder: (context, index) {
             if (index == controller.notifications.length) {
@@ -80,18 +80,27 @@ class NotificationsListWidget extends StatelessWidget {
             }
 
             final notification = controller.notifications[index];
-            return NotificationItem(
-              notification: notification,
-              onTap: () {
-                NotificationDetailsSheet.show(
-                  context,
+            final isBookingRequest =
+                controller.isActionableBookingRequest(notification);
+            return Obx(() => NotificationItem(
                   notification: notification,
-                  onMarkAsRead: () {
-                    controller.markAsRead(notification.hashcode ?? '');
+                  onTap: () {
+                    NotificationDetailsSheet.show(
+                      context,
+                      notification: notification,
+                      onMarkAsRead: () {
+                        controller.markAsRead(notification.hashcode ?? '');
+                      },
+                    );
                   },
-                );
-              },
-            );
+                  onAccept: isBookingRequest
+                      ? () => controller.acceptBookingRequest(notification)
+                      : null,
+                  onDecline: isBookingRequest
+                      ? () => controller.declineBookingRequest(notification)
+                      : null,
+                  isProcessing: controller.isProcessing(notification),
+                ));
           },
         ),
       );

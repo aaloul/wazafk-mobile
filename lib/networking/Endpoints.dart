@@ -42,7 +42,9 @@ class Endpoints {
   static const profile = 'member/profile';
   static const memberProfile = 'member/memberProfile';
   static const editProfile = 'member/editProfile';
+  static const editProfileEmail = 'member/editProfileEmail';
   static const editProfileImage = 'member/editProfileImage';
+  static const checkEmailExists = 'member/checkEmailExists';
   static const saveInterests = 'member/saveInterests';
   static const interests = 'member/interests';
   static const addSkill = 'member/addSkill';
@@ -101,6 +103,14 @@ class Endpoints {
   static const submitPayment = 'wallet/submitPayment';
   static const payments = 'wallet/payments';
   static const chargeWalletWithPayment = 'wallet/chargeWalletWithPayment';
+  static const paymentProfiles = 'wallet/paymentProfiles';
+  static const savePaymentProfile = 'wallet/savePaymentProfile';
+  static const paymentProfileStatus = 'wallet/paymentProfileStatus';
+  static const paymentProfileVerifyStatus = 'wallet/paymentProfileVerifyStatus';
+  static const cashFees = 'wallet/cashFees';
+  static const submitCashRequest = 'wallet/submitCashRequest';
+  static const cancelCashRequest = 'wallet/cancelCashRequest';
+  static const cashRequests = 'wallet/cashRequests';
 
   //FAVORITE
   static const addFavoriteMember = 'favorite/addFavoriteMember';

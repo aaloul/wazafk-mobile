@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../components/search_widget.dart';
+import '../../../components/sheets/sheets_helper.dart';
 import '../../../constants/route_constant.dart';
 import '../../../utils/res/AppIcons.dart';
 import 'components/employer_data/employer_home_data_widget.dart';
@@ -53,14 +54,30 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 8),
-                      Container(
-                        width: 45,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: context.resources.color.colorPrimary,
-                          borderRadius: BorderRadius.circular(12),
+                      GestureDetector(
+                        onTap: () {
+                          SheetHelper.showFilterSheet(
+                            context,
+                            initialFilters:
+                                controller.activeFilters.value.copy(),
+                            onApply: controller.applyFilters,
+                          );
+                        },
+                        child: Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: context.resources.color.colorPrimary,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              AppIcons.filter,
+                              width: 20,
+                              color: context.resources.color.colorWhite,
+                            ),
+                          ),
                         ),
-                        child: Center(child: Image.asset(AppIcons.filter, width: 20,color: context.resources.color.colorWhite,)),
                       ),
                       SizedBox(width: 16),
 

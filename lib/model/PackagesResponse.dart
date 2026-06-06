@@ -78,6 +78,7 @@ class Package {
   List<Service>? services;
   List<Availability>? availability;
   bool? isFavorite;
+  String? workLocationType;
 
   var checked = false.obs;
 
@@ -103,6 +104,7 @@ class Package {
     this.services,
     this.availability,
     this.isFavorite,
+    this.workLocationType,
   });
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
@@ -135,6 +137,7 @@ class Package {
             json["availability"]!.map((x) => Availability.fromJson(x)),
           ),
     isFavorite: json["is_favorite"],
+    workLocationType: json["work_location_type"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -163,6 +166,7 @@ class Package {
         ? []
         : List<dynamic>.from(availability!.map((x) => x.toJson())),
     "is_favorite": isFavorite,
+    "work_location_type": workLocationType,
   };
 }
 

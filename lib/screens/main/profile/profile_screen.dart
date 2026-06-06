@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
+import '../../../components/sheets/sheets_helper.dart';
+import '../../../constants/route_constant.dart';
 import '../../../utils/res/colors/hex_color.dart';
 import '../home/home_controller.dart';
 import 'components/profile_header.dart';
@@ -85,7 +88,160 @@ class _ProfileScreenState extends State<ProfileScreen>
                 border: HexColor("#E5E5E5"),
                 icon: AppIcons.bag,
               )),
-              SizedBox(height: 10),
+              SizedBox(height: 12),
+
+
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            decoration: BoxDecoration(
+              color: context.resources.color.colorWhite,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: context.resources.color.colorGrey25,
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(RouteConstant.personalInformationScreen);
+
+                  },
+                  child: Column(
+                    children: [
+
+                      Container(
+                        width: 60,
+                        height: 60,
+                        padding: EdgeInsets.all(14),
+                        decoration:
+                        BoxDecoration(
+                          color: context.resources.color.colorPrimary.withOpacity(.2),
+                          border: Border.all(
+                            color: context.resources.color.colorPrimary.withOpacity(.2),
+                            width: 1
+                          ),
+                          borderRadius: BorderRadiusGeometry.circular(20)
+                        ),
+                        child: Image.asset(AppIcons.profile3,width: 24,height: 24,),
+                      ),
+                      SizedBox(height: 6,),
+                      PrimaryText(text: 'Profile',fontWeight: FontWeight.w500,
+                        textColor: context.resources.color.colorGrey26,
+                        fontSize: 12,
+                      )
+                    ],
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () => controller.openSupport(),
+                  child: Column(
+                    children: [
+
+                      Container(
+                        width: 60,
+                        height: 60,
+                        padding: EdgeInsets.all(14),
+                        decoration:
+                        BoxDecoration(
+                          color: context.resources.color.colorPrimary.withOpacity(.2),
+                          border: Border.all(
+                            color: context.resources.color.colorPrimary.withOpacity(.2),
+                            width: 1
+                          ),
+                          borderRadius: BorderRadiusGeometry.circular(20)
+                        ),
+                        child: Image.asset(AppIcons.support,width: 24,height: 24,),
+                      ),
+                      SizedBox(height: 6,),
+                      PrimaryText(text: 'Support',fontWeight: FontWeight.w500,
+                        textColor: context.resources.color.colorGrey26,
+                        fontSize: 12,
+                      )
+                    ],
+                  ),
+                ),
+
+
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(RouteConstant.paymentMethodsScreen);
+
+                  },
+                  child: Column(
+                    children: [
+
+                      Container(
+                        width: 60,
+                        height: 60,
+                        padding: EdgeInsets.all(14),
+                        decoration:
+                        BoxDecoration(
+                          color: context.resources.color.colorPrimary.withOpacity(.2),
+                          border: Border.all(
+                            color: context.resources.color.colorPrimary.withOpacity(.2),
+                            width: 1
+                          ),
+                          borderRadius: BorderRadiusGeometry.circular(20)
+                        ),
+                        child: Image.asset(AppIcons.payment,width: 24,height: 24,),
+                      ),
+                      SizedBox(height: 6,),
+                      PrimaryText(text: 'Payments',fontWeight: FontWeight.w500,
+                        textColor: context.resources.color.colorGrey26,
+                        fontSize: 12,
+                      )
+                    ],
+                  ),
+                ),
+
+
+                GestureDetector(
+                  onTap: (){
+                    SheetHelper.showChangeLanguageSheet(context);
+                  },
+                  child: Column(
+                    children: [
+
+                      Container(
+                        width: 60,
+                        height: 60,
+                        padding: EdgeInsets.all(14),
+                        decoration:
+                        BoxDecoration(
+                          color: context.resources.color.colorPrimary.withOpacity(.2),
+                          border: Border.all(
+                            color: context.resources.color.colorPrimary.withOpacity(.2),
+                            width: 1
+                          ),
+                          borderRadius: BorderRadiusGeometry.circular(20)
+                        ),
+                        child: Image.asset(AppIcons.language,width: 24,height: 24,),
+                      ),
+                      SizedBox(height: 6,),
+                      PrimaryText(text: 'Language',fontWeight: FontWeight.w500,
+                        textColor: context.resources.color.colorGrey26,
+                        fontSize: 12,
+                      )
+                    ],
+                  ),
+                ),
+
+
+
+              ],
+            ),
+            ),
+
+
+              SizedBox(height: 4),
+
+
 
               ListView.builder(
                 padding: EdgeInsets.zero,

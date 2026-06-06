@@ -76,6 +76,7 @@ class Service {
   String? pricingType;
   String? totalPrice;
   String? portfolio;
+  String? portfolioFile;
   int? featured;
   String? experience;
   int? availableDuration;
@@ -90,6 +91,7 @@ class Service {
   String? memberImage;
   String? memberRating;
   String? memberTitle;
+  String? workLocationType;
 
   var checked = false.obs;
 
@@ -110,6 +112,7 @@ class Service {
     this.unitPrice,
     this.totalPrice,
     this.portfolio,
+    this.portfolioFile,
     this.featured,
     this.experience,
     this.availableDuration,
@@ -124,6 +127,7 @@ class Service {
     this.memberImage,
     this.memberRating,
     this.memberTitle,
+    this.workLocationType,
   });
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
@@ -143,6 +147,7 @@ class Service {
     unitPrice: json["unit_price"],
     totalPrice: json["total_price"],
     portfolio: json["portfolio"],
+    portfolioFile: json["portfolio_file"],
     featured: json["featured"],
     experience: json["experience"],
     availableDuration: json["available_duration"],
@@ -171,6 +176,7 @@ class Service {
     memberImage: json["member_image"],
     memberRating: json["member_rating"],
     memberTitle: json["member_title"],
+    workLocationType: json["work_location_type"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -190,6 +196,7 @@ class Service {
     "unit_price": unitPrice,
     "total_price": totalPrice,
     "portfolio": portfolio,
+    "portfolio_file": portfolioFile,
     "featured": featured,
     "experience": experience,
     "available_duration": availableDuration,
@@ -212,6 +219,7 @@ class Service {
     "member_image": memberImage,
     "member_title": memberTitle,
     "member_rating": memberRating,
+    "work_location_type": workLocationType,
   };
 }
 

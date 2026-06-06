@@ -54,31 +54,47 @@ class ProfileHeader extends StatelessWidget {
 
               SizedBox(width: 10),
 
-              Obx(
-                () => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PrimaryText(
-                      text:
-                          "${controller.profileData.value?.firstName ?? Prefs.getFName} ${controller.profileData.value?.lastName ?? Prefs.getLName}",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      textColor: context.resources.color.colorBlack,
-                    ),
-
-                    SizedBox(height: 4),
-
-                    Obx(
-                      () => UserTypeTabBar(
-                        isFreelancer: controller.isFreelancerMode.value,
-                        onSelect: (isFreelancer) {
-                          controller.toggleUserMode(isFreelancer);
-                        },
+              Expanded(
+                child: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      PrimaryText(
+                        text:
+                            "${controller.profileData.value?.firstName ?? Prefs.getFName} ${controller.profileData.value?.lastName ?? Prefs.getLName}",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        textColor: context.resources.color.colorBlack,
                       ),
-                    ),
-                  ],
+
+                      SizedBox(height: 4),
+
+                      Obx(
+                        () => UserTypeTabBar(
+                          isFreelancer: controller.isFreelancerMode.value,
+                          onSelect: (isFreelancer) {
+                            controller.toggleUserMode(isFreelancer);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
+              SizedBox(width: 8),
+
+              Obx(() {
+                final isVerified =
+                    controller.profileData.value?.idVerified == 1;
+                return _VerifiedPill(
+                  isVerified: isVerified,
+                  onTap: isVerified
+                      ? null
+                      : () => Get.toNamed(
+                          RouteConstant.uploadDocumentsScreen),
+                );
+              }),
             ],
           ),
 
@@ -142,52 +158,67 @@ class ProfileHeader extends StatelessWidget {
 
                         Row(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(AppIcons.topUp, width: 38),
-                                SizedBox(height: 4),
-                                PrimaryText(
-                                  text: 'Top Up',
-                                  fontWeight: FontWeight.w600,
-                                  textColor:
-                                      context.resources.color.colorSnowWhite,
-                                  fontSize: 12,
-                                ),
-                              ],
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => Get.toNamed(
+                                  RouteConstant.topUpScreen),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(AppIcons.topUp, width: 38),
+                                  SizedBox(height: 4),
+                                  PrimaryText(
+                                    text: 'Top Up',
+                                    fontWeight: FontWeight.w600,
+                                    textColor:
+                                        context.resources.color.colorSnowWhite,
+                                    fontSize: 12,
+                                  ),
+                                ],
+                              ),
                             ),
 
                             SizedBox(width: 16,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(AppIcons.withdraw, width: 38),
-                                SizedBox(height: 4),
-                                PrimaryText(
-                                  text: 'Withdraw',
-                                  fontWeight: FontWeight.w600,
-                                  textColor:
-                                      context.resources.color.colorSnowWhite,
-                                  fontSize: 12,
-                                ),
-                              ],
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => Get.toNamed(
+                                  RouteConstant.withdrawScreen),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(AppIcons.withdraw, width: 38),
+                                  SizedBox(height: 4),
+                                  PrimaryText(
+                                    text: 'Withdraw',
+                                    fontWeight: FontWeight.w600,
+                                    textColor:
+                                        context.resources.color.colorSnowWhite,
+                                    fontSize: 12,
+                                  ),
+                                ],
+                              ),
                             ),
 
                             Spacer(),
 
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(AppIcons.history, width: 38),
-                                SizedBox(height: 4),
-                                PrimaryText(
-                                  text: 'History',
-                                  fontWeight: FontWeight.w600,
-                                  textColor:
-                                  context.resources.color.colorSnowWhite,
-                                  fontSize: 12,
-                                ),
-                              ],
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => Get.toNamed(
+                                  RouteConstant.walletHistoryScreen),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(AppIcons.history, width: 38),
+                                  SizedBox(height: 4),
+                                  PrimaryText(
+                                    text: 'History',
+                                    fontWeight: FontWeight.w600,
+                                    textColor:
+                                    context.resources.color.colorSnowWhite,
+                                    fontSize: 12,
+                                  ),
+                                ],
+                              ),
                             ),
 
 
@@ -200,64 +231,58 @@ class ProfileHeader extends StatelessWidget {
               ],
             ),
           ),
-          // Verification Status
-          Obx(() {
-            final isVerified = controller.profileData.value?.idVerified == 1;
-            if (isVerified) {
-              return SizedBox.shrink();
-            }
-
-            return Container(
-              margin: EdgeInsets.only(top: 12),
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: context.resources.color.colorPrimary.withOpacity(.30),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.warning_amber_rounded,
-                    color: context.resources.color.colorWhite,
-                    size: 20,
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: PrimaryText(
-                      text: context.resources.strings.notVerified,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      textColor: context.resources.color.colorWhite,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed(RouteConstant.uploadDocumentsScreen);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: context.resources.color.colorWhite,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: PrimaryText(
-                        text: context.resources.strings.verifyNow,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        textColor: context.resources.color.colorPrimary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-
-
         ],
+      ),
+    );
+  }
+}
+
+/// Compact verification pill placed top-right of the profile header per
+/// Figma p117 — light-green for Verified (with a check-circle icon),
+/// light-red for Not Verified (with an info-circle icon). The "Not Verified"
+/// variant is tappable and routes to the upload-documents flow.
+class _VerifiedPill extends StatelessWidget {
+  const _VerifiedPill({required this.isVerified, required this.onTap});
+
+  final bool isVerified;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.resources.color;
+    final strings = context.resources.strings;
+    final bg = isVerified
+        ? colors.colorGreen5
+        : const Color(0xFFFFE5E5);
+    final fg = isVerified ? colors.colorGreen6 : colors.colorRed2;
+    final label =
+        isVerified ? strings.verifiedPill : strings.notVerified;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PrimaryText(
+              text: label,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              textColor: fg,
+            ),
+            const SizedBox(width: 5),
+            Image.asset(
+              AppIcons.checkCircle,
+              width: 13,
+              color: fg,
+            ),
+          ],
+        ),
       ),
     );
   }

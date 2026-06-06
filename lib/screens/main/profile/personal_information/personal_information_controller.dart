@@ -74,11 +74,12 @@ class PersonalInformationController extends GetxController {
     try {
       isLoading.value = true;
 
-      // Prepare data
+      // Prepare data — `email`, `latitude`, `longitude` are no longer
+      // accepted by editProfile. Email changes go through the dedicated
+      // editProfileEmail flow (with OTP verification).
       Map<String, dynamic> data = {
         'first_name': firstNameController.text,
         'last_name': lastNameController.text,
-        'email': emailController.text,
         'gender': selectedGender.value.substring(0, 1),
         'website': portfolioLinkController.text,
         'info': aboutController.text,

@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 // import 'package:share_plus/share_plus.dart';
 import 'package:wazafak_app/components/dialog/dialog_helper.dart';
+import 'package:wazafak_app/components/sheets/sheets_helper.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/repository/account/delete_account_repository.dart';
 import 'package:wazafak_app/repository/account/logout_repository.dart';
+import 'package:wazafak_app/repository/support/last_support_conversation_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
@@ -14,6 +16,7 @@ import '../../../model/SettingsModel.dart';
 class ProfileController extends GetxController {
   final _logoutRepository = LogoutRepository();
   final _deleteAccountRepository = DeleteAccountRepository();
+  final _lastSupportRepository = LastSupportConversationRepository();
 
   var isLoading = false.obs;
   // Settings groups
@@ -221,7 +224,7 @@ class ProfileController extends GetxController {
         Get.toNamed(RouteConstant.privacySharingScreen);
         break;
       case 7: // Change Language
-        Get.toNamed(RouteConstant.changeLanguageScreen);
+        SheetHelper.showChangeLanguageSheet(Get.context!);
         break;
       case 8: // Way of Payment
         Get.toNamed(RouteConstant.termsScreen);
@@ -246,6 +249,9 @@ class ProfileController extends GetxController {
         break;
       case 15: // Delete Account
         deleteAccount();
+        break;
+      case 30: // Voucher
+        Get.toNamed(RouteConstant.voucherScreen);
         break;
     }
   }
@@ -358,6 +364,25 @@ class ProfileController extends GetxController {
 
   void navigateToServices() {
     Get.toNamed(RouteConstant.servicesScreen);
+  }
+
+  /// Profile-tile Support entry: resume the last support conversation if one
+  /// exists, otherwise drop the user into the Help Center to start a new one.
+  Future<void> openSupport() async {
+    try {
+      isLoading.value = true;
+      final response = await _lastSupportRepository.getLastSupportConversation();
+      final convo = response.data;
+      if (response.success == true && convo != null) {
+        Get.toNamed(RouteConstant.supportChatScreen, arguments: convo);
+      } else {
+        Get.toNamed(RouteConstant.helpCenterScreen);
+      }
+    } catch (e) {
+      Get.toNamed(RouteConstant.helpCenterScreen);
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void navigateToPacks() {

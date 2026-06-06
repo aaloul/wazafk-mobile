@@ -1,4 +1,6 @@
 import 'package:http/http.dart' as http;
+import 'package:wazafak_app/model/ApiResponse.dart';
+import 'package:wazafak_app/model/CheckEmailResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/model/MemberProfileResponse.dart';
 
@@ -32,6 +34,25 @@ class ProfileService {
   Future<LoginResponse> editProfile(Map<String, dynamic> data) async {
     final response = await _helper.post(Endpoints.editProfile, data);
     return LoginResponse.fromJson(response);
+  }
+
+  Future<CheckEmailResponse> checkEmailExists(String email) async {
+    final response = await _helper.post(
+      Endpoints.checkEmailExists,
+      {'email': email},
+    );
+    return CheckEmailResponse.fromJson(response);
+  }
+
+  Future<ApiResponse> editProfileEmail({
+    required String email,
+    required String otp,
+  }) async {
+    final response = await _helper.post(
+      Endpoints.editProfileEmail,
+      {'email': email, 'otp': otp},
+    );
+    return ApiResponse.fromJson(response);
   }
 
   Future<LoginResponse> editProfileImage(String imagePath) async {

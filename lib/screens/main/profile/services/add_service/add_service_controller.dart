@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,6 +39,7 @@ class AddServiceController extends GetxController {
   var isLoadingSubcategories = false.obs;
 
   var selectedPricingType = ''.obs;
+  var selectedWorkLocationType = Rxn<String>();
   var selectedSkills = <Skill>[].obs;
   var selectedAreas = <AreaModel>[].obs;
   var isLoading = false.obs;
@@ -51,6 +53,13 @@ class AddServiceController extends GetxController {
   var portfolioImageBase64 = Rxn<String>();
   var portfolioImageUrl =
       Rxn<String>(); // For displaying existing image from server
+
+  var portfolioFile = Rxn<File>();
+  var portfolioFileBase64 = Rxn<String>();
+  var portfolioFileName = Rxn<String>();
+  var portfolioFileSize = Rxn<int>();
+  var portfolioFileExtension = Rxn<String>();
+  var portfolioFileUrl = Rxn<String>();
 
   var isEditMode = false.obs;
   String? editServiceHashcode;
@@ -164,6 +173,19 @@ class AddServiceController extends GetxController {
     workExperienceController.text = service.experience ?? '';
 
 
+    // Set work location type
+    switch (service.workLocationType) {
+      case 'RMT':
+        selectedWorkLocationType.value = 'Remote';
+        break;
+      case 'HYB':
+        selectedWorkLocationType.value = 'Hybrid';
+        break;
+      case 'SIT':
+        selectedWorkLocationType.value = 'Onsite';
+        break;
+    }
+
     // Set selected skills
     if (service.skills != null) {
       selectedSkills.value = service.skills!;
@@ -172,6 +194,12 @@ class AddServiceController extends GetxController {
     // Set portfolio image URL if exists
     if (service.portfolio != null && service.portfolio!.isNotEmpty) {
       portfolioImageUrl.value = service.portfolio;
+    }
+
+    // Set portfolio file URL if exists
+    if (service.portfolioFile != null && service.portfolioFile!.isNotEmpty) {
+      portfolioFileUrl.value = service.portfolioFile;
+      portfolioFileName.value = service.portfolioFile!.split('/').last;
     }
 
     // Set selected areas
@@ -472,6 +500,77 @@ class AddServiceController extends GetxController {
     portfolioImageUrl.value = null;
   }
 
+  Future<void> pickPortfolioFile(BuildContext context) async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
+      );
+
+      if (result != null && result.files.single.path != null) {
+        final file = File(result.files.single.path!);
+        portfolioFile.value = file;
+        portfolioFileName.value = result.files.single.name;
+        portfolioFileSize.value = result.files.single.size;
+        portfolioFileExtension.value = result.files.single.extension?.toLowerCase();
+
+        final bytes = await file.readAsBytes();
+        final mimeType = _getFileMimeType(portfolioFileExtension.value);
+        portfolioFileBase64.value = "data:$mimeType;base64,${base64Encode(bytes)}";
+
+        constants.showSnackBar(
+          Resources.of(Get.context!).strings.portfolioImageSelectedSuccessfully,
+          SnackBarStatus.SUCCESS,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.errorSelectingCv(e.toString()),
+        SnackBarStatus.ERROR,
+      );
+      print('Error picking portfolio file: $e');
+    }
+  }
+
+  void removePortfolioFile() {
+    portfolioFile.value = null;
+    portfolioFileBase64.value = null;
+    portfolioFileName.value = null;
+    portfolioFileSize.value = null;
+    portfolioFileExtension.value = null;
+    portfolioFileUrl.value = null;
+  }
+
+  String _getFileMimeType(String? extension) {
+    switch (extension) {
+      case 'pdf': return 'application/pdf';
+      case 'doc': return 'application/msword';
+      case 'docx': return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      case 'jpg':
+      case 'jpeg': return 'image/jpeg';
+      case 'png': return 'image/png';
+      default: return 'application/octet-stream';
+    }
+  }
+
+  IconData getPortfolioFileIcon() {
+    switch (portfolioFileExtension.value) {
+      case 'pdf': return Icons.picture_as_pdf;
+      case 'doc':
+      case 'docx': return Icons.description;
+      case 'jpg':
+      case 'jpeg':
+      case 'png': return Icons.image;
+      default: return Icons.insert_drive_file;
+    }
+  }
+
+  String getFormattedFileSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(2)} KB';
+    return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
+  }
+
   bool validateFields() {
     if (titleController.text.trim().isEmpty) {
       constants.showSnackBar(Resources
@@ -502,6 +601,13 @@ class AddServiceController extends GetxController {
           .of(Get.context!)
           .strings
           .pleaseSelectCategory, SnackBarStatus.ERROR);
+      return false;
+    }
+    if (selectedWorkLocationType.value == null) {
+      constants.showSnackBar(Resources
+          .of(Get.context!)
+          .strings
+          .pleaseSelectJobType, SnackBarStatus.ERROR);
       return false;
     }
 
@@ -567,6 +673,19 @@ class AddServiceController extends GetxController {
         };
       }
 
+      String workLocationTypeCode = '';
+      switch (selectedWorkLocationType.value) {
+        case 'Remote':
+          workLocationTypeCode = 'RMT';
+          break;
+        case 'Hybrid':
+          workLocationTypeCode = 'HYB';
+          break;
+        case 'Onsite':
+          workLocationTypeCode = 'SIT';
+          break;
+      }
+
       final data = {
         'title': titleController.text,
         'description': descController.text,
@@ -576,6 +695,7 @@ class AddServiceController extends GetxController {
         'skills': selectedSkills.map((s) => s.hashcode).toList(),
         'locations': selectedAreas.map((a) => a.code).join(','),
         'availability': workingHoursData,
+        'work_location_type': workLocationTypeCode,
       };
 
        if (selectedPricingType.value == Resources.of(Get.context!).strings.hourlyRateOption) {
@@ -584,6 +704,10 @@ class AddServiceController extends GetxController {
 
        if (selectedPricingType.value != Resources.of(Get.context!).strings.hourlyRateOption) {
          data['total_price'] = totalPriceController.text.trim();
+      }
+
+      if (portfolioFileBase64.value != null) {
+        data['portfolio_file'] = portfolioFileBase64.value!;
       }
 
       final response = isEditMode.value

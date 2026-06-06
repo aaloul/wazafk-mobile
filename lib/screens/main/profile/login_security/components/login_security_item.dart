@@ -15,43 +15,44 @@ class LoginSecurityItem extends StatelessWidget {
 
   final String title;
   final String icon;
-  final Function onClick;
+  final VoidCallback onClick;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.resources.color;
     return GestureDetector(
-      onTap: () {
-        onClick.call();
-      },
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 3),
-        decoration: BoxDecoration(
-          color: context.resources.color.colorWhite,
-        ),
+      behavior: HitTestBehavior.opaque,
+      onTap: onClick,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
         child: Row(
           children: [
-            Image.asset(icon, width: 22),
-
+            Image.asset(
+              icon,
+              width: 18,
+              color: colors.colorGrey,
+            ),
             Container(
               width: 1,
-              height: 20,
-              color: context.resources.color.colorGrey25,
-              margin: EdgeInsets.symmetric(horizontal: 12),
+              height: 16,
+              color: colors.colorGrey4,
+              margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
-
             Expanded(
               child: PrimaryText(
                 text: title,
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
-                textColor: context.resources.color.colorGrey26,
+                fontWeight: FontWeight.w400,
+                textColor: colors.colorBlack,
               ),
             ),
-
             RotatedBox(
               quarterTurns: Utils().isRTL() ? 2 : 0,
-              child: Image.asset(AppIcons.arrowRight2, width: 18,color: context.resources.color.colorGrey26,),
+              child: Image.asset(
+                AppIcons.arrowRight2,
+                width: 14,
+                color: colors.colorGrey,
+              ),
             ),
           ],
         ),

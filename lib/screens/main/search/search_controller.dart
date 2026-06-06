@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/sheets/filter_sheet.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
@@ -8,6 +9,7 @@ import 'package:wazafak_app/model/SearchHistoryResponse.dart';
 import 'package:wazafak_app/model/SearchResponse.dart';
 import 'package:wazafak_app/model/SearchSuggestionResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
+import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_job_repository.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_package_repository.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_service_repository.dart';
@@ -45,6 +47,14 @@ class SearchController extends GetxController {
   var isLoading = false.obs;
   var isLoadingMore = false.obs;
   var selectedCategory = Rxn<Category>();
+  var selectedSubcategory = Rxn<Category>();
+  var subcategories = <Category>[].obs;
+  var isLoadingSubcategories = false.obs;
+  final _categoriesRepository = CategoriesRepository();
+
+  /// Filters applied via the filter sheet (sort, budget, distance, rating,
+  /// applicants, optional category override).
+  final activeFilters = HomeFilters().obs;
 
   // Results for different types
   var searchResults = <SearchData>[].obs;
@@ -70,11 +80,65 @@ class SearchController extends GetxController {
 
     // Get category from arguments if provided
     if (Get.arguments != null && Get.arguments is Category) {
-      selectedCategory.value = Get.arguments as Category;
+      final cat = Get.arguments as Category;
+      if (cat.hasSubCategories == true) {
+        selectedCategory.value = cat;
+        fetchSubcategories(cat.hashcode!);
+      } else if (cat.parentHashcode != null) {
+        selectedSubcategory.value = cat;
+        fetchSubcategories(cat.parentHashcode.toString());
+      } else {
+        selectedCategory.value = cat;
+      }
     }
 
     // Fetch search history on init
     fetchSearchHistory();
+  }
+
+  Future<void> fetchSubcategories(String parentHashcode) async {
+    try {
+      isLoadingSubcategories.value = true;
+      final response = await _categoriesRepository.getCategories(
+        parent: parentHashcode,
+        type: 'S',
+      );
+      if (response.success == true && response.data?.list != null) {
+        subcategories.value = response.data!.list!;
+      }
+    } catch (_) {
+      // silent — chips just won't appear
+    } finally {
+      isLoadingSubcategories.value = false;
+    }
+  }
+
+  void selectSubcategory(Category? subcategory) {
+    selectedSubcategory.value = subcategory;
+    if (searchQuery.value.isNotEmpty) {
+      search(searchQuery.value);
+    }
+  }
+
+  void applyFilters(HomeFilters filters) {
+    activeFilters.value = filters;
+    if (searchQuery.value.isNotEmpty) {
+      search(searchQuery.value);
+    }
+  }
+
+  /// Resolved category hashcode applied to a search request.
+  /// Priority: sheet's category > inline subcategory chip > parent category.
+  String? _resolveCategoryHashcode() {
+    return activeFilters.value.category?.hashcode ??
+        selectedSubcategory.value?.hashcode ??
+        selectedCategory.value?.hashcode;
+  }
+
+  Map<String, String> _filterParams() {
+    // Remove the category param — the search screen resolves it separately
+    // (sheet override > inline subcategory chip > parent category).
+    return activeFilters.value.toSearchParams()..remove('category');
   }
 
   Future<void> search(String query) async {
@@ -100,10 +164,13 @@ class SearchController extends GetxController {
         'page': '1',
       };
 
-      // Add category filter if selected
-      if (selectedCategory.value?.hashcode != null) {
-        filters['category'] = selectedCategory.value!.hashcode!;
+      // Add category filter — sheet override > chip > parent
+      final categoryHashcode = _resolveCategoryHashcode();
+      if (categoryHashcode != null) {
+        filters['category'] = categoryHashcode;
       }
+      // Merge in filter-sheet params (sort, price, distance, rating, applicants)
+      filters.addAll(_filterParams());
 
       if (isFreelancerMode) {
         // Freelancer mode: search for jobs
@@ -271,10 +338,13 @@ class SearchController extends GetxController {
         'page': currentPage.value.toString(),
       };
 
-      // Add category filter if selected
-      if (selectedCategory.value?.hashcode != null) {
-        filters['category'] = selectedCategory.value!.hashcode!;
+      // Add category filter — sheet override > chip > parent
+      final categoryHashcode = _resolveCategoryHashcode();
+      if (categoryHashcode != null) {
+        filters['category'] = categoryHashcode;
       }
+      // Merge in filter-sheet params (sort, price, distance, rating, applicants)
+      filters.addAll(_filterParams());
 
       if (isFreelancerMode) {
         // Freelancer mode: search for jobs

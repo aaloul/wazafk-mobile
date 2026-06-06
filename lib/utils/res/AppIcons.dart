@@ -97,7 +97,52 @@ class AppIcons {
   static const String link = '${base}link.png';
   static const String clock = '${base}clock.png';
   static const String since = '${base}since.png';
+  static const String profile3 = '${base}profile3.png';
+  static const String support = '${base}support.png';
+  static const String payment = '${base}payment.png';
+  static const String language = '${base}language.png';
   static const String servicePosted = '${base}service_posted.png';
   static const String serviceRemoved = '${base}service_removed.png';
   static const String notification2 = '${base}notification2.png';
+
+  // Rate Engagement
+  static const String rateIllustration = '${base}rate_illustration.png';
+
+  // Chat attachment sheet
+  static const String attachGallery = '${base}attach_gallery.png';
+  static const String attachFile = '${base}attach_file.png';
+  static const String attachLocation = '${base}attach_location.png';
+
+  // Engagement details file cards
+  static const String fileCv = '${base}file_cv_icon.png';
+  static const String fileDownload = '${base}file_download_icon.png';
+
+  // Wallet history arrows (Figma p102)
+  static const String walletCreditArrow = '${base}wallet_credit_arrow.png';
+  static const String walletDebitArrow = '${base}wallet_debit_arrow.png';
+
+  // My Documents (Figma p149/p152)
+  static const String docIdCard = '${base}doc_id_card.png';
+  static const String docPassport = '${base}doc_passport.png';
+
+  // Share App (Figma p166 / p189)
+  static const String shareVerifyIcon = '${base}share_verify_icon.png';
+  static const String shareActionIcon = '${base}share_action_icon.png';
+  static const String shareDownloadIcon = '${base}share_download_icon.png';
+  static const String inviteWhatsappIcon = '${base}invite_whatsapp_icon.png';
+  static const String inviteEmailIcon = '${base}invite_email_icon.png';
+
+  // Payment methods (Figma p146)
+  static const String brandMaster = '${base}brand_master.png';
+  static const String brandOmt = '${base}brand_omt.png';
+  static const String brandVisa = '${base}brand_visa.png';
+  static const String brandWhish = '${base}brand_whish.png';
+  static const String addCardPlus = '${base}add_card_plus.png';
+
+  // Filter Sheet
+  static const String filterRecommended = '${base}filter_recommended.png';
+  static const String filterNewest = '${base}filter_newest.png';
+  static const String filterHighestBudget = '${base}filter_highest_budget.png';
+  static const String filterRating = '${base}filter_rating.png';
+  static const String filterChevronDown = '${base}filter_chevron_down.png';
 }

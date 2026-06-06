@@ -179,6 +179,9 @@ class ArabicStrings extends Strings {
   String get portfolioLink => "رابط المعرض";
 
   @override
+  String get portfolio => "المعرض";
+
+  @override
   String get about => "نبذة";
 
   @override
@@ -287,6 +290,9 @@ class ArabicStrings extends Strings {
   String get acceptRequest => "قبول الطلب";
 
   @override
+  String get accept => "قبول";
+
+  @override
   String get decline => "رفض";
 
   @override
@@ -366,6 +372,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get editProfileImage => "تعديل صورة الملف الشخصي";
+
+  @override
+  String get editImage => "تعديل الصورة";
 
   // Navigation & Screen Titles
   @override
@@ -962,6 +971,9 @@ class ArabicStrings extends Strings {
   String get notVerified => "غير موثق";
 
   @override
+  String get verifiedPill => "موثّق";
+
+  @override
   String get freelancerHired => "تم تعيين مستقل";
 
   @override
@@ -1087,6 +1099,16 @@ class ArabicStrings extends Strings {
       "قد يتم تطبيق رسوم الرسائل والبيانات. من خلال المتابعة، أنت توافق على ";
 
   @override
+  String get dontHaveAccount => "ليس لديك حساب؟";
+
+  @override
+  String get registerNow => "سجّل الآن";
+
+  @override
+  String get byContinuingAgreeTo =>
+      "من خلال المتابعة، أنت توافق على ";
+
+  @override
   String get termsOfUse => "شروط الاستخدام";
 
   @override
@@ -1106,6 +1128,21 @@ class ArabicStrings extends Strings {
 
   @override
   String get resendCode => "إعادة إرسال الرمز";
+
+  @override
+  String get updateEmailAddress => "تحديث البريد الإلكتروني";
+  @override
+  String get sendEmailConfirmation =>
+      "سنرسل لك بريداً لتأكيد عنوانك الإلكتروني الجديد.";
+  @override
+  String get emailAlreadyTaken => "البريد الإلكتروني مستخدم بالفعل.";
+  @override
+  String get otpTitle => "رمز التحقق";
+  @override
+  String get otpSentToNewEmail =>
+      "تم إرسال الرمز إلى بريدك الإلكتروني الجديد. أدخله للمتابعة.";
+  @override
+  String get resendOtp => "إعادة إرسال الرمز";
 
   // Portal Selection
   @override
@@ -1442,7 +1479,7 @@ class ArabicStrings extends Strings {
   String get rateFreelancer => "تقييم المستقل";
 
   @override
-  String get rateClient => "تقييم العميل";
+  String get rateClient => "تقييم صاحب العمل";
 
   @override
   String get rateJob => "تقييم الوظيفة";
@@ -1679,6 +1716,40 @@ class ArabicStrings extends Strings {
 
   @override
   String get newTalentsAvailable => "مواهب جديدة متاحة";
+
+  // Notification channels / settings (Figma p159, p165)
+  @override
+  String get notificationChannels => "قنوات الإشعارات";
+  @override
+  String get pushNotifications => "إشعارات فورية";
+  @override
+  String get emailNotifications => "إشعارات البريد الإلكتروني";
+  @override
+  String get inAppNotifications => "إشعارات داخل التطبيق";
+  @override
+  String get newApplications => "تقديمات جديدة";
+  @override
+  String get jobUpdates => "تحديثات الوظائف";
+  @override
+  String get newJobPostings => "وظائف جديدة منشورة";
+  @override
+  String get applicationUpdates => "تحديثات التقديم";
+  @override
+  String get jobRequests => "طلبات الوظائف";
+  @override
+  String get soundAndAlerts => "الصوت والتنبيهات";
+  @override
+  String get notificationsSound => "صوت الإشعارات";
+  @override
+  String get generalGroup => "عام";
+  @override
+  String get messagesNotif => "الرسائل";
+  @override
+  String get reviewsNotif => "التقييمات";
+  @override
+  String get wazafakAnnouncements => "إعلانات وظفك";
+  @override
+  String get promotionsAndOffers => "العروض والتخفيضات";
 
   // Tab Names
   @override
@@ -2226,4 +2297,224 @@ class ArabicStrings extends Strings {
 
   @override
   String get profileReview => "مراجعة الملف";
+
+  // Notifications categories / sub-categories
+  @override
+  String get account => "الحساب";
+
+  @override
+  String get hiring => "التوظيف";
+
+  @override
+  String get hiringUpdates => "تحديثات التوظيف";
+
+  @override
+  String get workRequests => "طلبات العمل";
+
+  @override
+  String get opportunities => "الفرص";
+
+  // Auth / Change password
+  @override
+  String get forgotPassword => "نسيت كلمة السر؟";
+
+  // Payment methods (Figma p146)
+  @override
+  String get paymentMethods => "وسائل الدفع";
+  @override
+  String get addCard => "إضافة بطاقة";
+  @override
+  String get endingWith => "تنتهي بـ";
+  @override
+  String get expires => "تنتهي";
+  @override
+  String get vouchers => "قسائم";
+  @override
+  String get noVouchersYet => "لا توجد قسائم متاحة حالياً";
+  @override
+  String get cardNumber => "رقم البطاقة";
+  @override
+  String get cvv => "CVV";
+
+  // Documents / Share / Feedback
+  @override
+  String get uploadDoc => "رفع";
+  @override
+  String get docVerified => "تم التحقق";
+  @override
+  String get inviteFriend => "ادعُ صديقاً";
+  @override
+  String get inviteHero => "احصل على خصم 10% على عملية التوظيف القادمة (حتى 10\$)";
+  @override
+  String get howItWorks => "كيف يعمل:";
+  @override
+  String get verificationDesc => "على المدعو التحقق من حسابه.";
+  @override
+  String get inviteAction => "الإجراء";
+  @override
+  String get inviteActionDesc => "على المدعو التوظيف أو الحصول على عمل.";
+  @override
+  String get invite => "دعوة";
+  @override
+  String get inviteStepsPriorVoucher =>
+      "خطوات الدعوة قبل إصدار القسيمة";
+  @override
+  String get downloadStep => "تحميل";
+  @override
+  String get downloadStepDesc => "على المستخدم تحميل التطبيق.";
+  @override
+  String get inviteByWhatsapp => "عبر واتساب";
+  @override
+  String get inviteByEmail => "عبر البريد الإلكتروني";
+  @override
+  String get submitFeedback => "إرسال";
+  @override
+  String get rejected => "مرفوض";
+  @override
+  String get review => "مراجعة";
+
+  // Activate / Publish modals
+  @override
+  String get activateService => "تفعيل الخدمة";
+  @override
+  String get publishLabel => "نشر";
+  @override
+  String get keepServiceLive => "أبقِ الخدمة مفعّلة مقابل";
+  @override
+  String get serviceRenewsMonthly =>
+      "تُجدَّد الخدمة شهرياً. أوقفها للإيقاف المؤقت.";
+  @override
+  String get serviceMonthly => "اشتراك شهري";
+  @override
+  String get extraSkills => "مهارات إضافية";
+  @override
+  String get subscriptionMo => "الاشتراك";
+  @override
+  String get totalToday => "الإجمالي اليوم";
+  @override
+  String get walletBalanceCaps => "رصيد المحفظة";
+  @override
+  String get enoughBadge => "كافٍ";
+  @override
+  String get topUpPill => "شحن +";
+  @override
+  String get firstServiceOnUs => "أول خدمة على حسابنا!";
+  @override
+  String get renewAtAfter90Days => "تتجدد بـ 3\$ شهرياً بعد 90 يوماً.";
+  @override
+  String get firstServicePromo => "ترويج أول خدمة";
+  @override
+  String get firstJobPostOnUs => "أول إعلان وظيفة على حسابنا!";
+  @override
+  String get publishInstantly => "ينشر فوراً.";
+  @override
+  String get firstJobPostPromo => "ترويج أول وظيفة";
+  @override
+  String get jobPostFee => "رسوم نشر الوظيفة";
+  @override
+  String get afterThisJobCosts =>
+      "بعد ذلك، تكلف الوظيفة 2\$. اشحن في أي وقت من محفظتك.";
+  @override
+  String get editDetails => "تعديل التفاصيل";
+  @override
+  String get nextRenewalHint =>
+      "التجديد التالي: سنذكّرك قبل 3 أيام.";
+
+  // Payment receipt / invoice
+  @override
+  String get paymentReceiptTitle => "إيصال الدفع";
+  @override
+  String get paymentInvoiceTitle => "فاتورة الدفع";
+  @override
+  String get jobCompletedOn => "تم إنجاز العمل";
+  @override
+  String get paymentFromLabel => "الدفع من";
+  @override
+  String get paymentToLabel => "الدفع إلى";
+  @override
+  String get receiptLabel => "إيصال";
+  @override
+  String get invoiceLabel => "فاتورة";
+  @override
+  String get transactionIdLabel => "معرّف العملية";
+  @override
+  String get escrowDeposit => "إيداع الضمان";
+  @override
+  String get released => "تم التحرير";
+  @override
+  String get jobAmount => "قيمة العمل";
+  @override
+  String get wazafkFee => "رسوم وظفك";
+  @override
+  String get received => "المُستلَم";
+  @override
+  String get paid => "المدفوع";
+
+  // Wallet — Top Up / Withdraw / History
+  @override
+  String get topUpTitle => "شحن الرصيد";
+  @override
+  String get withdraw => "سحب";
+  @override
+  String get walletHistory => "السجل";
+  @override
+  String get yourBalance => "رصيدك";
+  @override
+  String get withdrawAmount => "مبلغ السحب";
+  @override
+  String get topUpAmount => "مبلغ الشحن";
+  @override
+  String get enterAmount => "أدخل المبلغ";
+  @override
+  String get paymentMethod => "طريقة الدفع";
+  @override
+  String get otherAmount => "مبلغ آخر";
+  @override
+  String get bestValue => "الأفضل";
+  @override
+  String get addPromoCode => "إضافة رمز ترويجي";
+  @override
+  String get promoCode => "رمز ترويجي";
+  @override
+  String get subtotal => "المجموع الفرعي";
+  @override
+  String get total => "المجموع";
+  @override
+  String get change => "تغيير";
+  @override
+  String get noTransactions => "لا توجد معاملات";
+
+  // Filter Sheet
+  @override
+  String get filter => "فلتر";
+
+  @override
+  String get reset => "إعادة تعيين";
+
+  @override
+  String get recommended => "موصى به";
+
+  @override
+  String get newest => "الأحدث";
+
+  @override
+  String get highestBudget => "أعلى ميزانية";
+
+  @override
+  String get budget => "الميزانية";
+
+  @override
+  String get distance => "المسافة";
+
+  @override
+  String get km => "كم";
+
+  @override
+  String get employerRating => "تقييم صاحب العمل";
+
+  @override
+  String get andUp => "وما فوق";
+
+  @override
+  String get applyFilter => "تطبيق الفلتر";
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/sheets/addresses_sheet.dart';
 import 'package:wazafak_app/components/sheets/areas_sheet.dart';
+import 'package:wazafak_app/components/sheets/change_language_sheet.dart';
+import 'package:wazafak_app/components/sheets/filter_sheet.dart';
+import 'package:wazafak_app/components/sheets/invite_sheet.dart';
+import 'package:wazafak_app/components/sheets/payment_method_sheet.dart';
 import 'package:wazafak_app/components/sheets/skills_sheet.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/AreasResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
+import 'package:wazafak_app/screens/main/profile/wallet/top_up/top_up_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 class SheetHelper {
@@ -101,6 +106,67 @@ class SheetHelper {
               singleSelect: true,
             ),
           ),
+        );
+      },
+    );
+  }
+
+  static void showFilterSheet(
+    BuildContext context, {
+    required HomeFilters initialFilters,
+    required ValueChanged<HomeFilters> onApply,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.08,
+          ),
+          child: FilterSheet(
+            initialFilters: initialFilters,
+            onApply: onApply,
+          ),
+        );
+      },
+    );
+  }
+
+  static Future<PaymentMethodOption?> showPaymentMethodSheet(
+    BuildContext context, {
+    required List<PaymentMethodOption> methods,
+  }) {
+    return showModalBottomSheet<PaymentMethodOption>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => PaymentMethodSheet(methods: methods),
+    );
+  }
+
+  static void showInviteSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const InviteSheet(),
+    );
+  }
+
+  static void showChangeLanguageSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: context.resources.color.colorWhite,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          top: false,
+          child: const ChangeLanguageSheet(),
         );
       },
     );

@@ -17,6 +17,17 @@ class RouteConstant {
   // Profile screens
   static const String personalInformationScreen =
       '/personal_information_screen';
+  static const String updateEmailScreen = '/update_email_screen';
+  static const String paymentMethodsScreen = '/payment_methods_screen';
+  static const String voucherScreen = '/voucher_screen';
+  static const String addCardScreen = '/add_card_screen';
+  static const String topUpScreen = '/top_up_screen';
+  static const String withdrawScreen = '/withdraw_screen';
+  static const String walletHistoryScreen = '/wallet_history_screen';
+  static const String paymentReceiptScreen = '/payment_receipt_screen';
+  static const String activateServiceScreen = '/activate_service_screen';
+  static const String publishJobScreen = '/publish_job_screen';
+  static const String memberHistoryScreen = '/member_history_screen';
   static const String myDocumentsScreen = '/my_documents_screen';
   static const String uploadDocumentsScreen = '/upload_documents_screen';
   static const String myAddressesScreen = '/my_addresses_screen';

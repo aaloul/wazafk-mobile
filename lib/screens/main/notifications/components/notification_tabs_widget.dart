@@ -5,15 +5,15 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 class NotificationTabsWidget extends StatelessWidget {
   const NotificationTabsWidget({
     super.key,
-    required this.tabs,
+    required this.labels,
+    required this.selectedIndex,
     required this.onSelect,
     this.margin,
-    required this.selectedTab,
   });
 
-  final List<String> tabs;
-  final Function onSelect;
-  final String selectedTab;
+  final List<String> labels;
+  final int selectedIndex;
+  final ValueChanged<int> onSelect;
   final double? margin;
 
   @override
@@ -21,17 +21,17 @@ class NotificationTabsWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: margin ?? 0),
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: context.resources.color.colorBlueL,
       ),
       child: Row(
-        children: tabs.map((tab) {
-          final isSelected = selectedTab == tab;
+        children: List.generate(labels.length, (index) {
+          final isSelected = index == selectedIndex;
           return Expanded(
             child: GestureDetector(
-              onTap: () => onSelect(tab),
+              onTap: () => onSelect(index),
               child: Container(
                 height: 42,
                 decoration: BoxDecoration(
@@ -45,21 +45,11 @@ class NotificationTabsWidget extends StatelessWidget {
                           width: 1,
                         )
                       : null,
-                  boxShadow: isSelected
-                      ? [
-                          BoxShadow(
-                            color: const Color(0xA64EA9EE),
-                            blurRadius: 2,
-                            spreadRadius: 0,
-                            offset: Offset.zero,
-                          ),
-                        ]
-                      : null,
                 ),
                 child: Center(
                   child: PrimaryText(
                     textAlign: TextAlign.center,
-                    text: tab,
+                    text: labels[index],
                     textColor: isSelected
                         ? context.resources.color.colorPrimary
                         : context.resources.color.colorGrey27,
@@ -70,7 +60,7 @@ class NotificationTabsWidget extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
       ),
     );
   }

@@ -119,6 +119,8 @@ abstract class Strings {
 
   String get portfolioLink;
 
+  String get portfolio;
+
   String get about;
 
   String get tellUsAboutYourself;
@@ -191,6 +193,8 @@ abstract class Strings {
 
   String get acceptRequest;
 
+  String get accept;
+
   String get decline;
 
   String get negotiate;
@@ -244,6 +248,8 @@ abstract class Strings {
   String get jobPosted;
 
   String get editProfileImage;
+
+  String get editImage;
 
   // Navigation & Screen Titles
   String get task;
@@ -631,6 +637,8 @@ abstract class Strings {
 
   String get notVerified;
 
+  String get verifiedPill;
+
   String get freelancerHired;
 
   String get freelancer;
@@ -715,6 +723,12 @@ abstract class Strings {
 
   String get messageAndDateRates;
 
+  String get dontHaveAccount;
+
+  String get registerNow;
+
+  String get byContinuingAgreeTo;
+
   String get termsOfUse;
 
   String get and;
@@ -728,6 +742,14 @@ abstract class Strings {
   String get didntReceiveOtp;
 
   String get resendCode;
+
+  // Update email flow (Figma p136, p138)
+  String get updateEmailAddress;
+  String get sendEmailConfirmation;
+  String get emailAlreadyTaken;
+  String get otpTitle;
+  String get otpSentToNewEmail;
+  String get resendOtp;
 
   // Portal Selection
   String get freelancerPortal;
@@ -1107,6 +1129,24 @@ abstract class Strings {
 
   String get newTalentsAvailable;
 
+  // Notification channels / settings (Figma p159, p165)
+  String get notificationChannels;
+  String get pushNotifications;
+  String get emailNotifications;
+  String get inAppNotifications;
+  String get newApplications;
+  String get jobUpdates;
+  String get newJobPostings;
+  String get applicationUpdates;
+  String get jobRequests;
+  String get soundAndAlerts;
+  String get notificationsSound;
+  String get generalGroup;
+  String get messagesNotif;
+  String get reviewsNotif;
+  String get wazafakAnnouncements;
+  String get promotionsAndOffers;
+
   // Tab Names
   String get all;
 
@@ -1465,4 +1505,115 @@ abstract class Strings {
 
   String get locationPin;
   String get profileReview;
+
+  // Notifications categories / sub-categories
+  String get account;
+  String get hiring;
+  String get hiringUpdates;
+  String get workRequests;
+  String get opportunities;
+
+  // Auth / Change password
+  String get forgotPassword;
+
+  // Payment methods (Figma p146)
+  String get paymentMethods;
+  String get addCard;
+  String get endingWith;
+  String get expires;
+
+  // Voucher / Add Card / Privacy
+  String get vouchers;
+  String get noVouchersYet;
+  String get cardNumber;
+  String get cvv;
+
+  // Documents / Share / Feedback (Figma p149, p166, p170)
+  String get uploadDoc;
+  String get docVerified;
+  String get inviteFriend;
+  String get inviteHero;
+  String get howItWorks;
+  String get verificationDesc;
+  String get inviteAction;
+  String get inviteActionDesc;
+  String get invite;
+  String get inviteStepsPriorVoucher;
+  String get downloadStep;
+  String get downloadStepDesc;
+  String get inviteByWhatsapp;
+  String get inviteByEmail;
+  String get submitFeedback;
+  String get rejected;
+  String get review;
+
+  // Activate / Publish modals (Figma p191, p194, p204, p223)
+  String get activateService;
+  String get publishLabel;
+  String get keepServiceLive;
+  String get serviceRenewsMonthly;
+  String get serviceMonthly;
+  String get extraSkills;
+  String get subscriptionMo;
+  String get totalToday;
+  String get walletBalanceCaps;
+  String get enoughBadge;
+  String get topUpPill;
+  String get firstServiceOnUs;
+  String get renewAtAfter90Days;
+  String get firstServicePromo;
+  String get firstJobPostOnUs;
+  String get publishInstantly;
+  String get firstJobPostPromo;
+  String get jobPostFee;
+  String get afterThisJobCosts;
+  String get editDetails;
+  String get nextRenewalHint;
+
+  // Payment receipt / invoice (Figma p61, p116)
+  String get paymentReceiptTitle;
+  String get paymentInvoiceTitle;
+  String get jobCompletedOn;
+  String get paymentFromLabel;
+  String get paymentToLabel;
+  String get receiptLabel;
+  String get invoiceLabel;
+  String get transactionIdLabel;
+  String get escrowDeposit;
+  String get released;
+  String get jobAmount;
+  String get wazafkFee;
+  String get received;
+  String get paid;
+
+  // Wallet — Top Up / Withdraw / History (Figma p76, p101, p102)
+  String get topUpTitle;
+  String get withdraw;
+  String get walletHistory;
+  String get yourBalance;
+  String get withdrawAmount;
+  String get topUpAmount;
+  String get enterAmount;
+  String get paymentMethod;
+  String get otherAmount;
+  String get bestValue;
+  String get addPromoCode;
+  String get promoCode;
+  String get subtotal;
+  String get total;
+  String get change;
+  String get noTransactions;
+
+  // Filter Sheet
+  String get filter;
+  String get reset;
+  String get recommended;
+  String get newest;
+  String get highestBudget;
+  String get budget;
+  String get distance;
+  String get km;
+  String get employerRating;
+  String get andUp;
+  String get applyFilter;
 }

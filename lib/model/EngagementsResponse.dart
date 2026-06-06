@@ -88,6 +88,12 @@ class Engagement {
   int? estimatedHours;
   DateTime? startDatetime;
   DateTime? expiryDatetime;
+  DateTime? dueDatetime;
+  bool? startsToday;
+  int? dueDays;
+  DateTime? escrowAt;
+  DateTime? paymentAt;
+  String? paymentCode;
   String? unitPrice;
   String? totalPrice;
   String? profitAmount;
@@ -139,6 +145,12 @@ class Engagement {
     this.estimatedHours,
     this.startDatetime,
     this.expiryDatetime,
+    this.dueDatetime,
+    this.startsToday,
+    this.dueDays,
+    this.escrowAt,
+    this.paymentAt,
+    this.paymentCode,
     this.unitPrice,
     this.totalPrice,
     this.profitAmount,
@@ -194,6 +206,18 @@ class Engagement {
         json["start_datetime"]),
     expiryDatetime: json["expiry_datetime"] == null ? null : DateTime.parse(
         json["expiry_datetime"]),
+    dueDatetime: json["due_datetime"] == null
+        ? null
+        : DateTime.parse(json["due_datetime"]),
+    startsToday: json["starts_today"],
+    dueDays: json["due_days"],
+    escrowAt: json["escrow_at"] == null
+        ? null
+        : DateTime.parse(json["escrow_at"]),
+    paymentAt: json["payment_at"] == null
+        ? null
+        : DateTime.parse(json["payment_at"]),
+    paymentCode: json["payment_code"],
     unitPrice: json["unit_price"],
     totalPrice: json["total_price"],
     profitAmount: json["profit_amount"],
@@ -296,6 +320,7 @@ class ChangeRequest {
   int? estimatedHours;
   DateTime? startDatetime;
   DateTime? expiryDatetime;
+  DateTime? dueDatetime;
   dynamic unitPrice;
   dynamic totalPrice;
   dynamic profitAmount;
@@ -318,6 +343,7 @@ class ChangeRequest {
     this.estimatedHours,
     this.startDatetime,
     this.expiryDatetime,
+    this.dueDatetime,
     this.unitPrice,
     this.totalPrice,
     this.profitAmount,
@@ -344,6 +370,9 @@ class ChangeRequest {
             json["start_datetime"]),
         expiryDatetime: json["expiry_datetime"] == null ? null : DateTime.parse(
             json["expiry_datetime"]),
+        dueDatetime: json["due_datetime"] == null
+            ? null
+            : DateTime.parse(json["due_datetime"]),
         unitPrice: json["unit_price"],
         totalPrice: json["total_price"],
         profitAmount: json["profit_amount"],

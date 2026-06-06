@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/NotificationsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/res/colors/hex_color.dart';
 
 class NotificationItem extends StatelessWidget {
@@ -10,10 +11,18 @@ class NotificationItem extends StatelessWidget {
     super.key,
     required this.notification,
     required this.onTap,
+    this.onAccept,
+    this.onDecline,
+    this.isProcessing = false,
   });
 
   final NotificationElement notification;
   final VoidCallback onTap;
+
+  /// When non-null, an inline Accept/Decline action row is rendered.
+  final VoidCallback? onAccept;
+  final VoidCallback? onDecline;
+  final bool isProcessing;
 
   String _getTimeAgo(DateTime? datetime) {
     if (datetime == null) return '';
@@ -37,89 +46,136 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUnread = notification.isRead == 0;
+    final showActions = onAccept != null && onDecline != null;
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(color: context.resources.color.colorWhite),
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Icon
-            // ClipRRect(
-            //   borderRadius: BorderRadiusGeometry.circular(99999999),
-            //   child: PrimaryNetworkImage(
-            //     url: notification.image.toString(),
-            //     width: 70,
-            //     height: 70,
-            //   ),
-            // ),
-
-            // Container(
-            //   width: 70,
-            //   height: 70,
-            //   padding: EdgeInsets.all(10),
-            //   decoration: BoxDecoration(
-            //     color: context.resources.color.colorGrey21,
-            //     shape: BoxShape.circle,
-            //   ),
-            //   child: Image.asset(AppIcons.notification2),
-            // ),
-            // Container(
-            //   width: 1,
-            //   height: 50,
-            //   color: HexColor('#99999980').withOpacity(.5),
-            //   margin: EdgeInsets.symmetric(horizontal: 12),
-            // ),
-
-            // Content
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   PrimaryText(
                     text: notification.title ?? '',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    textColor: context.resources.color.colorBlack4,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    textColor: context.resources.color.colorBlack,
                     maxLines: 2,
                   ),
-
-                  SizedBox(height: 4),
-
+                  const SizedBox(height: 4),
                   PrimaryText(
                     text: notification.message ?? '',
                     fontWeight: FontWeight.w400,
-                    fontSize: 13,
+                    fontSize: 14,
+                    height: 1.35,
                     textColor: context.resources.color.colorGrey26,
-                    maxLines: 3,
+                    maxLines: 4,
                   ),
-
-                  SizedBox(height: 8),
+                  if (showActions) ...[
+                    const SizedBox(height: 12),
+                    _buildActions(context),
+                  ],
+                  const SizedBox(height: 6),
                   PrimaryText(
                     text: _getTimeAgo(notification.datetime),
                     fontWeight: FontWeight.w400,
-                    fontSize: 11,
+                    fontSize: 12,
                     textColor: context.resources.color.colorGrey29,
                   ),
                 ],
               ),
             ),
-
-            if (isUnread)
-              Container(
-                width: 10,
-                height: 10,
-                margin: EdgeInsets.only(left: 8),
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Container(
+                width: 8,
+                height: 8,
                 decoration: BoxDecoration(
-                  color: HexColor('#E55959'),
-                  borderRadius: BorderRadius.circular(7),
+                  shape: BoxShape.circle,
+                  color: isUnread
+                      ? HexColor('#E55959')
+                      : Colors.transparent,
                 ),
               ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildActions(BuildContext context) {
+    final strings = Resources.of(context).strings;
+    return Row(
+      children: [
+        Expanded(
+          child: _ActionButton(
+            label: strings.accept,
+            color: HexColor('#7CB68E'),
+            isLoading: isProcessing,
+            onTap: isProcessing ? null : onAccept,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _ActionButton(
+            label: strings.decline,
+            color: HexColor('#E96A6A'),
+            isLoading: false,
+            onTap: isProcessing ? null : onDecline,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({
+    required this.label,
+    required this.color,
+    required this.isLoading,
+    required this.onTap,
+  });
+
+  final String label;
+  final Color color;
+  final bool isLoading;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final disabled = onTap == null;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 44,
+        decoration: BoxDecoration(
+          color: disabled ? color.withValues(alpha: 0.6) : color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        child: isLoading
+            ? const SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : PrimaryText(
+                text: label,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                textColor: Colors.white,
+              ),
       ),
     );
   }

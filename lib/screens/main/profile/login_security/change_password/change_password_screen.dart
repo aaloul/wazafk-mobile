@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/labeled_text_field.dart';
 import 'package:wazafak_app/components/primary_button.dart';
+import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import 'change_password_controller.dart';
@@ -11,92 +13,109 @@ import 'change_password_controller.dart';
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
 
-  static const _cardDecoration = BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.all(Radius.circular(12)),
-    border: Border.fromBorderSide(
-      BorderSide(color: Color(0xFFE5E5E5), width: 1),
-    ),
-    boxShadow: [
-      BoxShadow(
-        color: Color(0x14000000),
-        blurRadius: 12,
-        offset: Offset(0, 4),
-      ),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ChangePasswordController());
+    final colors = context.resources.color;
+    final strings = context.resources.strings;
 
     return Scaffold(
-      backgroundColor: context.resources.color.background2,
+      backgroundColor: colors.background2,
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(
-                hasBack: true, title: context.resources.strings.changePassword),
-            SizedBox(height: 16),
+            TopHeader(hasBack: true, title: strings.changePassword),
+            Container(height: 1, color: colors.colorGrey4),
+            const SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      decoration: _cardDecoration,
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                      child: Column(
-                        children: [
-                          LabeledTextFiled(
-                            controller: controller.currentPasswordController,
-                            hint: context.resources.strings.oldPassword,
-                            label: context.resources.strings.oldPassword,
-                            isMandatory: true,
-                            isPassword: true,
-                            inputType: TextInputType.visiblePassword,
-                          ),
-                          LabeledTextFiled(
-                            controller: controller.newPasswordController,
-                            hint: context.resources.strings.newPassword,
-                            label: context.resources.strings.newPassword,
-                            isMandatory: true,
-                            isPassword: true,
-                            inputType: TextInputType.visiblePassword,
-                          ),
-                          LabeledTextFiled(
-                            controller: controller.confirmPasswordController,
-                            hint: context.resources.strings.confirmPassword,
-                            label: context.resources.strings.confirmPassword,
-                            isMandatory: true,
-                            isPassword: true,
-                            inputType: TextInputType.visiblePassword,
-                          ),
-                        ],
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                  decoration: BoxDecoration(
+                    color: colors.colorWhite,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 12,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      LabeledTextFiled(
+                        controller: controller.currentPasswordController,
+                        hint: strings.oldPassword,
+                        label: strings.oldPassword,
+                        isMandatory: true,
+                        isPassword: true,
+                        inputType: TextInputType.visiblePassword,
+                      ),
+                      LabeledTextFiled(
+                        controller: controller.newPasswordController,
+                        hint: strings.newPassword,
+                        label: strings.newPassword,
+                        isMandatory: true,
+                        isPassword: true,
+                        inputType: TextInputType.visiblePassword,
+                      ),
+                      LabeledTextFiled(
+                        controller: controller.confirmPasswordController,
+                        hint: strings.confirmPassword,
+                        label: strings.confirmPassword,
+                        isMandatory: true,
+                        isPassword: true,
+                        inputType: TextInputType.visiblePassword,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Obx(
+              () => controller.isLoading.value
+                  ? const Padding(
+                      padding: EdgeInsets.only(bottom: 16),
+                      child: ProgressBar(),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: PrimaryButton(
+                        title: strings.changePassword,
+                        onPressed: controller.changePassword,
                       ),
                     ),
-                    SizedBox(height: 32),
+            ),
+            const SizedBox(height: 12),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => Get.toNamed(RouteConstant.phoneNumberScreen),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PrimaryText(
+                      text: strings.forgotPassword,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      textColor: colors.colorGrey,
+                    ),
+                    const SizedBox(width: 4),
+                    PrimaryText(
+                      text: strings.reset,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      textColor: colors.colorPrimary,
+                    ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 16),
-            Obx(
-              () => controller.isLoading.value
-                  ? ProgressBar()
-                  : Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: PrimaryButton(
-                        title: context.resources.strings.changePassword,
-                        onPressed: () {
-                          controller.changePassword();
-                        },
-                      ),
-                    ),
-            ),
-            SizedBox(height: 20),
+            const SizedBox(height: 12),
           ],
         ),
       ),

@@ -166,6 +166,86 @@ class AddPackageScreen extends StatelessWidget {
 
 
 
+                          // Work location type chips
+                          Obx(() {
+                            const types = ['Onsite', 'Remote', 'Hybrid'];
+                            final selected = controller.selectedWorkLocationType.value;
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    PrimaryText(
+                                      text: context.resources.strings.jobType,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      textColor: context.resources.color.colorGrey26,
+                                    ),
+                                    SizedBox(width: 4),
+                                    PrimaryText(
+                                      text: '*',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      textColor: context.resources.color.colorGrey26,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8),
+                                SizedBox(
+                                  height: 36,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: types.length,
+                                    separatorBuilder: (_, __) => SizedBox(width: 8),
+                                    itemBuilder: (context, index) {
+                                      final type = types[index];
+                                      final isSelected = selected == type;
+                                      String label;
+                                      switch (type) {
+                                        case 'Remote': label = context.resources.strings.remote; break;
+                                        case 'Hybrid': label = context.resources.strings.hybrid; break;
+                                        default: label = context.resources.strings.onsite;
+                                      }
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (!controller.isEditMode.value) {
+                                            controller.selectedWorkLocationType.value = type;
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                          decoration: BoxDecoration(
+                                            color: isSelected
+                                                ? context.resources.color.colorPrimary.withAlpha(16)
+                                                : Colors.white,
+                                            borderRadius: BorderRadius.circular(6),
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? context.resources.color.colorPrimary
+                                                  : context.resources.color.colorGrey25,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: PrimaryText(
+                                              text: label,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              textColor: isSelected
+                                                  ? context.resources.color.colorPrimary
+                                                  : context.resources.color.colorBlack4,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: 12),
+                              ],
+                            );
+                          }),
+
                           LabeledTextFiled(
                             controller: controller.totalPriceController,
                             hint: context.resources.strings.totalPrice,

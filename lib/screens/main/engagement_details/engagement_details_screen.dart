@@ -76,12 +76,19 @@ class EngagementDetailsScreen extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => Navigator.of(context).pop(),
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    width: 36,
+                    height: 36,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.5),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.close, color: Colors.white, size: 24),
+                    child: const PrimaryText(
+                      text: '✕',
+                      textColor: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -997,13 +1004,14 @@ class EngagementDetailsScreen extends StatelessWidget {
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(
-                                        Icons.description,
+                                      Image.asset(
+                                        AppIcons.fileCv,
+                                        width: 28,
+                                        height: 28,
                                         color: context
                                             .resources
                                             .color
                                             .colorPrimary,
-                                        size: 24,
                                       ),
                                       SizedBox(width: 12),
                                       Expanded(
@@ -1040,13 +1048,14 @@ class EngagementDetailsScreen extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(width: 8),
-                                      Icon(
-                                        Icons.open_in_browser,
+                                      Image.asset(
+                                        AppIcons.fileDownload,
+                                        width: 22,
+                                        height: 22,
                                         color: context
                                             .resources
                                             .color
                                             .colorPrimary,
-                                        size: 20,
                                       ),
                                     ],
                                   ),
@@ -1113,13 +1122,14 @@ class EngagementDetailsScreen extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: [
-                                        Icon(
-                                          Icons.attach_file,
+                                        Image.asset(
+                                          AppIcons.fileCv,
+                                          width: 28,
+                                          height: 28,
                                           color: context
                                               .resources
                                               .color
                                               .colorPrimary,
-                                          size: 24,
                                         ),
                                         SizedBox(width: 12),
                                         Expanded(
@@ -1157,13 +1167,14 @@ class EngagementDetailsScreen extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(width: 8),
-                                        Icon(
-                                          Icons.open_in_browser,
+                                        Image.asset(
+                                          AppIcons.fileDownload,
+                                          width: 22,
+                                          height: 22,
                                           color: context
                                               .resources
                                               .color
                                               .colorPrimary,
-                                          size: 20,
                                         ),
                                       ],
                                     ),
@@ -1204,10 +1215,11 @@ class EngagementDetailsScreen extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.hourglass_empty,
+                            Image.asset(
+                              AppIcons.clock,
+                              width: 24,
+                              height: 24,
                               color: context.resources.color.colorPrimary,
-                              size: 24,
                             ),
                             SizedBox(width: 12),
                             Expanded(
@@ -1273,66 +1285,120 @@ class EngagementDetailsScreen extends StatelessWidget {
                     final hasChangeRequests =
                         engagement?.changeRequests != null &&
                         engagement!.changeRequests!.isNotEmpty;
+                    // Job applications: no Negotiate/Inquiry — just Accept + Decline side-by-side.
+                    // Service / Package bookings: Accept + Inquiry + Decline link below.
+                    final showInquiry =
+                        !hasChangeRequests && engagementType != 'JA';
+                    final acceptGreen =
+                        context.resources.color.colorGreen6;
+                    final declineRed = context.resources.color.colorRed2;
+
+                    void onAccept() {
+                      controller.faceVerificationAction =
+                          'accept_engagement';
+                      Get.bottomSheet(
+                        VerifyFaceMatchBottomSheet(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                      );
+                    }
+
+                    void onDecline() {
+                      controller.faceVerificationAction =
+                          'reject_engagement';
+                      Get.bottomSheet(
+                        VerifyFaceMatchBottomSheet(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                      );
+                    }
 
                     return _buildBottomPanel(
                       context,
                       child: Column(
                         children: [
-                          Obx(() {
-                            if (controller.isAccepting.value) {
-                              return _buildLoadingButton(
-                                context,
-                                color: context.resources.color.colorPrimary,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Obx(() {
+                                  if (controller.isAccepting.value) {
+                                    return _buildLoadingButton(
+                                      context,
+                                      color: acceptGreen,
+                                    );
+                                  }
+                                  return PrimaryButton(
+                                    title: Resources.of(context)
+                                        .strings
+                                        .acceptRequest,
+                                    color: acceptGreen,
+                                    onPressed: onAccept,
+                                  );
+                                }),
+                              ),
+                              const SizedBox(width: 12),
+                              if (showInquiry)
+                                Expanded(
+                                  child: PrimaryButton(
+                                    title:
+                                        Resources.of(context).strings.negotiate,
+                                    onPressed: () {
+                                      Get.bottomSheet(
+                                        NegotiationBottomSheet(),
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                      );
+                                    },
+                                  ),
+                                )
+                              else
+                                Expanded(
+                                  child: Obx(() {
+                                    if (controller.isRejecting.value) {
+                                      return _buildLoadingButton(
+                                        context,
+                                        color: declineRed,
+                                      );
+                                    }
+                                    return PrimaryButton(
+                                      title: Resources.of(context)
+                                          .strings
+                                          .decline,
+                                      color: declineRed,
+                                      onPressed: onDecline,
+                                    );
+                                  }),
+                                ),
+                            ],
+                          ),
+                          if (showInquiry) ...[
+                            const SizedBox(height: 12),
+                            Obx(() {
+                              if (controller.isRejecting.value) {
+                                return const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                );
+                              }
+                              return GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: onDecline,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4),
+                                  child: PrimaryText(
+                                    text: Resources.of(context).strings.decline,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    textColor: declineRed,
+                                    isUnderLined: true,
+                                  ),
+                                ),
                               );
-                            }
-                            return PrimaryButton(
-                              title: Resources.of(
-                                context,
-                              ).strings.acceptRequest,
-                              onPressed: () {
-                                controller.faceVerificationAction =
-                                    'accept_engagement';
-                                Get.bottomSheet(
-                                  VerifyFaceMatchBottomSheet(),
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                );
-                              },
-                            );
-                          }),
-                          SizedBox(height: 12),
-                          Obx(() {
-                            if (controller.isRejecting.value) {
-                              return _buildLoadingButton(
-                                context,
-                                color: context.resources.color.colorRed,
-                              );
-                            }
-                            return PrimaryOutlinedButton(
-                              title: Resources.of(context).strings.decline,
-                              onPressed: () {
-                                controller.faceVerificationAction =
-                                    'reject_engagement';
-                                Get.bottomSheet(
-                                  VerifyFaceMatchBottomSheet(),
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                );
-                              },
-                            );
-                          }),
-                          if (!hasChangeRequests) ...[
-                            SizedBox(height: 12),
-                            PrimaryOutlinedButton(
-                              title: Resources.of(context).strings.negotiate,
-                              onPressed: () {
-                                Get.bottomSheet(
-                                  NegotiationBottomSheet(),
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                );
-                              },
-                            ),
+                            }),
                           ],
                         ],
                       ),
@@ -1348,10 +1414,11 @@ class EngagementDetailsScreen extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.hourglass_empty,
+                            Image.asset(
+                              AppIcons.clock,
+                              width: 24,
+                              height: 24,
                               color: context.resources.color.colorPrimary,
-                              size: 24,
                             ),
                             SizedBox(width: 12),
                             Expanded(
@@ -1541,19 +1608,7 @@ class EngagementDetailsScreen extends StatelessWidget {
             ),
           ),
           if (statusLabel != null && statusColor != null)
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              decoration: BoxDecoration(
-                color: HexColor(statusColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: PrimaryText(
-                text: statusLabel,
-                textColor: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 12,
-              ),
-            ),
+            _StatusPill(label: statusLabel, hexColor: statusColor),
         ],
       ),
     );
@@ -1592,6 +1647,36 @@ class EngagementDetailsScreen extends StatelessWidget {
             strokeWidth: 2,
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Engagement status pill per Figma (p53 Revision / p55 Submitted / p56
+/// Upcoming / p57 Request / p213 Application / p215 Inquiry). Backend hands
+/// us a saturated hex; we use it as the text colour and derive a pastel
+/// background by mixing the hex with white.
+class _StatusPill extends StatelessWidget {
+  const _StatusPill({required this.label, required this.hexColor});
+
+  final String label;
+  final String hexColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final base = HexColor(hexColor);
+    final bg = Color.alphaBlend(base.withValues(alpha: 0.14), Colors.white);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: PrimaryText(
+        text: label,
+        textColor: base,
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
       ),
     );
   }

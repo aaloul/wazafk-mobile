@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/components/skeletons/category_item_skeleton.dart';
-import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
+import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../components/search_widget.dart';
-import 'components/sub_category_item.dart';
+import '../../../components/skeletons/category_item_skeleton.dart';
+import 'components/category_grid_item.dart';
 import 'subcategories_controller.dart';
 
 class SubcategoriesScreen extends StatelessWidget {
@@ -15,108 +16,61 @@ class SubcategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SubcategoriesController(),
-        tag: DateTime
-            .timestamp()
-            .millisecond
-            .toString());
-
+    final controller = Get.put(
+      SubcategoriesController(),
+      tag: DateTime.timestamp().millisecond.toString(),
+    );
 
     return Scaffold(
       backgroundColor: context.resources.color.background2,
       body: SafeArea(
         child: Column(
           children: [
-            Obx(
-              () => TopHeader(
-                hasBack: true,
-                title: controller.parentCategory.value?.name ?? 'Subcategories',
-              ),
+            const SizedBox(height: 8),
+            _SubcategoriesHeader(
+              hint: Resources.of(context).strings.searchSubcategories,
+              onTextChanged: controller.searchSubcategories,
             ),
-
-            // Search bar
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: SearchWidget(
-                hint: Resources
-                    .of(context)
-                    .strings
-                    .searchSubcategories,
-                borderRadius: 0,
-                onTextChangedWithDelay: (text) {
-                  controller.searchSubcategories(text);
-                },
-                enabled: true,
-              ),
-            ),
-
+            const SizedBox(height: 8),
+            Divider(height: 1, color: context.resources.color.colorGrey4),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return ListView.builder(
-                    padding: EdgeInsets.all(16),
-                    itemCount: 5,
-                    itemBuilder: (context, index) => CategoryItemSkeleton(),
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(16),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 1,
+                    ),
+                    itemCount: 9,
+                    itemBuilder: (_, __) => const CategoryItemSkeleton(),
                   );
                 }
 
                 if (controller.subcategories.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          controller.searchQuery.value.isEmpty
-                              ? Icons.category_outlined
-                              : Icons.search_off,
-                          size: 80,
-                          color: context.resources.color.colorGrey8,
-                        ),
-                        SizedBox(height: 16),
-                        PrimaryText(
-                          text: controller.searchQuery.value.isEmpty
-                              ? Resources
-                              .of(context)
-                              .strings
-                              .noSubcategoriesFound
-                              : Resources
-                              .of(context)
-                              .strings
-                              .noResultsFound,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          textColor: context.resources.color.colorGrey8,
-                        ),
-                        if (controller.searchQuery.value.isNotEmpty) ...[
-                          SizedBox(height: 8),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 32),
-                            child: PrimaryText(
-                              text: Resources
-                                  .of(context)
-                                  .strings
-                                  .trySearchingDifferentKeywords,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              textColor: context.resources.color.colorGrey,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
+                  return _EmptyState(
+                    isSearching: controller.searchQuery.value.isNotEmpty,
                   );
                 }
 
-                return ListView.builder(
+                return GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 1,
+                  ),
                   itemCount: controller.subcategories.length,
                   itemBuilder: (context, index) {
                     final subcategory = controller.subcategories[index];
-                    return GestureDetector(
-                      onTap: () {
-                        controller.onSubcategoryTap(subcategory);
-                      },
-                      child: SubCategoryItem(category: subcategory),
+                    return CategoryGridItem(
+                      category: subcategory,
+                      onTap: () => controller.onSubcategoryTap(subcategory),
                     );
                   },
                 );
@@ -124,6 +78,91 @@ class SubcategoriesScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SubcategoriesHeader extends StatelessWidget {
+  const _SubcategoriesHeader({
+    required this.hint,
+    required this.onTextChanged,
+  });
+
+  final String hint;
+  final ValueChanged<String> onTextChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (Navigator.canPop(context)) Navigator.pop(context);
+            },
+            child: RotatedBox(
+              quarterTurns: Utils().isRTL() ? 2 : 0,
+              child: Image.asset(AppIcons.back3, width: 40),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: SearchWidget(
+              hint: hint,
+              borderRadius: 12,
+              height: 40,
+              onTextChangedWithDelay: (text) => onTextChanged(text),
+              enabled: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState({required this.isSearching});
+
+  final bool isSearching;
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = Resources.of(context).strings;
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            isSearching ? Icons.search_off : Icons.category_outlined,
+            size: 80,
+            color: context.resources.color.colorGrey8,
+          ),
+          const SizedBox(height: 16),
+          PrimaryText(
+            text: isSearching
+                ? strings.noResultsFound
+                : strings.noSubcategoriesFound,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            textColor: context.resources.color.colorGrey8,
+          ),
+          if (isSearching) ...[
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: PrimaryText(
+                text: strings.trySearchingDifferentKeywords,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                textColor: context.resources.color.colorGrey,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

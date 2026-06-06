@@ -24,12 +24,15 @@ import '../screens/conversation_messages/conversation_messages_screen.dart';
 import '../screens/main/engagement_details/engagement_details_screen.dart';
 import '../screens/main/job_details/job_details_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
+import '../screens/main/member_history/member_history_screen.dart';
 import '../screens/main/member_profiles/employer_member_profile/employer_member_profile_screen.dart';
 import '../screens/main/member_profiles/employer_rate_member/employer_rate_member_screen.dart';
 import '../screens/main/member_profiles/freelancer_member_profile/freelancer_member_profile_screen.dart';
 import '../screens/main/notifications/notifications_screen.dart';
 import '../screens/main/package_details/package_details_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
+import '../screens/main/profile/activation/activate_service_screen.dart';
+import '../screens/main/profile/activation/publish_job_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
 import '../screens/main/profile/give_feedback/give_feedback_screen.dart';
 import '../screens/main/profile/help_center/help_center_screen.dart';
@@ -45,13 +48,21 @@ import '../screens/main/profile/my_addresses/select_location/select_location_scr
 import '../screens/main/profile/my_documents/my_documents_screen.dart';
 import '../screens/main/profile/packages/add_package/add_package_screen.dart';
 import '../screens/main/profile/packages/packs_screen.dart';
+import '../screens/main/profile/payment_methods/add_card_screen.dart';
+import '../screens/main/profile/payment_methods/payment_methods_screen.dart';
 import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
 import '../screens/main/profile/personal_information/personal_information_screen.dart';
+import '../screens/main/profile/personal_information/update_email/update_email_screen.dart';
 import '../screens/main/profile/privacy_sharing/privacy_sharing_screen.dart';
 import '../screens/main/profile/services/add_service/add_service_screen.dart';
 import '../screens/main/profile/services/services_screen.dart';
 import '../screens/main/profile/share_app/invite_friends/invite_friends_screen.dart';
 import '../screens/main/profile/share_app/share_app_screen.dart';
+import '../screens/main/profile/voucher/voucher_screen.dart';
+import '../screens/main/profile/wallet/history/wallet_history_screen.dart';
+import '../screens/main/profile/wallet/receipt/payment_receipt_screen.dart';
+import '../screens/main/profile/wallet/top_up/top_up_screen.dart';
+import '../screens/main/profile/wallet/withdraw/withdraw_screen.dart';
 import '../screens/main/profile/way_of_payment/way_of_payment_screen.dart';
 import '../screens/main/profile/working_days/working_days_screen.dart';
 import '../screens/main/rate_engagement/rate_engagement_screen.dart';
@@ -139,6 +150,61 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.personalInformationScreen,
     page: () => PersonalInformationScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.updateEmailScreen,
+    page: () => const UpdateEmailScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.paymentMethodsScreen,
+    page: () => const PaymentMethodsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.addCardScreen,
+    page: () => const AddCardScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.voucherScreen,
+    page: () => const VoucherScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.topUpScreen,
+    page: () => const TopUpScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.withdrawScreen,
+    page: () => const WithdrawScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.walletHistoryScreen,
+    page: () => const WalletHistoryScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.paymentReceiptScreen,
+    page: () => const PaymentReceiptScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.activateServiceScreen,
+    page: () => const ActivateServiceScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.publishJobScreen,
+    page: () => const PublishJobScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.memberHistoryScreen,
+    page: () => const MemberHistoryScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(

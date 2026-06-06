@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -463,6 +464,10 @@ class ConversationMessagesController extends GetxController {
             attachType = 'file';
           }
           break;
+
+        case AttachmentType.location:
+          await _sendCurrentLocation();
+          return;
       }
 
       if (file != null && attachType != null) {
@@ -476,6 +481,63 @@ class ConversationMessagesController extends GetxController {
         'Error selecting file: $e',
         SnackBarStatus.ERROR,
       );
+    }
+  }
+
+  Future<void> _sendCurrentLocation() async {
+    try {
+      if (!await Geolocator.isLocationServiceEnabled()) {
+        constants.showSnackBar(
+          'Location services are disabled',
+          SnackBarStatus.ERROR,
+        );
+        return;
+      }
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        constants.showSnackBar(
+          'Location permission denied',
+          SnackBarStatus.ERROR,
+        );
+        return;
+      }
+
+      isSendLoading(true);
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      final url =
+          'https://maps.google.com/?q=${position.latitude},${position.longitude}';
+
+      ConversationMessage m = ConversationMessage(
+        senderHashcode: Prefs.getId,
+        message: url,
+        createdAt: DateTime.now(),
+      );
+      addMessage(m);
+      scrollToBottom();
+
+      final response = await _sendMessageRepository.sendMessage(
+        memberHashcode: customerHashcode,
+        message: url,
+      );
+      if (!(response.success ?? false)) {
+        constants.showSnackBar(
+          response.message.toString(),
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      constants.showSnackBar(
+        'Error sending location: $e',
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isSendLoading(false);
     }
   }
 

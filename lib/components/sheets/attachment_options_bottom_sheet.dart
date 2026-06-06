@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
 enum AttachmentType {
@@ -9,6 +10,7 @@ enum AttachmentType {
   video,
   document,
   file,
+  location,
 }
 
 class AttachmentOptionsBottomSheet {
@@ -18,8 +20,8 @@ class AttachmentOptionsBottomSheet {
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         decoration: BoxDecoration(
-          color: context.resources.color.background,
-          borderRadius: BorderRadius.only(
+          color: context.resources.color.colorWhite,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -29,113 +31,89 @@ class AttachmentOptionsBottomSheet {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Drag indicator
               Container(
-                margin: EdgeInsets.only(top: 12),
-                width: 40,
+                margin: const EdgeInsets.only(top: 10),
+                width: 36,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.resources.color.colorGrey8,
+                  color: context.resources.color.colorGrey2,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              SizedBox(height: 20),
-
-              // Title
-              PrimaryText(
-                text: Resources.of(context).strings.selectAttachment,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                textColor: context.resources.color.colorPrimary,
-              ),
-
-              SizedBox(height: 20),
-
-              // Options grid
+              const SizedBox(height: 18),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildOption(
-                      context,
-                      icon: Icons.camera_alt,
-                      label: Resources.of(context).strings.camera,
-                      color: Colors.blue,
-                      onTap: () => Navigator.pop(context, AttachmentType.camera),
-                    ),
-                    _buildOption(
-                      context,
-                      icon: Icons.photo_library,
+                    _Option(
+                      icon: AppIcons.attachGallery,
                       label: Resources.of(context).strings.gallery,
-                      color: Colors.purple,
-                      onTap: () => Navigator.pop(context, AttachmentType.gallery),
+                      onTap: () =>
+                          Navigator.pop(context, AttachmentType.gallery),
                     ),
-                    _buildOption(
-                      context,
-                      icon: Icons.videocam,
-                      label: Resources.of(context).strings.video,
-                      color: Colors.red,
-                      onTap: () => Navigator.pop(context, AttachmentType.video),
-                    ),
-                    _buildOption(
-                      context,
-                      icon: Icons.description,
-                      label: Resources.of(context).strings.document,
-                      color: Colors.orange,
-                      onTap: () => Navigator.pop(context, AttachmentType.document),
-                    ),
-                    _buildOption(
-                      context,
-                      icon: Icons.insert_drive_file,
+                    _Option(
+                      icon: AppIcons.attachFile,
                       label: Resources.of(context).strings.file,
-                      color: Colors.green,
                       onTap: () => Navigator.pop(context, AttachmentType.file),
+                    ),
+                    _Option(
+                      icon: AppIcons.attachLocation,
+                      label: Resources.of(context).strings.location,
+                      onTap: () =>
+                          Navigator.pop(context, AttachmentType.location),
                     ),
                   ],
                 ),
               ),
-
-              SizedBox(height: 16),
+              const SizedBox(height: 20),
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  static Widget _buildOption(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
+class _Option extends StatelessWidget {
+  const _Option({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final String icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.resources.color;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.3)),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 32),
-            SizedBox(height: 8),
-            PrimaryText(
-              text: label,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              textColor: color,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 64,
+            height: 64,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: colors.colorWhite,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: colors.colorGrey4, width: 1),
             ),
-          ],
-        ),
+            child: Image.asset(icon, fit: BoxFit.contain),
+          ),
+          const SizedBox(height: 8),
+          PrimaryText(
+            text: label,
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            textColor: colors.colorGrey,
+          ),
+        ],
       ),
     );
   }

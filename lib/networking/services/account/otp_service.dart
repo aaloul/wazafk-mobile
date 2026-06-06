@@ -6,8 +6,12 @@ import '../../api_base_helper.dart';
 class OtpService {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<ApiResponse> sendOTP({required String channel}) async {
+  Future<ApiResponse> sendOTP(
+      {required String channel, String? recipient}) async {
     final Map<String, dynamic> body = {'channel': channel};
+    if (recipient != null && recipient.isNotEmpty) {
+      body['recipient'] = recipient;
+    }
     final response = await _helper.post(Endpoints.sendOTP, body);
     return ApiResponse.fromJson(response);
   }

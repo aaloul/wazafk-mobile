@@ -1,3 +1,5 @@
+import '../../model/ApiResponse.dart';
+import '../../model/CheckEmailResponse.dart';
 import '../../model/LoginResponse.dart';
 import '../../model/MemberProfileResponse.dart';
 import '../../model/ProfileResponse.dart';
@@ -21,5 +23,16 @@ class ProfileRepository {
 
   Future<LoginResponse> editProfileImage(String imageBase64) async {
     return _provider.editProfileImage(imageBase64);
+  }
+
+  Future<CheckEmailResponse> checkEmailExists(String email) async {
+    return _provider.checkEmailExists(email);
+  }
+
+  Future<ApiResponse> editProfileEmail({
+    required String email,
+    required String otp,
+  }) async {
+    return _provider.editProfileEmail(email: email, otp: otp);
   }
 }

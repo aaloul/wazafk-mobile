@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+import 'package:wazafak_app/components/sheets/filter_sheet.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
@@ -71,6 +72,17 @@ class HomeController extends GetxController {
   var nbCompletedJobs = 0.obs;
   var successRate = ''.obs;
   var isFreelancerMode = (Prefs.getUserMode.toString() == 'freelancer').obs;
+
+  var activeFilters = HomeFilters().obs;
+
+  void applyFilters(HomeFilters filters) {
+    activeFilters.value = filters;
+    if (isFreelancerMode.value) {
+      fetchJobs();
+    } else {
+      fetchEmployerHome();
+    }
+  }
 
   // Unread counts
   var notificationsCount = 0.obs;
@@ -209,7 +221,9 @@ class HomeController extends GetxController {
     try {
       isLoadingJobs.value = true;
 
-      final response = await _freelancerHomeRepository.getFreelancerHome();
+      final response = await _freelancerHomeRepository.getFreelancerHome(
+        filters: activeFilters.value.toSearchParams(),
+      );
 
       if (response.success == true && response.data != null) {
         jobs.value = response.data?.records ?? [];
@@ -413,7 +427,9 @@ class HomeController extends GetxController {
     try {
       isLoadingEmployerHome.value = true;
 
-      final response = await _employerHomeRepository.getEmployerHome();
+      final response = await _employerHomeRepository.getEmployerHome(
+        filters: activeFilters.value.toSearchParams(),
+      );
 
       if (response.success == true && response.data != null) {
         // Filter data by entity type

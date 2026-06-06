@@ -112,22 +112,30 @@ class ProjectItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  // Status badge
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    margin: EdgeInsets.only(top: 2),
-                    decoration: BoxDecoration(
-                      color: HexColor(engagement.statusColor.toString()),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: PrimaryText(
-                      text: engagement.statusLabel.toString(),
-                      textColor: context.resources.color.colorWhite,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                    ),
-                  ),
+                  // Status badge — pastel bg + bold base-color text per Figma.
+                  Builder(builder: (context) {
+                    final base =
+                        HexColor(engagement.statusColor.toString());
+                    final bg = Color.alphaBlend(
+                      base.withValues(alpha: 0.14),
+                      Colors.white,
+                    );
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 5),
+                      margin: const EdgeInsets.only(top: 2),
+                      decoration: BoxDecoration(
+                        color: bg,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: PrimaryText(
+                        text: engagement.statusLabel.toString(),
+                        textColor: base,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    );
+                  }),
                 ],
               ),
 

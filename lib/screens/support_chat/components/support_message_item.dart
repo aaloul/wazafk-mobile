@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wazafak_app/components/linkified_text.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/SupportConversationMessagesResponse.dart';
 import 'package:wazafak_app/screens/support_chat/components/support_message_attachment_widget.dart';
@@ -57,9 +58,10 @@ class SupportMessageItem extends StatelessWidget {
                         SizedBox(height: 8),
                       // Text message
                       if (message.message != null && message.message!.isNotEmpty)
-                        PrimaryText(
-                          text: message.message.toString(),
+                        LinkifiedText(
+                          text: message.message!,
                           textColor: Colors.white,
+                          linkColor: Colors.white,
                           fontSize: 14,
                         ),
                     ],
@@ -136,8 +138,8 @@ class SupportMessageItem extends StatelessWidget {
                         SizedBox(height: 8),
                       // Text message
                       if (message.message != null && message.message!.isNotEmpty)
-                        PrimaryText(
-                          text: message.message.toString(),
+                        LinkifiedText(
+                          text: message.message!,
                           textColor: context.resources.color.colorBlack,
                           fontSize: 14,
                         ),

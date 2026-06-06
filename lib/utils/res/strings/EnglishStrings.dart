@@ -179,6 +179,9 @@ class EnglishStrings extends Strings {
   String get portfolioLink => "Portfolio Link";
 
   @override
+  String get portfolio => "Portfolio";
+
+  @override
   String get about => "About";
 
   @override
@@ -286,6 +289,9 @@ class EnglishStrings extends Strings {
   String get acceptRequest => "Accept Request";
 
   @override
+  String get accept => "Accept";
+
+  @override
   String get decline => "Decline";
 
   @override
@@ -365,6 +371,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get editProfileImage => "Edit Profile Image";
+
+  @override
+  String get editImage => "Edit Image";
 
   // Navigation & Screen Titles
   @override
@@ -954,6 +963,9 @@ class EnglishStrings extends Strings {
   String get notVerified => "Not Verified";
 
   @override
+  String get verifiedPill => "Verified";
+
+  @override
   String get freelancerHired => "Freelancer hired";
 
   @override
@@ -1072,10 +1084,20 @@ class EnglishStrings extends Strings {
 
   // Phone Number & Verification
   @override
-  String get loginRegister => "Login/Register";
+  String get loginRegister => "Login";
 
   @override
   String get messageAndDateRates =>
+      "By continuing, you agree to our ";
+
+  @override
+  String get dontHaveAccount => "Don't have an account?";
+
+  @override
+  String get registerNow => "Register now";
+
+  @override
+  String get byContinuingAgreeTo =>
       "By continuing, you agree to our ";
 
   @override
@@ -1098,6 +1120,21 @@ class EnglishStrings extends Strings {
 
   @override
   String get resendCode => "Resend Code";
+
+  @override
+  String get updateEmailAddress => "Update email address";
+  @override
+  String get sendEmailConfirmation =>
+      "We'll send you an email to confirm your new email address.";
+  @override
+  String get emailAlreadyTaken => "The email is already taken.";
+  @override
+  String get otpTitle => "OTP";
+  @override
+  String get otpSentToNewEmail =>
+      "Code sent to your new email. Enter it to proceed.";
+  @override
+  String get resendOtp => "Resend OTP";
 
   // Portal Selection
   @override
@@ -1430,7 +1467,7 @@ class EnglishStrings extends Strings {
   String get rateFreelancer => "Rate Freelancer";
 
   @override
-  String get rateClient => "Rate Client";
+  String get rateClient => "Rate Employer";
 
   @override
   String get rateJob => "Rate Job";
@@ -1668,6 +1705,40 @@ class EnglishStrings extends Strings {
 
   @override
   String get newTalentsAvailable => "New Talents Available";
+
+  // Notification channels / settings (Figma p159, p165)
+  @override
+  String get notificationChannels => "Notification Channels";
+  @override
+  String get pushNotifications => "Push Notifications";
+  @override
+  String get emailNotifications => "Email Notifications";
+  @override
+  String get inAppNotifications => "In-app Notifications";
+  @override
+  String get newApplications => "New Applications";
+  @override
+  String get jobUpdates => "Job Updates";
+  @override
+  String get newJobPostings => "New Job Postings";
+  @override
+  String get applicationUpdates => "Application Updates";
+  @override
+  String get jobRequests => "Job Requests";
+  @override
+  String get soundAndAlerts => "Sound & Alerts";
+  @override
+  String get notificationsSound => "Notifications Sound";
+  @override
+  String get generalGroup => "General";
+  @override
+  String get messagesNotif => "Messages";
+  @override
+  String get reviewsNotif => "Reviews";
+  @override
+  String get wazafakAnnouncements => "Wazafk Announcements";
+  @override
+  String get promotionsAndOffers => "Promotions & Offers";
 
   // Tab Names
   @override
@@ -2237,4 +2308,223 @@ class EnglishStrings extends Strings {
   @override
   String get onceApproved => "Once approved, you’ll have full access to Wazafk.";
 
+  // Notifications categories / sub-categories
+  @override
+  String get account => "Account";
+
+  @override
+  String get hiring => "Hiring";
+
+  @override
+  String get hiringUpdates => "Hiring Updates";
+
+  @override
+  String get workRequests => "Work Requests";
+
+  @override
+  String get opportunities => "Opportunities";
+
+  // Auth / Change password
+  @override
+  String get forgotPassword => "Forgot Password?";
+
+  // Payment methods (Figma p146)
+  @override
+  String get paymentMethods => "Payment Methods";
+  @override
+  String get addCard => "Add Card";
+  @override
+  String get endingWith => "Ending with";
+  @override
+  String get expires => "Expires";
+  @override
+  String get vouchers => "Vouchers";
+  @override
+  String get noVouchersYet => "You don't have any vouchers yet";
+  @override
+  String get cardNumber => "Card Number";
+  @override
+  String get cvv => "CVV";
+
+  // Documents / Share / Feedback
+  @override
+  String get uploadDoc => "Upload";
+  @override
+  String get docVerified => "Verified";
+  @override
+  String get inviteFriend => "Invite Friend";
+  @override
+  String get inviteHero => "Get 10% Off Your Next Hire (Up To 10\$)";
+  @override
+  String get howItWorks => "How it works:";
+  @override
+  String get verificationDesc => "Invite has to Verify their account.";
+  @override
+  String get inviteAction => "Action";
+  @override
+  String get inviteActionDesc => "Invite has to hire or get hired.";
+  @override
+  String get invite => "Invite";
+  @override
+  String get inviteStepsPriorVoucher =>
+      "Invite steps prior to voucher release";
+  @override
+  String get downloadStep => "Download";
+  @override
+  String get downloadStepDesc => "User has to download the app.";
+  @override
+  String get inviteByWhatsapp => "By Whatsapp";
+  @override
+  String get inviteByEmail => "By Email";
+  @override
+  String get submitFeedback => "Submit";
+  @override
+  String get rejected => "Rejected";
+  @override
+  String get review => "Review";
+
+  // Activate / Publish modals
+  @override
+  String get activateService => "Activate service";
+  @override
+  String get publishLabel => "Publish";
+  @override
+  String get keepServiceLive => "Keep the service live for";
+  @override
+  String get serviceRenewsMonthly =>
+      "Service renews every month. Turn off service to pause.";
+  @override
+  String get serviceMonthly => "Service monthly";
+  @override
+  String get extraSkills => "Extra skills";
+  @override
+  String get subscriptionMo => "Subscription";
+  @override
+  String get totalToday => "Total today";
+  @override
+  String get walletBalanceCaps => "WALLET BALANCE";
+  @override
+  String get enoughBadge => "ENOUGH";
+  @override
+  String get topUpPill => "Top Up +";
+  @override
+  String get firstServiceOnUs => "First service on us!";
+  @override
+  String get renewAtAfter90Days => "Renew at \$3/month after 90 days.";
+  @override
+  String get firstServicePromo => "First service promo";
+  @override
+  String get firstJobPostOnUs => "First job post on us!";
+  @override
+  String get publishInstantly => "Publish instantly.";
+  @override
+  String get firstJobPostPromo => "First job post promo";
+  @override
+  String get jobPostFee => "Job post fee";
+  @override
+  String get afterThisJobCosts =>
+      "After this, posting a job costs \$2. Top up anytime from your wallet.";
+  @override
+  String get editDetails => "Edit details";
+  @override
+  String get nextRenewalHint =>
+      "Next renewal: We'll remind you 3 days before.";
+
+  // Payment receipt / invoice
+  @override
+  String get paymentReceiptTitle => "Payment receipt";
+  @override
+  String get paymentInvoiceTitle => "Payment Invoice";
+  @override
+  String get jobCompletedOn => "Job completed";
+  @override
+  String get paymentFromLabel => "Payment from";
+  @override
+  String get paymentToLabel => "Payment to";
+  @override
+  String get receiptLabel => "Receipt";
+  @override
+  String get invoiceLabel => "Invoice";
+  @override
+  String get transactionIdLabel => "Transaction ID";
+  @override
+  String get escrowDeposit => "Escrow Deposit";
+  @override
+  String get released => "Released";
+  @override
+  String get jobAmount => "Job Amount";
+  @override
+  String get wazafkFee => "Wazafk Fee";
+  @override
+  String get received => "Received";
+  @override
+  String get paid => "Paid";
+
+  // Wallet — Top Up / Withdraw / History
+  @override
+  String get topUpTitle => "Top Up";
+  @override
+  String get withdraw => "Withdraw";
+  @override
+  String get walletHistory => "History";
+  @override
+  String get yourBalance => "Your Balance";
+  @override
+  String get withdrawAmount => "Withdraw amount";
+  @override
+  String get topUpAmount => "Top up amount";
+  @override
+  String get enterAmount => "Enter Amount";
+  @override
+  String get paymentMethod => "Payment method";
+  @override
+  String get otherAmount => "Other Amount";
+  @override
+  String get bestValue => "BEST VALUE";
+  @override
+  String get addPromoCode => "Add Promo Code";
+  @override
+  String get promoCode => "Promo code";
+  @override
+  String get subtotal => "Subtotal";
+  @override
+  String get total => "Total";
+  @override
+  String get change => "Change";
+  @override
+  String get noTransactions => "No transactions yet";
+
+  // Filter Sheet
+  @override
+  String get filter => "Filter";
+
+  @override
+  String get reset => "Reset";
+
+  @override
+  String get recommended => "Recommended";
+
+  @override
+  String get newest => "Newest";
+
+  @override
+  String get highestBudget => "Highest Budget";
+
+  @override
+  String get budget => "Budget";
+
+  @override
+  String get distance => "Distance";
+
+  @override
+  String get km => "km";
+
+  @override
+  String get employerRating => "Employer rating";
+
+  @override
+  String get andUp => "and up";
+
+  @override
+  String get applyFilter => "Apply filter";
 }
