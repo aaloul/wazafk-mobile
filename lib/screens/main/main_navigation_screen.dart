@@ -25,13 +25,18 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   List<Widget> _getScreens(bool isFreelancerMode) {
     if (isFreelancerMode) {
       // Freelancer: Home, Projects, Search, Profile (no Activity)
-      return [HomeScreen(), ProjectsScreen(), SearchScreen(), ProfileScreen()];
+      return [
+        HomeScreen(),
+        ProjectsScreen(),
+        SearchScreen(fromBottomNav: true),
+        ProfileScreen()
+      ];
     } else {
       // Employer: Home, Activity, Search, Profile
       return [
         HomeScreen(),
         ActivityScreen(),
-        SearchScreen(),
+        SearchScreen(fromBottomNav: true),
         ProfileScreen(),
       ];
     }

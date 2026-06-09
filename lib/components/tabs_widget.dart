@@ -9,6 +9,7 @@ class TabsWidget extends StatelessWidget {
     required this.onSelect,
     this.margin,
     required this.selectedTab,
+    this.fullWidth = false,
   });
 
   final List<String> tabs;
@@ -16,9 +17,13 @@ class TabsWidget extends StatelessWidget {
   final String selectedTab;
   final double? margin;
 
+  /// When true the tabs always split the full width evenly (no horizontal
+  /// scrolling), regardless of how many there are.
+  final bool fullWidth;
+
   @override
   Widget build(BuildContext context) {
-    final isScrollable = tabs.length > 3;
+    final isScrollable = !fullWidth && tabs.length > 3;
 
     return Container(
       width: double.infinity,

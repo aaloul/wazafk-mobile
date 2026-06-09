@@ -34,17 +34,18 @@ class ActivitiesController extends GetxController {
   var ongoingEngagements = <Engagement>[].obs;
   var pendingEngagements = <Engagement>[].obs;
   var completedEngagements = <Engagement>[].obs;
+  var disputedEngagements = <Engagement>[].obs;
   var favorites = <FavoriteData>[].obs;
 
   @override
   void onInit() {
     super.onInit();
     // Initialize with the first tab
-    selectedTab.value = Resources.of(Get.context!).strings.projectsAndServices;
+    selectedTab.value = Resources.of(Get.context!).strings.active;
     fetchOngoingEngagements();
     fetchPendingEngagements();
     fetchCompletedEngagements();
-    fetchFavoriteJobs();
+    fetchDisputedEngagements();
   }
 
   Future<void> fetchOngoingEngagements({bool? isLoading}) async {
@@ -104,6 +105,25 @@ class ActivitiesController extends GetxController {
     }
   }
 
+  Future<void> fetchDisputedEngagements({bool? isLoading}) async {
+    try {
+      isLoadingEngagements.value = isLoading ?? true;
+      final response = await _engagementsRepository.getEngagements(
+        filters: {
+          'has_dispute': '1',
+          'client': Prefs.getId,
+        },
+      );
+      if (response.success == true && response.data?.list != null) {
+        disputedEngagements.value = response.data!.list!;
+      }
+    } catch (e) {
+      print('Error fetching disputed engagements: $e');
+    } finally {
+      isLoadingEngagements.value = false;
+    }
+  }
+
   Future<void> fetchFavoriteJobs({bool? isLoading}) async {
     try {
       isLoadingFavorites.value = isLoading ?? true;
@@ -119,17 +139,17 @@ class ActivitiesController extends GetxController {
   void refreshCurrentTab() {
     final strings = Resources.of(Get.context!).strings;
     switch (selectedTab.value) {
-      case var tab when tab == strings.projectsAndServices:
+      case var tab when tab == strings.active:
         fetchOngoingEngagements();
         break;
       case var tab when tab == strings.pending:
         fetchPendingEngagements();
         break;
-      case var tab when tab == strings.closedPaused:
+      case var tab when tab == strings.completed:
         fetchCompletedEngagements();
         break;
-      case var tab when tab == strings.pins:
-        fetchFavoriteJobs();
+      case var tab when tab == strings.dispute:
+        fetchDisputedEngagements();
         break;
     }
   }

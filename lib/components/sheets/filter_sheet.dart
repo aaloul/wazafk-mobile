@@ -17,6 +17,10 @@ enum FilterEmployerRating { threePlus, fourPlus, fourFivePlus }
 enum FilterApplicants { under5, fiveToTen, tenToTwenty, twentyPlus }
 
 class HomeFilters {
+  /// Slider maximum. At this value the distance is treated as "no limit" and
+  /// is omitted from the API params (so defaults / Reset send no attributes).
+  static const double maxDistanceKm = 50;
+
   FilterSort? sort;
   Category? category;
 
@@ -34,7 +38,7 @@ class HomeFilters {
     this.category,
     List<Category>? categories,
     this.budget,
-    this.distanceKm = 10,
+    this.distanceKm = maxDistanceKm,
     this.employerRating,
     this.applicants,
   }) : categories = categories ?? <Category>[];
@@ -101,7 +105,9 @@ extension HomeFiltersApi on HomeFilters {
         break;
     }
 
-    if (distanceKm > 0) {
+    // Only constrain distance when the user narrowed it below the max; at the
+    // max value (and on Reset/default) it means "no limit" so we send nothing.
+    if (distanceKm > 0 && distanceKm < HomeFilters.maxDistanceKm) {
       params['min_distance'] = '0';
       params['max_distance'] = distanceKm.toInt().toString();
     }
@@ -162,7 +168,7 @@ class _FilterSheetState extends State<FilterSheet> {
   late HomeFilters _filters;
   HomeController? _homeController;
 
-  static const double _maxDistance = 50;
+  static const double _maxDistance = HomeFilters.maxDistanceKm;
 
   @override
   void initState() {
@@ -390,9 +396,15 @@ class _FilterSheetState extends State<FilterSheet> {
   }
 
   Widget _buildCategoryPicker(BuildContext context, dynamic strings) {
-    final List<Category> categories =
-        _homeController?.categories.toList() ?? <Category>[];
-    final selected = _filters.category;
+    // Freelancers filter jobs (job categories, type J); employers filter
+    // services/packages (service categories, type S).
+    final bool isFreelancer = _homeController?.isFreelancerMode.value ?? false;
+    final List<Category> categories = (isFreelancer
+            ? _homeController?.jobCategories
+            : _homeController?.categories)
+        ?.toList() ??
+        <Category>[];
+    final selected = _filters.categories;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -400,8 +412,8 @@ class _FilterSheetState extends State<FilterSheet> {
         GestureDetector(
           onTap: () => _showCategoryPicker(context, categories),
           child: Container(
-            height: 50,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            constraints: const BoxConstraints(minHeight: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: context.resources.color.colorWhite,
               borderRadius: BorderRadius.circular(10),
@@ -414,12 +426,15 @@ class _FilterSheetState extends State<FilterSheet> {
               children: [
                 Expanded(
                   child: PrimaryText(
-                    text: selected?.name ?? strings.selectCategory,
+                    text: selected.isEmpty
+                        ? strings.selectCategory
+                        : selected.map((c) => c.name ?? '').join(', '),
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    textColor: selected != null
+                    textColor: selected.isNotEmpty
                         ? context.resources.color.colorPrimary
                         : context.resources.color.colorGrey8,
+                    maxLines: 2,
                   ),
                 ),
                 Image.asset(
@@ -431,6 +446,44 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
           ),
         ),
+        if (selected.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: selected.map((c) {
+              return GestureDetector(
+                onTap: () => setState(() => _filters.categories
+                    .removeWhere((e) => e.hashcode == c.hashcode)),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: context.resources.color.colorPrimaryLight,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      PrimaryText(
+                        text: c.name ?? '',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        textColor: context.resources.color.colorPrimary,
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.close,
+                        size: 14,
+                        color: context.resources.color.colorPrimary,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
       ],
     );
   }
@@ -445,42 +498,54 @@ class _FilterSheetState extends State<FilterSheet> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (sheetContext) {
-        return SizedBox(
-          height: MediaQuery.of(sheetContext).size.height * 0.6,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            itemCount: categories.length,
-            separatorBuilder: (_, __) => Divider(
-              height: 1,
-              color: context.resources.color.colorGrey4,
-            ),
-            itemBuilder: (_, index) {
-              final c = categories[index];
-              final isSelected = _filters.category?.hashcode == c.hashcode;
-              return ListTile(
-                title: PrimaryText(
-                  text: c.name ?? '',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  textColor: isSelected
-                      ? context.resources.color.colorPrimary
-                      : context.resources.color.colorBlack,
+        return StatefulBuilder(
+          builder: (sheetContext, setModalState) {
+            return SizedBox(
+              height: MediaQuery.of(sheetContext).size.height * 0.6,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                itemCount: categories.length,
+                separatorBuilder: (_, __) => Divider(
+                  height: 1,
+                  color: context.resources.color.colorGrey4,
                 ),
-                trailing: isSelected
-                    ? Icon(
-                        Icons.check_circle,
-                        color: context.resources.color.colorPrimary,
-                      )
-                    : null,
-                onTap: () {
-                  setState(() {
-                    _filters.category = isSelected ? null : c;
-                  });
-                  Navigator.pop(sheetContext);
+                itemBuilder: (_, index) {
+                  final c = categories[index];
+                  final isSelected = _filters.categories
+                      .any((e) => e.hashcode == c.hashcode);
+                  return ListTile(
+                    title: PrimaryText(
+                      text: c.name ?? '',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      textColor: isSelected
+                          ? context.resources.color.colorPrimary
+                          : context.resources.color.colorBlack,
+                    ),
+                    trailing: Icon(
+                      isSelected
+                          ? Icons.check_circle
+                          : Icons.radio_button_unchecked,
+                      color: isSelected
+                          ? context.resources.color.colorPrimary
+                          : context.resources.color.colorGrey6,
+                    ),
+                    onTap: () {
+                      // Multi-select: toggle membership, keep the sheet open.
+                      if (isSelected) {
+                        _filters.categories
+                            .removeWhere((e) => e.hashcode == c.hashcode);
+                      } else {
+                        _filters.categories.add(c);
+                      }
+                      setModalState(() {});
+                      setState(() {});
+                    },
+                  );
                 },
-              );
-            },
-          ),
+              ),
+            );
+          },
         );
       },
     );

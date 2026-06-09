@@ -207,10 +207,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 0,
-                                    ),
+                                  Flexible(
                                     child: GestureDetector(
                                       onTap: () {
                                         Get.toNamed(
@@ -279,12 +276,14 @@ class ServiceDetailsScreen extends StatelessWidget {
                                               ),
                                             ),
                                             SizedBox(width: 6),
-                                            PrimaryText(
-                                              text:
-                                                  '${controller.service.value?.memberFirstName.toString() ?? ''}\n ${controller.service.value?.memberLastName.toString() ?? ''}',
-                                              fontSize: 12,
-                                              maxLines: 2,
-                                              fontWeight: FontWeight.w600,
+                                            Flexible(
+                                              child: PrimaryText(
+                                                text:
+                                                    '${controller.service.value?.memberFirstName.toString() ?? ''}\n ${controller.service.value?.memberLastName.toString() ?? ''}',
+                                                fontSize: 12,
+                                                maxLines: 2,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
                                             SizedBox(width: 4),
                                             Image.asset(

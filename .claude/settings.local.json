@@ -41,7 +41,8 @@
       "Bash(pdftotext -l 200 \"C:\\\\Users\\\\husse\\\\Downloads\\\\Wazafk - New Design.pdf\" -)",
       "Bash(pdftotext \"C:\\\\Users\\\\husse\\\\Downloads\\\\Wazafk - New Design.pdf\" temp.txt)",
       "Bash(xargs basename -a)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "Bash(dart analyze *)"
     ],
     "deny": [],
     "ask": []

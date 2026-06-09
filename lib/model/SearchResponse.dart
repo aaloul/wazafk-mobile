@@ -56,16 +56,24 @@ class Data {
     this.records,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) =>
-      Data(
-        page: json["page"],
-        pageLimit: json["page_limit"],
-        prevIndices: json["prev_indices"],
-        pageIndices: json["page_indices"],
-        total: json["total"],
-        records: json["records"] == null ? [] : List<SearchData>.from(
-            json["records"]!.map((x) => SearchData.fromJson(x))),
-      );
+  factory Data.fromJson(Map<String, dynamic> json) {
+    // The search endpoint may return the list under "records" (search v2) or
+    // "list" (same envelope as the home endpoints). Accept either so results
+    // render regardless of which the backend sends.
+    final dynamic rawList = json["records"] ?? json["list"];
+    final Map<String, dynamic>? meta =
+        json["meta"] is Map<String, dynamic> ? json["meta"] : null;
+    return Data(
+      page: json["page"] ?? meta?["page"],
+      pageLimit: json["page_limit"] ?? meta?["size"],
+      prevIndices: json["prev_indices"],
+      pageIndices: json["page_indices"],
+      total: json["total"] ?? meta?["total"],
+      records: rawList == null
+          ? []
+          : List<SearchData>.from(rawList.map((x) => SearchData.fromJson(x))),
+    );
+  }
 
   Map<String, dynamic> toJson() =>
       {

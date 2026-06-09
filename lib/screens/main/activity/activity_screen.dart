@@ -4,15 +4,11 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/skeletons/project_item_skeleton.dart';
 import 'package:wazafak_app/components/tabs_widget.dart';
 import 'package:wazafak_app/components/top_header.dart';
-import 'package:wazafak_app/screens/main/activity/components/favorite_freelancer_item.dart';
-import 'package:wazafak_app/screens/main/home/components/skeletons/home_freelancer_skeleton.dart';
 import 'package:wazafak_app/screens/main/projects/components/projects/project_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
 import 'activities_controller.dart';
-import 'components/favorite_package_item.dart';
-import 'components/favorite_service_item.dart';
 
 class ActivityScreen extends StatelessWidget {
   ActivityScreen({super.key});
@@ -27,7 +23,7 @@ class ActivityScreen extends StatelessWidget {
         controller.fetchOngoingEngagements(isLoading: false);
         controller.fetchPendingEngagements(isLoading: false);
         controller.fetchCompletedEngagements(isLoading: false);
-        controller.fetchFavoriteJobs(isLoading: false);
+        controller.fetchDisputedEngagements(isLoading: false);
       },
       child: Scaffold(
         backgroundColor: context.resources.color.background,
@@ -50,11 +46,12 @@ class ActivityScreen extends StatelessWidget {
                     () =>
                     TabsWidget(
                       margin: 16,
+                      fullWidth: true,
                       tabs: [
-                        context.resources.strings.projectsAndServices,
+                        context.resources.strings.active,
                         context.resources.strings.pending,
-                        context.resources.strings.closedPaused,
-                        context.resources.strings.pins
+                        context.resources.strings.completed,
+                        context.resources.strings.dispute
                       ],
                       onSelect: (tab) {
                         controller.selectedTab.value = tab;
@@ -78,14 +75,14 @@ class ActivityScreen extends StatelessWidget {
   Widget _buildTabContent(BuildContext context) {
     final strings = Resources.of(context).strings;
     switch (controller.selectedTab.value) {
-      case var tab when tab == strings.projectsAndServices:
+      case var tab when tab == strings.active:
         return _buildOngoingProjects(context);
       case var tab when tab == strings.pending:
         return _buildPendingProjects(context);
-      case var tab when tab == strings.closedPaused:
+      case var tab when tab == strings.completed:
         return _buildCompletedProjects(context);
-      case var tab when tab == strings.pins:
-        return _buildSavedFavorites(context);
+      case var tab when tab == strings.dispute:
+        return _buildDisputedProjects(context);
       default:
         return Container();
     }
@@ -181,53 +178,31 @@ class ActivityScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSavedFavorites(BuildContext context) {
-    if (controller.isLoadingFavorites.value) {
+  Widget _buildDisputedProjects(BuildContext context) {
+    if (controller.isLoadingEngagements.value) {
       return ListView.builder(
         padding: EdgeInsets.all(16),
         itemCount: 5,
-        itemBuilder: (context, index) => HomeFreelancerSkeleton(),
+        itemBuilder: (context, index) => ProjectItemSkeleton(),
       );
     }
 
-    if (controller.favorites.isEmpty) {
+    if (controller.disputedEngagements.isEmpty) {
       return Center(
         child: Text(
-          Resources.of(context).strings.noSavedPins,
+          Resources.of(context).strings.noDisputedProjects,
         ),
       );
     }
 
     return RefreshIndicator(
-      onRefresh: controller.fetchFavoriteJobs,
+      onRefresh: controller.fetchDisputedEngagements,
       child: ListView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: controller.favorites.length,
+        itemCount: controller.disputedEngagements.length,
         itemBuilder: (context, index) {
-          final favorite = controller.favorites[index];
-
-          // Render different widgets based on entity type
-          if (favorite.entityType == 'MEMBER' && favorite.member != null) {
-            return FavoriteFreelancerItem(
-              freelancer: favorite.member!,
-              onFavoriteToggle: controller.toggleMemberFavorite,
-            );
-          } else
-          if (favorite.entityType == 'SERVICE' && favorite.service != null) {
-            return FavoriteServiceItem(
-              service: favorite.service!,
-              onFavoriteToggle: controller.toggleServiceFavorite,
-            );
-          } else
-          if (favorite.entityType == 'PACKAGE' && favorite.package != null) {
-            return FavoritePackageItem(
-              package: favorite.package!,
-              onFavoriteToggle: controller.togglePackageFavorite,
-            );
-          }
-
-          // Return empty container for unknown types
-          return SizedBox.shrink();
+          final engagement = controller.disputedEngagements[index];
+          return ProjectItem(engagement: engagement,);
         },
       ),
     );

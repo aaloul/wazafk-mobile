@@ -296,11 +296,20 @@ class SearchController extends GetxController {
   }
 
   void onSearchTextChanged(String text) {
+    // Ignore stale debounced callbacks whose text no longer matches the field
+    // (e.g. the user submitted or tapped a suggestion before the debounce fired).
+    if (text != searchController.text) return;
+
     if (text.isEmpty) {
       searchSuggestions.clear();
       showSuggestions.value = false;
       searchResults.clear();
       searchQuery.value = '';
+    } else if (text.trim() == searchQuery.value.trim()) {
+      // Text already matches the committed search (e.g. a late-firing debounce
+      // after submit/selecting a suggestion) — keep the results on screen
+      // instead of popping the suggestions list back over them.
+      showSuggestions.value = false;
     } else {
       showSuggestions.value = true;
       // if (text.length > 2) {

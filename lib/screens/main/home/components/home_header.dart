@@ -261,6 +261,7 @@ class UserTypeTabBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           GestureDetector(
             onTap: () {

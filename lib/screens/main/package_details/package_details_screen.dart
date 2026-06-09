@@ -64,7 +64,8 @@ class PackageDetailsScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  GestureDetector(
+                                  Flexible(
+                                    child: GestureDetector(
                                     onTap: () {
                                       Get.toNamed(
                                         RouteConstant
@@ -118,12 +119,14 @@ class PackageDetailsScreen extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(width: 6),
-                                          PrimaryText(
-                                            text:
-                                                '${package.memberFirstName ?? ''}\n ${package.memberLastName ?? ''}',
-                                            fontSize: 12,
-                                            maxLines: 2,
-                                            fontWeight: FontWeight.w600,
+                                          Flexible(
+                                            child: PrimaryText(
+                                              text:
+                                                  '${package.memberFirstName ?? ''}\n ${package.memberLastName ?? ''}',
+                                              fontSize: 12,
+                                              maxLines: 2,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                           SizedBox(width: 4),
                                           Image.asset(
@@ -140,6 +143,7 @@ class PackageDetailsScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
+                                    ),
                                     ),
                                   ),
 

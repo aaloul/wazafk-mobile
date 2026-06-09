@@ -17,7 +17,9 @@ import 'package:wazafak_app/utils/utils.dart';
 import 'search_controller.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key, this.fromBottomNav = false});
+
+  final bool fromBottomNav;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -65,6 +67,7 @@ class _SearchScreenState extends State<SearchScreen> {
             _SearchHeader(
               controller: controller,
               focusNode: _searchFocusNode,
+              showBack: !widget.fromBottomNav,
               onFilterTap: () {
                 SheetHelper.showFilterSheet(
                   context,
@@ -363,11 +366,13 @@ class _SearchHeader extends StatelessWidget {
     required this.controller,
     required this.focusNode,
     required this.onFilterTap,
+    this.showBack = true,
   });
 
   final SearchController controller;
   final FocusNode focusNode;
   final VoidCallback onFilterTap;
+  final bool showBack;
 
   @override
   Widget build(BuildContext context) {
@@ -375,16 +380,18 @@ class _SearchHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () {
-              if (Navigator.canPop(context)) Navigator.pop(context);
-            },
-            child: RotatedBox(
-              quarterTurns: Utils().isRTL() ? 2 : 0,
-              child: Image.asset(AppIcons.back3, width: 40),
+          if (showBack) ...[
+            GestureDetector(
+              onTap: () {
+                if (Navigator.canPop(context)) Navigator.pop(context);
+              },
+              child: RotatedBox(
+                quarterTurns: Utils().isRTL() ? 2 : 0,
+                child: Image.asset(AppIcons.back3, width: 40),
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
+            const SizedBox(width: 10),
+          ],
           Expanded(
             child: SearchWidget(
               controller: controller.searchController,
@@ -395,6 +402,9 @@ class _SearchHeader extends StatelessWidget {
               height: 40,
               onTextChangedWithDelay: (text) {
                 controller.onSearchTextChanged(text);
+              },
+              onSearchSubmit: (text) {
+                controller.search(text);
               },
               enabled: true,
             ),

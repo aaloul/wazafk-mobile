@@ -1188,6 +1188,9 @@ class EnglishStrings extends Strings {
   String get noCompletedProjects => "No completed projects";
 
   @override
+  String get noDisputedProjects => "No disputed projects";
+
+  @override
   String get noSavedPins => "No saved pins";
 
   @override

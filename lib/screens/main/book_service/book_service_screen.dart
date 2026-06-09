@@ -203,7 +203,8 @@ class BookServiceScreen extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    GestureDetector(
+                                    Flexible(
+                                      child: GestureDetector(
                                       onTap: () {
                                         Get.toNamed(
                                           RouteConstant
@@ -257,12 +258,14 @@ class BookServiceScreen extends StatelessWidget {
                                               ),
                                             ),
                                             const SizedBox(width: 6),
-                                            PrimaryText(
-                                              text:
-                                                  '${memberFirstName ?? ''}\n${memberLastName ?? ''}',
-                                              fontSize: 12,
-                                              maxLines: 2,
-                                              fontWeight: FontWeight.w600,
+                                            Flexible(
+                                              child: PrimaryText(
+                                                text:
+                                                    '${memberFirstName ?? ''}\n${memberLastName ?? ''}',
+                                                fontSize: 12,
+                                                maxLines: 2,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
                                             const SizedBox(width: 4),
                                             Image.asset(AppIcons.star2,
@@ -278,6 +281,7 @@ class BookServiceScreen extends StatelessWidget {
                                           ],
                                         ),
                                       ),
+                                    ),
                                     ),
 
                                     Container(

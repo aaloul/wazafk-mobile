@@ -1196,6 +1196,9 @@ class ArabicStrings extends Strings {
   String get noCompletedProjects => "لا توجد مشاريع مكتملة";
 
   @override
+  String get noDisputedProjects => "لا توجد مشاريع متنازع عليها";
+
+  @override
   String get noSavedPins => "لا توجد مثبتات محفوظة";
 
   @override

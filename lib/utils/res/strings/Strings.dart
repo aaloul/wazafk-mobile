@@ -786,6 +786,8 @@ abstract class Strings {
 
   String get noCompletedProjects;
 
+  String get noDisputedProjects;
+
   String get noSavedPins;
 
   String get noSavedJobs;

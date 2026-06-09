@@ -75,8 +75,13 @@ class HomeController extends GetxController {
 
   var activeFilters = HomeFilters().obs;
 
+  /// Whether the user has explicitly applied filters at least once. Until then
+  /// the freelancer home request is sent without any query params.
+  var hasAppliedFilters = false;
+
   void applyFilters(HomeFilters filters) {
     activeFilters.value = filters;
+    hasAppliedFilters = true;
     if (isFreelancerMode.value) {
       fetchJobs();
     } else {
@@ -222,7 +227,7 @@ class HomeController extends GetxController {
       isLoadingJobs.value = true;
 
       final response = await _freelancerHomeRepository.getFreelancerHome(
-        filters: activeFilters.value.toSearchParams(),
+        filters: hasAppliedFilters ? activeFilters.value.toSearchParams() : null,
       );
 
       if (response.success == true && response.data != null) {
@@ -428,7 +433,7 @@ class HomeController extends GetxController {
       isLoadingEmployerHome.value = true;
 
       final response = await _employerHomeRepository.getEmployerHome(
-        filters: activeFilters.value.toSearchParams(),
+        filters: hasAppliedFilters ? activeFilters.value.toSearchParams() : null,
       );
 
       if (response.success == true && response.data != null) {

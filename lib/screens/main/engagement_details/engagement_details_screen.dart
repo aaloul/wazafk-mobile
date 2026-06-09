@@ -512,8 +512,7 @@ class EngagementDetailsScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 0),
+                            Flexible(
                               child: GestureDetector(
                                 onTap: () {
                                   final isCurrentUserClient =
@@ -576,11 +575,14 @@ class EngagementDetailsScreen extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(width: 6),
-                                      PrimaryText(
-                                        text: '$memberFirstName\n$memberLastName',
-                                        fontSize: 12,
-                                        maxLines: 2,
-                                        fontWeight: FontWeight.w600,
+                                      Flexible(
+                                        child: PrimaryText(
+                                          text:
+                                              '$memberFirstName\n$memberLastName',
+                                          fontSize: 12,
+                                          maxLines: 2,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                       SizedBox(width: 4),
                                       Image.asset(AppIcons.star2, width: 12),

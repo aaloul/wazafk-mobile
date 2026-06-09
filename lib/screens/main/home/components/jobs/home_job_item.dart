@@ -97,7 +97,7 @@ class _HomeJobItemState extends State<HomeJobItem> {
                           children: [
                             Image.asset(
                               AppIcons.location,
-                              width: 18,
+                              width: 15,
                               color: context.resources.color.colorGrey29,
                             ),
                             SizedBox(width: 3),
