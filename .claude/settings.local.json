@@ -49,7 +49,9 @@
       "Bash(powershell.exe -Command \"\\(Get-Item 'C:\\\\Users\\\\husse\\\\Downloads\\\\Wazafk - New Design.pdf'\\).Length\")",
       "Bash(pdfinfo \"/c/Users/husse/Downloads/Wazafk - New Design.pdf\")",
       "Bash(pip list *)",
-      "Bash(break)"
+      "Bash(break)",
+      "PowerShell(& \".\\\\android\\\\gradlew.bat\" -p android --stop 2>&1 | Select-Object -Last 10)",
+      "PowerShell(& \".\\\\android\\\\gradlew.bat\" -p android help --quiet 2>&1 | Select-Object -Last 25)"
     ],
     "deny": [],
     "ask": []

@@ -42,7 +42,8 @@ class FirebaseMessagingManager {
 
   factory FirebaseMessagingManager() => _instance;
 
-  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  // Lazy: must not be touched before Firebase.initializeApp() has run.
+  FirebaseMessaging get _messaging => FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
 
