@@ -299,6 +299,102 @@ class ArabicStrings extends Strings {
   String get negotiate => "تفاوض";
 
   @override
+  String get inquiry => "استفسار";
+
+  @override
+  String get yourInquiry => "استفسارك";
+
+  @override
+  String get clientsBudget => "ميزانية العميل";
+
+  @override
+  String get freelancerPriceRequest => "السعر المطلوب من المستقل";
+
+  @override
+  String get amountRequest => "المبلغ المطلوب";
+
+  @override
+  String get requestDifferentDatesIfNeeded => "اطلب تواريخ مختلفة إذا لزم الأمر";
+
+  @override
+  String get sendInquiry => "إرسال الاستفسار";
+
+  @override
+  String get enterMessageToEmployerHere => "اكتب رسالة لصاحب العمل هنا";
+
+  @override
+  String get finalizeJob => "إنهاء العمل";
+
+  @override
+  String get needHelpContactSupport => "تحتاج مساعدة؟ لأي مشكلة تواصل مع الدعم";
+
+  @override
+  String get timeEstimation => "الوقت المقدر";
+
+  @override
+  String get aboutTheJob => "حول الوظيفة";
+
+  @override
+  String get bookingRequest => "طلب حجز";
+
+  @override
+  String get brief => "نبذة";
+
+  @override
+  String get yourRequest => "طلبك";
+
+  @override
+  String get messageFromFreelancer => "رسالة من المستقل";
+
+  @override
+  String get ok => "حسناً";
+
+  @override
+  String get inquirySent => "تم إرسال الاستفسار";
+
+  @override
+  String get jobAccepted => "تم قبول العمل";
+
+  @override
+  String get application => "الطلب";
+
+  @override
+  String get applicationSent => "تم إرسال الطلب";
+
+  @override
+  String get viewApplication => "عرض الطلب";
+
+  @override
+  String get inquirySentWaitEmployer =>
+      "لقد أرسلت استفساراً. يرجى انتظار موافقة صاحب العمل!";
+
+  @override
+  String get inquirySentWaitFreelancer =>
+      "لقد أرسلت استفساراً. يرجى انتظار موافقة المستقل!";
+
+  @override
+  String youAcceptedInquiry(String date) =>
+      "لقد قبلت الاستفسار! سيبدأ العمل في $date.";
+
+  @override
+  String jobWillStartOn(String date) => "سيبدأ العمل في $date.";
+
+  @override
+  String jobWillStartInDays(int days) =>
+      days == 1 ? "سيبدأ العمل خلال يوم واحد" : "سيبدأ العمل خلال $days أيام";
+
+  @override
+  String get jobStartsToday => "يبدأ العمل اليوم";
+
+  @override
+  String youAcceptedApplication(String name, String date) =>
+      "لقد قبلت طلب \"$name\" للعمل! سيبدأ العمل في $date.";
+
+  @override
+  String applicationSentMessage(String job) =>
+      "لقد تقدمت بنجاح لوظيفة '$job'. سيقوم العميل بمراجعة طلبك وإعلامك عند اتخاذ القرار. حظاً موفقاً!";
+
+  @override
   String get finishTask => "إنهاء المهمة";
 
   @override
@@ -918,6 +1014,9 @@ class ArabicStrings extends Strings {
 
   @override
   String get date => "التاريخ";
+
+  @override
+  String get dates => "التواريخ";
 
   @override
   String get applicants => "المتقدمون";

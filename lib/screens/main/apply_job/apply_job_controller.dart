@@ -8,8 +8,11 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/repository/account/face_match_repository.dart';
 import 'package:wazafak_app/repository/engagement/submit_engagement_repository.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
+
+import '../../../components/sheets/success_message_sheet.dart';
 
 class ApplyJobController extends GetxController {
   final SubmitEngagementRepository _submitEngagementRepository =
@@ -368,17 +371,16 @@ class ApplyJobController extends GetxController {
       final response = await _submitEngagementRepository.submitEngagement(data);
 
       if (response.success == true) {
-        constants.showSnackBar(
-          response.message ?? Resources
-              .of(Get.context!)
-              .strings
-              .applicationSubmittedSuccessfully,
-          SnackBarStatus.SUCCESS,
+        // Close the apply screen(s), then show the "Application Sent" sheet.
+        Get.back();
+        Get.back();
+        final strings = Resources.of(Get.context!).strings;
+        showSuccessMessageSheet(
+          title: strings.applicationSent,
+          illustration: AppIcons.msgApplicationSent,
+          message: strings.applicationSentMessage(job.value?.title ?? ''),
+          buttonText: strings.viewApplication,
         );
-
-        // Go back to previous screen
-        Get.back();
-        Get.back();
       } else {
         if (response.message != null) {
           constants.showSnackBar(response.message!, SnackBarStatus.ERROR);

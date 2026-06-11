@@ -22,6 +22,8 @@ import '../screens/chat/chat_screen.dart';
 import '../screens/common/terms/terms_screen.dart';
 import '../screens/conversation_messages/conversation_messages_screen.dart';
 import '../screens/main/engagement_details/engagement_details_screen.dart';
+import '../screens/main/engagement_details/inquiry/inquiry_review_screen.dart';
+import '../screens/main/engagement_details/inquiry/inquiry_screen.dart';
 import '../screens/main/job_details/job_details_screen.dart';
 import '../screens/main/main_navigation_screen.dart';
 import '../screens/main/member_history/member_history_screen.dart';
@@ -360,6 +362,16 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.engagementDetailsScreen,
     page: () => EngagementDetailsScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.inquiryScreen,
+    page: () => const InquiryScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.inquiryReviewScreen,
+    page: () => const InquiryReviewScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(

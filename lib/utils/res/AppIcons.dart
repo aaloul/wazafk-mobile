@@ -3,6 +3,14 @@ class AppIcons {
   static const String base = 'assets/images/';
   static const String logo = '${base}logo.png';
   static const String categoryAll = '${base}category_all.png';
+
+  // Success message-sheet illustrations
+  static const String msgInquirySent = '${base}msg_inquiry_sent.png';
+  static const String msgAccepted = '${base}msg_accepted.png';
+  static const String msgApplicationAccepted =
+      '${base}msg_application_accepted.png';
+  static const String msgApplicationSent = '${base}msg_application_sent.png';
+
   static const String name = '${base}name.png';
   static const String arrowRight = '${base}arrow-right.png';
   static const String phoneScreenImage = '${base}phone_screen_image.png';
@@ -108,6 +116,9 @@ class AppIcons {
 
   // Rate Engagement
   static const String rateIllustration = '${base}rate_illustration.png';
+  static const String rateFreelancerIllustration =
+      '${base}rate_freelancer.png';
+  static const String rateEmployerIllustration = '${base}rate_employer.png';
 
   // Chat attachment sheet
   static const String attachGallery = '${base}attach_gallery.png';

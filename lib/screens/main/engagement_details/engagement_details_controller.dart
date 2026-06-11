@@ -22,11 +22,13 @@ import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../components/dialog/dialog_helper.dart';
+import '../../../components/sheets/success_message_sheet.dart';
 import '../../../constants/route_constant.dart';
 import '../../../repository/engagement/engagement_detail_repository.dart';
 import '../../../repository/engagement/submit_engagement_change_request_repository.dart';
 import '../../../utils/Prefs.dart';
 import '../../../utils/res/AppContextExtension.dart';
+import '../../../utils/res/AppIcons.dart';
 import 'components/finish_engagement_bottom_sheet.dart';
 
 class EngagementDetailsController extends GetxController {
@@ -199,21 +201,31 @@ class EngagementDetailsController extends GetxController {
       );
 
       if (response.success == true) {
-        constants.showSnackBar(
-          Resources
-              .of(Get.context!)
-              .strings
-              .taskAcceptedSuccessfully,
-          SnackBarStatus.SUCCESS,
-        );
-
         // Refresh engagement details
         if (engagement.value?.hashcode != null) {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
 
-        // // Go back to previous screen
-        // Get.back(result: true);
+        // Success sheet: "Application accepted" for jobs, "Job Accepted" else.
+        final strings = Resources.of(Get.context!).strings;
+        final start = engagement.value?.startDatetime;
+        final dateStr = start != null ? DateFormat('dd MMMM').format(start) : '';
+        if (isJob.value) {
+          final name =
+              '${engagement.value?.freelancerFirstName ?? ''} ${engagement.value?.freelancerLastName ?? ''}'
+                  .trim();
+          showSuccessMessageSheet(
+            title: strings.application,
+            illustration: AppIcons.msgApplicationAccepted,
+            message: strings.youAcceptedApplication(name, dateStr),
+          );
+        } else {
+          showSuccessMessageSheet(
+            title: strings.jobAccepted,
+            illustration: AppIcons.msgAccepted,
+            message: strings.jobWillStartOn(dateStr),
+          );
+        }
       } else {
         constants.showSnackBar(
           response.message ?? Resources
@@ -419,19 +431,23 @@ class EngagementDetailsController extends GetxController {
       );
 
       if (response.success == true) {
-        constants.showSnackBar(
-          response.message ?? 'Negotiation submitted successfully',
-          SnackBarStatus.SUCCESS,
-        );
-
         // Refresh engagement details
         if (engagement.value?.hashcode != null) {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
 
-        // Close the bottom sheet and go back
-        Get.back(); // Close bottom sheet
-        // Get.back(result: true); // Go back to previous screen
+        // Close the inquiry screen, then show the "Inquiry sent" sheet.
+        Get.back();
+        final strings = Resources.of(Get.context!).strings;
+        final isClient =
+            engagement.value?.clientHashcode.toString() == Prefs.getId;
+        showSuccessMessageSheet(
+          title: strings.inquirySent,
+          illustration: AppIcons.msgInquirySent,
+          message: isClient
+              ? strings.inquirySentWaitFreelancer
+              : strings.inquirySentWaitEmployer,
+        );
       } else {
         constants.showSnackBar(
           response.message ?? Resources
@@ -568,21 +584,21 @@ class EngagementDetailsController extends GetxController {
       );
 
       if (response.success == true) {
-        constants.showSnackBar(
-          Resources
-              .of(Get.context!)
-              .strings
-              .changeRequestAcceptedSuccessfully,
-          SnackBarStatus.SUCCESS,
-        );
-
         // Refresh engagement details
         if (engagement.value?.hashcode != null) {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
 
-        // Go back to previous screen
+        // Close the inquiry-review screen, then show "Job Accepted".
         Get.back(result: true);
+        final strings = Resources.of(Get.context!).strings;
+        final start = engagement.value?.startDatetime;
+        final dateStr = start != null ? DateFormat('dd MMMM').format(start) : '';
+        showSuccessMessageSheet(
+          title: strings.jobAccepted,
+          illustration: AppIcons.msgAccepted,
+          message: strings.youAcceptedInquiry(dateStr),
+        );
       } else {
         constants.showSnackBar(
           response.message ?? Resources

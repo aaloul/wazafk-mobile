@@ -199,6 +199,68 @@ abstract class Strings {
 
   String get negotiate;
 
+  // --- Engagement inquiry / details (new design) ---
+  String get inquiry;
+
+  String get yourInquiry;
+
+  String get clientsBudget;
+
+  String get freelancerPriceRequest;
+
+  String get amountRequest;
+
+  String get requestDifferentDatesIfNeeded;
+
+  String get sendInquiry;
+
+  String get enterMessageToEmployerHere;
+
+  String get finalizeJob;
+
+  String get needHelpContactSupport;
+
+  String get timeEstimation;
+
+  String get aboutTheJob;
+
+  String get bookingRequest;
+
+  String get brief;
+
+  String get yourRequest;
+
+  String get messageFromFreelancer;
+
+  // --- Success message sheets ---
+  String get ok;
+
+  String get inquirySent;
+
+  String get jobAccepted;
+
+  String get application;
+
+  String get applicationSent;
+
+  String get viewApplication;
+
+  String get inquirySentWaitEmployer;
+
+  String get inquirySentWaitFreelancer;
+
+  String youAcceptedInquiry(String date);
+
+  String jobWillStartOn(String date);
+
+  String jobWillStartInDays(int days);
+
+  String get jobStartsToday;
+
+  String youAcceptedApplication(String name, String date);
+
+  String applicationSentMessage(String job);
+
   String get finishTask;
 
   String get submitDispute;
@@ -602,6 +664,8 @@ abstract class Strings {
   String get onsite;
 
   String get date;
+
+  String get dates;
 
   String get applicants;
 

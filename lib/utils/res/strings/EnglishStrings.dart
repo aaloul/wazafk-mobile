@@ -298,6 +298,105 @@ class EnglishStrings extends Strings {
   String get negotiate => "Negotiate";
 
   @override
+  String get inquiry => "Inquiry";
+
+  @override
+  String get yourInquiry => "Your Inquiry";
+
+  @override
+  String get clientsBudget => "Clients Budget";
+
+  @override
+  String get freelancerPriceRequest => "Freelancer Price Request";
+
+  @override
+  String get amountRequest => "Amount request";
+
+  @override
+  String get requestDifferentDatesIfNeeded =>
+      "Request different dates if needed";
+
+  @override
+  String get sendInquiry => "Send Inquiry";
+
+  @override
+  String get enterMessageToEmployerHere => "Enter message to employer here";
+
+  @override
+  String get finalizeJob => "Finalize Job";
+
+  @override
+  String get needHelpContactSupport =>
+      "Need Help? for any problem or issue contact support";
+
+  @override
+  String get timeEstimation => "Time estimation";
+
+  @override
+  String get aboutTheJob => "About the job";
+
+  @override
+  String get bookingRequest => "Booking request";
+
+  @override
+  String get brief => "Brief";
+
+  @override
+  String get yourRequest => "Your request";
+
+  @override
+  String get messageFromFreelancer => "Message from freelancer";
+
+  @override
+  String get ok => "Ok";
+
+  @override
+  String get inquirySent => "Inquiry sent";
+
+  @override
+  String get jobAccepted => "Job Accepted";
+
+  @override
+  String get application => "Application";
+
+  @override
+  String get applicationSent => "Application Sent";
+
+  @override
+  String get viewApplication => "View Application";
+
+  @override
+  String get inquirySentWaitEmployer =>
+      "You have sent an inquiry. Please wait for employer to approve!";
+
+  @override
+  String get inquirySentWaitFreelancer =>
+      "You have sent an inquiry. Please wait for freelancer to approve!";
+
+  @override
+  String youAcceptedInquiry(String date) =>
+      "You have accepted inquiry! Job will start on $date.";
+
+  @override
+  String jobWillStartOn(String date) => "Job will start on $date.";
+
+  @override
+  String jobWillStartInDays(int days) =>
+      days == 1 ? "Job will start in 1 day" : "Job will start in $days days";
+
+  @override
+  String get jobStartsToday => "Job starts today";
+
+  @override
+  String youAcceptedApplication(String name, String date) =>
+      "You have accepted \"$name\" Job application! Job will start on $date.";
+
+  @override
+  String applicationSentMessage(String job) =>
+      "You've successfully applied for the job '$job'. The client will review "
+      "your application and notify you once a decision is made. Best of luck!";
+
+  @override
   String get finishTask => "Finish Task";
 
   @override
@@ -910,6 +1009,9 @@ class EnglishStrings extends Strings {
 
   @override
   String get date => "Date";
+
+  @override
+  String get dates => "Dates";
 
   @override
   String get applicants => "Applicants";

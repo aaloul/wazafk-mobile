@@ -57,7 +57,7 @@ class RateEngagementScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _HeroIllustration(),
+                      _HeroIllustration(isRatingFreelancer: isRatingFreelancer),
                       const SizedBox(height: 16),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -100,7 +100,16 @@ class _Header extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: GestureDetector(
               onTap: () => Get.back(),
-              child: Image.asset(AppIcons.back3, width: 40, height: 40),
+              child: Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colors.colorGrey25, width: 1),
+                ),
+                child: Image.asset(AppIcons.back3, width: 22),
+              ),
             ),
           ),
           PrimaryText(
@@ -116,18 +125,24 @@ class _Header extends StatelessWidget {
 }
 
 class _HeroIllustration extends StatelessWidget {
+  const _HeroIllustration({required this.isRatingFreelancer});
+
+  final bool isRatingFreelancer;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.resources.color;
     return Container(
       width: double.infinity,
-      color: colors.colorPrimaryLight,
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      color: colors.colorWhite,
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
       child: Image.asset(
-        AppIcons.rateIllustration,
-        height: 180,
+        isRatingFreelancer
+            ? AppIcons.rateFreelancerIllustration
+            : AppIcons.rateEmployerIllustration,
+        height: 190,
         fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => const SizedBox(height: 180),
+        errorBuilder: (_, __, ___) => const SizedBox(height: 190),
       ),
     );
   }
@@ -359,8 +374,16 @@ class _CriterionRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.resources.color;
     final hasRating = rating > 0;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: colors.colorGrey2.withValues(alpha: 0.6),
+            width: 1,
+          ),
+        ),
+      ),
       child: Row(
         children: [
           Expanded(
