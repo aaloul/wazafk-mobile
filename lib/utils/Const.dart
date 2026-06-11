@@ -15,6 +15,7 @@ class Const {
   static const String FIRST_RUN = 'FIRST_RUN';
   static const String PROFILE_TITLE = 'PROFILE_TITLE';
   static const String DEVICE_ID = 'DEVICE_ID';
+  static const String NOTIFICATION_TOKEN = 'NOTIFICATION_TOKEN';
   static const String REMOTE_VERSION = 'REMOTE_VERSION';
   static const String APP_SETTINGS = 'APP_SETTINGS';
   static const String ENV_URL = 'ENV_URL';

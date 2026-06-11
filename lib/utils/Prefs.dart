@@ -36,6 +36,12 @@ class Prefs {
 
   static void setDeviceId(String value) => box.write(Const.DEVICE_ID, value);
 
+  static String get getNotificationToken =>
+      box.read(Const.NOTIFICATION_TOKEN) ?? '';
+
+  static void setNotificationToken(String value) =>
+      box.write(Const.NOTIFICATION_TOKEN, value);
+
   static String get getProfileTitle => box.read(Const.PROFILE_TITLE) ?? '';
 
   static void setProfileTitle(String value) =>

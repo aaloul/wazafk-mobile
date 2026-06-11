@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "655761647141",
+    "project_id": "wazafk-29375",
+    "storage_bucket": "wazafk-29375.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655761647141:android:ea6c94f8f77e61fa3301cc",
+        "android_client_info": {
+          "package_name": "com.wazafak.wazafak_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJsMasv-k7DVxpoKInuaTKXfv9zkSRHTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655761647141:android:12b379717d4fdb433301cc",
+        "android_client_info": {
+          "package_name": "com.wazafak.wazafk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJsMasv-k7DVxpoKInuaTKXfv9zkSRHTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
