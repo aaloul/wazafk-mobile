@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
+import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
@@ -167,6 +168,12 @@ class FilterSheet extends StatefulWidget {
 class _FilterSheetState extends State<FilterSheet> {
   late HomeFilters _filters;
   HomeController? _homeController;
+  final CategoriesRepository _categoriesRepository = CategoriesRepository();
+
+  /// Subcategories of the currently selected [HomeFilters.category], loaded the
+  /// same way the home screen loads them, shown as multi-select chips.
+  List<Category> _subcategories = <Category>[];
+  bool _loadingSubcategories = false;
 
   static const double _maxDistance = HomeFilters.maxDistanceKm;
 
@@ -177,10 +184,103 @@ class _FilterSheetState extends State<FilterSheet> {
     try {
       _homeController = Get.find<HomeController>();
     } catch (_) {}
+    _initCategorySelection();
+  }
+
+  /// Selected subcategories live in [HomeFilters.categories]; the parent
+  /// category in [HomeFilters.category]. When the incoming filters carry
+  /// subcategories without a parent (e.g. picked from the home category bar),
+  /// derive the parent so its chips render highlighted.
+  void _initCategorySelection() {
+    if (_filters.category == null && _filters.categories.isNotEmpty) {
+      final parentHash =
+          _filters.categories.first.parentHashcode?.toString();
+      if (parentHash != null && parentHash.isNotEmpty) {
+        final list = _availableCategories();
+        for (final c in list) {
+          if (c.hashcode == parentHash) {
+            _filters.category = c;
+            break;
+          }
+        }
+      }
+    }
+    if (_filters.category != null) {
+      _fetchSubcategories(_filters.category!);
+    }
+  }
+
+  /// Job categories for freelancers, service categories for employers — the
+  /// same source the home category bar uses.
+  List<Category> _availableCategories() {
+    final bool isFreelancer = _homeController?.isFreelancerMode.value ?? false;
+    return (isFreelancer
+            ? _homeController?.jobCategories
+            : _homeController?.categories)
+            ?.toList() ??
+        <Category>[];
+  }
+
+  Future<void> _fetchSubcategories(Category parent) async {
+    if (parent.hashcode == null) return;
+    setState(() {
+      _loadingSubcategories = true;
+      _subcategories = <Category>[];
+    });
+    try {
+      final bool isFreelancer =
+          _homeController?.isFreelancerMode.value ?? false;
+      final response = await _categoriesRepository.getCategories(
+        parent: parent.hashcode!,
+        type: parent.type ?? (isFreelancer ? 'J' : 'S'),
+      );
+      // Ignore late responses if the selection changed meanwhile.
+      if (!mounted || _filters.category?.hashcode != parent.hashcode) return;
+      setState(() {
+        _subcategories =
+            (response.success == true && response.data?.list != null)
+                ? response.data!.list!
+                : <Category>[];
+      });
+    } catch (_) {
+      if (mounted && _filters.category?.hashcode == parent.hashcode) {
+        setState(() => _subcategories = <Category>[]);
+      }
+    } finally {
+      if (mounted && _filters.category?.hashcode == parent.hashcode) {
+        setState(() => _loadingSubcategories = false);
+      }
+    }
+  }
+
+  void _onCategorySelected(Category? category) {
+    setState(() {
+      _filters.category = category;
+      _filters.categories = <Category>[];
+      _subcategories = <Category>[];
+      _loadingSubcategories = false;
+    });
+    if (category != null) _fetchSubcategories(category);
+  }
+
+  void _toggleSubcategory(Category sub) {
+    setState(() {
+      final index =
+          _filters.categories.indexWhere((e) => e.hashcode == sub.hashcode);
+      if (index >= 0) {
+        _filters.categories.removeAt(index);
+      } else {
+        _filters.categories.add(sub);
+      }
+    });
   }
 
   void _reset() {
-    setState(() => _filters = HomeFilters());
+    setState(() {
+      _filters = HomeFilters();
+      _subcategories = <Category>[];
+      _loadingSubcategories = false;
+    });
   }
 
   @override
@@ -398,13 +498,8 @@ class _FilterSheetState extends State<FilterSheet> {
   Widget _buildCategoryPicker(BuildContext context, dynamic strings) {
     // Freelancers filter jobs (job categories, type J); employers filter
     // services/packages (service categories, type S).
-    final bool isFreelancer = _homeController?.isFreelancerMode.value ?? false;
-    final List<Category> categories = (isFreelancer
-            ? _homeController?.jobCategories
-            : _homeController?.categories)
-        ?.toList() ??
-        <Category>[];
-    final selected = _filters.categories;
+    final categories = _availableCategories();
+    final selected = _filters.category;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -426,15 +521,13 @@ class _FilterSheetState extends State<FilterSheet> {
               children: [
                 Expanded(
                   child: PrimaryText(
-                    text: selected.isEmpty
-                        ? strings.selectCategory
-                        : selected.map((c) => c.name ?? '').join(', '),
+                    text: selected?.name ?? strings.selectCategory,
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    textColor: selected.isNotEmpty
+                    textColor: selected != null
                         ? context.resources.color.colorPrimary
                         : context.resources.color.colorGrey8,
-                    maxLines: 2,
+                    maxLines: 1,
                   ),
                 ),
                 Image.asset(
@@ -446,45 +539,58 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
           ),
         ),
-        if (selected.isNotEmpty) ...[
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: selected.map((c) {
-              return GestureDetector(
-                onTap: () => setState(() => _filters.categories
-                    .removeWhere((e) => e.hashcode == c.hashcode)),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: context.resources.color.colorPrimaryLight,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      PrimaryText(
-                        text: c.name ?? '',
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        textColor: context.resources.color.colorPrimary,
-                      ),
-                      const SizedBox(width: 4),
-                      Icon(
-                        Icons.close,
-                        size: 14,
-                        color: context.resources.color.colorPrimary,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
+        _buildSubcategoryChips(context),
       ],
+    );
+  }
+
+  /// Multi-select subcategory chips shown once a category is picked — same
+  /// behaviour and look as the home category bar (design p35).
+  Widget _buildSubcategoryChips(BuildContext context) {
+    if (_filters.category == null) return const SizedBox.shrink();
+
+    if (_loadingSubcategories && _subcategories.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: context.resources.color.colorPrimary,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_subcategories.isEmpty) return const SizedBox.shrink();
+
+    final selectedHashes =
+        _filters.categories.map((c) => c.hashcode).toSet();
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: SizedBox(
+        height: 40,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: _subcategories.length,
+          separatorBuilder: (_, __) => const SizedBox(width: 10),
+          itemBuilder: (_, index) {
+            final sub = _subcategories[index];
+            final selected = selectedHashes.contains(sub.hashcode);
+            return _SubcategoryChip(
+              label: sub.name ?? '',
+              selected: selected,
+              onTap: () => _toggleSubcategory(sub),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -498,54 +604,36 @@ class _FilterSheetState extends State<FilterSheet> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (sheetContext) {
-        return StatefulBuilder(
-          builder: (sheetContext, setModalState) {
-            return SizedBox(
-              height: MediaQuery.of(sheetContext).size.height * 0.6,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                itemCount: categories.length,
-                separatorBuilder: (_, __) => Divider(
-                  height: 1,
-                  color: context.resources.color.colorGrey4,
+        return SizedBox(
+          height: MediaQuery.of(sheetContext).size.height * 0.6,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            itemCount: categories.length,
+            separatorBuilder: (_, __) => Divider(
+              height: 1,
+              color: context.resources.color.colorGrey4,
+            ),
+            itemBuilder: (_, index) {
+              final c = categories[index];
+              final isSelected = _filters.category?.hashcode == c.hashcode;
+              return ListTile(
+                title: PrimaryText(
+                  text: c.name ?? '',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  textColor: isSelected
+                      ? context.resources.color.colorPrimary
+                      : context.resources.color.colorBlack,
                 ),
-                itemBuilder: (_, index) {
-                  final c = categories[index];
-                  final isSelected = _filters.categories
-                      .any((e) => e.hashcode == c.hashcode);
-                  return ListTile(
-                    title: PrimaryText(
-                      text: c.name ?? '',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      textColor: isSelected
-                          ? context.resources.color.colorPrimary
-                          : context.resources.color.colorBlack,
-                    ),
-                    trailing: Icon(
-                      isSelected
-                          ? Icons.check_circle
-                          : Icons.radio_button_unchecked,
-                      color: isSelected
-                          ? context.resources.color.colorPrimary
-                          : context.resources.color.colorGrey6,
-                    ),
-                    onTap: () {
-                      // Multi-select: toggle membership, keep the sheet open.
-                      if (isSelected) {
-                        _filters.categories
-                            .removeWhere((e) => e.hashcode == c.hashcode);
-                      } else {
-                        _filters.categories.add(c);
-                      }
-                      setModalState(() {});
-                      setState(() {});
-                    },
-                  );
+                trailing: _buildRadio(context, isSelected),
+                onTap: () {
+                  // Single-select: re-tapping clears the selection.
+                  _onCategorySelected(isSelected ? null : c);
+                  Navigator.of(sheetContext).pop();
                 },
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );
@@ -808,6 +896,47 @@ class _PillChip extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 textColor: textColor,
               ),
+      ),
+    );
+  }
+}
+
+/// Subcategory chip — mirrors the home subcategory chip (design p35).
+class _SubcategoryChip extends StatelessWidget {
+  const _SubcategoryChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = context.resources.color.colorPrimary;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: selected
+              ? context.resources.color.colorPrimaryLight
+              : context.resources.color.colorWhite,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: selected ? primary : context.resources.color.colorGrey25,
+            width: 1,
+          ),
+        ),
+        child: PrimaryText(
+          text: label,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          textColor: selected ? primary : context.resources.color.colorBlack,
+        ),
       ),
     );
   }
