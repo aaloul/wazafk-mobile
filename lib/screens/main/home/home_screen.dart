@@ -7,6 +7,7 @@ import '../../../components/search_widget.dart';
 import '../../../components/sheets/sheets_helper.dart';
 import '../../../constants/route_constant.dart';
 import '../../../utils/res/AppIcons.dart';
+import 'components/categories/home_subcategories_widget.dart';
 import 'components/employer_data/employer_home_data_widget.dart';
 import 'components/home_header.dart';
 import 'components/jobs/home_jobs_widget.dart';
@@ -40,6 +41,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   HomeHeader(isFreelancerMode: controller.isFreelancerMode.value, ),
+                  HomeSubcategoriesWidget(),
                   SizedBox(height: 16),
                   Row(
                     children: [

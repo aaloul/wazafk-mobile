@@ -23,7 +23,7 @@ class HomeHeader extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 6),
       decoration: BoxDecoration(
         color: context.resources.color.colorWhite,
         boxShadow: [

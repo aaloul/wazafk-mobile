@@ -59,6 +59,18 @@ class HomeController extends GetxController {
   var isLoadingEmployerHome = false.obs;
   var categories = <Category>[].obs;
   var jobCategories = <Category>[].obs;
+
+  /// Home category bar selection. Tapping a category card highlights it here,
+  /// loads its [subcategories] and reloads the feed. `null` means the "All"
+  /// state (no category filter).
+  var selectedCategory = Rxn<Category>();
+  var subcategories = <Category>[].obs;
+  var isLoadingSubcategories = false.obs;
+
+  /// Multi-select subcategory chips shown under the selected category. Drives
+  /// the `category_list[i]` params sent to the home endpoints.
+  var selectedSubcategories = <Category>[].obs;
+
   var jobs = <Job>[].obs;
   var skills = <Skill>[].obs;
   var addresses = <Address>[].obs;
@@ -141,6 +153,10 @@ class HomeController extends GetxController {
   void toggleUserMode(bool isFreelancer) {
     isFreelancerMode.value = isFreelancer;
     Prefs.setUserMode(isFreelancer ? 'freelancer' : 'employer');
+
+    // Job and service categories differ, so drop any category-bar selection
+    // when switching modes.
+    _clearCategorySelection();
 
     // Reload data based on new mode
     if (isFreelancer) {
@@ -697,6 +713,102 @@ class HomeController extends GetxController {
 
   void onViewAllCategories() {
     Get.toNamed(RouteConstant.allCategoriesScreen);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Home category bar (select category -> show multi-select subcategories ->
+  // refresh the home feed).
+  // ---------------------------------------------------------------------------
+
+  /// Tapping a category card. Passing `null` (the "All" card) or re-tapping the
+  /// already-selected category clears the selection and reloads unfiltered.
+  void onCategorySelected(Category? category) {
+    final isClearing = category == null ||
+        category.hashcode == selectedCategory.value?.hashcode;
+
+    if (isClearing) {
+      _clearCategorySelection();
+    } else {
+      selectedCategory.value = category;
+      selectedSubcategories.clear();
+      subcategories.clear();
+      fetchSubcategories(category);
+    }
+    _applyCategoryFilterAndRefresh();
+  }
+
+  void _clearCategorySelection() {
+    selectedCategory.value = null;
+    subcategories.clear();
+    selectedSubcategories.clear();
+    isLoadingSubcategories.value = false;
+  }
+
+  Future<void> fetchSubcategories(Category parent) async {
+    if (parent.hashcode == null) return;
+
+    try {
+      isLoadingSubcategories.value = true;
+
+      final response = await _categoriesRepository.getCategories(
+        parent: parent.hashcode!,
+        type: parent.type ?? (isFreelancerMode.value ? 'J' : 'S'),
+      );
+
+      // Ignore late responses if the user changed the selection meanwhile.
+      if (selectedCategory.value?.hashcode != parent.hashcode) return;
+
+      if (response.success == true && response.data?.list != null) {
+        subcategories.value = response.data!.list!;
+      } else {
+        subcategories.clear();
+      }
+    } catch (e) {
+      if (selectedCategory.value?.hashcode == parent.hashcode) {
+        subcategories.clear();
+      }
+      print('Error loading subcategories: $e');
+    } finally {
+      if (selectedCategory.value?.hashcode == parent.hashcode) {
+        isLoadingSubcategories.value = false;
+      }
+    }
+  }
+
+  /// Toggle a subcategory chip (multi-select) and reload the feed.
+  void toggleSubcategory(Category subcategory) {
+    final index = selectedSubcategories
+        .indexWhere((c) => c.hashcode == subcategory.hashcode);
+    if (index >= 0) {
+      selectedSubcategories.removeAt(index);
+    } else {
+      selectedSubcategories.add(subcategory);
+    }
+    _applyCategoryFilterAndRefresh();
+  }
+
+  bool isSubcategorySelected(Category subcategory) =>
+      selectedSubcategories.any((c) => c.hashcode == subcategory.hashcode);
+
+  /// Pushes the current category-bar selection into [activeFilters] and reloads
+  /// the feed. Selected subcategories are sent as `category_list[i]`; otherwise
+  /// the parent category alone is sent as the singular `category` param.
+  void _applyCategoryFilterAndRefresh() {
+    if (selectedSubcategories.isNotEmpty) {
+      activeFilters.value.categories = List<Category>.of(selectedSubcategories);
+      activeFilters.value.category = null;
+    } else {
+      activeFilters.value.categories = <Category>[];
+      activeFilters.value.category = selectedCategory.value;
+    }
+    activeFilters.refresh();
+    hasAppliedFilters = true;
+
+    if (isFreelancerMode.value) {
+      fetchJobs();
+    } else {
+      fetchEmployerHome();
+    }
   }
 
   Future<void> refreshHomeData() async {

@@ -42,7 +42,11 @@
       "Bash(pdftotext \"C:\\\\Users\\\\husse\\\\Downloads\\\\Wazafk - New Design.pdf\" temp.txt)",
       "Bash(xargs basename -a)",
       "Bash(git check-ignore *)",
-      "Bash(dart analyze *)"
+      "Bash(dart analyze *)",
+      "Bash(powershell -Command \"\\(Get-Content test\\\\multi_category_filter_test.dart\\) -replace 'Zy9PLm2q<keep>','Zy9PLm2qABCDEF1234567890ghijklmn' | Set-Content test\\\\multi_category_filter_test.dart\")",
+      "Bash(pip show *)",
+      "Read(//mnt/c/Users/husse/Downloads/**)",
+      "Bash(powershell.exe -Command \"\\(Get-Item 'C:\\\\Users\\\\husse\\\\Downloads\\\\Wazafk - New Design.pdf'\\).Length\")"
     ],
     "deny": [],
     "ask": []

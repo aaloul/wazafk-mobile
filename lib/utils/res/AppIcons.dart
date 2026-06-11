@@ -2,6 +2,7 @@ class AppIcons {
   // App Icons
   static const String base = 'assets/images/';
   static const String logo = '${base}logo.png';
+  static const String categoryAll = '${base}category_all.png';
   static const String name = '${base}name.png';
   static const String arrowRight = '${base}arrow-right.png';
   static const String phoneScreenImage = '${base}phone_screen_image.png';

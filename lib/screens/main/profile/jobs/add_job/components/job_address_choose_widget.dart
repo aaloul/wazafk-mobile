@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/outlined_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/Resources.dart';
 
 import '../add_job_controller.dart';
 
@@ -47,7 +50,22 @@ class JobAddressChooseWidget extends StatelessWidget {
               child: Center(child: SizedBox(width: 20, height: 20, child: ProgressBar())),
             );
           }
-          if (homeController.addresses.isEmpty) return SizedBox.shrink();
+          if (homeController.addresses.isEmpty) {
+            // When location is required (non-remote jobs) but the user has no
+            // saved addresses, offer a shortcut to add one.
+            if (controller.selectedJobType.value != 'Remote') {
+              return PrimaryOutlinedButton(
+                title: Resources.of(context).strings.addNewAddress,
+                height: 45,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                onPressed: () async {
+                  Get.toNamed(RouteConstant.selectLocationScreen);
+                },
+              );
+            }
+            return SizedBox.shrink();
+          }
 
           final selectedHashcode = controller.selectedAddress.value?.hashcode;
 
