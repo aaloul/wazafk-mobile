@@ -1160,6 +1160,16 @@ class ArabicStrings extends Strings {
   String get tapToUploadFile => "انقر لرفع الملف";
 
   @override
+  String get finalSubmission => "التسليم النهائي";
+
+  @override
+  String get finalSubmissionSubtitle =>
+      "يرجى رفع الملفات أو الصور النهائية إذا لزم الأمر، لإنهاء العمل.";
+
+  @override
+  String get uploadFileHere => "ارفع الملف هنا";
+
+  @override
   String get cvFile => "ملف السيرة الذاتية";
 
   @override

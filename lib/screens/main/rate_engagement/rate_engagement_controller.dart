@@ -4,6 +4,7 @@ import 'package:wazafak_app/model/EngagementsResponse.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/model/MemberProfileResponse.dart';
 import 'package:wazafak_app/model/RatingCriteriaResponse.dart';
+import 'package:wazafak_app/model/rate_bulk_request.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/repository/rating/rate_bulk_repository.dart';
 import 'package:wazafak_app/repository/rating/rating_criteria_repository.dart';
@@ -90,6 +91,20 @@ class RateEngagementController extends GetxController {
   // Get the item (service/job) hashcode
   String get itemHashcode {
     if (!shouldRateItem) return '';
+
+    // Package booking: rate the first service inside the package.
+    if (engagement.value?.type == 'PB') {
+      final packageServices = engagement.value?.package?.services;
+      if (packageServices != null && packageServices.isNotEmpty) {
+        return packageServices.first.hashcode ?? '';
+      }
+      return '';
+    }
+
+    // The backend provides the subject (service/job) hashcode directly; prefer
+    // it since the nested job/services objects are not always populated.
+    final subject = engagement.value?.subjectToRate;
+    if (subject != null && subject.isNotEmpty) return subject;
 
     if (itemType == 'J') {
       return engagement.value?.job?.hashcode ?? '';
@@ -207,6 +222,12 @@ class RateEngagementController extends GetxController {
     }
   }
 
+  /// Serialize a `{criteriaHashcode: rating}` map into the API's
+  /// `hash1:rating1,hash2:rating2` string (ratings sent as integers).
+  String _criteriaString(Map<String, double> ratings) => ratings.entries
+      .map((e) => '${e.key}:${e.value.toInt()}')
+      .join(',');
+
   void updateMemberRating(String criteriaHashcode, double rating) {
     memberRatings[criteriaHashcode] = rating;
   }
@@ -263,52 +284,47 @@ class RateEngagementController extends GetxController {
     try {
       isSubmittingRating.value = true;
 
-      // Prepare request data - only initialize if member not rated
-      Map<String, dynamic> ratingData = {};
+      // Build the request via the typed model. `rate_services` and `rate_jobs`
+      // are always present (one populated, the other empty) to match the
+      // canonical rate-bulk body.
+      final request = RateBulkRequest(
+        rateServices: <RateServiceRequest>[],
+        rateJobs: <RateJobRequest>[],
+      );
 
-      // Add member rating only if not already rated
+      // Add member rating only if not already rated.
       if (hasMemberToRate) {
-        // Prepare member rating by criteria as string
-        Map<String, dynamic> memberRatingByCriteria = {};
-        memberRatings.forEach((hashcode, rating) {
-          memberRatingByCriteria[hashcode] = rating.toInt().toString();
-        });
-
-        ratingData['target'] = targetUserType;
-        ratingData['rate_member'] =targetUserHashcode;
-        ratingData['rating_by_criteria'] =
-            memberRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", "");
-        ratingData['comment'] = commentController.text.trim();
+        request.target = targetUserType;
+        request.rateMember = targetUserHashcode;
+        request.ratingByCriteria = _criteriaString(memberRatings);
+        request.comment = commentController.text.trim();
       }
 
-      // Add service or job rating only if shouldRateItem is true and not already rated
+      // Add service or job rating only if we should rate the item and it isn't
+      // already rated.
       if (hasItemToRate) {
-        // Prepare item rating by criteria as string
-        Map<String, dynamic> itemRatingByCriteria = {};
-        itemRatings.forEach((hashcode, rating) {
-          itemRatingByCriteria[hashcode] = rating.toInt().toString();
-        });
-
         if (itemType == 'J') {
-          ratingData['rate_jobs'] = [
-            {
-              'job': itemHashcode,
-              'rating_by_criteria':
-                  itemRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", ""),
-              'comment': itemCommentController.text.trim(),
-            }
+          request.rateJobs = [
+            RateJobRequest(
+              job: itemHashcode,
+              ratingByCriteria: _criteriaString(itemRatings),
+              comment: itemCommentController.text.trim(),
+            ),
           ];
         } else {
-          ratingData['rate_services'] = [
-            {
-              'service': itemHashcode,
-              'rating_by_criteria':
-                  itemRatingByCriteria.toString().replaceAll("{", "").replaceAll("}", "").replaceAll(" ", ""),
-              'comment': itemCommentController.text.trim(),
-            }
+          request.rateServices = [
+            RateServiceRequest(
+              service: itemHashcode,
+              ratingByCriteria: _criteriaString(itemRatings),
+              comment: itemCommentController.text.trim(),
+            ),
           ];
         }
       }
+
+      // Drop null top-level fields (e.g. member fields when already rated) so
+      // the body carries only what's being submitted.
+      final ratingData = request.toJson()..removeWhere((_, v) => v == null);
 
       final response = await _rateBulkRepository.rateBulk(ratingData);
 

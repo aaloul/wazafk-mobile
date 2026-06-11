@@ -119,6 +119,8 @@ class AppIcons {
   static const String rateFreelancerIllustration =
       '${base}rate_freelancer.png';
   static const String rateEmployerIllustration = '${base}rate_employer.png';
+  static const String finalSubmissionIllustration =
+      '${base}final_submission.png';
 
   // Chat attachment sheet
   static const String attachGallery = '${base}attach_gallery.png';

@@ -762,6 +762,12 @@ abstract class Strings {
 
   String get tapToUploadFile;
 
+  String get finalSubmission;
+
+  String get finalSubmissionSubtitle;
+
+  String get uploadFileHere;
+
   String get cvFile;
 
   String get completedDeliverables;

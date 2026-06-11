@@ -1154,6 +1154,16 @@ class EnglishStrings extends Strings {
   String get tapToUploadFile => "Tap to upload file";
 
   @override
+  String get finalSubmission => "Final submission";
+
+  @override
+  String get finalSubmissionSubtitle =>
+      "Please upload the final files or images if needed, to complete the job.";
+
+  @override
+  String get uploadFileHere => "Upload file here";
+
+  @override
   String get cvFile => "CV File";
 
   @override

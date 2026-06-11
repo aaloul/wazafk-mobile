@@ -350,8 +350,7 @@ class _RateActions extends StatelessWidget {
     return Obx(() {
       final engagement = controller.engagement.value;
       if (engagement?.status != 10 ||
-          (engagement?.isMemberRated == true &&
-              engagement?.isSubjectRated == true) ||
+          engagement?.isMemberRated == true ||
           !controller.shouldRateItem) {
         return const SizedBox.shrink();
       }

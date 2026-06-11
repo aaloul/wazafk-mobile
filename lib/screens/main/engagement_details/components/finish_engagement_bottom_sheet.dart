@@ -4,182 +4,102 @@ import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/screens/main/engagement_details/engagement_details_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 
+/// "Final submission" sheet (design p87): centered title + subtitle, clipboard
+/// illustration, an "Upload file here" dashed dropzone, the selected file as a
+/// dashed row, and a Submit button.
 class FinishEngagementBottomSheet extends StatelessWidget {
   const FinishEngagementBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<EngagementDetailsController>();
+    final colors = context.resources.color;
+    final strings = Resources.of(context).strings;
 
     return SafeArea(
+      top: false,
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.5,
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
+        ),
         decoration: BoxDecoration(
-          color: context.resources.color.colorWhite,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
+          color: colors.colorWhite,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Header
+            // Drag handle.
             Container(
-              padding: EdgeInsets.all(16),
+              margin: const EdgeInsets.only(top: 12, bottom: 4),
+              width: 44,
+              height: 4,
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: context.resources.color.colorGrey15,
-                    width: 1,
-                  ),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  PrimaryText(
-                    text: context.resources.strings.finishTask,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    textColor: context.resources.color.colorGrey,
-                  ),
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Icon(
-                      Icons.close,
-                      color: context.resources.color.colorGrey,
-                    ),
-                  ),
-                ],
+                color: colors.colorGrey6,
+                borderRadius: BorderRadius.circular(2),
               ),
             ),
-
-            // Content
-            Expanded(
+            Flexible(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PrimaryText(
-                      text: context.resources.strings.uploadDeliverables,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      textColor: context.resources.color.colorGrey,
+                    Center(
+                      child: PrimaryText(
+                        text: strings.finalSubmission,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        textColor: colors.colorBlack,
+                      ),
                     ),
-                    SizedBox(height: 8),
-                    PrimaryText(
-                      text: context
-                          .resources
-                          .strings
-                          .pleaseUploadCompletedWorkDeliverables,
-                      fontSize: 14,
-                      textColor: context.resources.color.colorGrey7,
+                    const SizedBox(height: 10),
+                    Center(
+                      child: PrimaryText(
+                        text: strings.finalSubmissionSubtitle,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        textAlign: TextAlign.center,
+                        textColor: colors.colorGrey7,
+                        maxLines: 3,
+                      ),
                     ),
-                    SizedBox(height: 16),
-
-                    // File Upload Section
+                    const SizedBox(height: 16),
+                    Center(
+                      child: Image.asset(
+                        AppIcons.finalSubmissionIllustration,
+                        height: 160,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => const SizedBox(height: 160),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Divider(height: 1, color: colors.colorGrey4),
+                    const SizedBox(height: 20),
+                    PrimaryText(
+                      text: strings.uploadFileHere,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      textColor: colors.colorGrey8,
+                    ),
+                    const SizedBox(height: 12),
+                    _UploadDropzone(
+                      onTap: () => controller.pickDeliverableFile(context),
+                    ),
                     Obx(() {
-                      final hasFile = controller.deliverableFile.value != null;
-
-                      return GestureDetector(
-                        onTap: () => controller.pickDeliverableFile(context),
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: hasFile
-                                ? context.resources.color.colorBlue4
-                                : context.resources.color.colorGrey15,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: hasFile
-                                  ? context.resources.color.colorPrimary
-                                  : context.resources.color.colorGrey18,
-                              width: 2,
-                            ),
-                          ),
-                          child: hasFile
-                              ? Row(
-                                  children: [
-                                    Icon(
-                                      controller.getDeliverableFileIcon(),
-                                      color:
-                                          context.resources.color.colorPrimary,
-                                      size: 40,
-                                    ),
-                                    SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          PrimaryText(
-                                            text:
-                                                controller
-                                                    .deliverableFileName
-                                                    .value ??
-                                                'File selected',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorGrey,
-                                          ),
-                                          SizedBox(height: 4),
-                                          PrimaryText(
-                                            text: controller
-                                                .getDeliverableFileSize(),
-                                            fontSize: 12,
-                                            textColor: context
-                                                .resources
-                                                .color
-                                                .colorGrey7,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: context.resources.color.colorRed,
-                                      ),
-                                      onPressed:
-                                          controller.removeDeliverableFile,
-                                    ),
-                                  ],
-                                )
-                              : Column(
-                                  children: [
-                                    Icon(
-                                      Icons.cloud_upload_outlined,
-                                      size: 48,
-                                      color: context.resources.color.colorGrey7,
-                                    ),
-                                    SizedBox(height: 8),
-                                    PrimaryText(
-                                      text: context
-                                          .resources
-                                          .strings
-                                          .tapToUploadFile,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      textColor:
-                                          context.resources.color.colorGrey,
-                                    ),
-                                    SizedBox(height: 4),
-                                    PrimaryText(
-                                      text:
-                                          'PDF, DOC, DOCX, ZIP, RAR, JPG, PNG',
-                                      fontSize: 12,
-                                      textColor:
-                                          context.resources.color.colorGrey7,
-                                    ),
-                                  ],
-                                ),
+                      if (controller.deliverableFile.value == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: _SelectedFileRow(
+                          name: controller.deliverableFileName.value ??
+                              strings.tapToUploadFile,
+                          size: controller.getDeliverableFileSize(),
+                          onRemove: controller.removeDeliverableFile,
                         ),
                       );
                     }),
@@ -187,48 +107,40 @@ class FinishEngagementBottomSheet extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Bottom Button
-            Container(
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 16,
-                bottom: 16 + MediaQuery.of(context).padding.bottom,
-              ),
-              decoration: BoxDecoration(
-                color: context.resources.color.colorWhite,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
-                    offset: Offset(0, -5),
-                  ),
-                ],
+            // Submit button.
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                20,
+                12,
+                20,
+                16 + MediaQuery.of(context).padding.bottom,
               ),
               child: Obx(() {
                 if (controller.isFinishingEngagement.value) {
                   return Container(
-                    height: 48,
+                    height: 52,
                     decoration: BoxDecoration(
-                      color: context.resources.color.colorPrimary,
-                      borderRadius: BorderRadius.circular(8),
+                      color: colors.colorPrimary,
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     child: Center(
                       child: SizedBox(
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(
-                          color: context.resources.color.colorWhite,
+                          color: colors.colorWhite,
                           strokeWidth: 2,
                         ),
                       ),
                     ),
                   );
                 }
-
                 return PrimaryButton(
-                  title: Resources.of(context).strings.submitAndFinish,
+                  title: strings.submitFeedback,
+                  height: 52,
+                  borderRadius: 14,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
                   onPressed: controller.finishEngagement,
                 );
               }),
@@ -238,4 +150,130 @@ class FinishEngagementBottomSheet extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Dashed dropzone with a centered upload icon (design p87).
+class _UploadDropzone extends StatelessWidget {
+  const _UploadDropzone({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final border = context.resources.color.colorGrey18;
+    return GestureDetector(
+      onTap: onTap,
+      child: CustomPaint(
+        foregroundPainter: _DashedBorderPainter(color: border, radius: 12),
+        child: Container(
+          width: double.infinity,
+          height: 78,
+          alignment: Alignment.center,
+          child: Image.asset(
+            AppIcons.upload,
+            width: 26,
+            height: 26,
+            color: context.resources.color.colorGrey7,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Selected-file row drawn with the design's blue dashed border (design p87).
+class _SelectedFileRow extends StatelessWidget {
+  const _SelectedFileRow({
+    required this.name,
+    required this.size,
+    required this.onRemove,
+  });
+
+  final String name;
+  final String size;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = context.resources.color.colorPrimary;
+    return CustomPaint(
+      foregroundPainter:
+          _DashedBorderPainter(color: primary.withValues(alpha: 0.5), radius: 12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        child: Row(
+          children: [
+            Image.asset(AppIcons.fileCv, width: 28, height: 28, color: primary),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PrimaryText(
+                    text: name,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    textColor: context.resources.color.colorBlack,
+                    maxLines: 1,
+                  ),
+                  const SizedBox(height: 2),
+                  PrimaryText(
+                    text: size,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    textColor: primary,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTap: onRemove,
+              behavior: HitTestBehavior.opaque,
+              child: Icon(Icons.close, size: 20, color: primary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Paints a dashed rounded-rectangle border.
+class _DashedBorderPainter extends CustomPainter {
+  _DashedBorderPainter({required this.color, this.radius = 8});
+
+  final Color color;
+  final double radius;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+
+    final rrect = RRect.fromRectAndRadius(
+      Offset.zero & size,
+      Radius.circular(radius),
+    );
+    final path = Path()..addRRect(rrect);
+
+    const dashWidth = 6.0;
+    const dashGap = 4.0;
+    for (final metric in path.computeMetrics()) {
+      double distance = 0;
+      while (distance < metric.length) {
+        canvas.drawPath(
+          metric.extractPath(distance, distance + dashWidth),
+          paint,
+        );
+        distance += dashWidth + dashGap;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DashedBorderPainter oldDelegate) =>
+      oldDelegate.color != color || oldDelegate.radius != radius;
 }

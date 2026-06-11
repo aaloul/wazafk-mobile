@@ -100,16 +100,7 @@ class _Header extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: GestureDetector(
               onTap: () => Get.back(),
-              child: Container(
-                width: 40,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colors.colorGrey25, width: 1),
-                ),
-                child: Image.asset(AppIcons.back3, width: 22),
-              ),
+              child: Image.asset(AppIcons.back3, width: 40, height: 40),
             ),
           ),
           PrimaryText(
@@ -165,11 +156,12 @@ class _MemberCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.colorWhite,
         borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: colors.colorGrey4, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -235,11 +227,12 @@ class _RatingCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.colorWhite,
         borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: colors.colorGrey4, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -319,7 +312,12 @@ class _RatingCard extends StatelessWidget {
               PrimaryText(
                 text: controller.itemType == 'J'
                     ? controller.engagement.value?.job?.title ?? ''
-                    : controller.engagement.value?.services?.first.title ?? '',
+                    : (controller.engagement.value?.services?.isNotEmpty ==
+                            true
+                        ? controller
+                                .engagement.value!.services!.first.title ??
+                            ''
+                        : ''),
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 textColor: colors.colorGrey,
