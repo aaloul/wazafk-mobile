@@ -44,7 +44,7 @@ dependencies:
   pin_code_text_field: ^1.8.0
   icons_launcher: ^3.0.0
   toastification: ^2.3.0
-  device_info_plus: ^10.0.1
+  device_info_plus: ^10.1.2
   flutter_udid: ^3.0.0
   pretty_http_logger: ^1.0.5
   package_info_plus: ^8.0.0
@@ -83,7 +83,7 @@ dependencies:
 dependency_overrides:
   intl: ^0.20.0
   http: ^1.4.0
-
+  audio_session: ^0.2.3
 
 dev_dependencies:
   flutter_test:
