@@ -6,6 +6,15 @@ class ArabicStrings extends Strings {
   String get login => "تسجيل الدخول";
 
   @override
+  String get continueAsGuest => "المتابعة كزائر";
+
+  @override
+  String get loginRequired => "تسجيل الدخول مطلوب";
+
+  @override
+  String get loginRequiredMessage => "يرجى تسجيل الدخول أو إنشاء حساب للمتابعة.";
+
+  @override
   String get createAccount => "إنشاء حساب";
 
   @override

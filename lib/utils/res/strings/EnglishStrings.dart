@@ -6,6 +6,16 @@ class EnglishStrings extends Strings {
   String get login => "Login";
 
   @override
+  String get continueAsGuest => "Continue as a guest";
+
+  @override
+  String get loginRequired => "Login required";
+
+  @override
+  String get loginRequiredMessage =>
+      "Please log in or create an account to continue.";
+
+  @override
   String get createAccount => "Create Account";
 
   @override

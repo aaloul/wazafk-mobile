@@ -6,6 +6,7 @@ import 'package:wazafak_app/components/working_hours_widget.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/service_details/service_details_controller.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/auth_guard.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../components/primary_network_image.dart';
@@ -574,6 +575,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                             ServicePackagesCarousel(
                               packages: service.packages ?? [],
                               onBookPackage: (package) {
+                                if (!requireLogin()) return;
                                 Get.toNamed(
                                   RouteConstant.bookServiceScreen,
                                   arguments: package,
@@ -594,6 +596,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                         child: PrimaryButton(
                           title: context.resources.strings.bookNow,
                           onPressed: () {
+                            if (!requireLogin()) return;
                             Get.toNamed(
                               RouteConstant.bookServiceScreen,
                               arguments: service,

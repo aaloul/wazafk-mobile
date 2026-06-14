@@ -4,6 +4,7 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/working_hours_widget.dart';
 import 'package:wazafak_app/screens/main/package_details/components/package_details_header.dart';
 import 'package:wazafak_app/screens/main/package_details/package_details_controller.dart';
+import 'package:wazafak_app/utils/auth_guard.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../components/primary_button.dart';
@@ -227,6 +228,7 @@ class PackageDetailsScreen extends StatelessWidget {
                         child: PrimaryButton(
                           title: context.resources.strings.bookPackage,
                           onPressed: () {
+                            if (!requireLogin()) return;
                             Get.toNamed(
                               RouteConstant.bookServiceScreen,
                               arguments: package,

@@ -8,6 +8,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
 import 'package:wazafak_app/screens/main/job_details/job_details_controller.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/auth_guard.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -332,6 +333,7 @@ class JobDetailsScreen extends StatelessWidget {
                                 PrimaryButton(
                                   title: context.resources.strings.applyNow,
                                   onPressed: () {
+                                    if (!requireLogin()) return;
                                     Get.toNamed(
                                       RouteConstant.applyJobScreen,
                                       arguments: job,

@@ -6,6 +6,7 @@ import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import '../../../components/search_widget.dart';
 import '../../../components/sheets/sheets_helper.dart';
 import '../../../constants/route_constant.dart';
+import '../../../utils/Prefs.dart';
 import '../../../utils/res/AppIcons.dart';
 import 'components/categories/home_subcategories_widget.dart';
 import 'components/employer_data/employer_home_data_widget.dart';
@@ -22,7 +23,10 @@ class HomeScreen extends StatelessWidget {
 
     return FocusDetector(
       onFocusGained: () {
-        controller.fetchProfile();
+        if (Prefs.getLoggedIn) {
+          controller.fetchProfile();
+        }
+
         // controller.fetchEngagements();
         if (controller.isFreelancerMode.value) {
           controller.fetchJobs();
@@ -40,7 +44,9 @@ class HomeScreen extends StatelessWidget {
               physics: AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  HomeHeader(isFreelancerMode: controller.isFreelancerMode.value, ),
+                  HomeHeader(
+                    isFreelancerMode: controller.isFreelancerMode.value,
+                  ),
                   HomeSubcategoriesWidget(),
                   SizedBox(height: 16),
                   Row(
@@ -52,7 +58,13 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Get.toNamed(RouteConstant.searchScreen);
                           },
-                          child: AbsorbPointer(child: SearchWidget(enabled: false,borderRadius: 12,height: 45,)),
+                          child: AbsorbPointer(
+                            child: SearchWidget(
+                              enabled: false,
+                              borderRadius: 12,
+                              height: 45,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(width: 8),
@@ -60,8 +72,8 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {
                           SheetHelper.showFilterSheet(
                             context,
-                            initialFilters:
-                                controller.activeFilters.value.copy(),
+                            initialFilters: controller.activeFilters.value
+                                .copy(),
                             onApply: controller.applyFilters,
                           );
                         },
@@ -82,7 +94,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 16),
-
                     ],
                   ),
 
@@ -101,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                     } else {
                       return Column(
                         children: [
-                           // SizedBox(height: 16),
+                          // SizedBox(height: 16),
                           // HomeEngagementsWidget(),
                           SizedBox(height: 16),
                           EmployerHomeDataWidget(),

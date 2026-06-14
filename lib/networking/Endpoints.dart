@@ -1,8 +1,8 @@
 class Endpoints {
   static const base_url = base_url_prod;
-  static const base_url_staging = 'https://wazafk.lcp.website/api/v2/';
+  static const base_url_staging = 'https://wazafktest.it-dev.online/api/v2/';
 
-  static const base_url_prod = 'https://wazafk.lcp.website/api/v2/';
+  static const base_url_prod = 'https://wazafktest.it-dev.online/api/v2/';
   static const authenticateChannel = 'communication/authenticateChannel';
 
   //APP

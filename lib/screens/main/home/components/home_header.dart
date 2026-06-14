@@ -6,6 +6,7 @@ import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/home/components/statistics/home_statistics_widget.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/auth_guard.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 
@@ -128,6 +129,7 @@ class HomeHeader extends StatelessWidget {
               Spacer(),
               GestureDetector(
                 onTap: () {
+                  if (!requireLogin()) return;
                   Get.toNamed(RouteConstant.notificationsScreen);
                 },
                 child: Obx(() {
@@ -179,6 +181,7 @@ class HomeHeader extends StatelessWidget {
               SizedBox(width: 4),
               GestureDetector(
                 onTap: () {
+                  if (!requireLogin()) return;
                   Get.toNamed(RouteConstant.chatScreen);
                 },
                 child: Obx(() {

@@ -27,6 +27,7 @@ import 'package:wazafak_app/repository/home/freelancer_home_repository.dart';
 import 'package:wazafak_app/repository/member/addresses_repository.dart';
 import 'package:wazafak_app/repository/member/profile_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/auth_guard.dart';
 import 'package:wazafak_app/utils/pusher_manager.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -115,14 +116,18 @@ class HomeController extends GetxController {
     loadUserModeFromPrefs();
     loadCategoriesFromPrefs();
     loadSkillsFromPrefs();
-    loadAddressesFromPrefs();
-    loadWalletHashcodeFromPrefs();
-    fetchProfile();
+    if(Prefs.getLoggedIn){
+      loadAddressesFromPrefs();
+      loadWalletHashcodeFromPrefs();
+      fetchProfile();
+      fetchAddresses();
+      fetchWallet();
+    }
+
     fetchCategories();
     fetchJobCategories();
     fetchSkills();
-    fetchAddresses();
-    fetchWallet();
+
     // fetchEngagements();
 
     // Load data based on mode
@@ -476,6 +481,7 @@ class HomeController extends GetxController {
   }
 
   Future<bool> toggleJobFavorite(Job job) async {
+    if (!requireLogin()) return false;
     if (job.hashcode == null) {
       constants.showSnackBar(
         Resources
@@ -566,6 +572,7 @@ class HomeController extends GetxController {
   }
 
   Future<bool> toggleServiceFavorite(Service service) async {
+    if (!requireLogin()) return false;
     if (service.hashcode == null) {
       constants.showSnackBar(
         Resources

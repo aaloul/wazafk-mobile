@@ -3,6 +3,12 @@ abstract class Strings {
   // Auth Screens
   String get login;
 
+  String get continueAsGuest;
+
+  String get loginRequired;
+
+  String get loginRequiredMessage;
+
   String get createAccount;
 
   String get welcome;

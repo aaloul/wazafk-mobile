@@ -68,7 +68,10 @@
       "Bash(rm -rf ~/Library/Caches/org.swift.swiftpm/artifacts ~/Library/Caches/org.swift.swiftpm/repositories)",
       "Read(//Users/husseinyehya/Library/Caches/org.swift.swiftpm/**)",
       "Bash(sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' ios/Runner.xcodeproj/project.pbxproj)",
-      "Bash(sed -i '' 's|<string>14.0</string>|<string>15.0</string>|' ios/Flutter/AppFrameworkInfo.plist)"
+      "Bash(sed -i '' 's|<string>14.0</string>|<string>15.0</string>|' ios/Flutter/AppFrameworkInfo.plist)",
+      "Bash(sed -n '330,345p' lib/screens/main/job_details/job_details_screen.dart)",
+      "Bash(sed -n '225,240p' lib/screens/main/package_details/package_details_screen.dart)",
+      "Bash(sed -n '570,605p' lib/screens/main/service_details/service_details_screen.dart)"
     ],
     "deny": [],
     "ask": []

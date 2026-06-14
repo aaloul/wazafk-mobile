@@ -7,6 +7,7 @@ import 'package:wazafak_app/screens/main/home/home_screen.dart';
 import 'package:wazafak_app/screens/main/profile/profile_screen.dart';
 import 'package:wazafak_app/screens/main/projects/projects_screen.dart';
 import 'package:wazafak_app/screens/main/search/search_screen.dart';
+import 'package:wazafak_app/utils/auth_guard.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
@@ -43,6 +44,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _onItemTapped(int index) {
+    // Projects/Activity (1) and Profile (3) require an account; guests get the
+    // login popup instead. Home (0) and Search (2) stay open to guests.
+    if ((index == 1 || index == 3) && !requireLogin()) return;
     setState(() {
       _selectedIndex = index;
     });

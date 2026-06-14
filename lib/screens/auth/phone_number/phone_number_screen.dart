@@ -24,11 +24,15 @@ class PhoneNumberScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const SizedBox(height: 24),
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 24),
               PrimaryText(
                 text: strings.loginRegister,
                 fontSize: 22,
@@ -78,10 +82,30 @@ class PhoneNumberScreen extends StatelessWidget {
                         },
                       ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 12),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () =>
+                    Get.offAllNamed(RouteConstant.mainNavigationScreen),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: PrimaryText(
+                    text: strings.continueAsGuest,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    textColor: colors.colorPrimary,
+                    textAlign: TextAlign.center,
+                    isUnderLined: true,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               _TermsFooter(),
-              const SizedBox(height: 16),
-            ],
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
