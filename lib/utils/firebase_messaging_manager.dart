@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import '../firebase_options.dart';
+import '../repository/account/change_firebase_id_repository.dart';
 import 'Prefs.dart';
 
 const _logTag = 'FCM';
@@ -78,6 +79,11 @@ class FirebaseMessagingManager {
       await _loadToken();
       _messaging.onTokenRefresh.listen(_saveToken);
 
+      // Make sure the backend has the current token on every app launch, even
+      // if the fresh-token fetch above early-returned (e.g. APNS not ready on
+      // iOS). Re-sends the persisted token for the logged-in user.
+      await registerStoredToken();
+
       FirebaseMessaging.onMessage.listen(_onForegroundMessage);
       FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpened);
 
@@ -125,14 +131,58 @@ class FirebaseMessagingManager {
   }
 
   Future<void> _loadToken() async {
+    // On iOS, getToken() throws `apns-token-not-set` if the APNS token isn't
+    // registered yet. APNS registration is async and may not be ready by the
+    // time we reach here, so wait for it before requesting the FCM token.
+    if (defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.macOS) {
+      final apnsToken = await _waitForApnsToken();
+      if (apnsToken == null) {
+        log('APNS token unavailable; skipping FCM token fetch', name: _logTag);
+        return;
+      }
+    }
+
     final token = await _messaging.getToken();
     if (token != null) _saveToken(token);
+  }
+
+  /// APNS registration is asynchronous on iOS/macOS. Poll a few times so the
+  /// FCM token request below doesn't fail with `apns-token-not-set`.
+  Future<String?> _waitForApnsToken() async {
+    for (var attempt = 0; attempt < 5; attempt++) {
+      final apnsToken = await _messaging.getAPNSToken();
+      if (apnsToken != null) return apnsToken;
+      await Future.delayed(const Duration(seconds: 1));
+    }
+    return null;
   }
 
   void _saveToken(String token) {
     Prefs.setNotificationToken(token);
     log('token: $token', name: _logTag);
-    // TODO: register [token] with the backend once the endpoint is available.
+    _registerToken(token);
+  }
+
+  /// Re-sends the persisted FCM token to the backend. Called on every app
+  /// launch so the logged-in user's token stays registered. No-op when there
+  /// is no stored token yet (the fresh-token path will register it instead).
+  Future<void> registerStoredToken() async {
+    final token = Prefs.getNotificationToken;
+    if (token.isEmpty) return;
+    await _registerToken(token);
+  }
+
+  /// Pushes the FCM token to the backend. Only meaningful for an authenticated
+  /// session, since the endpoint associates the token with the logged-in user.
+  Future<void> _registerToken(String token) async {
+    if (!Prefs.getLoggedIn) return;
+    try {
+      await ChangeFirebaseIdRepository().changeFirebaseId(token);
+      log('token registered with backend', name: _logTag);
+    } catch (e) {
+      log('token registration failed: $e', name: _logTag);
+    }
   }
 
   /// Foreground messages don't show a system notification on Android, so we

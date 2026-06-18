@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/model/NotificationsResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -60,12 +61,23 @@ class NotificationItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PrimaryText(
-                    text: notification.title ?? '',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                    textColor: context.resources.color.colorBlack,
-                    maxLines: 2,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if ((notification.icon ?? '').isNotEmpty) ...[
+                        _buildIcon(),
+                        const SizedBox(width: 6),
+                      ],
+                      Expanded(
+                        child: PrimaryText(
+                          text: notification.title ?? '',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          textColor: context.resources.color.colorBlack,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 4),
                   PrimaryText(
@@ -106,6 +118,22 @@ class NotificationItem extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildIcon() {
+    // Small icon shown inline at the start of the title, sized to roughly the
+    // title's line height so it sits level with the first line of text.
+    const double size = 20;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 1),
+      child: PrimaryNetworkImage(
+        url: notification.icon!,
+        width: size,
+        height: size,
+        fit: BoxFit.contain,
       ),
     );
   }

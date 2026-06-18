@@ -35,6 +35,7 @@ class Endpoints {
       'account/changeNotificationPreferences';
   static const activityLog = 'account/activityLog';
   static const deleteAccount = 'account/deleteAccount';
+  static const changeFirebaseId = 'account/changeFirebaseId';
 
   //MEMBER
   static const checkMemberExists = 'member/checkMemberExists';

@@ -64,6 +64,7 @@ class NotificationElement {
   String? channel;
   String? title;
   String? message;
+  String? icon;
   dynamic actionCode;
   int? isRead;
   dynamic readAt;
@@ -78,6 +79,7 @@ class NotificationElement {
     this.channel,
     this.title,
     this.message,
+    this.icon,
     this.actionCode,
     this.isRead,
     this.readAt,
@@ -86,6 +88,7 @@ class NotificationElement {
   factory NotificationElement.fromJson(Map<String, dynamic> json) =>
       NotificationElement(
         hashcode: json["hashcode"],
+        icon: json["icon"],
         datetime: json["datetime"] == null
             ? null
             : DateTime.parse(json["datetime"]),
@@ -103,6 +106,7 @@ class NotificationElement {
 
   Map<String, dynamic> toJson() => {
     "hashcode": hashcode,
+    "icon": icon,
     "datetime": datetime?.toIso8601String(),
     "target": target,
     "image": image,
