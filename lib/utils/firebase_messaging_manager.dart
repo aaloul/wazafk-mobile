@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:developer' as developer;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -11,6 +11,14 @@ import '../repository/account/change_firebase_id_repository.dart';
 import 'Prefs.dart';
 
 const _logTag = 'FCM';
+
+/// Logs to both the Dart console (dart:developer) and stdout (debugPrint), so
+/// the line shows up whether you're watching the Flutter console or the Xcode
+/// console. Keeps the same `log('...', name: _logTag)` signature as before.
+void log(String message, {String name = ''}) {
+  developer.log(message, name: name);
+  debugPrint('[$name] $message');
+}
 
 /// Android notification channel used for foreground / data messages.
 const AndroidNotificationChannel _channel = AndroidNotificationChannel(
@@ -54,6 +62,7 @@ class FirebaseMessagingManager {
   Future<void> initialize() async {
     if (_initialized) return;
     _initialized = true;
+    log('initialize() called', name: _logTag);
 
     try {
       if (Firebase.apps.isEmpty) {
@@ -115,11 +124,12 @@ class FirebaseMessagingManager {
   }
 
   Future<void> _requestPermission() async {
-    await _messaging.requestPermission(
+    final settings = await _messaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
+    log('permission status: ${settings.authorizationStatus}', name: _logTag);
 
     // Android 13+ runtime POST_NOTIFICATIONS prompt.
     if (defaultTargetPlatform == TargetPlatform.android) {
