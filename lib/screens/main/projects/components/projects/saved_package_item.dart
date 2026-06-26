@@ -6,72 +6,66 @@ import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/LoginResponse.dart';
-import 'package:wazafak_app/model/ServicesResponse.dart';
+import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
 import '../../../../../utils/res/AppIcons.dart';
 
-class HomeServiceItem extends StatefulWidget {
-  const HomeServiceItem({
+/// Package card styled like [HomeServiceItem] so the Saved tab is visually
+/// consistent (white card + chips + footer), instead of the green home card.
+class SavedPackageItem extends StatefulWidget {
+  const SavedPackageItem({
     super.key,
-    required this.service,
+    required this.package,
     this.onFavoriteToggle,
   });
 
-  final Service service;
-  final Future<bool> Function(Service service)? onFavoriteToggle;
+  final Package package;
+  final Future<bool> Function(Package package)? onFavoriteToggle;
 
   @override
-  State<HomeServiceItem> createState() => _HomeServiceItemState();
+  State<SavedPackageItem> createState() => _SavedPackageItemState();
 }
 
-class _HomeServiceItemState extends State<HomeServiceItem> {
+class _SavedPackageItemState extends State<SavedPackageItem> {
   var isLoading = false.obs;
 
   Future<void> toggleFavorite() async {
     if (widget.onFavoriteToggle == null || isLoading.value) return;
-
-    setState(() {
-      isLoading.value = true;
-    });
-
+    setState(() => isLoading.value = true);
     try {
-      await widget.onFavoriteToggle!(widget.service);
+      await widget.onFavoriteToggle!(widget.package);
     } finally {
-      setState(() {
-        isLoading.value = false;
-      });
+      if (mounted) setState(() => isLoading.value = false);
     }
   }
 
-  void navigateToMemberProfile() {
-    if (widget.service.hashcode == null) return;
-
-    Get.toNamed(RouteConstant.serviceDetailsScreen, arguments: widget.service);
+  void navigateToDetails() {
+    if (widget.package.hashcode == null) return;
+    Get.toNamed(RouteConstant.packageDetailsScreen, arguments: widget.package);
   }
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.resources.color;
+    final services = widget.package.services ?? [];
     return GestureDetector(
-      onTap: navigateToMemberProfile,
+      onTap: navigateToDetails,
       child: Card(
-        color: context.resources.color.colorWhite,
+        color: colors.colorWhite,
         elevation: 8,
         shadowColor: Colors.black26,
-        margin: EdgeInsets.only(bottom: 12),
+        margin: const EdgeInsets.only(bottom: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(
-            color: context.resources.color.colorGrey15,
-            width: 1,
-          ),
+          side: BorderSide(color: colors.colorGrey15, width: 1),
         ),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top row: title + bookmark (same as job)
+              // Title + description + bookmark
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -80,42 +74,41 @@ class _HomeServiceItemState extends State<HomeServiceItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         PrimaryText(
-                          text: widget.service.title ?? 'N/A',
+                          text: widget.package.title ?? 'N/A',
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          textColor: context.resources.color.colorGrey16,
+                          textColor: colors.colorGrey16,
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         PrimaryText(
-                          text: widget.service.description ?? 'N/A',
+                          text: widget.package.description ?? 'N/A',
                           fontSize: 12,
                           maxLines: 2,
                           fontWeight: FontWeight.w400,
-                          textColor: context.resources.color.colorGrey26,
+                          textColor: colors.colorGrey26,
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(width: 6),
+                  const SizedBox(width: 6),
                   Obx(
                     () => GestureDetector(
                       onTap: toggleFavorite,
                       child: isLoading.value
-                          ? SizedBox(width: 18, height: 18, child: ProgressBar())
+                          ? const SizedBox(
+                              width: 18, height: 18, child: ProgressBar())
                           : Container(
                               width: 36,
                               height: 36,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: context.resources.color.colorGrey15,
-                                  width: 1,
-                                ),
+                                border:
+                                    Border.all(color: colors.colorGrey15, width: 1),
                               ),
                               child: Center(
                                 child: Image.asset(
-                                  color: context.resources.color.colorPrimary,
-                                  widget.service.isFavorite ?? false
+                                  color: colors.colorPrimary,
+                                  widget.package.isFavorite ?? false
                                       ? AppIcons.banomarkOn
                                       : AppIcons.banomark,
                                   width: 15,
@@ -127,29 +120,27 @@ class _HomeServiceItemState extends State<HomeServiceItem> {
                 ],
               ),
 
-              SizedBox(height: 12),
-
-              // Skills row
-              if (widget.service.skills != null &&
-                  widget.service.skills!.isNotEmpty)
+              // Services chips (package contents)
+              if (services.isNotEmpty) ...[
+                const SizedBox(height: 12),
                 SizedBox(
                   height: 26,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: widget.service.skills!.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 10),
+                    itemCount: services.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 10),
                     itemBuilder: (context, index) {
-                      final skill = widget.service.skills![index];
                       return Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: context.resources.color.colorPrimaryLight,
+                          color: colors.colorPrimaryLight,
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: Center(
                           child: PrimaryText(
-                            text: skill.name ?? '',
-                            textColor: context.resources.color.colorPrimary,
+                            text: services[index].title ?? '',
+                            textColor: colors.colorPrimary,
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
                           ),
@@ -158,53 +149,52 @@ class _HomeServiceItemState extends State<HomeServiceItem> {
                     },
                   ),
                 ),
+              ],
 
               Container(
                 width: double.infinity,
                 height: 1,
-                margin: EdgeInsets.symmetric(vertical: 12),
-                color: context.resources.color.colorGrey20,
+                margin: const EdgeInsets.symmetric(vertical: 12),
+                color: colors.colorGrey20,
               ),
 
-              // Bottom row: member avatar + name/rating + price (same as job)
+              // Footer: avatar + name/rating + price
               Row(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if (widget.service.memberHashcode != null) {
+                      if (widget.package.memberHashcode != null) {
                         Get.toNamed(
                           RouteConstant.freelancerMemberProfileScreen,
                           arguments: User(
-                            hashcode: widget.service.memberHashcode,
-                            image: widget.service.memberImage,
-                            firstName: widget.service.memberFirstName,
-                            lastName: widget.service.memberLastName,
+                            hashcode: widget.package.memberHashcode,
+                            image: widget.package.memberImage,
+                            firstName: widget.package.memberFirstName,
+                            lastName: widget.package.memberLastName,
                             title: '',
                           ),
                         );
                       }
                     },
                     child: Container(
-                    width: 35,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: context.resources.color.colorPrimary,
-                        width: 2,
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border:
+                            Border.all(color: colors.colorPrimary, width: 2),
                       ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: PrimaryNetworkImage(
-                        url: widget.service.memberImage ?? '',
-                        width: 35,
-                        height: 35,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: PrimaryNetworkImage(
+                          url: widget.package.memberImage ?? '',
+                          width: 35,
+                          height: 35,
+                        ),
                       ),
                     ),
                   ),
-                  ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,36 +203,37 @@ class _HomeServiceItemState extends State<HomeServiceItem> {
                           children: [
                             PrimaryText(
                               text:
-                                  '${widget.service.memberFirstName ?? ''} ${widget.service.memberLastName ?? ''}'
+                                  '${widget.package.memberFirstName ?? ''} ${widget.package.memberLastName ?? ''}'
                                       .trim(),
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             Image.asset(AppIcons.star2, width: 12),
-                            SizedBox(width: 2),
+                            const SizedBox(width: 2),
                             PrimaryText(
-                              text: widget.service.memberRating ?? 'N/A',
+                              text: widget.package.memberRating ?? 'N/A',
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
                           ],
                         ),
-                        if (widget.service.createdAt != null)
-                          SizedBox(height: 2,),
-                        if (widget.service.createdAt != null)
+                        if (widget.package.createdAt != null) ...[
+                          const SizedBox(height: 2),
                           PrimaryText(
-                            text: 'Since ${DateFormat('dd/MM/yyyy').format(widget.service.createdAt!)}',
+                            text:
+                                'Since ${DateFormat('dd/MM/yyyy').format(widget.package.createdAt!)}',
                             fontSize: 11,
                             fontWeight: FontWeight.w400,
-                            textColor: context.resources.color.colorGrey29,
+                            textColor: colors.colorGrey29,
                           ),
+                        ],
                       ],
                     ),
                   ),
                   PrimaryText(
-                    text: '\$${widget.service.pricingType.toString() == 'U' ? '${widget.service.unitPrice}/H' : widget.service.totalPrice}',
-                    textColor: context.resources.color.colorPrimary,
+                    text: '\$${widget.package.totalPrice}',
+                    textColor: colors.colorPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),

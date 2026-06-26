@@ -40,6 +40,14 @@ class ProfileController extends GetxController {
           title: Resources
               .of(Get.context!)
               .strings
+              .calendar,
+          icon: AppIcons.calendar,
+          id: 16,
+        ),
+        SettingsModel(
+          title: Resources
+              .of(Get.context!)
+              .strings
               .myDocuments,
           icon: AppIcons.menuDocuments,
           id: 1,
@@ -249,6 +257,9 @@ class ProfileController extends GetxController {
         break;
       case 15: // Delete Account
         deleteAccount();
+        break;
+      case 16: // My Schedule / Calendar
+        Get.toNamed(RouteConstant.calendarScreen);
         break;
       case 30: // Voucher
         Get.toNamed(RouteConstant.voucherScreen);

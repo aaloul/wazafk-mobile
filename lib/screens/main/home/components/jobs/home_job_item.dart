@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/constants/route_constant.dart';
@@ -11,6 +10,7 @@ import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import '../../../../../components/progress_bar.dart';
 import '../../../../../model/JobsResponse.dart';
+import '../../../../../utils/time_ago.dart';
 
 class HomeJobItem extends StatefulWidget {
   const HomeJobItem({super.key, required this.job, this.onFavoriteToggle});
@@ -268,11 +268,15 @@ class _HomeJobItemState extends State<HomeJobItem> {
                       children: [
                         Row(
                           children: [
-                            PrimaryText(
-                              text:
-                                  '${widget.job.memberFirstName}\n${widget.job.memberLastName}',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                            Flexible(
+                              child: PrimaryText(
+                                text:
+                                    '${widget.job.memberFirstName ?? ''} ${widget.job.memberLastName ?? ''}'
+                                        .trim(),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                maxLines: 1,
+                              ),
                             ),
                             SizedBox(width: 6),
 
@@ -288,9 +292,10 @@ class _HomeJobItemState extends State<HomeJobItem> {
                         SizedBox(height: 2),
 
                         PrimaryText(
-                          text: DateFormat(
-                            "dd-MM-yyyy",
-                          ).format(widget.job.startDatetime!),
+                          text: timeAgo(
+                            context,
+                            widget.job.createdAt ?? widget.job.startDatetime,
+                          ),
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           textColor: context.resources.color.colorGrey10,

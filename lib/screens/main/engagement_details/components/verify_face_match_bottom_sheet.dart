@@ -24,6 +24,8 @@ class _VerifyFaceMatchBottomSheetState
   void initState() {
     super.initState();
     final controller = Get.find<EngagementDetailsController>();
+    // Dismiss the keyboard if it was open (e.g. from inquiry/dispute fields).
+    FocusManager.instance.primaryFocus?.unfocus();
     // Initialize camera when bottom sheet opens
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.initializeCamera();

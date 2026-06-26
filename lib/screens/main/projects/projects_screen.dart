@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/primary_text.dart';
-import 'package:wazafak_app/components/skeletons/job_item_skeleton.dart';
 import 'package:wazafak_app/components/skeletons/project_item_skeleton.dart';
 import 'package:wazafak_app/screens/main/projects/projects_controller.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -12,8 +11,10 @@ import '../../../components/search_widget.dart';
 import '../../../components/tabs_widget.dart';
 import '../../../constants/route_constant.dart';
 import '../../../utils/res/AppIcons.dart';
+import '../home/components/employer_data/home_service_item.dart';
 import 'components/jobs/projects_job_item.dart';
 import 'components/projects/project_item.dart';
+import 'components/projects/saved_package_item.dart';
 
 class ProjectsScreen extends StatelessWidget {
   ProjectsScreen({super.key});
@@ -27,10 +28,11 @@ class ProjectsScreen extends StatelessWidget {
     return FocusDetector(
       onFocusGained: () {
         // Refresh data when screen gains focus
-        controller.fetchFavoriteJobs(isLoading: false);
         controller.fetchOngoingEngagements(isLoading: false);
         controller.fetchPendingEngagements(isLoading: false);
         controller.fetchCompletedEngagements(isLoading: false);
+        controller.fetchDisputedEngagements(isLoading: false);
+        controller.fetchSavedItems(isLoading: false);
       },
       child: Scaffold(
         backgroundColor: context.resources.color.background,
@@ -54,13 +56,56 @@ class ProjectsScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 16,),
 
-                PrimaryText(text: Resources
-                    .of(context)
-                    .strings
-                    .projects,
-                textColor: context.resources.color.colorBlack4,
-                fontSize: 16,
-                fontWeight: FontWeight.w800,),
+                SizedBox(
+                  height: 44,
+                  child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Center(
+                      child: PrimaryText(
+                        text: Resources.of(context).strings.projects,
+                        textColor: context.resources.color.colorBlack4,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    Positioned(
+                      right: 16,
+                      child: GestureDetector(
+                        onTap: () =>
+                            Get.toNamed(RouteConstant.calendarScreen),
+                        behavior: HitTestBehavior.opaque,
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: context.resources.color.colorWhite,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: context.resources.color.colorGrey4,
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.05),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              AppIcons.calendar,
+                              width: 20,
+                              color: context.resources.color.colorPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                ),
 
                 SizedBox(height: 16,),
 
@@ -68,10 +113,11 @@ class ProjectsScreen extends StatelessWidget {
                       () =>
                       TabsWidget(
                         tabs: [
-                          context.resources.strings.ongoingProject,
+                          context.resources.strings.active,
                           context.resources.strings.pending,
-                          context.resources.strings.closedPaused,
-                          context.resources.strings.savedJobs
+                          context.resources.strings.completed,
+                          context.resources.strings.dispute,
+                          context.resources.strings.saved
                         ],
                         onSelect: (tab) {
                           controller.selectedTab.value = tab;
@@ -81,31 +127,13 @@ class ProjectsScreen extends StatelessWidget {
                       ),
                 ),
                 SizedBox(height: 16,),
-                Row(
-                  children: [
-                    SizedBox(width: 16),
-
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.toNamed(RouteConstant.searchScreen);
-                        },
-                        child: AbsorbPointer(child: SearchWidget(enabled: false,borderRadius: 12,height: 45,)),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: context.resources.color.colorPrimary,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(child: Image.asset(AppIcons.filter, width: 20,color: context.resources.color.colorWhite,)),
-                    ),
-                    SizedBox(width: 16),
-
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SearchWidget(
+                    borderRadius: 12,
+                    height: 45,
+                    onTextChanged: (v) => controller.searchQuery.value = v,
+                  ),
                 ),
 
                 SizedBox(height: 16,),
@@ -129,14 +157,16 @@ class ProjectsScreen extends StatelessWidget {
   Widget _buildTabContent(BuildContext context) {
     final strings = Resources.of(context).strings;
     switch (controller.selectedTab.value) {
-      case var tab when tab == strings.ongoingProject:
+      case var tab when tab == strings.active:
         return _buildOngoingProjects(context);
       case var tab when tab == strings.pending:
         return _buildPendingProjects(context);
-      case var tab when tab == strings.closedPaused:
+      case var tab when tab == strings.completed:
         return _buildCompletedProjects(context);
-      case var tab when tab == strings.savedJobs:
-        return _buildSavedJobs(context);
+      case var tab when tab == strings.dispute:
+        return _buildDisputedProjects(context);
+      case var tab when tab == strings.saved:
+        return _buildSaved(context);
       default:
         return Container();
     }
@@ -151,7 +181,8 @@ class ProjectsScreen extends StatelessWidget {
       );
     }
 
-    if (controller.ongoingEngagements.isEmpty) {
+    final items = controller.filterEngagements(controller.ongoingEngagements);
+    if (items.isEmpty) {
       return Center(
         child: Text(
           context.resources.strings.noOngoingProjects,
@@ -163,9 +194,9 @@ class ProjectsScreen extends StatelessWidget {
       onRefresh: controller.fetchOngoingEngagements,
       child: ListView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: controller.ongoingEngagements.length,
+        itemCount: items.length,
         itemBuilder: (context, index) {
-          final engagement = controller.ongoingEngagements[index];
+          final engagement = items[index];
           return ProjectItem(engagement: engagement,);
         },
       ),
@@ -181,7 +212,8 @@ class ProjectsScreen extends StatelessWidget {
       );
     }
 
-    if (controller.pendingEngagements.isEmpty) {
+    final items = controller.filterEngagements(controller.pendingEngagements);
+    if (items.isEmpty) {
       return Center(
         child: Text(
           context.resources.strings.noPendingProjects,
@@ -193,9 +225,9 @@ class ProjectsScreen extends StatelessWidget {
       onRefresh: controller.fetchPendingEngagements,
       child: ListView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: controller.pendingEngagements.length,
+        itemCount: items.length,
         itemBuilder: (context, index) {
-          final engagement = controller.pendingEngagements[index];
+          final engagement = items[index];
           return ProjectItem(engagement: engagement,);
         },
       ),
@@ -211,7 +243,8 @@ class ProjectsScreen extends StatelessWidget {
       );
     }
 
-    if (controller.completedEngagements.isEmpty) {
+    final items = controller.filterEngagements(controller.completedEngagements);
+    if (items.isEmpty) {
       return Center(
         child: Text(
           context.resources.strings.noCompletedProjects,
@@ -223,50 +256,94 @@ class ProjectsScreen extends StatelessWidget {
       onRefresh: controller.fetchCompletedEngagements,
       child: ListView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: controller.completedEngagements.length,
+        itemCount: items.length,
         itemBuilder: (context, index) {
-          final engagement = controller.completedEngagements[index];
+          final engagement = items[index];
           return ProjectItem(engagement: engagement,);
         },
       ),
     );
   }
 
-  Widget _buildSavedJobs(BuildContext context) {
-    if (controller.isLoadingFavorites.value) {
+  Widget _buildDisputedProjects(BuildContext context) {
+    if (controller.isLoadingEngagements.value) {
       return ListView.builder(
         padding: EdgeInsets.all(16),
         itemCount: 5,
-        itemBuilder: (context, index) => JobItemSkeleton(),
+        itemBuilder: (context, index) => ProjectItemSkeleton(),
       );
     }
 
-    if (controller.favorites.isEmpty) {
+    final items = controller.filterEngagements(controller.disputedEngagements);
+    if (items.isEmpty) {
       return Center(
         child: Text(
-          context.resources.strings.noSavedJobs,
+          context.resources.strings.noDisputedProjects,
         ),
       );
     }
 
     return RefreshIndicator(
-      onRefresh: controller.fetchFavoriteJobs,
+      onRefresh: controller.fetchDisputedEngagements,
       child: ListView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: controller.favorites.length,
+        itemCount: items.length,
         itemBuilder: (context, index) {
-          final job = controller.favorites[index].job!;
-          return Obx(() =>
-              ProjectsJobItem(
-                job: job,
-                onFavoriteToggle: controller.toggleJobFavorite,
-                isRemoving: controller.removingFavoriteHashcode.value ==
-                    job.hashcode,
-              ));
+          final engagement = items[index];
+          return ProjectItem(engagement: engagement);
         },
       ),
     );
   }
 
+  Widget _buildSaved(BuildContext context) {
+    if (controller.isLoadingFavorites.value) {
+      return ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: 5,
+        itemBuilder: (context, index) => ProjectItemSkeleton(),
+      );
+    }
 
+    if (controller.favorites.isEmpty) {
+      return Center(
+        child: Text(context.resources.strings.noSavedItems),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: controller.fetchSavedItems,
+      child: ListView.separated(
+        padding: EdgeInsets.all(16),
+        itemCount: controller.favorites.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final fav = controller.favorites[index];
+          if (fav.job != null) {
+            return Obx(
+              () => ProjectsJobItem(
+                job: fav.job!,
+                onFavoriteToggle: controller.toggleJobFavorite,
+                isRemoving: controller.removingFavoriteHashcode.value ==
+                    fav.job!.hashcode,
+              ),
+            );
+          }
+          if (fav.service != null) {
+            return HomeServiceItem(
+              service: fav.service!,
+              onFavoriteToggle: controller.toggleServiceFavorite,
+            );
+          }
+          if (fav.package != null) {
+            return SavedPackageItem(
+              package: fav.package!,
+              onFavoriteToggle: controller.togglePackageFavorite,
+            );
+          }
+          return const SizedBox.shrink();
+        },
+      ),
+    );
+  }
 }

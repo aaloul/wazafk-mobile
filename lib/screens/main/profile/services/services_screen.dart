@@ -74,6 +74,8 @@ class ServicesScreen extends StatelessWidget {
                       final service = controller.services[index];
                       return ItemMyService(
                         service: service,
+                        onConfirmToggle: () =>
+                            controller.confirmPauseIfNeeded(service),
                         onToggleStatus: () =>
                             controller.toggleServiceStatus(service),
                       );

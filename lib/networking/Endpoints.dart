@@ -57,10 +57,6 @@ class Endpoints {
   static const saveAddress = 'member/saveAddress';
   static const deleteAddress = 'member/deleteAddress';
   static const addresses = 'member/addresses';
-  static const addScheduleTask = 'member/addScheduleTask';
-  static const saveScheduleTask = 'member/saveScheduleTask';
-  static const deleteScheduleTask = 'member/deleteScheduleTask';
-  static const scheduleTasks = 'member/scheduleTasks';
 
   //SERVICE
   static const addService = 'service/addService';

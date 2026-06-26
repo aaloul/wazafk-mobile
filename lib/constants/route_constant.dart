@@ -18,6 +18,7 @@ class RouteConstant {
   static const String personalInformationScreen =
       '/personal_information_screen';
   static const String updateEmailScreen = '/update_email_screen';
+  static const String editPhoneScreen = '/edit_phone_screen';
   static const String paymentMethodsScreen = '/payment_methods_screen';
   static const String voucherScreen = '/voucher_screen';
   static const String addCardScreen = '/add_card_screen';
@@ -42,6 +43,7 @@ class RouteConstant {
   static const String workingDaysScreen = '/working_days_screen';
   static const String aboutUsScreen = '/about_us_screen';
   static const String helpCenterScreen = '/help_center_screen';
+  static const String getSupportScreen = '/get_support_screen';
   static const String giveFeedbackScreen = '/give_feedback_screen';
   static const String servicesScreen = '/services_screen';
   static const String addServiceScreen = '/add_service_screen';
@@ -79,4 +81,5 @@ class RouteConstant {
   static const String allJobsScreen = '/all_jobs_screen';
   static const String allEmployerDataScreen = '/all_employer_data_screen';
   static const String rateEngagementScreen = '/rate_engagement_screen';
+  static const String calendarScreen = '/calendar_screen';
 }

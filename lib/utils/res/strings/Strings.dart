@@ -282,6 +282,7 @@ abstract class Strings {
   String get declineChange;
 
   String get bookNow;
+  String get request;
 
   String get submitApplication;
 
@@ -1694,4 +1695,43 @@ abstract class Strings {
   String get employerRating;
   String get andUp;
   String get applyFilter;
+
+  // Pause Service
+  String get pauseService;
+  String get pauseServiceDescription;
+  String get pause;
+
+  // Help Center
+  String get faqs;
+  String get general;
+  String get searchQuestion;
+
+  // Get Support
+  String get getSupport;
+  String get doYouHaveAnIssue;
+  String get getSupportSubtitle;
+
+  // Edit Phone Number
+  String get editPhoneNumber;
+  String get phoneNumberWillReplace;
+  String get otpSentToNewNumber;
+  String get phoneNumberChangedSuccess;
+
+  // Calendar / Schedule
+  String get calendar;
+  String get todaysSchedule;
+  String jobDueInDays(int days);
+  String get jobDueToday;
+  String get saved;
+  String get noSavedItems;
+
+  // Where you're logged in
+  String get currentlyLoggedInOn;
+  String get loginsOnOtherDevices;
+  String notYouLoggedInLogoutOf(String device);
+  String get noActiveSessions;
+  String get deviceLogoutUnavailable;
+  String get upcoming;
+  String get inProgress;
+  String get noScheduleForDay;
 }

@@ -431,6 +431,9 @@ class EnglishStrings extends Strings {
   String get bookNow => "Book Now";
 
   @override
+  String get request => "Request";
+
+  @override
   String get submitApplication => "Submit Application";
 
   @override
@@ -2652,4 +2655,92 @@ class EnglishStrings extends Strings {
 
   @override
   String get applyFilter => "Apply filter";
+
+  @override
+  String get pauseService => "Pause Service";
+
+  @override
+  String get pauseServiceDescription =>
+      "You can pause your service and resume it once you're able to proceed.";
+
+  @override
+  String get pause => "Pause";
+
+  @override
+  String get faqs => "FAQs";
+
+  @override
+  String get general => "General";
+
+  @override
+  String get searchQuestion => "Search question";
+
+  @override
+  String get getSupport => "Get Support";
+
+  @override
+  String get doYouHaveAnIssue => "Do you have an issue?";
+
+  @override
+  String get getSupportSubtitle =>
+      "We're here to help.\nChoose a topic below or chat directly with our support team.";
+
+  @override
+  String get editPhoneNumber => "Edit phone number";
+
+  @override
+  String get phoneNumberWillReplace =>
+      "This phone number will replace your old number";
+
+  @override
+  String get otpSentToNewNumber =>
+      "Code sent to your new number. Enter it to proceed.";
+
+  @override
+  String get phoneNumberChangedSuccess =>
+      "Your phone number has been successfully changed.";
+
+  @override
+  String get calendar => "Calendar";
+
+  @override
+  String get todaysSchedule => "Today's Schedule";
+
+  @override
+  String jobDueInDays(int days) => "Job Due in $days days";
+
+  @override
+  String get jobDueToday => "Job due today";
+
+  @override
+  String get saved => "Saved";
+
+  @override
+  String get noSavedItems => "No saved items";
+
+  @override
+  String get currentlyLoggedInOn => "You're Currently logged in on:";
+
+  @override
+  String get loginsOnOtherDevices => "Logins on other devices:";
+
+  @override
+  String notYouLoggedInLogoutOf(String device) =>
+      'Not you logged in? Logout of "$device" device';
+
+  @override
+  String get noActiveSessions => "No active sessions found";
+
+  @override
+  String get deviceLogoutUnavailable =>
+      "Logging out other devices isn't available yet.";
+
+  @override
+  String get upcoming => "Upcoming";
+
+  @override
+  String get inProgress => "In Progress";
+
+  @override
+  String get noScheduleForDay => "No schedule for this day";
 }

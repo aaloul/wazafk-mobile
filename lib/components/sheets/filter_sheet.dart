@@ -879,7 +879,10 @@ class _PillChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: context.resources.color.colorWhite,
+          // Selected pills get a light-blue fill per design (p82/p83/p99).
+          color: selected
+              ? context.resources.color.colorPrimaryLight
+              : context.resources.color.colorWhite,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: selected

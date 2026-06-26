@@ -30,6 +30,7 @@ import '../../../utils/Prefs.dart';
 import '../../../utils/res/AppContextExtension.dart';
 import '../../../utils/res/AppIcons.dart';
 import 'components/finish_engagement_bottom_sheet.dart';
+import 'components/verify_face_match_bottom_sheet.dart';
 
 class EngagementDetailsController extends GetxController {
   final _engagementDetailRepository = EngagementDetailRepository();
@@ -94,6 +95,10 @@ class EngagementDetailsController extends GetxController {
   // Track the action after successful face verification
   String? faceVerificationAction; // 'accept_finish', 'open_finish_sheet', 'accept_engagement', 'reject_engagement'
 
+  /// True when the accept/reject flow was started from the Projects/Activity
+  /// list (vs. the details screen). Controls post-success navigation.
+  bool inlineFromList = false;
+
   @override
   void onInit() {
     super.onInit();
@@ -102,34 +107,52 @@ class EngagementDetailsController extends GetxController {
     isLoading.value = true;
 
     if (arg is Engagement) {
-      engagement.value = arg;
-
-      // Set service, package, or job based on engagement type
-      if (arg.type.toString() == 'SB' &&
-          arg.services != null &&
-          arg.services!.isNotEmpty) {
-        service.value = arg.services!.first;
-        isService.value = true;
-        isPackage.value = false;
-        isJob.value = false;
-      } else if (arg.type.toString() == 'PB' && arg.package != null) {
-        package.value = arg.package;
-        isPackage.value = true;
-        isJob.value = false;
-        isService.value = false;
-      } else if (arg.type.toString() == 'JA' && arg.job != null) {
-        job.value = arg.job;
-        isPackage.value = false;
-        isService.value = false;
-        isJob.value = true;
-      }
-
-      if (arg.hashcode != null) {
-        getEngagementDetails(arg.hashcode!);
-      }
+      _applyEngagement(arg);
     } else if (arg is String) {
       getEngagementDetails(arg);
     }
+  }
+
+  void _applyEngagement(Engagement arg) {
+    engagement.value = arg;
+
+    // Set service, package, or job based on engagement type
+    if (arg.type.toString() == 'SB' &&
+        arg.services != null &&
+        arg.services!.isNotEmpty) {
+      service.value = arg.services!.first;
+      isService.value = true;
+      isPackage.value = false;
+      isJob.value = false;
+    } else if (arg.type.toString() == 'PB' && arg.package != null) {
+      package.value = arg.package;
+      isPackage.value = true;
+      isJob.value = false;
+      isService.value = false;
+    } else if (arg.type.toString() == 'JA' && arg.job != null) {
+      job.value = arg.job;
+      isPackage.value = false;
+      isService.value = false;
+      isJob.value = true;
+    }
+
+    if (arg.hashcode != null) {
+      getEngagementDetails(arg.hashcode!);
+    }
+  }
+
+  /// Starts the accept/reject flow from the Projects/Activity list: prepares the
+  /// engagement, then opens the face-match sheet over the current (list) screen.
+  /// On success the controller navigates to the details screen.
+  void startActionFromList(Engagement e, String action) {
+    _applyEngagement(e);
+    inlineFromList = true;
+    faceVerificationAction = action;
+    Get.bottomSheet(
+      VerifyFaceMatchBottomSheet(),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+    );
   }
 
   Future<void> getEngagementDetails(String hashcode) async {
@@ -206,6 +229,13 @@ class EngagementDetailsController extends GetxController {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
 
+        // Started from the list: open the details screen only now (on success).
+        if (inlineFromList) {
+          inlineFromList = false;
+          Get.toNamed(RouteConstant.engagementDetailsScreen,
+              arguments: engagement.value);
+        }
+
         // Success sheet: "Application accepted" for jobs, "Job Accepted" else.
         final strings = Resources.of(Get.context!).strings;
         final start = engagement.value?.startDatetime;
@@ -274,8 +304,15 @@ class EngagementDetailsController extends GetxController {
           await getEngagementDetails(engagement.value!.hashcode!);
         }
 
-        // Go back to previous screen
-        Get.back(result: true);
+        if (inlineFromList) {
+          // Started from the list: open details only now (on success).
+          inlineFromList = false;
+          Get.toNamed(RouteConstant.engagementDetailsScreen,
+              arguments: engagement.value);
+        } else {
+          // Go back to previous screen
+          Get.back(result: true);
+        }
       } else {
         constants.showSnackBar(
           response.message ?? Resources

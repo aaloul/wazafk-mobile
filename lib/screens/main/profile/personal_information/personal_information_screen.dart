@@ -152,7 +152,10 @@ class PersonalInformationScreen extends StatelessWidget {
                           _ContactRow(
                             label: strings.phoneNumber,
                             value: Prefs.getMobile,
-                            onEdit: null,
+                            onEdit: () async {
+                              await Get.toNamed(
+                                  RouteConstant.editPhoneScreen);
+                            },
                           ),
                         ],
                       ),

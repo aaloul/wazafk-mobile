@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/repository/service/service_status_repository.dart';
 import 'package:wazafak_app/repository/service/services_list_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
+import '../../../../components/sheets/success_message_sheet.dart';
 import '../../../../components/sheets/success_sheet.dart';
 import '../../../../utils/Prefs.dart';
 import '../../../../utils/res/AppIcons.dart';
@@ -55,6 +57,31 @@ class ServicesController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  /// Asks for confirmation before the toggle proceeds. Pausing an active
+  /// service shows the Pause Service sheet (Figma p111) and resolves to the
+  /// user's choice; resuming an inactive service proceeds immediately.
+  ///
+  /// This runs BEFORE the toggle spinner so the row doesn't look like it's
+  /// already calling the API while the sheet is open.
+  Future<bool> confirmPauseIfNeeded(Service service) async {
+    if (service.status != 1) return true;
+
+    final strings = Resources.of(Get.context!).strings;
+    final result = await Get.bottomSheet<bool>(
+      SuccessMessageSheet(
+        title: strings.pauseService,
+        illustration: AppIcons.pauseService,
+        message: strings.pauseServiceDescription,
+        buttonText: strings.pause,
+        onButton: () => Get.back(result: true),
+      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      isDismissible: true,
+    );
+    return result == true;
   }
 
   Future<void> toggleServiceStatus(Service service) async {

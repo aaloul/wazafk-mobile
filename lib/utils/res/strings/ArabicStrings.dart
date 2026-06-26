@@ -428,6 +428,9 @@ class ArabicStrings extends Strings {
   String get bookNow => "احجز الآن";
 
   @override
+  String get request => "طلب";
+
+  @override
   String get submitApplication => "تقديم الطلب";
 
   @override
@@ -2638,4 +2641,90 @@ class ArabicStrings extends Strings {
 
   @override
   String get applyFilter => "تطبيق الفلتر";
+
+  @override
+  String get pauseService => "إيقاف الخدمة مؤقتًا";
+
+  @override
+  String get pauseServiceDescription =>
+      "يمكنك إيقاف خدمتك مؤقتًا واستئنافها عندما تكون قادرًا على المتابعة.";
+
+  @override
+  String get pause => "إيقاف مؤقت";
+
+  @override
+  String get faqs => "الأسئلة الشائعة";
+
+  @override
+  String get general => "عام";
+
+  @override
+  String get searchQuestion => "ابحث عن سؤال";
+
+  @override
+  String get getSupport => "الحصول على الدعم";
+
+  @override
+  String get doYouHaveAnIssue => "هل لديك مشكلة؟";
+
+  @override
+  String get getSupportSubtitle =>
+      "نحن هنا لمساعدتك.\nاختر موضوعًا أدناه أو تواصل مباشرة مع فريق الدعم.";
+
+  @override
+  String get editPhoneNumber => "تعديل رقم الهاتف";
+
+  @override
+  String get phoneNumberWillReplace => "سيحل رقم الهاتف هذا محل رقمك القديم";
+
+  @override
+  String get otpSentToNewNumber =>
+      "تم إرسال الرمز إلى رقمك الجديد. أدخله للمتابعة.";
+
+  @override
+  String get phoneNumberChangedSuccess => "تم تغيير رقم هاتفك بنجاح.";
+
+  @override
+  String get calendar => "التقويم";
+
+  @override
+  String get todaysSchedule => "جدول اليوم";
+
+  @override
+  String jobDueInDays(int days) => "موعد التسليم خلال $days أيام";
+
+  @override
+  String get jobDueToday => "موعد التسليم اليوم";
+
+  @override
+  String get saved => "المحفوظة";
+
+  @override
+  String get noSavedItems => "لا توجد عناصر محفوظة";
+
+  @override
+  String get currentlyLoggedInOn => "أنت مسجّل الدخول حاليًا على:";
+
+  @override
+  String get loginsOnOtherDevices => "عمليات الدخول على أجهزة أخرى:";
+
+  @override
+  String notYouLoggedInLogoutOf(String device) =>
+      'لست أنت من سجّل الدخول؟ سجّل الخروج من جهاز "$device"';
+
+  @override
+  String get noActiveSessions => "لا توجد جلسات نشطة";
+
+  @override
+  String get deviceLogoutUnavailable =>
+      "تسجيل الخروج من الأجهزة الأخرى غير متاح بعد.";
+
+  @override
+  String get upcoming => "قادم";
+
+  @override
+  String get inProgress => "قيد التنفيذ";
+
+  @override
+  String get noScheduleForDay => "لا يوجد جدول لهذا اليوم";
 }

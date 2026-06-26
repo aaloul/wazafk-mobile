@@ -442,7 +442,7 @@ class BookServiceScreen extends StatelessWidget {
                               ? ProgressBar()
                               : PrimaryButton(
                                   title:
-                                      Resources.of(context).strings.bookNow,
+                                      Resources.of(context).strings.request,
                                   onPressed: () {
                                     if (controller.service.value == null &&
                                         controller.package.value == null) {

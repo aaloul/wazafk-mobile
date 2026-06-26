@@ -139,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 ),
 
                 GestureDetector(
-                  onTap: () => controller.openSupport(),
+                  onTap: () => Get.toNamed(RouteConstant.getSupportScreen),
                   child: Column(
                     children: [
 

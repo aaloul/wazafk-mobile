@@ -23,9 +23,27 @@ class HelpCenterController extends GetxController {
   var selectedCategory = ''.obs;
   var expandedIndex = RxInt(-1);
 
+  // Help Center (design p169)
+  var searchQuery = ''.obs;
+
+  /// Selected audience tab. NOTE: the FAQ model/API has no audience field yet,
+  /// so this currently only drives the tab highlight; wire real filtering once
+  /// the backend tags FAQs by audience (General/Employer/Freelancer).
+  var selectedAudience = ''.obs;
+
+  /// FAQs filtered by the search box (by question text).
+  List<Faq> get filteredFaqs {
+    final q = searchQuery.value.trim().toLowerCase();
+    if (q.isEmpty) return faqs;
+    return faqs
+        .where((f) => (f.question ?? '').toLowerCase().contains(q))
+        .toList();
+  }
+
   @override
   void onInit() {
     super.onInit();
+    selectedAudience.value = Resources.of(Get.context!).strings.general;
     fetchSupportCategories();
     fetchFaqs();
   }

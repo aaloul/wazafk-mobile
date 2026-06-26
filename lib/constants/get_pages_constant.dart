@@ -6,7 +6,9 @@ import 'package:wazafak_app/screens/main/all_engagements/all_engagements_screen.
 import 'package:wazafak_app/screens/main/all_jobs/all_jobs_screen.dart';
 import 'package:wazafak_app/screens/main/apply_job/apply_job_screen.dart';
 import 'package:wazafak_app/screens/main/book_service/book_service_screen.dart';
+import 'package:wazafak_app/screens/main/calendar/calendar_screen.dart';
 import 'package:wazafak_app/screens/main/job_applicants/job_applicants_screen.dart';
+import 'package:wazafak_app/screens/main/profile/get_support/get_support_screen.dart';
 import 'package:wazafak_app/screens/main/profile/jobs/add_job/add_job_screen.dart';
 import 'package:wazafak_app/screens/main/profile/notification_settings/notification_settings_screen.dart';
 
@@ -53,6 +55,7 @@ import '../screens/main/profile/packages/packs_screen.dart';
 import '../screens/main/profile/payment_methods/add_card_screen.dart';
 import '../screens/main/profile/payment_methods/payment_methods_screen.dart';
 import '../screens/main/profile/payments_earnings/payments_earnings_screen.dart';
+import '../screens/main/profile/personal_information/edit_phone/edit_phone_screen.dart';
 import '../screens/main/profile/personal_information/personal_information_screen.dart';
 import '../screens/main/profile/personal_information/update_email/update_email_screen.dart';
 import '../screens/main/profile/privacy_sharing/privacy_sharing_screen.dart';
@@ -157,6 +160,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.updateEmailScreen,
     page: () => const UpdateEmailScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.editPhoneScreen,
+    page: () => const EditPhoneScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
@@ -438,6 +446,16 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.rateEngagementScreen,
     page: () => RateEngagementScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.calendarScreen,
+    page: () => const CalendarScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.getSupportScreen,
+    page: () => const GetSupportScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
 ];

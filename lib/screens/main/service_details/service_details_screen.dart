@@ -124,19 +124,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                                                       height: 20,
                                                       child: ProgressBar(),
                                                     )
-                                                  : Container(
+                                                  : SizedBox(
                                                       width: 50,
                                                       height: 50,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                          color: context
-                                                              .resources
-                                                              .color
-                                                              .colorGrey15,
-                                                          width: 1,
-                                                        ),
-                                                      ),
                                                       child: Center(
                                                         child: Image.asset(
                                                           controller

@@ -71,7 +71,15 @@
       "Bash(sed -i '' 's|<string>14.0</string>|<string>15.0</string>|' ios/Flutter/AppFrameworkInfo.plist)",
       "Bash(sed -n '330,345p' lib/screens/main/job_details/job_details_screen.dart)",
       "Bash(sed -n '225,240p' lib/screens/main/package_details/package_details_screen.dart)",
-      "Bash(sed -n '570,605p' lib/screens/main/service_details/service_details_screen.dart)"
+      "Bash(sed -n '570,605p' lib/screens/main/service_details/service_details_screen.dart)",
+      "Bash(magick -version)",
+      "Skill(run)",
+      "Bash(rm -f lib/screens/main/calendar/components/schedule_task_card.dart)",
+      "Bash(rmdir lib/screens/main/calendar/components)",
+      "Bash(awk '/class Address \\\\{/,/^\\\\}/' lib/model/EngagementsResponse.dart)",
+      "Bash(awk '/^class Address/{f=1} f{print} /^\\\\}/{if\\(f\\)exit}' lib/model/EngagementsResponse.dart)",
+      "Bash(awk '/^class Address \\\\{/{f=1} f{print} f&&/\\\\}/{c++; if\\(c>0 && /^\\\\}/\\){exit}}' lib/model/AddressesResponse.dart)",
+      "Bash(awk '/^class Package /{f=1} f{print} f&&/^\\\\}/{exit}' lib/model/PackagesResponse.dart)"
     ],
     "deny": [],
     "ask": []

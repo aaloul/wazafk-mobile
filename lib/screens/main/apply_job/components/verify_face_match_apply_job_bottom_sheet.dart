@@ -24,6 +24,8 @@ class _VerifyFaceMatchApplyJobBottomSheetState
   void initState() {
     super.initState();
     final controller = Get.find<ApplyJobController>();
+    // Dismiss the keyboard if it was open.
+    FocusManager.instance.primaryFocus?.unfocus();
     // Initialize camera when bottom sheet opens
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.initializeCamera();

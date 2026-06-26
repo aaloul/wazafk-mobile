@@ -8,6 +8,7 @@ import 'package:wazafak_app/repository/engagement/engagements_list_repository.da
 import 'package:wazafak_app/repository/favorite/add_favorite_package_repository.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_service_repository.dart';
 import 'package:wazafak_app/repository/favorite/favorites_repository.dart';
+import 'package:wazafak_app/repository/favorite/remove_favorite_job_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_package_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_service_repository.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
@@ -26,16 +27,45 @@ class ActivitiesController extends GetxController {
   final _removeFavoriteServiceRepository = RemoveFavoriteServiceRepository();
   final _addFavoritePackageRepository = AddFavoritePackageRepository();
   final _removeFavoritePackageRepository = RemoveFavoritePackageRepository();
+  final _removeFavoriteJobRepository = RemoveFavoriteJobRepository();
   final _favoriteMembersRepository = FavoritesRepository();
 
   // State variables
   var isLoadingEngagements = false.obs;
   var isLoadingFavorites = false.obs;
+  var removingFavoriteHashcode = ''.obs;
   var ongoingEngagements = <Engagement>[].obs;
   var pendingEngagements = <Engagement>[].obs;
   var completedEngagements = <Engagement>[].obs;
   var disputedEngagements = <Engagement>[].obs;
   var favorites = <FavoriteData>[].obs;
+
+  /// Local search over the currently shown engagement list.
+  var searchQuery = ''.obs;
+
+  /// Filters [list] locally by title / other-party name / description.
+  List<Engagement> filterEngagements(List<Engagement> list) {
+    final q = searchQuery.value.trim().toLowerCase();
+    if (q.isEmpty) return list;
+    String title(Engagement e) {
+      switch (e.type) {
+        case 'SB':
+          return e.services?.first.title ?? '';
+        case 'PB':
+          return e.package?.title ?? '';
+        default:
+          return e.job?.title ?? '';
+      }
+    }
+
+    return list.where((e) {
+      final name =
+          '${e.clientFirstName ?? ''} ${e.clientLastName ?? ''} ${e.freelancerFirstName ?? ''} ${e.freelancerLastName ?? ''}';
+      return title(e).toLowerCase().contains(q) ||
+          (e.description ?? '').toLowerCase().contains(q) ||
+          name.toLowerCase().contains(q);
+    }).toList();
+  }
 
   @override
   void onInit() {
@@ -46,6 +76,7 @@ class ActivitiesController extends GetxController {
     fetchPendingEngagements();
     fetchCompletedEngagements();
     fetchDisputedEngagements();
+    fetchSavedItems();
   }
 
   Future<void> fetchOngoingEngagements({bool? isLoading}) async {
@@ -110,7 +141,7 @@ class ActivitiesController extends GetxController {
       isLoadingEngagements.value = isLoading ?? true;
       final response = await _engagementsRepository.getEngagements(
         filters: {
-          'has_dispute': '1',
+          'flow': 'ON_HOLD',
           'client': Prefs.getId,
         },
       );
@@ -124,15 +155,41 @@ class ActivitiesController extends GetxController {
     }
   }
 
-  Future<void> fetchFavoriteJobs({bool? isLoading}) async {
+  /// Saved tab — favorited jobs, services and packages.
+  Future<void> fetchSavedItems({bool? isLoading}) async {
     try {
       isLoadingFavorites.value = isLoading ?? true;
-      final response = await _favoritesRepository.getFavorites(type: 'M,S,P');
+      final response = await _favoritesRepository.getFavorites(type: 'J,S,P');
       favorites.value = response.data ?? [];
     } catch (e) {
-      print('Error fetching favorite jobs: $e');
+      print('Error fetching saved items: $e');
     } finally {
       isLoadingFavorites.value = false;
+    }
+  }
+
+  Future<void> toggleJobFavorite(String jobHashcode) async {
+    try {
+      removingFavoriteHashcode.value = jobHashcode;
+      final response =
+          await _removeFavoriteJobRepository.removeFavoriteJob(jobHashcode);
+      if (response.success == true) {
+        favorites.removeWhere((f) => f.job?.hashcode == jobHashcode);
+        constants.showSnackBar(
+          Resources.of(Get.context!).strings.removedFromFavorites,
+          SnackBarStatus.SUCCESS,
+        );
+      } else {
+        constants.showSnackBar(
+          response.message ??
+              Resources.of(Get.context!).strings.failedToRemoveFavorite,
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      print('Error toggling job favorite: $e');
+    } finally {
+      removingFavoriteHashcode.value = '';
     }
   }
 
@@ -150,6 +207,9 @@ class ActivitiesController extends GetxController {
         break;
       case var tab when tab == strings.dispute:
         fetchDisputedEngagements();
+        break;
+      case var tab when tab == strings.saved:
+        fetchSavedItems();
         break;
     }
   }

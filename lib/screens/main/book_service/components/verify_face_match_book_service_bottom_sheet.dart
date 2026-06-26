@@ -24,6 +24,8 @@ class _VerifyFaceMatchBookServiceBottomSheetState
   void initState() {
     super.initState();
     final controller = Get.find<BookServiceController>();
+    // Dismiss the keyboard if it was open.
+    FocusManager.instance.primaryFocus?.unfocus();
     // Initialize camera when bottom sheet opens
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.initializeCamera();

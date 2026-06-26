@@ -13,10 +13,15 @@ class ItemMyService extends StatefulWidget {
     super.key,
     required this.service,
     required this.onToggleStatus,
+    this.onConfirmToggle,
   });
 
   final Service service;
   final Future<void> Function() onToggleStatus;
+
+  /// Optional gate run before toggling. Return false to cancel. Runs BEFORE the
+  /// loading spinner so a confirmation sheet doesn't look like an in-flight API.
+  final Future<bool> Function()? onConfirmToggle;
 
   @override
   State<ItemMyService> createState() => _ItemMyServiceState();
@@ -26,6 +31,13 @@ class _ItemMyServiceState extends State<ItemMyService> {
   bool isTogglingStatus = false;
 
   Future<void> handleToggleStatus() async {
+    // Confirm first (no spinner) so the toggle doesn't appear to be calling the
+    // API while the confirmation sheet is open.
+    if (widget.onConfirmToggle != null) {
+      final proceed = await widget.onConfirmToggle!();
+      if (!proceed) return;
+    }
+
     setState(() {
       isTogglingStatus = true;
     });

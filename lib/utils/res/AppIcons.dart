@@ -112,6 +112,7 @@ class AppIcons {
   static const String language = '${base}language.png';
   static const String servicePosted = '${base}service_posted.png';
   static const String serviceRemoved = '${base}service_removed.png';
+  static const String pauseService = '${base}pause_service.png';
   static const String notification2 = '${base}notification2.png';
 
   // Rate Engagement

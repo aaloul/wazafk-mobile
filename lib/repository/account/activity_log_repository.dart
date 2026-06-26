@@ -1,3 +1,4 @@
+import '../../model/ActivityLogResponse.dart';
 import '../../model/ApiResponse.dart';
 import '../../networking/services/account/activity_log_service.dart';
 
@@ -6,5 +7,9 @@ class ActivityLogRepository {
 
   Future<ApiResponse> getActivityLog() async {
     return _provider.getActivityLog();
+  }
+
+  Future<ActivityLogResponse> getLoginSessions() async {
+    return _provider.getLoginSessions();
   }
 }

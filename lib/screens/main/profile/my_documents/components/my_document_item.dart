@@ -100,7 +100,7 @@ class _StatusBadge extends StatelessWidget {
               const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
           decoration: BoxDecoration(
             color: colors.colorPrimary,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: PrimaryText(
             text: strings.uploadDoc,
