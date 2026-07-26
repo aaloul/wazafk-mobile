@@ -7,15 +7,22 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
 import 'package:wazafak_app/components/sheets/success_sheet.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/AreasResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
+import 'package:wazafak_app/model/LimitsResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/model/WorkingHoursModel.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
+import 'package:wazafak_app/repository/app/limits_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/service/add_service_repository.dart';
 import 'package:wazafak_app/repository/service/save_service_repository.dart';
+import 'package:wazafak_app/repository/service/service_status_repository.dart';
+import 'package:wazafak_app/repository/service/services_list_repository.dart';
+import 'package:wazafak_app/screens/main/profile/activation/activate_service_screen.dart';
+import 'package:wazafak_app/screens/main/profile/activation/add_skill_screen.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
@@ -24,6 +31,8 @@ import 'package:wazafak_app/utils/utils.dart';
 class AddServiceController extends GetxController {
   final _repository = AddServiceRepository();
   final _saveServiceRepository = SaveServiceRepository();
+  final _serviceStatusRepository = ServiceStatusRepository();
+  final _servicesListRepository = ServicesListRepository();
   final _categoriesRepository = CategoriesRepository();
   final _skillsRepository = SkillsRepository();
 
@@ -63,6 +72,11 @@ class AddServiceController extends GetxController {
 
   var isEditMode = false.obs;
   String? editServiceHashcode;
+
+  /// Off / On switch in the edit header (design p107) — the service's live
+  /// status, updated straight away through `service/serviceStatus`.
+  var isServiceActive = true.obs;
+  var isUpdatingStatus = false.obs;
 
   List<String> get durationOptions =>
       [
@@ -149,13 +163,17 @@ class AddServiceController extends GetxController {
         .strings
         .hourlyRateOption;
     _initializeWorkingHours();
+    _loadLimits();
 
     // Check if we're in edit mode
     final Service? service = Get.arguments as Service?;
     if (service != null) {
       isEditMode.value = true;
       editServiceHashcode = service.hashcode;
+      isServiceActive.value = service.status == 1;
       _populateFieldsFromService(service);
+    } else {
+      _checkFirstService();
     }
   }
 
@@ -468,6 +486,47 @@ class AddServiceController extends GetxController {
     return selectedAreas.any((a) => a.code == area.code);
   }
 
+  /// Remote services cover no areas — drop any picked areas when switching to
+  /// Remote so nothing stale is sent as `locations`.
+  void selectWorkLocationType(String type) {
+    selectedWorkLocationType.value = type;
+    if (type == 'Remote') selectedAreas.clear();
+  }
+
+  /// Off / On header switch (design p107). Applies immediately and rolls back
+  /// if the call fails.
+  Future<void> setServiceActive(bool active) async {
+    if (editServiceHashcode == null || isUpdatingStatus.value) return;
+    if (isServiceActive.value == active) return;
+
+    final previous = isServiceActive.value;
+    isServiceActive.value = active;
+    isUpdatingStatus.value = true;
+
+    try {
+      final response = await _serviceStatusRepository.updateServiceStatus(
+        editServiceHashcode!,
+        active ? 1 : 0,
+      );
+      if (response.success != true) {
+        isServiceActive.value = previous;
+        constants.showSnackBar(
+          response.message ??
+              Resources.of(Get.context!).strings.failedToUpdateServiceStatus,
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      isServiceActive.value = previous;
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.failedToUpdateServiceStatus,
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isUpdatingStatus.value = false;
+    }
+  }
+
   Future<void> pickPortfolioImage(BuildContext context) async {
     try {
       final XFile? image = await ImageSourceBottomSheet.show(context);
@@ -571,29 +630,114 @@ class AddServiceController extends GetxController {
     return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
   }
 
-  bool validateFields() {
+  // ---------------------------------------------------------------------------
+  // 3-step posting flow: form (1/3) -> Add Skill (2/3) -> Activate (3/3).
+  // Prices and caps come from `app/limits`.
+  // ---------------------------------------------------------------------------
+
+  static const totalSteps = 3;
+
+  /// True when the member has never published a service — drives the "First
+  /// service on us!" promo on the activation step.
+  var isFirstService = false.obs;
+
+  AppLimits get limits => AppLimitsCache.current;
+
+  /// Skills beyond the free allowance, billed once.
+  int get extraSkillsCount => selectedSkills.length > limits.freeSkills
+      ? selectedSkills.length - limits.freeSkills
+      : 0;
+
+  double get extraSkillsPrice => extraSkillsCount * limits.extraSkillPrice;
+
+  double get totalToday =>
+      (isFirstService.value ? 0 : limits.serviceMonthlyPrice) +
+      extraSkillsPrice;
+
+  Future<void> _loadLimits() async {
+    await AppLimitsCache.load();
+    // The caps feed the Add Skill step, so refresh anything already on screen.
+    selectedSkills.refresh();
+  }
+
+  /// Counts the member's services; failures leave the promo off.
+  Future<void> _checkFirstService() async {
+    try {
+      final response = await _servicesListRepository.getServices(
+        filters: {'member': Prefs.getId},
+      );
+      if (response.success == true) {
+        isFirstService.value = (response.data?.list ?? []).isEmpty;
+      }
+    } catch (e) {
+      print('Error checking previous services: $e');
+    }
+  }
+
+  /// Step 1 "Continue" — skills are picked on the next step, so they are not
+  /// required yet.
+  void continueToSkills() {
+    if (!validateFields(requireSkills: false)) return;
+
+    Get.toNamed(
+      RouteConstant.addSkillScreen,
+      arguments: AddSkillArgs(
+        availableSkills: availableSkills.toList(),
+        selectedSkills: selectedSkills.toList(),
+        freeSkills: limits.freeSkills,
+        maxSkills: limits.maxSkills,
+        extraSkillPrice: limits.extraSkillPrice,
+        step: 2,
+        totalSteps: totalSteps,
+        isLoadingSkills: isLoadingSkills.value,
+        onContinue: continueToActivation,
+      ),
+    );
+  }
+
+  /// Step 2 "Continue" — keeps the picked skills and moves on to the fee.
+  void continueToActivation(List<Skill> skills) {
+    if (skills.isEmpty) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.pleaseSelectAtLeastOneSkill,
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    selectedSkills.value = skills;
+
+    Get.toNamed(
+      RouteConstant.activateServiceScreen,
+      arguments: ActivateServiceArgs(
+        monthlyPrice: limits.serviceMonthlyPrice,
+        extraSkillsPrice: extraSkillsPrice,
+        extraSkillsCount: extraSkillsCount,
+        totalToday: totalToday,
+        isFirstService: isFirstService.value,
+        step: 3,
+        totalSteps: totalSteps,
+        onConfirm: addService,
+      ),
+    );
+  }
+
+  /// Closes the whole flow once the service is live.
+  void _leaveFlow() {
+    Get.until(
+      (route) =>
+          route.settings.name != RouteConstant.activateServiceScreen &&
+          route.settings.name != RouteConstant.addSkillScreen &&
+          route.settings.name != RouteConstant.addServiceScreen,
+    );
+  }
+
+  bool validateFields({bool requireSkills = true}) {
     if (titleController.text.trim().isEmpty) {
       constants.showSnackBar(Resources
           .of(Get.context!)
           .strings
           .pleaseEnterTitle, SnackBarStatus.ERROR);
-      return false;
-    }
-    if (descController.text.trim().isEmpty) {
-      constants.showSnackBar(Resources
-          .of(Get.context!)
-          .strings
-          .pleaseEnterDescription, SnackBarStatus.ERROR);
-      return false;
-    }
-    if (selectedAreas.isEmpty) {
-      constants.showSnackBar(
-        Resources
-            .of(Get.context!)
-            .strings
-            .pleaseSelectAtLeastOneArea,
-        SnackBarStatus.ERROR,
-      );
       return false;
     }
     if (selectedCategory.value == null) {
@@ -608,6 +752,17 @@ class AddServiceController extends GetxController {
           .of(Get.context!)
           .strings
           .pleaseSelectJobType, SnackBarStatus.ERROR);
+      return false;
+    }
+    // Remote services cover no areas, so only ask for them on-site/hybrid.
+    if (selectedWorkLocationType.value != 'Remote' && selectedAreas.isEmpty) {
+      constants.showSnackBar(
+        Resources
+            .of(Get.context!)
+            .strings
+            .pleaseSelectAtLeastOneArea,
+        SnackBarStatus.ERROR,
+      );
       return false;
     }
 
@@ -637,7 +792,7 @@ class AddServiceController extends GetxController {
       );
       return false;
     }
-    if (selectedSkills.isEmpty) {
+    if (requireSkills && selectedSkills.isEmpty) {
       constants.showSnackBar(
         Resources
             .of(Get.context!)
@@ -688,7 +843,9 @@ class AddServiceController extends GetxController {
 
       final data = {
         'title': titleController.text,
-        'description': descController.text,
+        // The form has no separate description field (design p112); the
+        // work experience text doubles as the service description.
+        'description': workExperienceController.text.trim(),
         'category': categoryHashcode,
         'pricing_type': selectedPricingType.value == Resources.of(Get.context!).strings.hourlyRateOption ? 'U' : 'T',
         'experience': workExperienceController.text,
@@ -734,9 +891,7 @@ class AddServiceController extends GetxController {
                 .of(Get.context!)
                 .strings
                 .viewMyServices,
-            onButtonPressed: () {
-              Navigator.pop(Get.context!);
-            }
+            onButtonPressed: _leaveFlow
         );
       } else {
         constants.showSnackBar(

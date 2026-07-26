@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/file_upload_item.dart';
+import 'package:wazafak_app/components/category_chooser.dart';
+import 'package:wazafak_app/components/form_choice_chip.dart';
 import 'package:wazafak_app/components/labeled_text_field.dart';
 import 'package:wazafak_app/components/multiline_labeled_text_field.dart';
 import 'package:wazafak_app/components/primary_button.dart';
-import 'package:wazafak_app/components/primary_network_image.dart';
 import 'package:wazafak_app/components/primary_text.dart';
+import 'package:wazafak_app/components/primary_text_field.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
 import 'package:wazafak_app/components/top_header.dart';
+import 'package:wazafak_app/screens/main/home/home_controller.dart';
 import 'package:wazafak_app/screens/main/profile/packages/add_package/add_package_controller.dart';
-import 'package:wazafak_app/screens/main/profile/packages/add_package/components/package_working_hours_bottom_sheet.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
+/// Work package form — design p113 ("Work Package") and p115 ("Edit").
 class AddPackageScreen extends StatelessWidget {
   const AddPackageScreen({super.key});
 
@@ -21,23 +23,20 @@ class AddPackageScreen extends StatelessWidget {
     border: Border.fromBorderSide(
       BorderSide(color: Color(0xFFE5E5E5), width: 1),
     ),
+    boxShadow: [
+      BoxShadow(color: Color(0x14000000), blurRadius: 8, offset: Offset.zero),
+    ],
   );
-
-  static const _cardShadow = [
-    BoxShadow(
-      color: Color(0x14000000),
-      blurRadius: 8,
-      spreadRadius: 0,
-      offset: Offset.zero,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddPackageController());
+    final homeController = Get.find<HomeController>();
+    final colors = context.resources.color;
+    final strings = context.resources.strings;
 
     return Scaffold(
-      backgroundColor: context.resources.color.background2,
+      backgroundColor: colors.background2,
       body: SafeArea(
         child: Column(
           children: [
@@ -45,426 +44,305 @@ class AddPackageScreen extends StatelessWidget {
               () => TopHeader(
                 hasBack: true,
                 title: controller.isEditMode.value
-                    ? context.resources.strings.editPackage
-                    : context.resources.strings.addPackage,
+                    ? strings.editPackageTitle
+                    : strings.workPackageTitle,
+                endWidget: controller.isEditMode.value
+                    ? const _PackageStatusToggle()
+                    : null,
               ),
             ),
-            SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Card 1 — General Details
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(16),
-                      decoration: _cardDecoration.copyWith(
-                        boxShadow: _cardShadow,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                child: Container(
+                  width: double.infinity,
+                  decoration: _cardDecoration,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 16,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        LabeledTextFiled(
+                          controller: controller.titleController,
+                          hint: strings.title,
+                          label: strings.title,
+                          isMandatory: true,
+                          isPassword: false,
+                          labelFontSize: 12,
+                          inputType: TextInputType.text,
+                        ),
 
+                        const SizedBox(height: 10),
 
-                          Obx(() => LabeledTextFiled(
-                            controller: controller.titleController,
-                            hint: context.resources.strings.title,
-                            label: context.resources.strings.title,
-                            isMandatory: true,
-                            isPassword: false,
-                            inputType: TextInputType.text,
-                            enabled: !controller.isEditMode.value,
-                          )),
-
-                          Obx(() => MultilineLabeledTextField(
-                            controller: controller.descController,
-                            label: context.resources.strings.description,
-                            hint: context.resources.strings.enterPackageDescription,
-                            maxLines: 20,
-                            height: 100,
-                            margin: 0,
-                            inputType: TextInputType.text,
-                            isPassword: false,
-                            isMandatory: true,
-                            enabled: !controller.isEditMode.value,
-                          )),
-
-                          SizedBox(height: 8),
-
-                          PrimaryText(
-                            text: context.resources.strings.services,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            textColor: context.resources.color.colorGrey26,
-                          ),
-                          SizedBox(height: 12),
-
-                          Obx(() {
-                            if (controller.isLoadingServices.value) {
-                              return Container(
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                child: Center(child: ProgressBar()),
+                        // Services the pack bundles — multi-select.
+                        FormFieldLabel(text: strings.services, isMandatory: true),
+                        const SizedBox(height: 8),
+                        Obx(() {
+                          if (controller.isLoadingServices.value) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              child: Center(child: ProgressBar()),
+                            );
+                          }
+                          if (controller.services.isEmpty) {
+                            return PrimaryText(
+                              text: strings.noServicesAvailable,
+                              fontSize: 13,
+                              textColor: colors.colorGrey8,
+                            );
+                          }
+                          final selectedHashcodes = controller.selectedServices
+                              .map((s) => s.hashcode)
+                              .toSet();
+                          // Cap each chip at half the row so long service
+                          // titles ellipsize and the chips keep wrapping in
+                          // columns instead of stacking one per line.
+                          return LayoutBuilder(
+                            builder: (context, box) {
+                              final maxChipWidth = (box.maxWidth - 6) / 2;
+                              return Wrap(
+                                spacing: 6,
+                                runSpacing: 8,
+                                children: controller.services
+                                    .map(
+                                      (service) => FormChoiceChip(
+                                        label: service.title ?? '',
+                                        selected: selectedHashcodes
+                                            .contains(service.hashcode),
+                                        maxWidth: maxChipWidth,
+                                        onTap: () => controller
+                                            .toggleServiceSelection(service),
+                                      ),
+                                    )
+                                    .toList(),
                               );
-                            }
-                            if (controller.services.isEmpty) return SizedBox.shrink();
-                            final selectedHashcodes = controller.selectedServices
-                                .map((s) => s.hashcode)
-                                .toSet();
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 36,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: controller.services.length,
-                                    separatorBuilder: (_, __) => SizedBox(width: 8),
-                                    itemBuilder: (context, index) {
-                                      final service = controller.services[index];
-                                      final isSelected = selectedHashcodes.contains(service.hashcode);
-                                      return GestureDetector(
-                                        onTap: () {
-                                          if (!controller.isEditMode.value) {
-                                            controller.toggleServiceSelection(service);
-                                          }
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                                          decoration: BoxDecoration(
-                                            color: isSelected
-                                                ? context.resources.color.colorPrimary.withAlpha(16)
-                                                : Colors.white,
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(
-                                              color: isSelected
-                                                  ? context.resources.color.colorPrimary
-                                                  : context.resources.color.colorGrey25,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: PrimaryText(
-                                              text: service.title ?? '',
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              textColor: isSelected
-                                                  ? context.resources.color.colorPrimary
-                                                  : context.resources.color.colorBlack4,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(height: 12),
-                              ],
-                            );
-                          }),
-
-
-
-                          // Work location type chips
-                          Obx(() {
-                            const types = ['Onsite', 'Remote', 'Hybrid'];
-                            final selected = controller.selectedWorkLocationType.value;
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    PrimaryText(
-                                      text: context.resources.strings.jobType,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      textColor: context.resources.color.colorGrey26,
-                                    ),
-                                    SizedBox(width: 4),
-                                    PrimaryText(
-                                      text: '*',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      textColor: context.resources.color.colorGrey26,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                SizedBox(
-                                  height: 36,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: types.length,
-                                    separatorBuilder: (_, __) => SizedBox(width: 8),
-                                    itemBuilder: (context, index) {
-                                      final type = types[index];
-                                      final isSelected = selected == type;
-                                      String label;
-                                      switch (type) {
-                                        case 'Remote': label = context.resources.strings.remote; break;
-                                        case 'Hybrid': label = context.resources.strings.hybrid; break;
-                                        default: label = context.resources.strings.onsite;
-                                      }
-                                      return GestureDetector(
-                                        onTap: () {
-                                          if (!controller.isEditMode.value) {
-                                            controller.selectedWorkLocationType.value = type;
-                                          }
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                                          decoration: BoxDecoration(
-                                            color: isSelected
-                                                ? context.resources.color.colorPrimary.withAlpha(16)
-                                                : Colors.white,
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(
-                                              color: isSelected
-                                                  ? context.resources.color.colorPrimary
-                                                  : context.resources.color.colorGrey25,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: PrimaryText(
-                                              text: label,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              textColor: isSelected
-                                                  ? context.resources.color.colorPrimary
-                                                  : context.resources.color.colorBlack4,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(height: 12),
-                              ],
-                            );
-                          }),
-
-                          LabeledTextFiled(
-                            controller: controller.totalPriceController,
-                            hint: context.resources.strings.totalPrice,
-                            label: context.resources.strings.totalPrice,
-                            isMandatory: true,
-                            isPassword: false,
-                            inputType: TextInputType.number,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(height: 16),
-
-                    // Card 2 — Working Hours
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(16),
-                      decoration: _cardDecoration.copyWith(
-                        boxShadow: _cardShadow,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 4),
-
-                          PrimaryText(
-                            text: context.resources.strings.workingHours,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            textColor: context.resources.color.colorBlack4,
-                          ),
-                          SizedBox(height: 16),
-
-                          GestureDetector(
-                            onTap: () {
-                              PackageWorkingHoursBottomSheet.show(context);
                             },
-                            child: Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: context.resources.color.colorWhite,
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: context.resources.color.colorGrey8,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.access_time,
-                                        size: 20,
-                                        color: context.resources.color.colorGrey,
-                                      ),
-                                      SizedBox(width: 12),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          PrimaryText(
-                                            text: context.resources.strings.workingHours,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14,
-                                            textColor: context.resources.color.colorPrimary,
-                                          ),
-                                          SizedBox(height: 4),
-                                          Obx(() {
-                                            final enabledDays = controller.workingHours
-                                                .where((day) => day.isEnabled)
-                                                .length;
-                                            return PrimaryText(
-                                              text: context.resources.strings.daysSelected(enabledDays),
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12,
-                                              textColor: context.resources.color.colorGrey,
-                                            );
-                                          }),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                    color: context.resources.color.colorGrey,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          );
+                        }),
 
-                        ],
-                      ),
-                    ),
+                        const SizedBox(height: 16),
 
-                    SizedBox(height: 16),
+                        // Category dropdown + subcategory chips.
+                        Obx(() {
+                          if (homeController.categories.isEmpty) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Center(child: ProgressBar()),
+                            );
+                          }
+                          return CategoryChooser(
+                            label: strings.category,
+                            text: strings.selectCategory,
+                            isMandatory: true,
+                            withArrow: true,
+                            labelFontSize: 12,
+                            list: homeController.categories,
+                            selected: controller.selectedCategory.value,
+                            onSelect: controller.selectCategory,
+                          );
+                        }),
 
-                    // Card 3 — Cover Image
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(16),
-                      decoration: _cardDecoration.copyWith(
-                        boxShadow: _cardShadow,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PrimaryText(
-                            text: context.resources.strings.coverImage,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            textColor: context.resources.color.colorBlack4,
-                          ),
-                          SizedBox(height: 8),
-
-                          Obx(() {
-                            final hasLocalImage = controller.packageImage.value != null;
-                            final hasUrlImage = controller.packageImageUrl.value != null;
-
-                            if (hasUrlImage || hasLocalImage || controller.isEditMode.value) {
-                              return Container();
-                            }
-
-                            return FileUploadItem(
-                              label: controller.packageImage.value != null ||
-                                      controller.packageImageUrl.value != null
-                                  ? context.resources.strings.imageSelected
-                                  : context.resources.strings.uploadImage,
-                              isMandatory: false,
-                              isOptional: false,
-                              onClick: () {
-                                controller.pickPackageImage(context);
+                        Obx(() {
+                          if (controller.isLoadingSubcategories.value) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Center(child: ProgressBar()),
+                            );
+                          }
+                          if (controller.subcategories.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
+                          final selectedHashcode =
+                              controller.selectedSubcategory.value?.hashcode;
+                          return SizedBox(
+                            height: 40,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.subcategories.length,
+                              separatorBuilder: (_, __) =>
+                                  const SizedBox(width: 6),
+                              itemBuilder: (context, index) {
+                                final sub = controller.subcategories[index];
+                                return FormChoiceChip(
+                                  label: sub.name ?? '',
+                                  selected: selectedHashcode == sub.hashcode,
+                                  onTap: () =>
+                                      controller.selectSubcategory(sub),
+                                );
                               },
-                            );
-                          }),
+                            ),
+                          );
+                        }),
 
-                          Obx(() {
-                            final hasLocalImage = controller.packageImage.value != null;
-                            final hasUrlImage = controller.packageImageUrl.value != null;
+                        const SizedBox(height: 16),
 
-                            if (!hasLocalImage && !hasUrlImage) {
-                              return SizedBox.shrink();
-                            }
+                        FormFieldLabel(
+                          text: strings.amountRequiredForPackage,
+                          isMandatory: true,
+                        ),
+                        const SizedBox(height: 8),
+                        PrimaryTextField(
+                          controller: controller.totalPriceController,
+                          hint: strings.amountInUsd,
+                          inputType: TextInputType.number,
+                        ),
 
-                            return Container(
-                              margin: EdgeInsets.only(top: 8),
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: hasLocalImage
-                                        ? Image.file(
-                                            controller.packageImage.value!,
-                                            height: 150,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : PrimaryNetworkImage(
-                                            height: 150,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                            url: controller.packageImageUrl.value!,
-                                          ),
-                                  ),
-                                  if (!controller.isEditMode.value)
-                                    Positioned(
-                                      top: 8,
-                                      right: 8,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          controller.removePackageImage();
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            color: context.resources.color.colorWhite,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            Icons.close,
-                                            size: 20,
-                                            color: context.resources.color.colorPrimary,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
+                        const SizedBox(height: 16),
+
+                        const _PackageLocationRow(),
+
+                        const SizedBox(height: 16),
+
+                        MultilineLabeledTextField(
+                          controller: controller.descController,
+                          label: strings.description,
+                          hint: strings.packDescriptionHint,
+                          maxLines: 20,
+                          height: 120,
+                          margin: 0,
+                          labelFontSize: 12,
+                          inputType: TextInputType.text,
+                          isPassword: false,
+                          isMandatory: true,
+                        ),
+                      ],
                     ),
-
-                    SizedBox(height: 24),
-                  ],
+                  ),
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
               child: Obx(
                 () => controller.isLoading.value
                     ? ProgressBar()
                     : PrimaryButton(
                         title: controller.isEditMode.value
-                            ? context.resources.strings.updatePackage
-                            : context.resources.strings.postPackage,
-                        onPressed: () {
-                          controller.addPackage();
-                        },
+                            ? strings.save
+                            : strings.postWorkPackage,
+                        onPressed: controller.addPackage,
                       ),
               ),
             ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
     );
+  }
+}
+
+/// "Location" — Remote / On-site chips (design p113). Hybrid only shows up
+/// when an existing hybrid pack is open.
+class _PackageLocationRow extends StatelessWidget {
+  const _PackageLocationRow();
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<AddPackageController>();
+    final strings = context.resources.strings;
+
+    return Obx(() {
+      final selected = controller.selectedWorkLocationType.value;
+      final types = <String>[
+        'Remote',
+        'Onsite',
+        if (selected == 'Hybrid') 'Hybrid',
+      ];
+
+      String label(String type) {
+        switch (type) {
+          case 'Remote':
+            return strings.remote;
+          case 'Hybrid':
+            return strings.hybrid;
+          default:
+            return strings.onSite;
+        }
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FormFieldLabel(text: strings.location),
+          const SizedBox(height: 8),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (final type in types) ...[
+                  FormChoiceChip(
+                    label: label(type),
+                    selected: selected == type,
+                    minWidth: 80,
+                    onTap: () =>
+                        controller.selectedWorkLocationType.value = type,
+                  ),
+                  if (type != types.last) const SizedBox(width: 6),
+                ],
+              ],
+            ),
+          ),
+        ],
+      );
+    });
+  }
+}
+
+/// Off / On segmented switch in the edit header (design p115).
+class _PackageStatusToggle extends StatelessWidget {
+  const _PackageStatusToggle();
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<AddPackageController>();
+    final colors = context.resources.color;
+    final strings = context.resources.strings;
+
+    return Obx(() {
+      final isActive = controller.isPackageActive.value;
+      Widget segment(String label, bool active) {
+        return GestureDetector(
+          onTap: () => controller.setPackageActive(active),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            decoration: BoxDecoration(
+              color: isActive == active ? colors.colorWhite : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: isActive == active
+                    ? colors.colorPrimary
+                    : Colors.transparent,
+              ),
+            ),
+            child: PrimaryText(
+              text: label,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              textColor:
+                  isActive == active ? colors.colorPrimary : colors.colorGrey8,
+            ),
+          ),
+        );
+      }
+
+      return Container(
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+          color: colors.colorGrey4,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            segment(strings.offLabel, false),
+            segment(strings.onLabel, true),
+          ],
+        ),
+      );
+    });
   }
 }

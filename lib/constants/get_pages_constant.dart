@@ -36,6 +36,7 @@ import '../screens/main/notifications/notifications_screen.dart';
 import '../screens/main/package_details/package_details_screen.dart';
 import '../screens/main/profile/about_us/about_us_screen.dart';
 import '../screens/main/profile/activation/activate_service_screen.dart';
+import '../screens/main/profile/activation/add_skill_screen.dart';
 import '../screens/main/profile/activation/publish_job_screen.dart';
 import '../screens/main/profile/change_language/change_language_screen.dart';
 import '../screens/main/profile/give_feedback/give_feedback_screen.dart';
@@ -200,6 +201,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.paymentReceiptScreen,
     page: () => const PaymentReceiptScreen(),
+    transition: Transition.rightToLeftWithFade,
+  ),
+  GetPage(
+    name: RouteConstant.addSkillScreen,
+    page: () => const AddSkillScreen(),
     transition: Transition.rightToLeftWithFade,
   ),
   GetPage(

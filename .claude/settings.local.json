@@ -79,7 +79,10 @@
       "Bash(awk '/class Address \\\\{/,/^\\\\}/' lib/model/EngagementsResponse.dart)",
       "Bash(awk '/^class Address/{f=1} f{print} /^\\\\}/{if\\(f\\)exit}' lib/model/EngagementsResponse.dart)",
       "Bash(awk '/^class Address \\\\{/{f=1} f{print} f&&/\\\\}/{c++; if\\(c>0 && /^\\\\}/\\){exit}}' lib/model/AddressesResponse.dart)",
-      "Bash(awk '/^class Package /{f=1} f{print} f&&/^\\\\}/{exit}' lib/model/PackagesResponse.dart)"
+      "Bash(awk '/^class Package /{f=1} f{print} f&&/^\\\\}/{exit}' lib/model/PackagesResponse.dart)",
+      "PowerShell(flutter analyze *)",
+      "PowerShell(flutter devices *)",
+      "PowerShell(Select-String *)"
     ],
     "deny": [],
     "ask": []

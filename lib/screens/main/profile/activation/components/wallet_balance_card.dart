@@ -14,10 +14,15 @@ class WalletBalanceCard extends StatelessWidget {
     super.key,
     required this.balance,
     required this.hasEnough,
+    this.showLowBadge = false,
   });
 
   final String balance;
   final bool hasEnough;
+
+  /// Shows a red "LOW" pill instead of the "Top Up +" shortcut when short —
+  /// used where the primary button already handles the top-up (design p232).
+  final bool showLowBadge;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +80,21 @@ class WalletBalanceCard extends StatelessWidget {
                     color: colors.colorPrimary,
                   ),
                 ],
+              ),
+            )
+          else if (showLowBadge)
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: colors.colorWhite,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: PrimaryText(
+                text: strings.lowBadge,
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                textColor: colors.colorRed,
               ),
             )
           else

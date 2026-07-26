@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/dialog/dialog_helper.dart';
 import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/skeletons/my_package_item_skeleton.dart';
 import 'package:wazafak_app/components/top_header.dart';
@@ -21,6 +22,7 @@ class PacksScreen extends StatelessWidget {
     return FocusDetector(
       onFocusGained: () {
         controller.fetchPackages();
+        controller.checkServices();
       },
       child: Scaffold(
         backgroundColor: context.resources.color.background,
@@ -38,6 +40,12 @@ class PacksScreen extends StatelessWidget {
                   title: Resources.of(context).strings.createNewPack,
                   leadingIcon: Icon(Icons.add_circle_outline, color: Colors.white, size: 20),
                   onPressed: () async {
+                    // A pack hangs off a service — send the user to create one
+                    // first instead of opening an unusable form.
+                    if (!controller.canCreatePackage) {
+                      _showAddServiceFirst(context);
+                      return;
+                    }
                     Get.toNamed(RouteConstant.addPackageScreen);
                   },
                 ),
@@ -82,6 +90,23 @@ class PacksScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  /// "Add a service first" prompt shown when the member has no service yet.
+  void _showAddServiceFirst(BuildContext context) {
+    final strings = Resources.of(context).strings;
+    DialogHelper.showAgreementPopup(
+      context,
+      strings.addServiceBeforePack,
+      strings.addService,
+      strings.cancel,
+      () {
+        Navigator.pop(Get.context!);
+        Get.toNamed(RouteConstant.addServiceScreen);
+      },
+      false.obs,
+      agreeColor: context.resources.color.colorPrimary,
     );
   }
 }

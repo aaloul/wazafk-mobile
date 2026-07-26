@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
+import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/WorkingHoursModel.dart';
+import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/package/add_package_repository.dart';
+import 'package:wazafak_app/repository/package/package_status_repository.dart';
 import 'package:wazafak_app/repository/package/save_package_repository.dart';
 import 'package:wazafak_app/repository/service/services_list_repository.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
@@ -22,6 +25,8 @@ class AddPackageController extends GetxController {
   final _repository = AddPackageRepository();
   final _savePackageRepository = SavePackageRepository();
   final _servicesRepository = ServicesListRepository();
+  final _categoriesRepository = CategoriesRepository();
+  final _statusRepository = PackageStatusRepository();
 
   final titleController = TextEditingController();
   final descController = TextEditingController();
@@ -39,6 +44,17 @@ class AddPackageController extends GetxController {
 
   var isEditMode = false.obs;
   String? editPackageHashcode;
+
+  /// Category picker (design p113) — sent as `category`, like jobs and
+  /// services.
+  var selectedCategory = Rxn<Category>();
+  var selectedSubcategory = Rxn<Category>();
+  var subcategories = <Category>[].obs;
+  var isLoadingSubcategories = false.obs;
+
+  /// Off / On switch in the edit header (design p115).
+  var isPackageActive = true.obs;
+  var isUpdatingStatus = false.obs;
 
   var workingHours = <WorkingHoursDay>[].obs;
   var services = <Service>[].obs;
@@ -59,6 +75,7 @@ class AddPackageController extends GetxController {
         // If it's a Package object directly
         isEditMode.value = true;
         editPackageHashcode = arguments.hashcode;
+        isPackageActive.value = arguments.status == 1;
         _populateFieldsFromPackageObject(arguments);
       } else if (arguments is Map) {
         // If it's a Map (legacy support)
@@ -66,6 +83,69 @@ class AddPackageController extends GetxController {
         editPackageHashcode = arguments['hashcode'];
         _populateFieldsFromPackage(arguments);
       }
+    }
+  }
+
+  Future<void> selectCategory(Category? category) async {
+    selectedCategory.value = category;
+    selectedSubcategory.value = null;
+    subcategories.clear();
+    if (category?.hashcode != null) {
+      await loadSubcategories(category!.hashcode!);
+    }
+  }
+
+  Future<void> loadSubcategories(String parentHashcode) async {
+    try {
+      isLoadingSubcategories.value = true;
+      final response = await _categoriesRepository.getCategories(
+        parent: parentHashcode,
+        type: 'S',
+      );
+      if (response.success == true) {
+        subcategories.value = response.data?.list ?? [];
+      }
+    } catch (e) {
+      print('Error loading subcategories: $e');
+    } finally {
+      isLoadingSubcategories.value = false;
+    }
+  }
+
+  void selectSubcategory(Category subcategory) {
+    selectedSubcategory.value = subcategory;
+  }
+
+  /// Off / On header switch (design p115). Applies immediately and rolls back
+  /// if the call fails.
+  Future<void> setPackageActive(bool active) async {
+    if (editPackageHashcode == null || isUpdatingStatus.value) return;
+    if (isPackageActive.value == active) return;
+
+    final previous = isPackageActive.value;
+    isPackageActive.value = active;
+    isUpdatingStatus.value = true;
+    try {
+      final response = await _statusRepository.updatePackageStatus(
+        editPackageHashcode!,
+        active ? 1 : 0,
+      );
+      if (response.success != true) {
+        isPackageActive.value = previous;
+        constants.showSnackBar(
+          response.message ??
+              Resources.of(Get.context!).strings.failedToUpdatePackageStatus,
+          SnackBarStatus.ERROR,
+        );
+      }
+    } catch (e) {
+      isPackageActive.value = previous;
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.failedToUpdatePackageStatus,
+        SnackBarStatus.ERROR,
+      );
+    } finally {
+      isUpdatingStatus.value = false;
     }
   }
 
@@ -423,6 +503,9 @@ class AddPackageController extends GetxController {
         'availability': workingHoursData,
         'services': selectedServices.map((s) => s.hashcode).toList(),
         'work_location_type': workLocationTypeCode,
+        if (selectedCategory.value != null)
+          'category': selectedSubcategory.value?.hashcode ??
+              selectedCategory.value!.hashcode,
       };
 
       // Add package image if selected

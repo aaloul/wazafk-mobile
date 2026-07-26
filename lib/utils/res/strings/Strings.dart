@@ -1734,4 +1734,68 @@ abstract class Strings {
   String get upcoming;
   String get inProgress;
   String get noScheduleForDay;
+
+  // Job post form (design p185 / p186)
+  String get jobPostTitle;
+  String get editJobTitle;
+  String get oneFreePost;
+  String get noChargeYet;
+  String get onSite;
+  String get selectAreasYouCover;
+  String get jobTypeProject;
+  String get jobTypeOneTime;
+  String get startDatePlaceholder;
+  String get startTimePlaceholder;
+  String get pleaseSelectLocationType;
+
+  // Service form (design p112 / p107)
+  String get newService;
+  String get editServices;
+  String get approximateRate;
+  String get saveChanges;
+  String get onLabel;
+  String get offLabel;
+
+  // Add Skill step (design p181)
+  String get addSkill;
+  String firstSkillFreeNote(String price);
+  String get selectedCaps;
+  String get extraCostCaps;
+  String get moreSkillsWiderReach;
+  String maxSkillsReached(int max);
+
+  // Job expiry (optional, below the start date/time)
+  String get expiryDatePlaceholder;
+  String get expiryTimePlaceholder;
+
+  String get pleaseCompleteExpiryDateTime;
+  String get expiryMustBeAfterStart;
+
+  // Publish job step (design p194 / p232)
+  String jobPostShortfallNote(String cost, String short);
+  String get availableLabel;
+  String get chargeToday;
+  String suggestedTopUpNote(String amount);
+  String get topUpAndPublish;
+  String get lowBadge;
+
+  String get addServiceBeforePack;
+
+  // Work package form (design p113 / p115)
+  String get workPackageTitle;
+  String get editPackageTitle;
+  String get amountRequiredForPackage;
+  String get packDescriptionHint;
+  String get postWorkPackage;
+
+  // Camera permission (upload documents)
+  String get cameraPermissionRequired;
+  String get cameraPermissionDenied;
+  String get openSettings;
+
+  String get applicationNotFound;
+
+  String get searchForJob;
+
+  String get viewJobPosts;
 }

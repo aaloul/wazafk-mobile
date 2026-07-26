@@ -16,6 +16,7 @@ class CategoryChooser extends StatelessWidget {
     this.selected,
     this.appendText,
     this.labelFontWeight,
+    this.labelFontSize,
     required this.withArrow,
     required this.isMandatory,
     required this.list,
@@ -29,6 +30,7 @@ class CategoryChooser extends StatelessWidget {
   final bool? enabled;
   final String text;
   final FontWeight? labelFontWeight;
+  final double? labelFontSize;
   String? icon;
   final Function(Category?) onSelect;
   final bool withArrow;
@@ -49,7 +51,7 @@ class CategoryChooser extends StatelessWidget {
                   text: label,
                   textColor: context.resources.color.colorGrey26,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
-                  fontSize: 14,
+                  fontSize: labelFontSize ?? 14,
                 ),
                 const SizedBox(width: 4),
                 if (isMandatory)
@@ -57,7 +59,7 @@ class CategoryChooser extends StatelessWidget {
                     text: '*',
                     textColor: context.resources.color.colorGrey26,
                     fontWeight: labelFontWeight ?? FontWeight.w500,
-                    fontSize: 14,
+                    fontSize: labelFontSize ?? 14,
                   ),
               ],
             ),

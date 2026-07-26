@@ -433,7 +433,7 @@ class SearchController extends GetxController {
         if (response.success == true) {
           // Update the job's favorite status in the jobs list
           final index = searchResults.indexWhere((j) =>
-          j.job!.hashcode == job.hashcode);
+          j.job?.hashcode == job.hashcode);
           if (index != -1) {
             searchResults[index].job!.isFavorite = false;
             searchResults.refresh(); // Notify listeners
@@ -463,7 +463,7 @@ class SearchController extends GetxController {
         if (response.success == true) {
           // Update the job's favorite status in the jobs list
           final index = searchResults.indexWhere((j) =>
-          j.job!.hashcode == job.hashcode);
+          j.job?.hashcode == job.hashcode);
           if (index != -1) {
             searchResults[index].job!.isFavorite = true;
             searchResults.refresh(); // Notify listeners

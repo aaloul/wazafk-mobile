@@ -67,10 +67,10 @@ class PhoneNumberScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 14),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: _RegisterNowLink(),
-              ),
+              // Align(
+              //   alignment: AlignmentDirectional.centerStart,
+              //   child: _RegisterNowLink(),
+              // ),
               const Spacer(),
               Obx(
                 () => dataController.isLoading.value

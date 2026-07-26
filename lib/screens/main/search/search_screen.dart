@@ -130,25 +130,27 @@ class _SearchScreenState extends State<SearchScreen> {
                 : const SizedBox.shrink());
           }
           final item = controller.searchResults[index];
-          if (item.entityType == 'SERVICE' && item.service != null) {
+          // Render whichever entity the record parsed into — the type string
+          // is only a hint and differs between endpoints.
+          if (item.service != null) {
             return HomeServiceItem(
               service: item.service!,
               onFavoriteToggle: (s) async =>
                   controller.toggleServiceFavorite(s),
             );
-          } else if (item.entityType == 'PACKAGE' && item.package != null) {
+          } else if (item.package != null) {
             return HomePackageItem(
               package: item.package!,
               onFavoriteToggle: (p) async =>
                   controller.togglePackageFavorite(p),
             );
-          } else if (item.entityType == 'MEMBER' && item.member != null) {
+          } else if (item.member != null) {
             return HomeFreelancerItem(
               freelancer: item.member!,
               onFavoriteToggle: (u) async =>
                   controller.toggleMemberFavorite(u),
             );
-          } else if (item.entityType == 'JOB' && item.job != null) {
+          } else if (item.job != null) {
             return HomeJobItem(
               job: item.job!,
               onFavoriteToggle: (j) async => controller.toggleJobFavorite(j),

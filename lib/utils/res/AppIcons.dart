@@ -84,6 +84,7 @@ class AppIcons {
   static const String withdraw = '${base}withdraw.png';
   static const String history = '${base}history.png';
   static const String eyeW = '${base}eye_w.png';
+  static const String eyeOffW = '${base}eye_off_w.png';
   static const String shareDownload = '${base}share_download.png';
   static const String shareHired = '${base}share_hired.png';
   static const String shareIntro = '${base}share_intro.png';
@@ -160,4 +161,15 @@ class AppIcons {
   static const String filterHighestBudget = '${base}filter_highest_budget.png';
   static const String filterRating = '${base}filter_rating.png';
   static const String filterChevronDown = '${base}filter_chevron_down.png';
+
+  // Service working hours (Figma p112)
+  static const String checkboxChecked = '${base}checkbox_checked.png';
+  static const String checkboxUnchecked = '${base}checkbox_unchecked.png';
+
+  // Add Skill step (Figma p181)
+  static const String moreSkills = '${base}more_skills.png';
+  static const String checkWhite = '${base}check_white.png';
+
+  // Publish job step (Figma p232)
+  static const String bulbBadge = '${base}bulb_badge.png';
 }

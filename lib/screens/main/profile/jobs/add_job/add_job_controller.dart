@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/AddressesResponse.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
+import 'package:wazafak_app/model/LimitsResponse.dart';
 import 'package:wazafak_app/model/SkillsResponse.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
+import 'package:wazafak_app/repository/app/limits_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/job/add_job_repository.dart';
+import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
 import 'package:wazafak_app/repository/job/save_job_repository.dart';
+import 'package:wazafak_app/screens/main/profile/activation/publish_job_screen.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -20,6 +25,15 @@ class AddJobController extends GetxController {
   final _skillsRepository = SkillsRepository();
   final _addJobRepository = AddJobRepository();
   final _saveJobRepository = SaveJobRepository();
+  final _jobsListRepository = JobsListRepository();
+
+  /// Job Type chips (design p185) — sent to the API as `periodicity`.
+  static const periodicityProject = 'PRJ';
+  static const periodicityOneTime = 'ONE';
+
+  /// Publish step pricing (design p194) comes from `app/limits`: the first
+  /// post is free, and skills beyond the free allowance are charged per skill.
+  AppLimits get limits => AppLimitsCache.current;
 
   Job? editingJob;
 
@@ -38,6 +52,14 @@ class AddJobController extends GetxController {
   var selectedSkills = <Skill>[].obs;
   var selectedAddress = Rxn<Address>();
   var selectedJobType = Rxn<String>();
+
+  /// Project / One time (design p185). Holds [periodicityProject] or
+  /// [periodicityOneTime].
+  var selectedPeriodicity = Rxn<String>();
+
+  /// Drives the "1 free post. No charge yet" banner and the free first post on
+  /// the publish step. Stays false until the employer's jobs have been counted.
+  var isFirstJobPost = false.obs;
   var selectedDate = Rxn<DateTime>();
   var selectedTime = Rxn<TimeOfDay>();
   var selectedExpiryDate = Rxn<DateTime>();
@@ -56,8 +78,35 @@ class AddJobController extends GetxController {
       // Ensure category is null on initialization
       selectedCategory.value = null;
       selectedSubcategory.value = null;
+      _checkFirstJobPost();
+    }
+    AppLimitsCache.load();
+  }
+
+  /// The free-post banner only shows for an employer who has never posted, so
+  /// count their existing posts. Failures leave the banner hidden.
+  Future<void> _checkFirstJobPost() async {
+    try {
+      final response = await _jobsListRepository.getJobs(
+        filters: {'member': Prefs.getId},
+      );
+      if (response.success == true) {
+        isFirstJobPost.value = (response.data?.list ?? []).isEmpty;
+      }
+    } catch (e) {
+      print('Error checking previous job posts: $e');
     }
   }
+
+  /// Skills beyond the free allowance are billed on the publish step.
+  int get extraSkillsCount => selectedSkills.length > limits.freeSkills
+      ? selectedSkills.length - limits.freeSkills
+      : 0;
+
+  double get extraSkillsPrice => extraSkillsCount * limits.extraSkillPrice;
+
+  double get totalToday =>
+      (isFirstJobPost.value ? 0 : limits.jobPostPrice) + extraSkillsPrice;
 
   Future<void> _populateFormForEditing() async {
     if (editingJob == null) return;
@@ -90,6 +139,12 @@ class AddJobController extends GetxController {
       case 'SIT':
         selectedJobType.value = 'Onsite';
         break;
+    }
+
+    // Set job type (Project / One time)
+    final periodicity = editingJob!.periodicity;
+    if (periodicity == periodicityProject || periodicity == periodicityOneTime) {
+      selectedPeriodicity.value = periodicity;
     }
 
     // Set date and time
@@ -257,16 +312,52 @@ class AddJobController extends GetxController {
 
   void selectJobType(String jobType) {
     selectedJobType.value = jobType;
+    // Remote jobs carry no address.
+    if (jobType == 'Remote') selectedAddress.value = null;
   }
 
-  Future<void> addJob() async {
-    // Validate form
+  void selectPeriodicity(String periodicity) {
+    selectedPeriodicity.value = periodicity;
+  }
+
+  /// "Continue" on the form (design p185 step 1/2) — validates, then hands over
+  /// to the publish screen which confirms the fee and posts the job.
+  void continueToPublish() {
+    if (!_validate()) return;
+
+    Get.toNamed(
+      RouteConstant.publishJobScreen,
+      arguments: PublishJobArgs(
+        jobPostFee: limits.jobPostPrice,
+        extraSkillsPrice: extraSkillsPrice,
+        extraSkillsCount: extraSkillsCount,
+        totalToday: totalToday,
+        isFirstPost: isFirstJobPost.value,
+        step: 2,
+        totalSteps: 2,
+        onConfirm: addJob,
+        onEdit: () => Get.back(),
+      ),
+    );
+  }
+
+  /// Closes the posting flow (form + publish step) once the job is live.
+  void _leaveFlow() {
+    Get.until(
+      (route) =>
+          route.settings.name != RouteConstant.publishJobScreen &&
+          route.settings.name != RouteConstant.addJobScreen,
+    );
+  }
+
+  /// Form validation shared by "Continue" (add) and "Post Job" (edit).
+  bool _validate() {
     if (titleController.text.trim().isEmpty) {
       constants.showSnackBar(
         Resources.of(Get.context!).strings.pleaseEnterJobTitle,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (selectedCategory.value == null) {
@@ -275,15 +366,15 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseSelectCategory,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (selectedJobType.value == null) {
       constants.showSnackBar(
-        Resources.of(Get.context!).strings.pleaseSelectJobType,
+        Resources.of(Get.context!).strings.pleaseSelectLocationType,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (selectedJobType.value != 'Remote' && selectedAddress.value == null) {
@@ -291,7 +382,15 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseSelectLocation,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
+    }
+
+    if (selectedPeriodicity.value == null) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.pleaseSelectJobType,
+        SnackBarStatus.ERROR,
+      );
+      return false;
     }
 
     if (selectedDate.value == null) {
@@ -299,7 +398,7 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseSelectStartDate,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (selectedTime.value == null) {
@@ -307,7 +406,41 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseSelectStartTime,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
+    }
+
+    // Expiry is optional, but a half-filled or backwards one is not.
+    final expiryDate = selectedExpiryDate.value;
+    final expiryTime = selectedExpiryTime.value;
+    if ((expiryDate == null) != (expiryTime == null)) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.pleaseCompleteExpiryDateTime,
+        SnackBarStatus.ERROR,
+      );
+      return false;
+    }
+    if (expiryDate != null && expiryTime != null) {
+      final start = DateTime(
+        selectedDate.value!.year,
+        selectedDate.value!.month,
+        selectedDate.value!.day,
+        selectedTime.value!.hour,
+        selectedTime.value!.minute,
+      );
+      final expiry = DateTime(
+        expiryDate.year,
+        expiryDate.month,
+        expiryDate.day,
+        expiryTime.hour,
+        expiryTime.minute,
+      );
+      if (!expiry.isAfter(start)) {
+        constants.showSnackBar(
+          Resources.of(Get.context!).strings.expiryMustBeAfterStart,
+          SnackBarStatus.ERROR,
+        );
+        return false;
+      }
     }
 
     if (totalPriceController.text.trim().isEmpty) {
@@ -315,7 +448,7 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseEnterHourlyRate,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (selectedSkills.isEmpty) {
@@ -323,7 +456,7 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseSelectAtLeastOneSkill,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (overviewController.text.trim().isEmpty) {
@@ -331,7 +464,7 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseEnterOverview,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (responsibilitiesController.text.trim().isEmpty) {
@@ -339,7 +472,7 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseEnterResponsibilities,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
 
     if (requirementsController.text.trim().isEmpty) {
@@ -347,8 +480,22 @@ class AddJobController extends GetxController {
         Resources.of(Get.context!).strings.pleaseEnterRequirements,
         SnackBarStatus.ERROR,
       );
-      return;
+      return false;
     }
+
+    return true;
+  }
+
+  /// API datetime format — `2025-10-05 10:00` (24h, zero-padded, ASCII digits
+  /// regardless of the app language).
+  static String _formatApiDateTime(DateTime value) {
+    String two(int n) => n.toString().padLeft(2, '0');
+    return '${value.year.toString().padLeft(4, '0')}-${two(value.month)}-${two(value.day)} '
+        '${two(value.hour)}:${two(value.minute)}';
+  }
+
+  Future<void> addJob() async {
+    if (!_validate()) return;
 
     try {
       isLoading.value = true;
@@ -362,10 +509,7 @@ class AddJobController extends GetxController {
         selectedTime.value!.minute,
       );
 
-      // Format datetime as "YYYY-MM-DD HH:MM"
-      final formattedStartDateTime =
-          '${startDateTime.year}-${startDateTime.month.toString().padLeft(2, '0')}-${startDateTime.day.toString().padLeft(2, '0')} '
-          '${startDateTime.hour.toString().padLeft(2, '0')}:${startDateTime.minute.toString().padLeft(2, '0')}';
+      final formattedStartDateTime = _formatApiDateTime(startDateTime);
 
       // Format expiry datetime if provided
       String formattedExpiryDateTime = '';
@@ -378,9 +522,7 @@ class AddJobController extends GetxController {
           selectedExpiryTime.value!.hour,
           selectedExpiryTime.value!.minute,
         );
-        formattedExpiryDateTime =
-            '${expiryDateTime.year}-${expiryDateTime.month.toString().padLeft(2, '0')}-${expiryDateTime.day.toString().padLeft(2, '0')} '
-            '${expiryDateTime.hour.toString().padLeft(2, '0')}:${expiryDateTime.minute.toString().padLeft(2, '0')}';
+        formattedExpiryDateTime = _formatApiDateTime(expiryDateTime);
       }
 
       // Map work location type to API codes
@@ -414,7 +556,7 @@ class AddJobController extends GetxController {
         'skills': selectedSkills.map((s) => s.hashcode).toList(),
         "image": "",
         "tasks_milestones": '',
-        "periodicity": '',
+        "periodicity": selectedPeriodicity.value ?? '',
         "expiry_datetime": formattedExpiryDateTime,
         "description": '',
       };
@@ -432,9 +574,7 @@ class AddJobController extends GetxController {
           image: AppIcons.servicePosted,
           description: Resources.of(Get.context!).strings.yourJobIsNowLive,
           buttonText: Resources.of(Get.context!).strings.viewMyJobs,
-          onButtonPressed: () {
-            Navigator.pop(Get.context!);
-          },
+          onButtonPressed: _leaveFlow,
         );
       } else {
         constants.showSnackBar(

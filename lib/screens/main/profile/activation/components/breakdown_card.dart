@@ -53,6 +53,8 @@ class BreakdownCard extends StatelessWidget {
             if (i != items.length - 1) const SizedBox(height: 10),
           ],
           const SizedBox(height: 14),
+          Container(height: 1, color: colors.colorGrey25),
+          const SizedBox(height: 14),
           Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 12),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/home/home_controller.dart';
@@ -9,12 +8,14 @@ import 'package:wazafak_app/utils/res/AppIcons.dart';
 
 import 'components/activation_banner.dart';
 import 'components/breakdown_card.dart';
+import 'components/flow_confirm_button.dart';
 import 'components/wallet_balance_card.dart';
 
 class ActivateServiceArgs {
   const ActivateServiceArgs({
     required this.monthlyPrice,
     required this.extraSkillsPrice,
+    required this.extraSkillsCount,
     required this.totalToday,
     required this.isFirstService,
     required this.step,
@@ -24,11 +25,12 @@ class ActivateServiceArgs {
 
   final double monthlyPrice;
   final double extraSkillsPrice;
+  final int extraSkillsCount;
   final double totalToday;
   final bool isFirstService;
   final int step;
   final int totalSteps;
-  final VoidCallback onConfirm;
+  final Future<void> Function() onConfirm;
 }
 
 class ActivateServiceScreen extends StatelessWidget {
@@ -98,7 +100,7 @@ class ActivateServiceScreen extends StatelessWidget {
                               ),
                               if (args.extraSkillsPrice > 0)
                                 BreakdownLineItem(
-                                  label: '${strings.extraSkills} (x2)',
+                                  label: '${strings.extraSkills} (x${args.extraSkillsCount})',
                                   amount:
                                       '\$${args.extraSkillsPrice.toStringAsFixed(2)}',
                                 ),
@@ -111,7 +113,7 @@ class ActivateServiceScreen extends StatelessWidget {
                               ),
                               if (args.extraSkillsPrice > 0)
                                 BreakdownLineItem(
-                                  label: '${strings.extraSkills} (x2)',
+                                  label: '${strings.extraSkills} (x${args.extraSkillsCount})',
                                   amount:
                                       '\$${args.extraSkillsPrice.toStringAsFixed(2)}',
                                 ),
@@ -135,16 +137,11 @@ class ActivateServiceScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-              child: PrimaryButton(
+              child: FlowConfirmButton(
                 title: strings.activateService,
-                color: hasEnough
-                    ? colors.colorPrimary
-                    : colors.colorGrey2,
-                onPressed: () {
-                  if (!hasEnough) return;
-                  args.onConfirm();
-                  Get.back();
-                },
+                enabled: hasEnough,
+                color: hasEnough ? colors.colorPrimary : colors.colorGrey2,
+                onConfirm: args.onConfirm,
               ),
             ),
           ],

@@ -142,10 +142,10 @@ class ArabicStrings extends Strings {
   String get pricingType => "نوع التسعير";
 
   @override
-  String get hourlyRateOption => "أجر بالساعة";
+  String get hourlyRateOption => "بالساعة";
 
   @override
-  String get fixedRateOption => "سعر ثابت";
+  String get fixedRateOption => "لكل مشروع";
 
   @override
   String get overview => "نظرة عامة";
@@ -2727,4 +2727,152 @@ class ArabicStrings extends Strings {
 
   @override
   String get noScheduleForDay => "لا يوجد جدول لهذا اليوم";
+
+  // Job post form (design p185 / p186)
+  @override
+  String get jobPostTitle => "نشر وظيفة";
+
+  @override
+  String get editJobTitle => "تعديل الوظيفة";
+
+  @override
+  String get oneFreePost => "منشور مجاني واحد.";
+
+  @override
+  String get noChargeYet => "لا رسوم حتى الآن";
+
+  @override
+  String get onSite => "في الموقع";
+
+  @override
+  String get selectAreasYouCover => "اختر المناطق التي تغطيها";
+
+  @override
+  String get jobTypeProject => "مشروع";
+
+  @override
+  String get jobTypeOneTime => "مرة واحدة";
+
+  @override
+  String get startDatePlaceholder => "-- تاريخ البدء --";
+
+  @override
+  String get startTimePlaceholder => "- وقت البدء -";
+
+  @override
+  String get pleaseSelectLocationType => "يرجى اختيار الموقع";
+
+  // Service form (design p112 / p107)
+  @override
+  String get newService => "خدمة جديدة";
+
+  @override
+  String get editServices => "تعديل الخدمة";
+
+  @override
+  String get approximateRate => "السعر التقريبي";
+
+  @override
+  String get saveChanges => "حفظ التغييرات";
+
+  @override
+  String get onLabel => "تشغيل";
+
+  @override
+  String get offLabel => "إيقاف";
+
+  // Add Skill step (design p181)
+  @override
+  String get addSkill => "إضافة مهارة";
+
+  @override
+  String firstSkillFreeNote(String price) =>
+      "أول {b}مهارة مجاناً.{/b} كل مهارة إضافية = {b}$price{/b}، لمرة واحدة.";
+
+  @override
+  String get selectedCaps => "المحددة";
+
+  @override
+  String get extraCostCaps => "التكلفة الإضافية";
+
+  @override
+  String get moreSkillsWiderReach => "مهارات أكثر = وصول أوسع";
+
+  @override
+  String maxSkillsReached(int max) => "يمكنك اختيار $max مهارات كحد أقصى";
+
+  // Job expiry (optional, below the start date/time)
+  @override
+  String get expiryDatePlaceholder => "-- تاريخ الانتهاء --";
+
+  @override
+  String get expiryTimePlaceholder => "- وقت الانتهاء -";
+
+  @override
+  String get pleaseCompleteExpiryDateTime => "يرجى اختيار تاريخ ووقت الانتهاء معاً";
+
+  @override
+  String get expiryMustBeAfterStart =>
+      "يجب أن يكون الانتهاء بعد تاريخ ووقت البدء";
+
+  // Publish job step (design p194 / p232)
+  @override
+  String jobPostShortfallNote(String cost, String short) =>
+      "نشر هذه الوظيفة يكلف $cost. ينقصك {r}$short{/r}. سنقوم بشحن رصيدك أولاً ثم النشر.";
+
+  @override
+  String get availableLabel => "المتوفر";
+
+  @override
+  String get chargeToday => "المبلغ المستحق اليوم";
+
+  @override
+  String suggestedTopUpNote(String amount) =>
+      "الشحن المقترح: $amount يغطي هذا المنشور ومنشوراً آخر مع فائض.";
+
+  @override
+  String get topUpAndPublish => "اشحن وانشر";
+
+  @override
+  String get lowBadge => "منخفض";
+
+  @override
+  String get addServiceBeforePack =>
+      "تحتاج إلى خدمة واحدة على الأقل قبل إنشاء باقة عمل. أضف خدمة أولاً.";
+
+  // Work package form (design p113 / p115)
+  @override
+  String get workPackageTitle => "باقة عمل";
+
+  @override
+  String get editPackageTitle => "تعديل";
+
+  @override
+  String get amountRequiredForPackage => "المبلغ المطلوب لهذه الباقة";
+
+  @override
+  String get packDescriptionHint => "وصف مختصر للباقة التي تنشرها.";
+
+  @override
+  String get postWorkPackage => "نشر باقة العمل";
+
+  // Camera permission (upload documents)
+  @override
+  String get cameraPermissionRequired =>
+      "نحتاج إذن الكاميرا لتصوير مستندك. يمكنك تفعيله من الإعدادات.";
+
+  @override
+  String get cameraPermissionDenied => "تم رفض إذن الكاميرا";
+
+  @override
+  String get openSettings => "فتح الإعدادات";
+
+  @override
+  String get applicationNotFound => "تعذّر فتح طلبك";
+
+  @override
+  String get searchForJob => "ابحث عن وظيفة";
+
+  @override
+  String get viewJobPosts => "عرض الوظائف المنشورة";
 }

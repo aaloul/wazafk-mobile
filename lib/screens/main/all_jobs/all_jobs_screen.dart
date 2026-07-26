@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/components/search_widget.dart';
+import 'package:wazafak_app/components/sheets/sheets_helper.dart';
 import 'package:wazafak_app/components/skeletons/job_item_skeleton.dart';
-import 'package:wazafak_app/components/top_header.dart';
 import 'package:wazafak_app/screens/main/all_jobs/all_jobs_controller.dart';
 import 'package:wazafak_app/screens/main/home/components/jobs/home_job_item.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
+import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
+import 'package:wazafak_app/utils/utils.dart';
 
 class AllJobsScreen extends StatelessWidget {
   const AllJobsScreen({super.key});
@@ -20,11 +23,9 @@ class AllJobsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TopHeader(hasBack: true, title: Resources
-                .of(context)
-                .strings
-                .allJobs),
-            SizedBox(height: 16),
+            SizedBox(height: 8),
+            _JobsSearchHeader(controller: controller),
+            SizedBox(height: 8),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value && controller.jobs.isEmpty) {
@@ -36,7 +37,9 @@ class AllJobsScreen extends StatelessWidget {
                   );
                 }
 
-                if (controller.jobs.isEmpty && !controller.isLoading.value) {
+                final jobs = controller.visibleJobs;
+
+                if (jobs.isEmpty && !controller.isLoading.value) {
                   return Center(
                     child: Text(
                       context.resources.strings.noJobsAvailable,
@@ -65,8 +68,7 @@ class AllJobsScreen extends StatelessWidget {
                         horizontal: 16,
                         vertical: 8,
                       ),
-                      itemCount:
-                          controller.jobs.length +
+                      itemCount: jobs.length +
                           (controller.hasMore.value &&
                                   controller.isLoadingMore.value
                               ? 1
@@ -74,7 +76,7 @@ class AllJobsScreen extends StatelessWidget {
                       separatorBuilder: (context, index) =>
                           SizedBox(height: 12),
                       itemBuilder: (context, index) {
-                        if (index == controller.jobs.length) {
+                        if (index == jobs.length) {
                           // Small loading indicator at the bottom for pagination
                           return Center(
                             child: Padding(
@@ -88,7 +90,7 @@ class AllJobsScreen extends StatelessWidget {
                           );
                         }
 
-                        final job = controller.jobs[index];
+                        final job = jobs[index];
                         return HomeJobItem(
                           job: job,
                           onFavoriteToggle: controller.toggleJobFavorite,
@@ -101,6 +103,68 @@ class AllJobsScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Back button, "Search for job" field and the filter button (design p46).
+class _JobsSearchHeader extends StatelessWidget {
+  const _JobsSearchHeader({required this.controller});
+
+  final AllJobsController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (Navigator.canPop(context)) Navigator.pop(context);
+            },
+            child: RotatedBox(
+              quarterTurns: Utils().isRTL() ? 2 : 0,
+              child: Image.asset(AppIcons.back3, width: 40),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: SearchWidget(
+              controller: controller.searchController,
+              hint: controller.screenTitle ??
+                  Resources.of(context).strings.searchForJob,
+              borderRadius: 12,
+              height: 40,
+              margin: 0,
+              onTextChanged: controller.onSearchChanged,
+              enabled: true,
+            ),
+          ),
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () => SheetHelper.showFilterSheet(
+              context,
+              initialFilters: controller.activeFilters.value.copy(),
+              onApply: controller.applyFilters,
+            ),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: context.resources.color.colorPrimary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Image.asset(
+                AppIcons.filter,
+                width: 20,
+                color: context.resources.color.colorWhite,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

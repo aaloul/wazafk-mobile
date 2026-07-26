@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/repository/favorite/add_favorite_member_repository.dart';
 import 'package:wazafak_app/repository/favorite/remove_favorite_member_repository.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
@@ -137,7 +138,22 @@ class _MemberProfileHeaderState extends State<EmployerProfileHeader> {
                 SizedBox(width: 8,),
 
                 ProfileHeaderItem(icon: AppIcons.hires, title: context.resources.strings.hires, value: '${widget.user.nbHiredFreelancers ?? '0'}',),
-                ProfileHeaderItem(icon: AppIcons.bag, title: context.resources.strings.posts, value: '${widget.user.nbJobPosts ?? '0'}',),
+                // Posts opens this employer's job posts (design p46).
+                ProfileHeaderItem(
+                  icon: AppIcons.bag,
+                  title: context.resources.strings.posts,
+                  value: '${widget.user.nbJobPosts ?? '0'}',
+                  onTap: () => Get.toNamed(
+                    RouteConstant.allJobsScreen,
+                    arguments: {
+                      'member': widget.user.hashcode,
+                      'title': [
+                        widget.user.firstName ?? '',
+                        widget.user.lastName ?? '',
+                      ].join(' ').trim(),
+                    },
+                  ),
+                ),
                 ProfileHeaderItem(icon: AppIcons.star, title: context.resources.strings.rating, value: '${widget.user.rating}/5',),
                 SizedBox(width: 8,),
 
@@ -272,17 +288,21 @@ class _MemberProfileHeaderState extends State<EmployerProfileHeader> {
 }
 
 class ProfileHeaderItem extends StatelessWidget {
-  const ProfileHeaderItem({super.key, required this.icon, required this.title, required this.value});
+  const ProfileHeaderItem({super.key, required this.icon, required this.title, required this.value, this.onTap});
 
   final String icon;
   final String title;
   final String value;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
-      child: Row(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
@@ -322,6 +342,7 @@ class ProfileHeaderItem extends StatelessWidget {
             ],
           ),
         ],
+        ),
       ),
     );
   }

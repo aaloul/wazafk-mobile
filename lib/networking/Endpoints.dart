@@ -18,6 +18,7 @@ class Endpoints {
   static const freelancerHome = 'home/freelancerHome';
   static const employerHome = 'home/employerHome';
   static const areas = 'app/areas';
+  static const limits = 'app/limits';
 
   //ACCOUNT
   static const login = 'account/login';

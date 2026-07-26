@@ -52,7 +52,8 @@ class HomeCategoriesWidget extends StatelessWidget {
           final selectedHash = controller.selectedCategory.value?.hashcode;
 
           // [All] + categories + [view all (+)]
-          final itemCount = list.length + 2;
+          // "All" card plus one per category.
+          final itemCount = list.length + 1;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -85,11 +86,6 @@ class HomeCategoriesWidget extends StatelessWidget {
                         onTap: () => controller.onCategorySelected(null),
                       );
                     }
-                    if (index == itemCount - 1) {
-                      return _ViewAllItem(
-                          onTap: controller.onViewAllCategories);
-                    }
-
                     final category = list[index - 1];
                     return HomeCategoryItem(
                       label: category.name.toString(),
@@ -105,53 +101,6 @@ class HomeCategoriesWidget extends StatelessWidget {
           );
         }),
       ],
-    );
-  }
-}
-
-/// The trailing "+" card that opens the full categories screen (design p35).
-class _ViewAllItem extends StatelessWidget {
-  const _ViewAllItem({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: 75,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 75,
-              height: 75,
-              decoration: BoxDecoration(
-                color: context.resources.color.colorBlueL,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Container(
-                  width: 44,
-                  height: 44,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: context.resources.color.colorWhite,
-                    shape: BoxShape.circle,
-                  ),
-                  child: PrimaryText(
-                    text: '+',
-                    fontSize: 26,
-                    fontWeight: FontWeight.w400,
-                    textColor: context.resources.color.colorPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

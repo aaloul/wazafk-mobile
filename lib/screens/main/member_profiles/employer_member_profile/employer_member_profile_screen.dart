@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/primary_button.dart';
 import 'package:wazafak_app/components/primary_text.dart';
 import 'package:wazafak_app/components/progress_bar.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/screens/main/member_profiles/components/jobs/member_jobs_carousel.dart';
 import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 
@@ -69,6 +71,31 @@ class EmployerMemberProfileScreen extends StatelessWidget {
                 );
               }),
             ),
+
+            // Pinned "View Job Posts" action (design p45) — opens this
+            // employer's posts.
+            Obx(() {
+              final user = controller.user.value;
+              if (controller.isLoading.value || user == null) {
+                return SizedBox.shrink();
+              }
+              return Padding(
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: PrimaryButton(
+                  title: context.resources.strings.viewJobPosts,
+                  onPressed: () => Get.toNamed(
+                    RouteConstant.allJobsScreen,
+                    arguments: {
+                      'member': user.hashcode,
+                      'title': [
+                        user.firstName ?? '',
+                        user.lastName ?? '',
+                      ].join(' ').trim(),
+                    },
+                  ),
+                ),
+              );
+            }),
           ],
         ),
       ),

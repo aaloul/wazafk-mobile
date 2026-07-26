@@ -121,25 +121,64 @@ class ProfileHeader extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  PrimaryText(
-                                    text: 'Your Balance',
-                                    textColor:
-                                        context.resources.color.colorSnowWhite,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18,
-                                  ),
-                                  SizedBox(height: 2),
-                                  PrimaryText(
-                                    text: '\$${controller.walletBalance.value}',
-                                    textColor:
-                                        context.resources.color.colorWhite,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 24,
-                                  ),
-                                ],
+                              child: Obx(
+                                () => Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: context
+                                              .resources
+                                              .strings
+                                              .walletBalanceCaps,
+                                          textColor: context
+                                              .resources.color.colorSnowWhite,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                        ),
+                                        SizedBox(width: 10),
+                                        // Eye toggle (design p105) — hides the
+                                        // amount without leaving the screen.
+                                        GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: controller
+                                              .toggleBalanceVisibility,
+                                          // Sized to the label line so the
+                                          // card keeps its fixed height.
+                                          child: SizedBox(
+                                            width: 30,
+                                            height: 20,
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Image.asset(
+                                                controller
+                                                        .isBalanceHidden.value
+                                                    ? AppIcons.eyeW
+                                                    : AppIcons.eyeOffW,
+                                                width: 20,
+                                                height: 20,
+                                                color: context.resources.color
+                                                    .colorWhite,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 2),
+                                    PrimaryText(
+                                      text: controller.isBalanceHidden.value
+                                          ? '\$••••••'
+                                          : '\$${controller.walletBalance.value}',
+                                      textColor:
+                                          context.resources.color.colorWhite,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 24,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
 

@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:wazafak_app/components/dialog/dialog_helper.dart';
 import 'package:wazafak_app/repository/member/save_document_repository.dart';
+import 'package:wazafak_app/utils/res/AppContextExtension.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../utils/res/Resources.dart';
@@ -20,7 +23,57 @@ class UploadDocumentsController extends GetxController {
   final selectedTab = 'personal_id'.obs;
   final isLoading = false.obs;
 
+  /// Makes sure the camera is usable before opening the picker.
+  ///
+  /// A first refusal just re-prompts on the next tap; once the OS stops asking
+  /// (permanently denied / restricted) the only way back is the app settings,
+  /// so we offer to open them instead of failing silently.
+  Future<bool> ensureCameraPermission() async {
+    var status = await Permission.camera.status;
+
+    if (status.isGranted || status.isLimited) return true;
+
+    if (status.isPermanentlyDenied || status.isRestricted) {
+      _showPermissionSettingsPopup();
+      return false;
+    }
+
+    status = await Permission.camera.request();
+    if (status.isGranted || status.isLimited) return true;
+
+    if (status.isPermanentlyDenied) {
+      _showPermissionSettingsPopup();
+    } else {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.cameraPermissionDenied,
+        SnackBarStatus.ERROR,
+      );
+    }
+    return false;
+  }
+
+  void _showPermissionSettingsPopup() {
+    // Resolved late: the picker call is async, so the caller's context may be
+    // stale by the time the OS answers.
+    final context = Get.context!;
+    final strings = Resources.of(context).strings;
+    DialogHelper.showAgreementPopup(
+      context,
+      strings.cameraPermissionRequired,
+      strings.openSettings,
+      strings.cancel,
+      () {
+        Navigator.pop(Get.context!);
+        openAppSettings();
+      },
+      false.obs,
+      agreeColor: context.resources.color.colorPrimary,
+    );
+  }
+
   Future<void> pickImageFromCamera(BuildContext context, String type) async {
+    if (!await ensureCameraPermission()) return;
+
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(

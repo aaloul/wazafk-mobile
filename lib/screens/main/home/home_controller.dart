@@ -79,6 +79,12 @@ class HomeController extends GetxController {
   var employerData = <Service>[].obs;
   var walletHashcode = ''.obs;
   var walletBalance = ''.obs;
+
+  /// Eye toggle on the profile wallet card — hides the amount for the session.
+  var isBalanceHidden = false.obs;
+
+  void toggleBalanceVisibility() =>
+      isBalanceHidden.value = !isBalanceHidden.value;
   Rx<User?> profileData = Rx<User?>(null);
   var totalEarnings = ''.obs;
   var nbActiveJobs = 0.obs;
@@ -160,8 +166,13 @@ class HomeController extends GetxController {
     Prefs.setUserMode(isFreelancer ? 'freelancer' : 'employer');
 
     // Job and service categories differ, so drop any category-bar selection
-    // when switching modes.
+    // and the category hashcodes already pushed into the filters before
+    // refreshing, otherwise the new mode is queried with the old mode's
+    // category.
     _clearCategorySelection();
+    activeFilters.value.category = null;
+    activeFilters.value.categories = <Category>[];
+    activeFilters.refresh();
 
     // Reload data based on new mode
     if (isFreelancer) {
@@ -820,14 +831,17 @@ class HomeController extends GetxController {
 
   Future<void> refreshHomeData() async {
     // Fetch all data concurrently
+    if (Prefs.getLoggedIn) {
+      fetchProfile();
+      fetchAddresses();
+      fetchWallet();
+    }
+
     await Future.wait([
-      fetchProfile(),
       fetchCategories(),
       fetchJobCategories(),
       fetchSkills(),
-      fetchAddresses(),
-      fetchWallet(),
-      // fetchEngagements(),
+
       if (isFreelancerMode.value) fetchJobs() else fetchEmployerHome(),
     ]);
   }

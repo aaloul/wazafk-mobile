@@ -143,10 +143,10 @@ class EnglishStrings extends Strings {
   String get pricingType => "Pricing Type";
 
   @override
-  String get hourlyRateOption => "Hourly Rate";
+  String get hourlyRateOption => "Hourly";
 
   @override
-  String get fixedRateOption => "Fixed Rate";
+  String get fixedRateOption => "Per project";
 
   @override
   String get overview => "Overview";
@@ -2743,4 +2743,154 @@ class EnglishStrings extends Strings {
 
   @override
   String get noScheduleForDay => "No schedule for this day";
+
+  // Job post form (design p185 / p186)
+  @override
+  String get jobPostTitle => "Job Post";
+
+  @override
+  String get editJobTitle => "Edit job";
+
+  @override
+  String get oneFreePost => "1 free post.";
+
+  @override
+  String get noChargeYet => "No charge yet";
+
+  @override
+  String get onSite => "On-site";
+
+  @override
+  String get selectAreasYouCover => "Select Areas you cover";
+
+  @override
+  String get jobTypeProject => "Project";
+
+  @override
+  String get jobTypeOneTime => "One time";
+
+  @override
+  String get startDatePlaceholder => "--start date --";
+
+  @override
+  String get startTimePlaceholder => "-start time-";
+
+  @override
+  String get pleaseSelectLocationType => "Please select a location";
+
+  // Service form (design p112 / p107)
+  @override
+  String get newService => "New Service";
+
+  @override
+  String get editServices => "Edit Services";
+
+  @override
+  String get approximateRate => "Approximate Rate";
+
+  @override
+  String get saveChanges => "Save Changes";
+
+  @override
+  String get onLabel => "On";
+
+  @override
+  String get offLabel => "Off";
+
+  // Add Skill step (design p181)
+  @override
+  String get addSkill => "Add Skill";
+
+  @override
+  String firstSkillFreeNote(String price) =>
+      "First {b}skill for free.{/b} Each extra skill = {b}$price{/b}, one-time.";
+
+  @override
+  String get selectedCaps => "SELECTED";
+
+  @override
+  String get extraCostCaps => "EXTRA COST";
+
+  @override
+  String get moreSkillsWiderReach => "More skills = Wider reach";
+
+  @override
+  String maxSkillsReached(int max) => "You can select up to $max skills";
+
+  // Job expiry (optional, below the start date/time)
+  @override
+  String get expiryDatePlaceholder => "--expiry date --";
+
+  @override
+  String get expiryTimePlaceholder => "-expiry time-";
+
+  @override
+  String get pleaseCompleteExpiryDateTime =>
+      "Please pick both the expiry date and time";
+
+  @override
+  String get expiryMustBeAfterStart =>
+      "The expiry must be after the start date and time";
+
+  // Publish job step (design p194 / p232)
+  @override
+  String jobPostShortfallNote(String cost, String short) =>
+      "Posting this job costs $cost. You're {r}$short{/r} short. We'll top you up first, then publish.";
+
+  @override
+  String get availableLabel => "Available";
+
+  @override
+  String get chargeToday => "Charge today";
+
+  @override
+  String suggestedTopUpNote(String amount) =>
+      "Suggested top-up: $amount covers this post plus another with change.";
+
+  @override
+  String get topUpAndPublish => "Top up and Publish";
+
+  @override
+  String get lowBadge => "LOW";
+
+  @override
+  String get addServiceBeforePack =>
+      "You need at least one service before creating a work package. Add a service first.";
+
+  // Work package form (design p113 / p115)
+  @override
+  String get workPackageTitle => "Work Package";
+
+  @override
+  String get editPackageTitle => "Edit";
+
+  @override
+  String get amountRequiredForPackage => "Amount Required for this package";
+
+  @override
+  String get packDescriptionHint =>
+      "Brief Description of the pack you are posting.";
+
+  @override
+  String get postWorkPackage => "Post work package";
+
+  // Camera permission (upload documents)
+  @override
+  String get cameraPermissionRequired =>
+      "Camera access is needed to photograph your document. Turn it on in Settings.";
+
+  @override
+  String get cameraPermissionDenied => "Camera permission denied";
+
+  @override
+  String get openSettings => "Open Settings";
+
+  @override
+  String get applicationNotFound => "Couldn't open your application";
+
+  @override
+  String get searchForJob => "Search for job";
+
+  @override
+  String get viewJobPosts => "View Job Posts";
 }

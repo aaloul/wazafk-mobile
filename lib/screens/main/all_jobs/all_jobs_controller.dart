@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/components/sheets/filter_sheet.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/networking/services/favorite/add_favorite_job_service.dart';
 import 'package:wazafak_app/networking/services/favorite/remove_favorite_job_service.dart';
@@ -17,10 +19,55 @@ class AllJobsController extends GetxController {
   var lastPage = 1.obs;
   var hasMore = true.obs;
 
+  /// Set when the screen is opened for one employer's posts (design p46,
+  /// reached from the "Posts" stat on their profile).
+  String? memberHashcode;
+
+  /// Title shown in place of the search field's default hint — the employer's
+  /// name when scoped to a member.
+  String? screenTitle;
+
+  final searchController = TextEditingController();
+  var searchQuery = ''.obs;
+  final activeFilters = HomeFilters().obs;
+
+  /// Jobs after the in-screen search box is applied.
+  List<Job> get visibleJobs {
+    final query = searchQuery.value.trim().toLowerCase();
+    if (query.isEmpty) return jobs;
+    return jobs
+        .where((job) =>
+            (job.title ?? '').toLowerCase().contains(query) ||
+            (job.categoryName ?? '').toLowerCase().contains(query))
+        .toList();
+  }
+
   @override
   void onInit() {
     super.onInit();
+
+    final args = Get.arguments;
+    if (args is String) {
+      memberHashcode = args;
+    } else if (args is Map) {
+      memberHashcode = args['member']?.toString();
+      screenTitle = args['title']?.toString();
+    }
+
     fetchJobs(isInitialLoad: true);
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
+  }
+
+  void onSearchChanged(String text) => searchQuery.value = text;
+
+  void applyFilters(HomeFilters filters) {
+    activeFilters.value = filters;
+    refresh();
   }
 
   Future<void> fetchJobs({
@@ -43,7 +90,11 @@ class AllJobsController extends GetxController {
 
     try {
       final response = await _service.getJobs(
-        filters: {'page': currentPage.value.toString()},
+        filters: {
+          'page': currentPage.value.toString(),
+          if (memberHashcode != null) 'member': memberHashcode!,
+          ...activeFilters.value.toSearchParams(),
+        },
       );
 
       if (response.success == true && response.data != null) {

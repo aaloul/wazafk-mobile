@@ -5,9 +5,12 @@ import 'package:camera/camera.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/JobsResponse.dart';
 import 'package:wazafak_app/repository/account/face_match_repository.dart';
+import 'package:wazafak_app/repository/engagement/engagements_list_repository.dart';
 import 'package:wazafak_app/repository/engagement/submit_engagement_repository.dart';
+import 'package:wazafak_app/utils/Prefs.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -18,6 +21,8 @@ class ApplyJobController extends GetxController {
   final SubmitEngagementRepository _submitEngagementRepository =
       SubmitEngagementRepository();
   final FaceMatchRepository _faceMatchRepository = FaceMatchRepository();
+  final EngagementsListRepository _engagementsListRepository =
+      EngagementsListRepository();
 
   var job = Rxn<Job>();
   var isLoading = false.obs;
@@ -315,6 +320,63 @@ class ApplyJobController extends GetxController {
     }
   }
 
+  /// "View application" on the success sheet — opens the engagement that was
+  /// just created.
+  ///
+  /// The submit response usually carries it; when it doesn't, the freelancer's
+  /// engagements are searched for the one on this job.
+  Future<void> openApplication(String? engagementHashcode) async {
+    Get.back(); // close the success sheet
+
+    final hashcode = engagementHashcode ?? await _findApplicationHashcode();
+    if (hashcode == null || hashcode.isEmpty) {
+      constants.showSnackBar(
+        Resources.of(Get.context!).strings.applicationNotFound,
+        SnackBarStatus.ERROR,
+      );
+      return;
+    }
+
+    Get.toNamed(
+      RouteConstant.engagementDetailsScreen,
+      arguments: hashcode,
+    );
+  }
+
+  /// Pulls the engagement hashcode out of whatever `data` shape came back.
+  String? _engagementHashcodeFrom(dynamic data) {
+    if (data is Map) {
+      final direct = data['hashcode'] ?? data['engagement_hashcode'];
+      if (direct != null) return direct.toString();
+      final nested = data['engagement'];
+      if (nested is Map && nested['hashcode'] != null) {
+        return nested['hashcode'].toString();
+      }
+    }
+    return null;
+  }
+
+  /// Fallback lookup: the newest engagement of this freelancer on this job.
+  Future<String?> _findApplicationHashcode() async {
+    final jobHashcode = job.value?.hashcode;
+    if (jobHashcode == null) return null;
+
+    try {
+      final response = await _engagementsListRepository.getEngagements(
+        filters: {'freelancer': Prefs.getId},
+      );
+      final list = response.data?.list ?? [];
+      for (final engagement in list) {
+        if (engagement.job?.hashcode == jobHashcode) {
+          return engagement.hashcode;
+        }
+      }
+    } catch (e) {
+      print('Error resolving application: $e');
+    }
+    return null;
+  }
+
   Future<void> submitApplication() async {
     // Validate form
     if (budgetController.text.trim().isEmpty) {
@@ -375,11 +437,13 @@ class ApplyJobController extends GetxController {
         Get.back();
         Get.back();
         final strings = Resources.of(Get.context!).strings;
+        final engagementHashcode = _engagementHashcodeFrom(response.data);
         showSuccessMessageSheet(
           title: strings.applicationSent,
           illustration: AppIcons.msgApplicationSent,
           message: strings.applicationSentMessage(job.value?.title ?? ''),
           buttonText: strings.viewApplication,
+          onButton: () => openApplication(engagementHashcode),
         );
       } else {
         if (response.message != null) {

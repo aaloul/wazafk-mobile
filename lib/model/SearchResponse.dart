@@ -103,13 +103,90 @@ class SearchData {
     this.job,
   });
 
-  factory SearchData.fromJson(Map<String, dynamic> json) => SearchData(
-    entityType: json["entity_type"],
-    member: json["member"] == null ? null : User.fromJson(json["member"]),
-    service: json["service"] == null ? null : Service.fromJson(json["service"]),
-    package: json["package"] == null ? null : Package.fromJson(json["package"]),
-    job: json["job"] == null ? null : Job.fromJson(json["job"]),
-  );
+  /// Search records arrive in one of two shapes:
+  ///
+  ///  * an envelope — `{"entity_type": "JOB", "job": {…}}`;
+  ///  * the entity itself, with the type inlined —
+  ///    `{"entity_type": "JOB", "hashcode": …, "title": …}`, which is what the
+  ///    v2 search endpoints return.
+  ///
+  /// Both are accepted here, and the type is matched case-insensitively; when
+  /// it is missing entirely the shape of the record decides.
+  factory SearchData.fromJson(Map<String, dynamic> json) {
+    final type = _normalizeType(json["entity_type"] ?? json["type"]);
+
+    final hasEnvelope = json["member"] is Map ||
+        json["service"] is Map ||
+        json["package"] is Map ||
+        json["job"] is Map;
+
+    if (hasEnvelope) {
+      return SearchData(
+        entityType: type,
+        member:
+            json["member"] == null ? null : User.fromJson(json["member"]),
+        service:
+            json["service"] == null ? null : Service.fromJson(json["service"]),
+        package:
+            json["package"] == null ? null : Package.fromJson(json["package"]),
+        job: json["job"] == null ? null : Job.fromJson(json["job"]),
+      );
+    }
+
+    final resolved = type ?? _guessType(json);
+    switch (resolved) {
+      case 'MEMBER':
+        return SearchData(entityType: resolved, member: User.fromJson(json));
+      case 'PACKAGE':
+        return SearchData(entityType: resolved, package: Package.fromJson(json));
+      case 'JOB':
+        return SearchData(entityType: resolved, job: Job.fromJson(json));
+      case 'SERVICE':
+        return SearchData(entityType: resolved, service: Service.fromJson(json));
+      default:
+        return SearchData(entityType: resolved);
+    }
+  }
+
+  static String? _normalizeType(dynamic raw) {
+    if (raw == null) return null;
+    switch (raw.toString().toUpperCase()) {
+      case 'MEMBER':
+      case 'FREELANCER':
+      case 'USER':
+        return 'MEMBER';
+      case 'PACKAGE':
+      case 'PACK':
+        return 'PACKAGE';
+      case 'JOB':
+        return 'JOB';
+      case 'SERVICE':
+        return 'SERVICE';
+      default:
+        return raw.toString().toUpperCase();
+    }
+  }
+
+  /// Last resort when the payload carries no type: pick it from the keys that
+  /// only one entity has.
+  static String? _guessType(Map<String, dynamic> json) {
+    if (json.containsKey('first_name') || json.containsKey('last_name')) {
+      return 'MEMBER';
+    }
+    if (json.containsKey('overview') ||
+        json.containsKey('responsibilities') ||
+        json.containsKey('requirememts') ||
+        json.containsKey('start_datetime')) {
+      return 'JOB';
+    }
+    if (json['services'] is List) return 'PACKAGE';
+    if (json.containsKey('pricing_type') ||
+        json.containsKey('experience') ||
+        json['packages'] is List) {
+      return 'SERVICE';
+    }
+    return null;
+  }
 
   Map<String, dynamic> toJson() => {
     "entity_type": entityType,

@@ -15,11 +15,16 @@ class ActivationBanner extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.isPromo = false,
+    this.inline = false,
   });
 
   final String title;
   final String subtitle;
   final bool isPromo;
+
+  /// Single-line variant used by the job form (p185): "**1 free post.** No
+  /// charge yet" on one row, without the trailing flame.
+  final bool inline;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,8 @@ class ActivationBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            inline ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           if (isPromo) ...[
             Container(
@@ -51,6 +57,27 @@ class ActivationBanner extends StatelessWidget {
             ),
             const SizedBox(width: 12),
           ],
+          if (inline)
+            Expanded(
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 4,
+                children: [
+                  PrimaryText(
+                    text: title,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    textColor: colors.colorBlack,
+                  ),
+                  PrimaryText(
+                    text: subtitle,
+                    fontSize: 14,
+                    textColor: colors.colorBlack,
+                  ),
+                ],
+              ),
+            )
+          else
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

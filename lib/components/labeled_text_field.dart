@@ -21,6 +21,7 @@ class LabeledTextFiled extends StatelessWidget {
       this.bottomDesc,
       this.maxLength,
       this.labelFontWeight,
+      this.labelFontSize,
       this.borderColor,
       this.maxLines,
       this.focusNode,
@@ -40,6 +41,7 @@ class LabeledTextFiled extends StatelessWidget {
   final bool? isOptional;
   final String label;
   final FontWeight? labelFontWeight;
+  final double? labelFontSize;
   final String hint;
   double? height;
   int? maxLines;
@@ -68,7 +70,7 @@ class LabeledTextFiled extends StatelessWidget {
                 text: label,
                 textColor: context.resources.color.colorGrey26,
                 fontWeight: labelFontWeight ?? FontWeight.w500,
-                fontSize: 14,
+                fontSize: labelFontSize ?? 14,
               ),
               const SizedBox(
                 width: 1,
@@ -78,7 +80,7 @@ class LabeledTextFiled extends StatelessWidget {
                   text: '*',
                     textColor: context.resources.color.colorGrey26,
                   fontWeight: labelFontWeight ?? FontWeight.w500,
-                  fontSize: 14
+                  fontSize: labelFontSize ?? 14
                 ),
               if (isOptional ?? false)
                 Flexible(

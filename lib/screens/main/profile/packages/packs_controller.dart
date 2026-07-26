@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/repository/package/package_status_repository.dart';
 import 'package:wazafak_app/repository/package/packages_list_repository.dart';
+import 'package:wazafak_app/repository/service/services_list_repository.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
 import '../../../../components/sheets/success_sheet.dart';
@@ -12,10 +13,16 @@ import '../../../../utils/res/Resources.dart';
 class PacksController extends GetxController {
   final _repository = PackagesListRepository();
   final _statusRepository = PackageStatusRepository();
+  final _servicesRepository = ServicesListRepository();
 
   var isLoading = false.obs;
   var packages = <Package>[].obs;
   var isUpdatingStatus = false.obs;
+
+  /// Whether the member has any service. A work package hangs off a service,
+  /// so creating one is blocked until there is at least one. `null` means the
+  /// check hasn't answered yet (or failed) — those cases don't block.
+  var hasServices = Rxn<bool>();
 
   @override
   void onInit() {
@@ -23,6 +30,24 @@ class PacksController extends GetxController {
     isLoading.value = true;
 
   }
+
+  /// Packages require a service; look one up alongside the list.
+  Future<void> checkServices() async {
+    try {
+      final response = await _servicesRepository.getServices(
+        filters: {'member': Prefs.getId},
+      );
+      if (response.success == true) {
+        hasServices.value = (response.data?.list ?? []).isNotEmpty;
+      }
+    } catch (e) {
+      // Leave it unknown so the user isn't blocked by a failed lookup.
+      print('Error checking services: $e');
+    }
+  }
+
+  /// False only when we know for sure there is no service to attach a pack to.
+  bool get canCreatePackage => hasServices.value != false;
 
   Future<void> fetchPackages() async {
     isLoading.value = true;
