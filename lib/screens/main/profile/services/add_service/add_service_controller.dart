@@ -20,10 +20,10 @@ import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/service/add_service_repository.dart';
 import 'package:wazafak_app/repository/service/save_service_repository.dart';
 import 'package:wazafak_app/repository/service/service_status_repository.dart';
-import 'package:wazafak_app/repository/service/services_list_repository.dart';
-import 'package:wazafak_app/screens/main/profile/activation/activate_service_screen.dart';
 import 'package:wazafak_app/screens/main/profile/activation/add_skill_screen.dart';
+import 'package:wazafak_app/screens/main/profile/activation/publish_summary_screen.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/posting_limits.dart';
 import 'package:wazafak_app/utils/res/AppIcons.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
@@ -32,7 +32,6 @@ class AddServiceController extends GetxController {
   final _repository = AddServiceRepository();
   final _saveServiceRepository = SaveServiceRepository();
   final _serviceStatusRepository = ServiceStatusRepository();
-  final _servicesListRepository = ServicesListRepository();
   final _categoriesRepository = CategoriesRepository();
   final _skillsRepository = SkillsRepository();
 
@@ -165,6 +164,9 @@ class AddServiceController extends GetxController {
     _initializeWorkingHours();
     _loadLimits();
 
+    // On-site is the default Location pick; editing overrides it below.
+    selectedWorkLocationType.value = 'Onsite';
+
     // Check if we're in edit mode
     final Service? service = Get.arguments as Service?;
     if (service != null) {
@@ -172,8 +174,6 @@ class AddServiceController extends GetxController {
       editServiceHashcode = service.hashcode;
       isServiceActive.value = service.status == 1;
       _populateFieldsFromService(service);
-    } else {
-      _checkFirstService();
     }
   }
 
@@ -637,41 +637,50 @@ class AddServiceController extends GetxController {
 
   static const totalSteps = 3;
 
-  /// True when the member has never published a service — drives the "First
-  /// service on us!" promo on the activation step.
-  var isFirstService = false.obs;
+  /// `app/limits` — free allowances and prices for skills and services. Kept
+  /// reactive so the steps update once the call lands.
+  final limits = AppLimitsCache.current.obs;
 
-  AppLimits get limits => AppLimitsCache.current;
+  /// `app/limits` returns no ceiling, so the Add Skill step's "n / max" uses
+  /// this as its denominator.
+  static const maxSkills = 5;
 
-  /// Skills beyond the free allowance, billed once.
-  int get extraSkillsCount => selectedSkills.length > limits.freeSkills
-      ? selectedSkills.length - limits.freeSkills
+  /// Free-trial length quoted on the activation step; `app/limits` carries no
+  /// such field, so the design's 90 days stands in.
+  static const _serviceFreeDays = 90;
+
+  EntityLimit get skillLimit => limits.value.skill;
+  EntityLimit get serviceLimit => limits.value.service;
+
+  /// The backend says whether this service is still inside the free allowance,
+  /// which drives the "First service on us!" promo.
+  bool get isFirstService => !serviceLimit.chargeable;
+
+  /// Skills beyond the free allowance, billed once each.
+  int get extraSkillsCount => selectedSkills.length > skillLimit.freeLimit
+      ? selectedSkills.length - skillLimit.freeLimit
       : 0;
 
-  double get extraSkillsPrice => extraSkillsCount * limits.extraSkillPrice;
+  double get extraSkillsPrice => extraSkillsCount * skillLimit.price;
 
   double get totalToday =>
-      (isFirstService.value ? 0 : limits.serviceMonthlyPrice) +
-      extraSkillsPrice;
+      (isFirstService ? 0 : serviceLimit.price) + extraSkillsPrice;
 
+  Future<AppLimits>? _limitsRequest;
+
+  /// Re-fetched every time the screen opens so allowances and prices are
+  /// current; the in-flight call is reused by the steps that wait on it.
   Future<void> _loadLimits() async {
-    await AppLimitsCache.load();
-    // The caps feed the Add Skill step, so refresh anything already on screen.
-    selectedSkills.refresh();
+    _limitsRequest = AppLimitsCache.load(forceRefresh: true);
+    limits.value = await _limitsRequest!;
   }
 
-  /// Counts the member's services; failures leave the promo off.
-  Future<void> _checkFirstService() async {
-    try {
-      final response = await _servicesListRepository.getServices(
-        filters: {'member': Prefs.getId},
-      );
-      if (response.success == true) {
-        isFirstService.value = (response.data?.list ?? []).isEmpty;
-      }
-    } catch (e) {
-      print('Error checking previous services: $e');
+  Future<void> _ensureLimits() async {
+    if (_limitsRequest != null) {
+      limits.value = await _limitsRequest!;
+      return;
     }
+    await _loadLimits();
   }
 
   /// Step 1 "Continue" — skills are picked on the next step, so they are not
@@ -682,21 +691,22 @@ class AddServiceController extends GetxController {
     Get.toNamed(
       RouteConstant.addSkillScreen,
       arguments: AddSkillArgs(
-        availableSkills: availableSkills.toList(),
+        availableSkills: availableSkills,
         selectedSkills: selectedSkills.toList(),
-        freeSkills: limits.freeSkills,
-        maxSkills: limits.maxSkills,
-        extraSkillPrice: limits.extraSkillPrice,
+        freeSkills: skillLimit.freeLimit,
+        maxSkills: maxSkills,
+        extraSkillPrice: skillLimit.price,
         step: 2,
         totalSteps: totalSteps,
-        isLoadingSkills: isLoadingSkills.value,
+        isLoadingSkills: isLoadingSkills,
+        onRefreshSkills: getSkills,
         onContinue: continueToActivation,
       ),
     );
   }
 
   /// Step 2 "Continue" — keeps the picked skills and moves on to the fee.
-  void continueToActivation(List<Skill> skills) {
+  Future<void> continueToActivation(List<Skill> skills) async {
     if (skills.isEmpty) {
       constants.showSnackBar(
         Resources.of(Get.context!).strings.pleaseSelectAtLeastOneSkill,
@@ -707,17 +717,38 @@ class AddServiceController extends GetxController {
 
     selectedSkills.value = skills;
 
+    // Until `app/limits` answers the fallbacks report the service as free.
+    await _ensureLimits();
+
+    final strings = Resources.of(Get.context!).strings;
+    final monthly = serviceLimit.price;
     Get.toNamed(
-      RouteConstant.activateServiceScreen,
-      arguments: ActivateServiceArgs(
-        monthlyPrice: limits.serviceMonthlyPrice,
-        extraSkillsPrice: extraSkillsPrice,
-        extraSkillsCount: extraSkillsCount,
+      RouteConstant.publishSummaryScreen,
+      arguments: PublishSummaryArgs(
+        labels: PublishSummaryLabels(
+          title: strings.activateService,
+          feeLabel: strings.serviceMonthly,
+          promoTitle: strings.firstServiceOnUs,
+          promoSubtitle: strings.renewAtMonthlyAfterDays(
+            '\$${monthly.toStringAsFixed(monthly % 1 == 0 ? 0 : 2)}',
+            _serviceFreeDays,
+          ),
+          promoLabel: strings.firstServicePromo,
+          afterNote: strings.afterThisServiceCosts,
+          shortfallNote: strings.serviceShortfallNote,
+          confirmLabel: strings.activateService,
+          topUpConfirmLabel: strings.topUpAndActivate,
+          editLabel: strings.editDetails,
+        ),
+        fee: monthly,
+        extrasPrice: extraSkillsPrice,
+        extrasCount: extraSkillsCount,
         totalToday: totalToday,
-        isFirstService: isFirstService.value,
+        isFirst: isFirstService,
         step: 3,
         totalSteps: totalSteps,
         onConfirm: addService,
+        onEdit: () => Get.back(),
       ),
     );
   }
@@ -726,7 +757,7 @@ class AddServiceController extends GetxController {
   void _leaveFlow() {
     Get.until(
       (route) =>
-          route.settings.name != RouteConstant.activateServiceScreen &&
+          route.settings.name != RouteConstant.publishSummaryScreen &&
           route.settings.name != RouteConstant.addSkillScreen &&
           route.settings.name != RouteConstant.addServiceScreen,
     );
@@ -872,6 +903,11 @@ class AddServiceController extends GetxController {
           : await _repository.addService(data);
 
       if (response.success == true) {
+        // The allowance and the wallet just changed — refresh both.
+        AppLimitsCache.load(forceRefresh: true).then(
+          (value) => limits.value = value,
+        );
+        PostingLimits.refreshWallet();
         SuccessSheet.show(
             Get.context!,
             title: isEditMode.value ? Resources

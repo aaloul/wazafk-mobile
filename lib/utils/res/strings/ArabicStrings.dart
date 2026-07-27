@@ -2508,7 +2508,7 @@ class ArabicStrings extends Strings {
   String get serviceRenewsMonthly =>
       "تُجدَّد الخدمة شهرياً. أوقفها للإيقاف المؤقت.";
   @override
-  String get serviceMonthly => "اشتراك شهري";
+  String get serviceMonthly => "رسوم الخدمة";
   @override
   String get extraSkills => "مهارات إضافية";
   @override
@@ -2875,4 +2875,64 @@ class ArabicStrings extends Strings {
 
   @override
   String get viewJobPosts => "عرض الوظائف المنشورة";
+
+  @override
+  String firstSkillsFreeNote(int count, String price) =>
+      "أول {b}$count مهارات مجاناً.{/b} كل مهارة إضافية = {b}$price{/b}، لمرة واحدة.";
+
+  // Limit-reached sheets (design p174 / p114)
+  @override
+  String get jobPostLimitTitle => "حد نشر الوظائف";
+
+  @override
+  String jobPostLimitMessage(String price) =>
+      "يبدو أنك وصلت إلى حد نشر الوظائف. يمكنك إضافة وظائف أخرى مقابل $price لكل وظيفة.";
+
+  @override
+  String get workPackLimitTitle => "باقة عمل";
+
+  @override
+  String workPackLimitMessage(String price) =>
+      "يبدو أنك وصلت إلى حد الباقات. يمكنك إضافة باقات أخرى مقابل $price شهرياً لكل باقة.";
+
+  // Work package publish step (mirrors the job one)
+  @override
+  String get workPackFee => "رسوم باقة العمل";
+
+  @override
+  String get firstPackOnUs => "أول باقة عمل على حسابنا!";
+
+  @override
+  String get firstPackPromo => "عرض أول باقة عمل";
+
+  @override
+  String afterThisPackCosts(String price) =>
+      "بعد ذلك، تكلفة باقة العمل $price. يمكنك الشحن في أي وقت من محفظتك.";
+
+  @override
+  String afterThisJobCostsAmount(String price) =>
+      "بعد ذلك، تكلفة نشر الوظيفة $price. يمكنك الشحن في أي وقت من محفظتك.";
+
+  @override
+  String packShortfallNote(String cost, String short) =>
+      "نشر هذه الباقة يكلف $cost. ينقصك {r}$short{/r}. سنقوم بشحن رصيدك أولاً ثم النشر.";
+
+  @override
+  String get topUpAndPost => "اشحن وانشر";
+
+  // Service activation summary (shares the job publish screen)
+  @override
+  String renewAtMonthlyAfterDays(String price, int days) =>
+      "التجديد بـ $price شهرياً بعد $days يوماً.";
+
+  @override
+  String afterThisServiceCosts(String price) =>
+      "بعد ذلك، إبقاء الخدمة فعّالة يكلف $price شهرياً. يمكنك الشحن في أي وقت من محفظتك.";
+
+  @override
+  String serviceShortfallNote(String cost, String short) =>
+      "تفعيل هذه الخدمة يكلف $cost. ينقصك {r}$short{/r}. سنقوم بشحن رصيدك أولاً ثم التفعيل.";
+
+  @override
+  String get topUpAndActivate => "اشحن وفعّل";
 }

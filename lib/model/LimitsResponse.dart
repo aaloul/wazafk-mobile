@@ -25,12 +25,16 @@ class LimitsResponse {
   };
 }
 
-/// Posting limits and prices served by `app/limits`.
+/// Posting allowances and prices from `app/limits`:
 ///
-/// The payload is read by key with a small set of accepted spellings and the
-/// design's values as the fallback, so a rename on the backend degrades to the
-/// documented defaults instead of breaking the flow. [raw] keeps everything the
-/// endpoint returned.
+/// ```json
+/// "data": {
+///   "skill":   {"free_limit": 2, "price": 2,  "used": 0, "chargeable": false},
+///   "service": {"free_limit": 1, "price": 4,  "used": 7, "chargeable": true},
+///   "package": {"free_limit": 1, "price": 6,  "used": 3, "chargeable": false},
+///   "job":     {"free_limit": 1, "price": 10, "used": 4, "chargeable": true}
+/// }
+/// ```
 class AppLimits {
   AppLimits({Map<String, dynamic>? raw}) : raw = raw ?? <String, dynamic>{};
 
@@ -40,72 +44,78 @@ class AppLimits {
 
   Map<String, dynamic> toJson() => raw;
 
-  // ---- Skills (design p181) ------------------------------------------------
-
-  /// Skills included at no cost — "First skill for free".
-  int get freeSkills =>
-      _int(['free_skills', 'nb_free_skills', 'skills_free', 'skill_free']) ?? 1;
-
-  /// Most skills a service may carry — the "3 / 5" denominator.
-  int get maxSkills =>
-      _int(['max_skills', 'nb_max_skills', 'skills_limit', 'skills_max']) ?? 5;
-
-  /// One-time charge per skill beyond [freeSkills].
-  double get extraSkillPrice =>
-      _double([
-        'extra_skill_price',
-        'skill_price',
-        'extra_skill',
-        'price_extra_skill',
-      ]) ??
-      1;
-
-  // ---- Services (design p191 / p193) ---------------------------------------
+  /// Skills on a service — the first [EntityLimit.freeLimit] are included,
+  /// each one after that costs [EntityLimit.price] once.
+  EntityLimit get skill => _entry('skill', defaultFreeLimit: 1, defaultPrice: 1);
 
   /// Monthly subscription that keeps a service live.
-  double get serviceMonthlyPrice =>
-      _double([
-        'service_monthly_price',
-        'service_price',
-        'monthly_price',
-        'service_subscription_price',
-      ]) ??
-      3;
+  EntityLimit get service =>
+      _entry('service', defaultFreeLimit: 1, defaultPrice: 3);
 
-  /// Free-trial length shown as "Renew at \$x/month after N days".
-  int get serviceFreeDays =>
-      _int(['service_free_days', 'free_days', 'trial_days']) ?? 90;
+  /// Work package fee.
+  EntityLimit get package =>
+      _entry('package', defaultFreeLimit: 1, defaultPrice: 3);
 
-  // ---- Jobs (design p194) --------------------------------------------------
+  /// Job post fee.
+  EntityLimit get job => _entry('job', defaultFreeLimit: 1, defaultPrice: 2);
 
-  /// Charge for publishing a job post.
-  double get jobPostPrice =>
-      _double([
-            'job_post_price',
-            'job_price',
-            'post_price',
-            'job_post_fee',
-          ]) ??
-      2;
+  EntityLimit _entry(
+    String key, {
+    required int defaultFreeLimit,
+    required double defaultPrice,
+  }) {
+    final value = raw[key];
+    if (value is Map) {
+      return EntityLimit.fromJson(Map<String, dynamic>.from(value));
+    }
+    return EntityLimit(freeLimit: defaultFreeLimit, price: defaultPrice);
+  }
+}
 
-  int? _int(List<String> keys) {
-    final value = _raw(keys);
+/// One row of `app/limits` — how many are free, what an extra one costs, how
+/// many the member already has, and whether the next one is billed.
+class EntityLimit {
+  const EntityLimit({
+    this.freeLimit = 0,
+    this.price = 0,
+    this.used = 0,
+    this.chargeable = false,
+  });
+
+  final int freeLimit;
+  final double price;
+  final int used;
+
+  /// The backend's verdict on whether the next one costs money.
+  final bool chargeable;
+
+  /// Free allowance still available (never negative).
+  int get remainingFree =>
+      freeLimit - used > 0 ? freeLimit - used : 0;
+
+  factory EntityLimit.fromJson(Map<String, dynamic> json) => EntityLimit(
+    freeLimit: _int(json['free_limit']) ?? 0,
+    price: _double(json['price']) ?? 0,
+    used: _int(json['used']) ?? 0,
+    chargeable: json['chargeable'] == true,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'free_limit': freeLimit,
+    'price': price,
+    'used': used,
+    'chargeable': chargeable,
+  };
+
+  static int? _int(dynamic value) {
     if (value is num) return value.toInt();
     if (value is String) return int.tryParse(value);
     return null;
   }
 
-  double? _double(List<String> keys) {
-    final value = _raw(keys);
+  static double? _double(dynamic value) {
     if (value is num) return value.toDouble();
     if (value is String) return double.tryParse(value);
-    return null;
-  }
-
-  dynamic _raw(List<String> keys) {
-    for (final key in keys) {
-      if (raw.containsKey(key) && raw[key] != null) return raw[key];
-    }
     return null;
   }
 }

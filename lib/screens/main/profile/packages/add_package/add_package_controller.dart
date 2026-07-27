@@ -5,15 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wazafak_app/components/sheets/image_source_bottom_sheet.dart';
+import 'package:wazafak_app/constants/route_constant.dart';
 import 'package:wazafak_app/model/CategoriesResponse.dart';
+import 'package:wazafak_app/model/LimitsResponse.dart';
 import 'package:wazafak_app/model/PackagesResponse.dart';
 import 'package:wazafak_app/model/ServicesResponse.dart';
 import 'package:wazafak_app/model/WorkingHoursModel.dart';
 import 'package:wazafak_app/repository/app/categories_repository.dart';
+import 'package:wazafak_app/repository/app/limits_repository.dart';
 import 'package:wazafak_app/repository/package/add_package_repository.dart';
 import 'package:wazafak_app/repository/package/package_status_repository.dart';
 import 'package:wazafak_app/repository/package/save_package_repository.dart';
 import 'package:wazafak_app/repository/service/services_list_repository.dart';
+import 'package:wazafak_app/utils/posting_limits.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
@@ -56,6 +60,28 @@ class AddPackageController extends GetxController {
   var isPackageActive = true.obs;
   var isUpdatingStatus = false.obs;
 
+  /// `app/limits` — refreshed when the form opens so the pack's allowance and
+  /// price are current for anything that reads them.
+  final limits = AppLimitsCache.current.obs;
+
+  EntityLimit get packageLimit => limits.value.package;
+
+  Future<AppLimits>? _limitsRequest;
+
+  /// Re-fetched every time the screen opens so allowances and prices are
+  /// current; the in-flight call is reused by the steps that wait on it.
+  Future<void> _loadLimits() async {
+    _limitsRequest = AppLimitsCache.load(forceRefresh: true);
+    limits.value = await _limitsRequest!;
+  }
+
+  /// Closes the form once the pack is live.
+  void _leaveFlow() {
+    Get.until(
+      (route) => route.settings.name != RouteConstant.addPackageScreen,
+    );
+  }
+
   var workingHours = <WorkingHoursDay>[].obs;
   var services = <Service>[].obs;
   var selectedServices = <Service>[].obs;
@@ -67,6 +93,7 @@ class AddPackageController extends GetxController {
     super.onInit();
     _initializeWorkingHours();
     fetchServices();
+    _loadLimits();
 
     // Check if we're in edit mode
     final arguments = Get.arguments;
@@ -86,15 +113,6 @@ class AddPackageController extends GetxController {
     }
   }
 
-  Future<void> selectCategory(Category? category) async {
-    selectedCategory.value = category;
-    selectedSubcategory.value = null;
-    subcategories.clear();
-    if (category?.hashcode != null) {
-      await loadSubcategories(category!.hashcode!);
-    }
-  }
-
   Future<void> loadSubcategories(String parentHashcode) async {
     try {
       isLoadingSubcategories.value = true;
@@ -110,10 +128,6 @@ class AddPackageController extends GetxController {
     } finally {
       isLoadingSubcategories.value = false;
     }
-  }
-
-  void selectSubcategory(Category subcategory) {
-    selectedSubcategory.value = subcategory;
   }
 
   /// Off / On header switch (design p115). Applies immediately and rolls back
@@ -168,16 +182,49 @@ class AddPackageController extends GetxController {
     }
   }
 
-  void toggleServiceSelection(Service service) {
-    if (isServiceSelected(service)) {
-      selectedServices.removeWhere((s) => s.hashcode == service.hashcode);
-    } else {
-      selectedServices.add(service);
-    }
+  /// A pack covers one service (design p113). Picking it also fixes the
+  /// category and subcategory — they come from the service and aren't editable.
+  Future<void> selectService(Service service) async {
+    selectedServices.value = [service];
+    await _applyCategoryFromService(service);
   }
 
   bool isServiceSelected(Service service) {
     return selectedServices.any((s) => s.hashcode == service.hashcode);
+  }
+
+  /// Mirrors the service's category onto the pack. A service with a parent
+  /// category is itself a subcategory pick; otherwise it sits on a main
+  /// category with no subcategory.
+  Future<void> _applyCategoryFromService(Service service) async {
+    selectedCategory.value = null;
+    selectedSubcategory.value = null;
+    subcategories.clear();
+
+    final parentHashcode = service.parentCategoryHashcode?.toString();
+    final categoryHashcode = service.categoryHashcode?.toString();
+
+    if (parentHashcode != null && parentHashcode.isNotEmpty) {
+      selectedCategory.value = Category(
+        hashcode: parentHashcode,
+        name: service.parentCategoryName,
+      );
+      await loadSubcategories(parentHashcode);
+      selectedSubcategory.value = subcategories.firstWhereOrNull(
+            (c) => c.hashcode == categoryHashcode,
+          ) ??
+          (categoryHashcode == null
+              ? null
+              : Category(
+                  hashcode: categoryHashcode,
+                  name: service.categoryName,
+                ));
+    } else if (categoryHashcode != null && categoryHashcode.isNotEmpty) {
+      selectedCategory.value = Category(
+        hashcode: categoryHashcode,
+        name: service.categoryName,
+      );
+    }
   }
 
   void _initializeWorkingHours() {
@@ -275,12 +322,11 @@ class AddPackageController extends GetxController {
       workingHours.refresh();
     }
 
-    // Set selected services
+    // Set the selected service (one per pack) and its category.
     if (package.services != null && package.services!.isNotEmpty) {
-      selectedServices.clear();
-      for (var service in package.services!) {
-        selectedServices.add(service);
-      }
+      final service = package.services!.first;
+      selectedServices.value = [service];
+      _applyCategoryFromService(service);
     }
   }
 
@@ -518,6 +564,11 @@ class AddPackageController extends GetxController {
           : await _repository.addPackage(data);
 
       if (response.success == true) {
+        // The allowance and the wallet just changed — refresh both.
+        AppLimitsCache.load(forceRefresh: true).then(
+          (value) => limits.value = value,
+        );
+        PostingLimits.refreshWallet();
         SuccessSheet.show(
             Get.context!,
             title: isEditMode.value ? Resources
@@ -537,9 +588,7 @@ class AddPackageController extends GetxController {
                 .of(Get.context!)
                 .strings
                 .viewMyPackages,
-            onButtonPressed: () {
-              Navigator.pop(Get.context!);
-            }
+            onButtonPressed: _leaveFlow
         );
       } else {
         constants.showSnackBar(

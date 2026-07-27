@@ -10,10 +10,10 @@ import 'package:wazafak_app/repository/app/categories_repository.dart';
 import 'package:wazafak_app/repository/app/limits_repository.dart';
 import 'package:wazafak_app/repository/app/skills_repository.dart';
 import 'package:wazafak_app/repository/job/add_job_repository.dart';
-import 'package:wazafak_app/repository/job/jobs_list_repository.dart';
 import 'package:wazafak_app/repository/job/save_job_repository.dart';
-import 'package:wazafak_app/screens/main/profile/activation/publish_job_screen.dart';
+import 'package:wazafak_app/screens/main/profile/activation/publish_summary_screen.dart';
 import 'package:wazafak_app/utils/Prefs.dart';
+import 'package:wazafak_app/utils/posting_limits.dart';
 import 'package:wazafak_app/utils/res/Resources.dart';
 import 'package:wazafak_app/utils/utils.dart';
 
@@ -25,15 +25,18 @@ class AddJobController extends GetxController {
   final _skillsRepository = SkillsRepository();
   final _addJobRepository = AddJobRepository();
   final _saveJobRepository = SaveJobRepository();
-  final _jobsListRepository = JobsListRepository();
 
   /// Job Type chips (design p185) — sent to the API as `periodicity`.
   static const periodicityProject = 'PRJ';
   static const periodicityOneTime = 'ONE';
 
-  /// Publish step pricing (design p194) comes from `app/limits`: the first
-  /// post is free, and skills beyond the free allowance are charged per skill.
-  AppLimits get limits => AppLimitsCache.current;
+  /// Publish step pricing (design p194) comes from `app/limits`: posts inside
+  /// the free allowance cost nothing, and skills beyond theirs are charged per
+  /// skill. Reactive so the banner and totals update once the call lands.
+  final limits = AppLimitsCache.current.obs;
+
+  EntityLimit get jobLimit => limits.value.job;
+  EntityLimit get skillLimit => limits.value.skill;
 
   Job? editingJob;
 
@@ -57,9 +60,13 @@ class AddJobController extends GetxController {
   /// [periodicityOneTime].
   var selectedPeriodicity = Rxn<String>();
 
-  /// Drives the "1 free post. No charge yet" banner and the free first post on
-  /// the publish step. Stays false until the employer's jobs have been counted.
-  var isFirstJobPost = false.obs;
+  /// Drives the free first post on the publish step — the backend tells us
+  /// whether this post is billable.
+  bool get isFirstJobPost => !jobLimit.chargeable;
+
+  /// The "1 free post. No charge yet" banner waits for `app/limits`, so it
+  /// never flashes on a post that turns out to be chargeable.
+  bool get showFreePostBanner => AppLimitsCache.isLoaded && isFirstJobPost;
   var selectedDate = Rxn<DateTime>();
   var selectedTime = Rxn<TimeOfDay>();
   var selectedExpiryDate = Rxn<DateTime>();
@@ -78,35 +85,38 @@ class AddJobController extends GetxController {
       // Ensure category is null on initialization
       selectedCategory.value = null;
       selectedSubcategory.value = null;
-      _checkFirstJobPost();
+      // On-site is the default Location pick.
+      selectedJobType.value = 'Onsite';
     }
-    AppLimitsCache.load();
+    _loadLimits();
   }
 
-  /// The free-post banner only shows for an employer who has never posted, so
-  /// count their existing posts. Failures leave the banner hidden.
-  Future<void> _checkFirstJobPost() async {
-    try {
-      final response = await _jobsListRepository.getJobs(
-        filters: {'member': Prefs.getId},
-      );
-      if (response.success == true) {
-        isFirstJobPost.value = (response.data?.list ?? []).isEmpty;
-      }
-    } catch (e) {
-      print('Error checking previous job posts: $e');
+  Future<AppLimits>? _limitsRequest;
+
+  /// Re-fetched every time the screen opens so allowances and prices are
+  /// current; the in-flight call is reused by the steps that wait on it.
+  Future<void> _loadLimits() async {
+    _limitsRequest = AppLimitsCache.load(forceRefresh: true);
+    limits.value = await _limitsRequest!;
+  }
+
+  Future<void> _ensureLimits() async {
+    if (_limitsRequest != null) {
+      limits.value = await _limitsRequest!;
+      return;
     }
+    await _loadLimits();
   }
 
   /// Skills beyond the free allowance are billed on the publish step.
-  int get extraSkillsCount => selectedSkills.length > limits.freeSkills
-      ? selectedSkills.length - limits.freeSkills
+  int get extraSkillsCount => selectedSkills.length > skillLimit.freeLimit
+      ? selectedSkills.length - skillLimit.freeLimit
       : 0;
 
-  double get extraSkillsPrice => extraSkillsCount * limits.extraSkillPrice;
+  double get extraSkillsPrice => extraSkillsCount * skillLimit.price;
 
   double get totalToday =>
-      (isFirstJobPost.value ? 0 : limits.jobPostPrice) + extraSkillsPrice;
+      (isFirstJobPost ? 0 : jobLimit.price) + extraSkillsPrice;
 
   Future<void> _populateFormForEditing() async {
     if (editingJob == null) return;
@@ -322,17 +332,37 @@ class AddJobController extends GetxController {
 
   /// "Continue" on the form (design p185 step 1/2) — validates, then hands over
   /// to the publish screen which confirms the fee and posts the job.
-  void continueToPublish() {
+  ///
+  /// Waits for `app/limits` first: until it answers the fallbacks report the
+  /// post as free, which would show the wrong total.
+  Future<void> continueToPublish() async {
     if (!_validate()) return;
 
+    isLoading.value = true;
+    await _ensureLimits();
+    isLoading.value = false;
+
+    final strings = Resources.of(Get.context!).strings;
     Get.toNamed(
-      RouteConstant.publishJobScreen,
-      arguments: PublishJobArgs(
-        jobPostFee: limits.jobPostPrice,
-        extraSkillsPrice: extraSkillsPrice,
-        extraSkillsCount: extraSkillsCount,
+      RouteConstant.publishSummaryScreen,
+      arguments: PublishSummaryArgs(
+        labels: PublishSummaryLabels(
+          title: strings.publishLabel,
+          feeLabel: strings.jobPostFee,
+          promoTitle: strings.firstJobPostOnUs,
+          promoSubtitle: strings.publishInstantly,
+          promoLabel: strings.firstJobPostPromo,
+          afterNote: strings.afterThisJobCostsAmount,
+          shortfallNote: strings.jobPostShortfallNote,
+          confirmLabel: strings.publishLabel,
+          topUpConfirmLabel: strings.topUpAndPublish,
+          editLabel: strings.editDetails,
+        ),
+        fee: jobLimit.price,
+        extrasPrice: extraSkillsPrice,
+        extrasCount: extraSkillsCount,
         totalToday: totalToday,
-        isFirstPost: isFirstJobPost.value,
+        isFirst: isFirstJobPost,
         step: 2,
         totalSteps: 2,
         onConfirm: addJob,
@@ -345,7 +375,7 @@ class AddJobController extends GetxController {
   void _leaveFlow() {
     Get.until(
       (route) =>
-          route.settings.name != RouteConstant.publishJobScreen &&
+          route.settings.name != RouteConstant.publishSummaryScreen &&
           route.settings.name != RouteConstant.addJobScreen,
     );
   }
@@ -566,6 +596,11 @@ class AddJobController extends GetxController {
           : await _addJobRepository.addJob(data);
 
       if (response.success == true) {
+        // The allowance and the wallet just changed — refresh both.
+        AppLimitsCache.load(forceRefresh: true).then(
+          (value) => limits.value = value,
+        );
+        PostingLimits.refreshWallet();
         SuccessSheet.show(
           Get.context!,
           title: isEditMode

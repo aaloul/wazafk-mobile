@@ -65,7 +65,10 @@ Future<TimeOfDay?> showTimeWheelSheet(
                 topRight: Radius.circular(16),
               ),
             ),
-            child: Column(
+            // Keeps the buttons clear of the system navigation bar.
+            child: SafeArea(
+              top: false,
+              child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 28),
@@ -189,10 +192,11 @@ Future<TimeOfDay?> showTimeWheelSheet(
                           ),
                         ),
                       ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

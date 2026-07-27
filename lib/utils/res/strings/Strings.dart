@@ -1798,4 +1798,27 @@ abstract class Strings {
   String get searchForJob;
 
   String get viewJobPosts;
+
+  String firstSkillsFreeNote(int count, String price);
+
+  // Limit-reached sheets (design p174 / p114)
+  String get jobPostLimitTitle;
+  String jobPostLimitMessage(String price);
+  String get workPackLimitTitle;
+  String workPackLimitMessage(String price);
+
+  // Work package publish step (mirrors the job one)
+  String get workPackFee;
+  String get firstPackOnUs;
+  String get firstPackPromo;
+  String afterThisPackCosts(String price);
+  String afterThisJobCostsAmount(String price);
+  String packShortfallNote(String cost, String short);
+  String get topUpAndPost;
+
+  // Service activation summary (shares the job publish screen)
+  String renewAtMonthlyAfterDays(String price, int days);
+  String afterThisServiceCosts(String price);
+  String serviceShortfallNote(String cost, String short);
+  String get topUpAndActivate;
 }

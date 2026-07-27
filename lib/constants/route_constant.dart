@@ -27,8 +27,7 @@ class RouteConstant {
   static const String walletHistoryScreen = '/wallet_history_screen';
   static const String paymentReceiptScreen = '/payment_receipt_screen';
   static const String addSkillScreen = '/add_skill_screen';
-  static const String activateServiceScreen = '/activate_service_screen';
-  static const String publishJobScreen = '/publish_job_screen';
+  static const String publishSummaryScreen = '/publish_summary_screen';
   static const String memberHistoryScreen = '/member_history_screen';
   static const String myDocumentsScreen = '/my_documents_screen';
   static const String uploadDocumentsScreen = '/upload_documents_screen';

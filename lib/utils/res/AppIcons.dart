@@ -172,4 +172,8 @@ class AppIcons {
 
   // Publish job step (Figma p232)
   static const String bulbBadge = '${base}bulb_badge.png';
+
+  // Limit-reached sheets (Figma p174 / p114)
+  static const String limitJob = '${base}limit_job.png';
+  static const String limitPack = '${base}limit_pack.png';
 }

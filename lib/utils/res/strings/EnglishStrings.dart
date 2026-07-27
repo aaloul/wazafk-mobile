@@ -2522,7 +2522,7 @@ class EnglishStrings extends Strings {
   String get serviceRenewsMonthly =>
       "Service renews every month. Turn off service to pause.";
   @override
-  String get serviceMonthly => "Service monthly";
+  String get serviceMonthly => "Service fee";
   @override
   String get extraSkills => "Extra skills";
   @override
@@ -2893,4 +2893,64 @@ class EnglishStrings extends Strings {
 
   @override
   String get viewJobPosts => "View Job Posts";
+
+  @override
+  String firstSkillsFreeNote(int count, String price) =>
+      "First {b}$count skills free.{/b} Each extra skill = {b}$price{/b}, one-time.";
+
+  // Limit-reached sheets (design p174 / p114)
+  @override
+  String get jobPostLimitTitle => "Job post limit";
+
+  @override
+  String jobPostLimitMessage(String price) =>
+      "It looks like you've reached your job posting limit. You can add more job posts for $price per post.";
+
+  @override
+  String get workPackLimitTitle => "Work Pack";
+
+  @override
+  String workPackLimitMessage(String price) =>
+      "It looks like you've reached your pack limit. You can add more packs for $price per month each.";
+
+  // Work package publish step (mirrors the job one)
+  @override
+  String get workPackFee => "Work pack fee";
+
+  @override
+  String get firstPackOnUs => "First work pack on us!";
+
+  @override
+  String get firstPackPromo => "First work pack promo";
+
+  @override
+  String afterThisPackCosts(String price) =>
+      "After this, a work pack costs $price. Top up anytime from your wallet.";
+
+  @override
+  String afterThisJobCostsAmount(String price) =>
+      "After this, posting a job costs $price. Top up anytime from your wallet.";
+
+  @override
+  String packShortfallNote(String cost, String short) =>
+      "Posting this pack costs $cost. You're {r}$short{/r} short. We'll top you up first, then post.";
+
+  @override
+  String get topUpAndPost => "Top up and Post";
+
+  // Service activation summary (shares the job publish screen)
+  @override
+  String renewAtMonthlyAfterDays(String price, int days) =>
+      "Renew at $price/month after $days days.";
+
+  @override
+  String afterThisServiceCosts(String price) =>
+      "After this, keeping the service live costs $price/month. Top up anytime from your wallet.";
+
+  @override
+  String serviceShortfallNote(String cost, String short) =>
+      "Activating this service costs $cost. You're {r}$short{/r} short. We'll top you up first, then activate.";
+
+  @override
+  String get topUpAndActivate => "Top up and Activate";
 }

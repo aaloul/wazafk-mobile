@@ -154,7 +154,7 @@ class WorkingHoursItem extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return Container(
-              height: 280,
+              height: 280 + MediaQuery.of(context).padding.bottom,
               decoration: BoxDecoration(
                 color: context.resources.color.background2,
                 borderRadius: BorderRadius.only(
@@ -162,7 +162,10 @@ class WorkingHoursItem extends StatelessWidget {
                   topRight: Radius.circular(16),
                 ),
               ),
-              child: Column(
+              // Keeps the buttons clear of the system navigation bar.
+              child: SafeArea(
+                top: false,
+                child: Column(
                 children: [
                   SizedBox(height: 16),
                   PrimaryText(
@@ -338,7 +341,8 @@ class WorkingHoursItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                ],
+                  ],
+                ),
               ),
             );
           },

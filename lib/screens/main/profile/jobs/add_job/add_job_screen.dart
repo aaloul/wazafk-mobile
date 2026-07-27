@@ -73,7 +73,9 @@ class AddJobScreen extends StatelessWidget {
                     // "1 free post. No charge yet" (p185) — first post only.
                     if (!isEdit)
                       Obx(() {
-                        if (!controller.isFirstJobPost.value) {
+                        // Reads controller.limits, so it refreshes once
+                        // app/limits lands.
+                        if (!controller.showFreePostBanner) {
                           return const SizedBox.shrink();
                         }
                         return Padding(

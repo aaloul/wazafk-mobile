@@ -113,8 +113,8 @@ class AddPackageScreen extends StatelessWidget {
                                         selected: selectedHashcodes
                                             .contains(service.hashcode),
                                         maxWidth: maxChipWidth,
-                                        onTap: () => controller
-                                            .toggleServiceSelection(service),
+                                        onTap: () =>
+                                            controller.selectService(service),
                                       ),
                                     )
                                     .toList(),
@@ -133,15 +133,20 @@ class AddPackageScreen extends StatelessWidget {
                               child: Center(child: ProgressBar()),
                             );
                           }
+                          // Comes from the picked service — shown, not chosen.
+                          final selected = controller.selectedCategory.value;
                           return CategoryChooser(
                             label: strings.category,
                             text: strings.selectCategory,
                             isMandatory: true,
-                            withArrow: true,
+                            withArrow: false,
+                            enabled: false,
                             labelFontSize: 12,
-                            list: homeController.categories,
-                            selected: controller.selectedCategory.value,
-                            onSelect: controller.selectCategory,
+                            list: selected == null
+                                ? homeController.categories
+                                : [selected],
+                            selected: selected,
+                            onSelect: (_) {},
                           );
                         }),
 
@@ -169,8 +174,8 @@ class AddPackageScreen extends StatelessWidget {
                                 return FormChoiceChip(
                                   label: sub.name ?? '',
                                   selected: selectedHashcode == sub.hashcode,
-                                  onTap: () =>
-                                      controller.selectSubcategory(sub),
+                                  enabled: false,
+                                  onTap: () {},
                                 );
                               },
                             ),

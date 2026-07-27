@@ -145,7 +145,7 @@ class _DateField extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (sheetContext) {
         return Container(
-          height: 400,
+          height: 400 + MediaQuery.of(sheetContext).padding.bottom,
           decoration: BoxDecoration(
             color: context.resources.color.colorWhite,
             borderRadius: const BorderRadius.only(
@@ -153,7 +153,10 @@ class _DateField extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
           ),
-          child: Column(
+          // Keeps the calendar clear of the system navigation bar.
+          child: SafeArea(
+            top: false,
+            child: Column(
             children: [
               const SizedBox(height: 16),
               PrimaryText(
@@ -181,7 +184,8 @@ class _DateField extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
+              ],
+            ),
           ),
         );
       },

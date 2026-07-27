@@ -19,11 +19,14 @@ class AddSkillArgs {
     required this.step,
     required this.totalSteps,
     required this.onContinue,
-    this.isLoadingSkills = false,
+    this.isLoadingSkills,
+    this.onRefreshSkills,
     this.title,
   });
 
-  final List<Skill> availableSkills;
+  /// Live list — the screen rebuilds when the skills call lands, so opening
+  /// this step before the request finishes still fills in.
+  final RxList<Skill> availableSkills;
   final List<Skill> selectedSkills;
   final int freeSkills;
   final int maxSkills;
@@ -35,7 +38,12 @@ class AddSkillArgs {
   /// them are the free ones.
   final ValueChanged<List<Skill>> onContinue;
 
-  final bool isLoadingSkills;
+  final RxBool? isLoadingSkills;
+
+  /// Re-runs the skills request; called when this step opens with nothing to
+  /// show and nothing in flight.
+  final Future<void> Function()? onRefreshSkills;
+
   final String? title;
 }
 
@@ -57,6 +65,11 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
     super.initState();
     args = Get.arguments as AddSkillArgs;
     selected = List<Skill>.of(args.selectedSkills);
+
+    if (args.availableSkills.isEmpty &&
+        !(args.isLoadingSkills?.value ?? false)) {
+      args.onRefreshSkills?.call();
+    }
   }
 
   void _toggle(Skill skill) {
@@ -114,16 +127,18 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
                       extraCost: _extraCost,
                     ),
                     const SizedBox(height: 18),
-                    if (args.isLoadingSkills)
-                      Center(child: ProgressBar())
-                    else if (args.availableSkills.isEmpty)
-                      PrimaryText(
-                        text: strings.noSkillsAvailableForCategory,
-                        fontSize: 14,
-                        textColor: colors.colorGrey8,
-                      )
-                    else
-                      Wrap(
+                    Obx(() {
+                      if (args.isLoadingSkills?.value ?? false) {
+                        return Center(child: ProgressBar());
+                      }
+                      if (args.availableSkills.isEmpty) {
+                        return PrimaryText(
+                          text: strings.noSkillsAvailableForCategory,
+                          fontSize: 14,
+                          textColor: colors.colorGrey8,
+                        );
+                      }
+                      return Wrap(
                         spacing: 8,
                         runSpacing: 8,
                         children: args.availableSkills.map((skill) {
@@ -141,7 +156,8 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
                             onTap: () => _toggle(skill),
                           );
                         }).toList(),
-                      ),
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -171,7 +187,11 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
     final priceText = price == price.roundToDouble()
         ? '\$${price.toStringAsFixed(0)}'
         : '\$${price.toStringAsFixed(2)}';
-    final note = context.resources.strings.firstSkillFreeNote(priceText);
+    // Wording follows the free allowance the API reports.
+    final strings = context.resources.strings;
+    final note = args.freeSkills == 1
+        ? strings.firstSkillFreeNote(priceText)
+        : strings.firstSkillsFreeNote(args.freeSkills, priceText);
 
     final base = TextStyle(
       fontFamily: 'SF Pro Text',

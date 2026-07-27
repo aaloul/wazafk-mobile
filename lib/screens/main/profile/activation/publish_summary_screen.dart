@@ -14,59 +14,111 @@ import 'components/breakdown_card.dart';
 import 'components/flow_confirm_button.dart';
 import 'components/wallet_balance_card.dart';
 
-class PublishJobArgs {
-  const PublishJobArgs({
-    required this.jobPostFee,
-    required this.extraSkillsPrice,
-    required this.extraSkillsCount,
+/// Copy for one flavour of the summary step — job post (design p194 / p232) or
+/// work pack. Built by the controller so the wording stays in the string files.
+class PublishSummaryLabels {
+  const PublishSummaryLabels({
+    required this.title,
+    required this.feeLabel,
+    required this.promoTitle,
+    required this.promoSubtitle,
+    required this.promoLabel,
+    required this.afterNote,
+    required this.shortfallNote,
+    required this.confirmLabel,
+    required this.topUpConfirmLabel,
+    required this.editLabel,
+  });
+
+  final String title;
+  final String feeLabel;
+  final String promoTitle;
+  final String promoSubtitle;
+  final String promoLabel;
+
+  /// "After this, posting a job costs $x…"
+  final String Function(String price) afterNote;
+
+  /// "Posting this job costs $x. You're {r}$y{/r} short…"
+  final String Function(String cost, String short) shortfallNote;
+
+  final String confirmLabel;
+  final String topUpConfirmLabel;
+  final String editLabel;
+}
+
+class PublishSummaryArgs {
+  const PublishSummaryArgs({
+    required this.labels,
+    required this.fee,
     required this.totalToday,
-    required this.isFirstPost,
+    required this.isFirst,
     required this.step,
     required this.totalSteps,
     required this.onConfirm,
     required this.onEdit,
+    this.extrasPrice = 0,
+    this.extrasCount = 0,
+    this.extrasLabel,
+    this.showPromo = true,
   });
 
-  final double jobPostFee;
-  final double extraSkillsPrice;
-  final int extraSkillsCount;
+  final PublishSummaryLabels labels;
+
+  /// Price of the thing being posted, before any promo.
+  final double fee;
+
+  /// Extra add-ons billed alongside it (skills on a job post).
+  final double extrasPrice;
+  final int extrasCount;
+  final String? extrasLabel;
+
   final double totalToday;
-  final bool isFirstPost;
+
+  /// Inside the free allowance — the total comes out FREE.
+  final bool isFirst;
+
+  /// Whether the "first one on us" promo presentation (banner, struck-through
+  /// fee, promo line and the "after this it costs…" note) is shown. Flows
+  /// without a first-time offer pass false and just show the total.
+  final bool showPromo;
+
   final int step;
   final int totalSteps;
   final Future<void> Function() onConfirm;
   final VoidCallback onEdit;
 }
 
-/// "Publish 2 / 2" — the last step of posting a job.
-///
-/// Three states, per the design:
-///  * nothing to pay (first post is free, p194) — promo banner, discounted
-///    breakdown and the "after this it costs …" note;
-///  * payable and the wallet covers it — wallet card plus the breakdown;
-///  * payable and the wallet is short (p232) — shortfall note, wallet card with
-///    the LOW badge, fee / available / charge-today breakdown, the suggested
-///    top-up hint and a "Top up and Publish" button.
-class PublishJobScreen extends StatelessWidget {
-  const PublishJobScreen({super.key});
-
-  String _balanceText() {
-    try {
-      return Get.find<HomeController>().walletBalance.value;
-    } catch (_) {
-      return '';
-    }
-  }
+/// Last step of a posting flow: promo banner or shortfall note, the cost
+/// breakdown, the wallet card when something is payable, and the confirm /
+/// "top up first" action.
+class PublishSummaryScreen extends StatelessWidget {
+  const PublishSummaryScreen({super.key});
 
   static String _money(double value) => '\$${value.toStringAsFixed(2)}';
 
   @override
   Widget build(BuildContext context) {
-    final args = Get.arguments as PublishJobArgs;
+    final args = Get.arguments as PublishSummaryArgs;
+
+    // Rebuilds when the wallet changes — coming back from a top-up flips the
+    // short/covered state without leaving the screen.
+    if (Get.isRegistered<HomeController>()) {
+      final home = Get.find<HomeController>();
+      return Obx(() => _body(context, args, home.walletBalance.value));
+    }
+    return _body(context, args, '');
+  }
+
+  Widget _body(
+    BuildContext context,
+    PublishSummaryArgs args,
+    String balanceText,
+  ) {
+    final labels = args.labels;
     final colors = context.resources.color;
     final strings = context.resources.strings;
 
-    final balanceText = _balanceText();
     final balance = double.tryParse(balanceText) ?? 0;
     final isFree = args.totalToday <= 0;
     final available = math.min(balance, args.totalToday);
@@ -80,7 +132,7 @@ class PublishJobScreen extends StatelessWidget {
           children: [
             TopHeader(
               hasBack: true,
-              title: strings.publishLabel,
+              title: labels.title,
               endWidget: PrimaryText(
                 text: '${args.step} / ${args.totalSteps}',
                 fontSize: 13,
@@ -96,14 +148,16 @@ class PublishJobScreen extends StatelessWidget {
                   children: [
                     if (isShort) ...[
                       _ShortfallNote(
-                        cost: _money(args.totalToday),
-                        shortfall: _money(shortfall),
+                        note: labels.shortfallNote(
+                          _money(args.totalToday),
+                          _money(shortfall),
+                        ),
                       ),
                       const SizedBox(height: 12),
-                    ] else if (args.isFirstPost) ...[
+                    ] else if (args.isFirst && args.showPromo) ...[
                       ActivationBanner(
-                        title: strings.firstJobPostOnUs,
-                        subtitle: strings.publishInstantly,
+                        title: labels.promoTitle,
+                        subtitle: labels.promoSubtitle,
                         isPromo: true,
                       ),
                       const SizedBox(height: 12),
@@ -134,14 +188,14 @@ class PublishJobScreen extends StatelessWidget {
                       const SizedBox(height: 12),
                       _HintCard(
                         text: strings.suggestedTopUpNote(
-                          _suggestedTopUp(args.jobPostFee, shortfall),
+                          _suggestedTopUp(args.fee, shortfall),
                         ),
                         leading: Image.asset(AppIcons.bulbBadge, width: 34),
                       ),
-                    ] else if (args.isFirstPost) ...[
+                    ] else if (args.isFirst && args.showPromo) ...[
                       const SizedBox(height: 12),
                       _HintCard(
-                        text: strings.afterThisJobCosts,
+                        text: labels.afterNote(_money(args.fee)),
                         leading: Container(
                           width: 28,
                           height: 28,
@@ -166,13 +220,13 @@ class PublishJobScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
               child: isShort
                   ? FlowConfirmButton(
-                      title: strings.topUpAndPublish,
+                      title: labels.topUpConfirmLabel,
                       onConfirm: () async {
                         await Get.toNamed(RouteConstant.topUpScreen);
                       },
                     )
                   : FlowConfirmButton(
-                      title: strings.publishLabel,
+                      title: labels.confirmLabel,
                       onConfirm: args.onConfirm,
                     ),
             ),
@@ -182,7 +236,7 @@ class PublishJobScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
                 child: PrimaryText(
-                  text: strings.editDetails,
+                  text: labels.editLabel,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   textColor: colors.colorBlack,
@@ -199,26 +253,25 @@ class PublishJobScreen extends StatelessWidget {
 
   List<BreakdownLineItem> _breakdown(
     BuildContext context,
-    PublishJobArgs args,
+    PublishSummaryArgs args,
     bool isShort,
     double available,
   ) {
+    final labels = args.labels;
     final strings = context.resources.strings;
-    final extraSkills = args.extraSkillsPrice > 0
+    final extras = args.extrasPrice > 0
         ? BreakdownLineItem(
-            label: '${strings.extraSkills} (x${args.extraSkillsCount})',
-            amount: _money(args.extraSkillsPrice),
+            label: '${args.extrasLabel ?? strings.extraSkills} '
+                '(x${args.extrasCount})',
+            amount: _money(args.extrasPrice),
           )
         : null;
 
     if (isShort) {
       // Fee and what the wallet already covers (design p232).
       return [
-        BreakdownLineItem(
-          label: strings.jobPostFee,
-          amount: _money(args.jobPostFee),
-        ),
-        if (extraSkills != null) extraSkills,
+        BreakdownLineItem(label: labels.feeLabel, amount: _money(args.fee)),
+        if (extras != null) extras,
         BreakdownLineItem(
           label: strings.availableLabel,
           amount: _money(available),
@@ -226,29 +279,31 @@ class PublishJobScreen extends StatelessWidget {
       ];
     }
 
-    if (args.isFirstPost) {
+    if (args.isFirst && !args.showPromo) {
+      // Nothing to charge and no promo to explain — just the total row.
+      return [if (extras != null) extras];
+    }
+
+    if (args.isFirst) {
       // Fee struck through and cancelled by the promo (design p194).
       return [
         BreakdownLineItem(
-          label: strings.jobPostFee,
-          amount: _money(args.jobPostFee),
+          label: labels.feeLabel,
+          amount: _money(args.fee),
           strikethrough: true,
         ),
         BreakdownLineItem(
-          label: strings.firstJobPostPromo,
-          amount: '-${_money(args.jobPostFee)}',
+          label: labels.promoLabel,
+          amount: '-${_money(args.fee)}',
           discount: true,
         ),
-        if (extraSkills != null) extraSkills,
+        if (extras != null) extras,
       ];
     }
 
     return [
-      BreakdownLineItem(
-        label: strings.jobPostFee,
-        amount: _money(args.jobPostFee),
-      ),
-      if (extraSkills != null) extraSkills,
+      BreakdownLineItem(label: labels.feeLabel, amount: _money(args.fee)),
+      if (extras != null) extras,
     ];
   }
 
@@ -260,18 +315,15 @@ class PublishJobScreen extends StatelessWidget {
   }
 }
 
-/// "Posting this job costs $2. You're $1.50 short…" — the shortfall in red.
+/// "Posting this job costs $2. You're $1.50 short…" — the amount in red.
 class _ShortfallNote extends StatelessWidget {
-  const _ShortfallNote({required this.cost, required this.shortfall});
+  const _ShortfallNote({required this.note});
 
-  final String cost;
-  final String shortfall;
+  final String note;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.resources.color;
-    final note =
-        context.resources.strings.jobPostShortfallNote(cost, shortfall);
 
     var isRed = false;
     final spans = <TextSpan>[];

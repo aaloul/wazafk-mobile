@@ -19,9 +19,14 @@ class AppLimitsCache {
   static final _repository = LimitsRepository();
   static AppLimits _current = AppLimits();
   static Future<AppLimits>? _inFlight;
+  static bool _loaded = false;
 
   /// Last known limits — safe to read synchronously at any point.
   static AppLimits get current => _current;
+
+  /// Whether the values come from the API rather than the built-in fallbacks.
+  /// Anything that decides "is this free?" should wait for this.
+  static bool get isLoaded => _loaded;
 
   static Future<AppLimits> load({bool forceRefresh = false}) {
     if (!forceRefresh && _inFlight != null) return _inFlight!;
@@ -36,6 +41,7 @@ class AppLimitsCache {
       final response = await _repository.getLimits();
       if (response.success == true && response.data != null) {
         _current = response.data!;
+        _loaded = true;
       }
     } catch (_) {
       // Keep whatever we had; the defaults match the design.
