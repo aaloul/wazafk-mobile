@@ -39,6 +39,7 @@ class JobPeriodicityWidget extends StatelessWidget {
                     selected: selected == entry.key,
                     enabled: enabled,
                     minWidth: 80,
+                    fontWeight: FontWeight.w500,
                     onTap: () => controller.selectPeriodicity(entry.key),
                   ),
                   if (entry != entries.last) const SizedBox(width: 6),

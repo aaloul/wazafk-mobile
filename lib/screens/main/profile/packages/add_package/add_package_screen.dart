@@ -113,6 +113,7 @@ class AddPackageScreen extends StatelessWidget {
                                         selected: selectedHashcodes
                                             .contains(service.hashcode),
                                         maxWidth: maxChipWidth,
+                                        fontWeight: FontWeight.w500,
                                         onTap: () =>
                                             controller.selectService(service),
                                       ),
@@ -175,6 +176,7 @@ class AddPackageScreen extends StatelessWidget {
                                   label: sub.name ?? '',
                                   selected: selectedHashcode == sub.hashcode,
                                   enabled: false,
+                                  fontWeight: FontWeight.w500,
                                   onTap: () {},
                                 );
                               },
@@ -283,6 +285,7 @@ class _PackageLocationRow extends StatelessWidget {
                     label: label(type),
                     selected: selected == type,
                     minWidth: 80,
+                    fontWeight: FontWeight.w500,
                     onTap: () =>
                         controller.selectedWorkLocationType.value = type,
                   ),

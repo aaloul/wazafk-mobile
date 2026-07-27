@@ -2522,17 +2522,17 @@ class ArabicStrings extends Strings {
   @override
   String get topUpPill => "شحن +";
   @override
-  String get firstServiceOnUs => "أول خدمة على حسابنا!";
+  String get firstServiceOnUs => "هذه الخدمة على حسابنا!";
   @override
   String get renewAtAfter90Days => "تتجدد بـ 3\$ شهرياً بعد 90 يوماً.";
   @override
-  String get firstServicePromo => "ترويج أول خدمة";
+  String get firstServicePromo => "ترويج الخدمة";
   @override
-  String get firstJobPostOnUs => "أول إعلان وظيفة على حسابنا!";
+  String get firstJobPostOnUs => "هذه الوظيفة على حسابنا!";
   @override
   String get publishInstantly => "ينشر فوراً.";
   @override
-  String get firstJobPostPromo => "ترويج أول وظيفة";
+  String get firstJobPostPromo => "ترويج الوظيفة";
   @override
   String get jobPostFee => "رسوم نشر الوظيفة";
   @override
@@ -2900,10 +2900,10 @@ class ArabicStrings extends Strings {
   String get workPackFee => "رسوم باقة العمل";
 
   @override
-  String get firstPackOnUs => "أول باقة عمل على حسابنا!";
+  String get firstPackOnUs => "هذه الباقة على حسابنا!";
 
   @override
-  String get firstPackPromo => "عرض أول باقة عمل";
+  String get firstPackPromo => "عرض هذه الباقة";
 
   @override
   String afterThisPackCosts(String price) =>

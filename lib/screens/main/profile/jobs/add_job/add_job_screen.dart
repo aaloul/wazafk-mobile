@@ -162,6 +162,7 @@ class AddJobScreen extends StatelessWidget {
                                       label: sub.name ?? '',
                                       selected:
                                           selectedHashcode == sub.hashcode,
+                                      fontWeight: FontWeight.w500,
                                       onTap: () =>
                                           controller.selectSubcategory(sub),
                                     );

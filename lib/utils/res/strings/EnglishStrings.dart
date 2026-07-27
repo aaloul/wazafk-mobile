@@ -2536,17 +2536,17 @@ class EnglishStrings extends Strings {
   @override
   String get topUpPill => "Top Up +";
   @override
-  String get firstServiceOnUs => "First service on us!";
+  String get firstServiceOnUs => "This service on us!";
   @override
   String get renewAtAfter90Days => "Renew at \$3/month after 90 days.";
   @override
-  String get firstServicePromo => "First service promo";
+  String get firstServicePromo => "Service promo";
   @override
-  String get firstJobPostOnUs => "First job post on us!";
+  String get firstJobPostOnUs => "This job post on us!";
   @override
   String get publishInstantly => "Publish instantly.";
   @override
-  String get firstJobPostPromo => "First job post promo";
+  String get firstJobPostPromo => "Job post promo";
   @override
   String get jobPostFee => "Job post fee";
   @override
@@ -2918,10 +2918,10 @@ class EnglishStrings extends Strings {
   String get workPackFee => "Work pack fee";
 
   @override
-  String get firstPackOnUs => "First work pack on us!";
+  String get firstPackOnUs => "This work pack on us!";
 
   @override
-  String get firstPackPromo => "First work pack promo";
+  String get firstPackPromo => "This work pack promo";
 
   @override
   String afterThisPackCosts(String price) =>

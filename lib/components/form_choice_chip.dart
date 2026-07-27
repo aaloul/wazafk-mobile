@@ -14,6 +14,7 @@ class FormChoiceChip extends StatelessWidget {
     this.enabled = true,
     this.minWidth = 0,
     this.maxWidth = double.infinity,
+    this.fontWeight = FontWeight.w700,
   });
 
   final String label;
@@ -28,6 +29,10 @@ class FormChoiceChip extends StatelessWidget {
   /// Ceiling for the chip width. Long labels ellipsize instead of claiming a
   /// whole row, so wrapped rows stay multi-column.
   final double maxWidth;
+
+  /// Label weight — the job/service forms use the design's bold; lighter rows
+  /// pass their own.
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,7 @@ class FormChoiceChip extends StatelessWidget {
         child: PrimaryText(
           text: label,
           fontSize: 14,
-          fontWeight: FontWeight.w700,
+          fontWeight: fontWeight,
           textAlign: TextAlign.center,
           maxLines: 1,
           textColor: selected ? colors.colorPrimary : colors.colorBlack,

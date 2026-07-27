@@ -58,6 +58,7 @@ class ServiceLocationWidget extends StatelessWidget {
                     selected: selected == type,
                     enabled: enabled,
                     minWidth: 80,
+                    fontWeight: FontWeight.w500,
                     onTap: () => controller.selectWorkLocationType(type),
                   ),
                   if (type != types.last) const SizedBox(width: 6),
