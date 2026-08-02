@@ -645,10 +645,6 @@ class AddServiceController extends GetxController {
   /// this as its denominator.
   static const maxSkills = 5;
 
-  /// Free-trial length quoted on the activation step; `app/limits` carries no
-  /// such field, so the design's 90 days stands in.
-  static const _serviceFreeDays = 90;
-
   EntityLimit get skillLimit => limits.value.skill;
   EntityLimit get serviceLimit => limits.value.service;
 
@@ -729,10 +725,7 @@ class AddServiceController extends GetxController {
           title: strings.activateService,
           feeLabel: strings.serviceMonthly,
           promoTitle: strings.firstServiceOnUs,
-          promoSubtitle: strings.renewAtMonthlyAfterDays(
-            '\$${monthly.toStringAsFixed(monthly % 1 == 0 ? 0 : 2)}',
-            _serviceFreeDays,
-          ),
+          promoSubtitle: strings.publishInstantly,
           promoLabel: strings.firstServicePromo,
           afterNote: strings.afterThisServiceCosts,
           shortfallNote: strings.serviceShortfallNote,

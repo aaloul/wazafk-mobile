@@ -64,9 +64,15 @@ class AddJobController extends GetxController {
   /// whether this post is billable.
   bool get isFirstJobPost => !jobLimit.chargeable;
 
-  /// The "1 free post. No charge yet" banner waits for `app/limits`, so it
-  /// never flashes on a post that turns out to be chargeable.
+  /// The free-post banner waits for `app/limits`, so it never flashes on a
+  /// post that turns out to be chargeable.
   bool get showFreePostBanner => AppLimitsCache.isLoaded && isFirstJobPost;
+
+  /// Free posts still available — `free_limit` minus what's been used, falling
+  /// back to the allowance itself when the backend reports none used.
+  int get freeJobPostsLeft => jobLimit.remainingFree > 0
+      ? jobLimit.remainingFree
+      : jobLimit.freeLimit;
   var selectedDate = Rxn<DateTime>();
   var selectedTime = Rxn<TimeOfDay>();
   var selectedExpiryDate = Rxn<DateTime>();

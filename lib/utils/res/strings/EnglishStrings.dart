@@ -2752,9 +2752,6 @@ class EnglishStrings extends Strings {
   String get editJobTitle => "Edit job";
 
   @override
-  String get oneFreePost => "1 free post.";
-
-  @override
   String get noChargeYet => "No charge yet";
 
   @override
@@ -2940,10 +2937,6 @@ class EnglishStrings extends Strings {
 
   // Service activation summary (shares the job publish screen)
   @override
-  String renewAtMonthlyAfterDays(String price, int days) =>
-      "Renew at $price/month after $days days.";
-
-  @override
   String afterThisServiceCosts(String price) =>
       "After this, keeping the service live costs $price/month. Top up anytime from your wallet.";
 
@@ -2953,4 +2946,8 @@ class EnglishStrings extends Strings {
 
   @override
   String get topUpAndActivate => "Top up and Activate";
+
+  @override
+  String freePostsLeft(int count) =>
+      count == 1 ? "1 free post." : "$count free posts.";
 }

@@ -2736,9 +2736,6 @@ class ArabicStrings extends Strings {
   String get editJobTitle => "تعديل الوظيفة";
 
   @override
-  String get oneFreePost => "منشور مجاني واحد.";
-
-  @override
   String get noChargeYet => "لا رسوم حتى الآن";
 
   @override
@@ -2922,10 +2919,6 @@ class ArabicStrings extends Strings {
 
   // Service activation summary (shares the job publish screen)
   @override
-  String renewAtMonthlyAfterDays(String price, int days) =>
-      "التجديد بـ $price شهرياً بعد $days يوماً.";
-
-  @override
   String afterThisServiceCosts(String price) =>
       "بعد ذلك، إبقاء الخدمة فعّالة يكلف $price شهرياً. يمكنك الشحن في أي وقت من محفظتك.";
 
@@ -2935,4 +2928,8 @@ class ArabicStrings extends Strings {
 
   @override
   String get topUpAndActivate => "اشحن وفعّل";
+
+  @override
+  String freePostsLeft(int count) =>
+      count == 1 ? "منشور مجاني واحد." : "$count منشورات مجانية.";
 }

@@ -1738,7 +1738,6 @@ abstract class Strings {
   // Job post form (design p185 / p186)
   String get jobPostTitle;
   String get editJobTitle;
-  String get oneFreePost;
   String get noChargeYet;
   String get onSite;
   String get selectAreasYouCover;
@@ -1817,8 +1816,9 @@ abstract class Strings {
   String get topUpAndPost;
 
   // Service activation summary (shares the job publish screen)
-  String renewAtMonthlyAfterDays(String price, int days);
   String afterThisServiceCosts(String price);
   String serviceShortfallNote(String cost, String short);
   String get topUpAndActivate;
+
+  String freePostsLeft(int count);
 }

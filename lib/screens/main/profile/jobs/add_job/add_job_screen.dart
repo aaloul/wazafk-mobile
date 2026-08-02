@@ -81,7 +81,9 @@ class AddJobScreen extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 16),
                           child: ActivationBanner(
-                            title: strings.oneFreePost,
+                            title: strings.freePostsLeft(
+                              controller.freeJobPostsLeft,
+                            ),
                             subtitle: strings.noChargeYet,
                             isPromo: true,
                             inline: true,
