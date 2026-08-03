@@ -70,20 +70,20 @@ class AddJobScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // "1 free post. No charge yet" (p185) — first post only.
+                    // "N free posts. No charge yet" (p185) — shown while the
+                    // employer is inside the free allowance.
                     if (!isEdit)
                       Obx(() {
-                        // Reads controller.limits, so it refreshes once
-                        // app/limits lands.
+                        // Touch the limits first so this build always has an
+                        // observable to subscribe to, then decide.
+                        final freePosts = controller.freeJobPostsLeft;
                         if (!controller.showFreePostBanner) {
                           return const SizedBox.shrink();
                         }
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 16),
                           child: ActivationBanner(
-                            title: strings.freePostsLeft(
-                              controller.freeJobPostsLeft,
-                            ),
+                            title: strings.freePostsLeft(freePosts),
                             subtitle: strings.noChargeYet,
                             isPromo: true,
                             inline: true,

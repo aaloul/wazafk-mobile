@@ -10,6 +10,7 @@ class PrimaryButton extends StatelessWidget {
       this.textColor,
       this.fontSize,
       this.fontWeight,
+    this.fontFamily,
       this.margin,
       this.height,
       this.color,
@@ -32,6 +33,7 @@ class PrimaryButton extends StatelessWidget {
   String? icon;
   Widget? leadingIcon;
   FontWeight? fontWeight;
+  String? fontFamily;
   bool? enabled = true;
 
   @override
@@ -67,6 +69,7 @@ class PrimaryButton extends StatelessWidget {
                   ],
                   PrimaryText(
                     text: title,
+                    fontFamily: fontFamily,
                     fontSize: fontSize ?? 16,
                     fontWeight: fontWeight ?? FontWeight.w500,
                     textColor: textColor ?? context.resources.color.colorWhite,
@@ -82,6 +85,7 @@ class PrimaryButton extends StatelessWidget {
             : Center(
                 child: PrimaryText(
                   text: title,
+                  fontFamily: fontFamily,
                   fontSize: fontSize ?? 16,
                   fontWeight: fontWeight ?? FontWeight.w500,
                   textColor: textColor ?? context.resources.color.colorWhite,

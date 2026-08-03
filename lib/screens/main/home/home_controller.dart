@@ -415,6 +415,12 @@ class HomeController extends GetxController {
               .failedToLoadProfile,
           SnackBarStatus.ERROR,
         );
+
+        if(response.message.toString() == 'Unauthenticated.'){
+          Prefs.clearUser();
+          Get.offAllNamed(RouteConstant.phoneNumberScreen);
+        }
+
       }
     } catch (e) {
       constants.showSnackBar(Resources

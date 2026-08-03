@@ -270,6 +270,31 @@ class JobDetailsScreen extends StatelessWidget {
                                     SizedBox(height: 16),
                                   ],
 
+                                  // "About the job" — the overview captured on
+                                  // the post form.
+                                  if (job.overview != null &&
+                                      job.overview!.isNotEmpty) ...[
+                                    PrimaryText(
+                                      text: context
+                                          .resources
+                                          .strings
+                                          .aboutTheJob,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      textColor:
+                                          context.resources.color.colorBlack,
+                                    ),
+                                    SizedBox(height: 4),
+                                    PrimaryText(
+                                      text: job.overview!,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      textColor:
+                                          context.resources.color.colorGrey31,
+                                    ),
+                                    SizedBox(height: 16),
+                                  ],
+
                                   PrimaryText(
                                     text: context
                                         .resources

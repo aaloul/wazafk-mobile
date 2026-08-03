@@ -334,48 +334,11 @@ class ServiceDetailsScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (service.description.toString().isNotEmpty)
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        PrimaryText(
-                                          text: context
-                                              .resources
-                                              .strings
-                                              .overview,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          textColor: context
-                                              .resources
-                                              .color
-                                              .colorBlack4,
-                                        ),
-
-                                        SizedBox(height: 4),
-
-                                        PrimaryText(
-                                          text:
-                                              service.description ??
-                                              context
-                                                  .resources
-                                                  .strings
-                                                  .notAvailable,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          textColor:
-                                              context.resources.color.colorGrey,
-                                        ),
-                                      ],
-                                    ),
-
                                   if (service.experience.toString().isNotEmpty)
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(height: 16),
-
                                         PrimaryText(
                                           text: context
                                               .resources

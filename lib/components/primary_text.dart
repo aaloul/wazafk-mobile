@@ -15,6 +15,7 @@ class PrimaryText extends StatelessWidget {
     this.height,
     this.isLined,
     this.isUnderLined,
+    this.fontFamily,
   });
 
   final String text;
@@ -26,6 +27,10 @@ class PrimaryText extends StatelessWidget {
   final int? maxLines;
   final bool? isLined;
   final bool? isUnderLined;
+
+  /// Overrides the default family — the design's own face is bundled as
+  /// 'DM Sans Text'.
+  final String? fontFamily;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class PrimaryText extends StatelessWidget {
           // if (GetPlatform.isAndroid)
           if (isLined ?? false) TextDecoration.lineThrough,
         ]),
-        fontFamily: 'SF Pro Text',
+        fontFamily: fontFamily ?? 'SF Pro Text',
         height: height ?? 1.2,
         fontWeight: fontWeight ?? FontWeight.w400,
         fontSize: fontSize ?? AppThemeValues.textSize16,

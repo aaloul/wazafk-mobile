@@ -31,12 +31,12 @@ class AddJobController extends GetxController {
   static const periodicityOneTime = 'ONE';
 
   /// Publish step pricing (design p194) comes from `app/limits`: posts inside
-  /// the free allowance cost nothing, and skills beyond theirs are charged per
-  /// skill. Reactive so the banner and totals update once the call lands.
+  /// the free allowance cost nothing, everything else is the post fee. Skills
+  /// aren't billed on a job. Reactive so the banner and totals update once the
+  /// call lands.
   final limits = AppLimitsCache.current.obs;
 
   EntityLimit get jobLimit => limits.value.job;
-  EntityLimit get skillLimit => limits.value.skill;
 
   Job? editingJob;
 
@@ -66,7 +66,14 @@ class AddJobController extends GetxController {
 
   /// The free-post banner waits for `app/limits`, so it never flashes on a
   /// post that turns out to be chargeable.
-  bool get showFreePostBanner => AppLimitsCache.isLoaded && isFirstJobPost;
+  ///
+  /// [limits] is read first on purpose: this runs inside an `Obx`, and a
+  /// short-circuit on [AppLimitsCache.isLoaded] would leave that build with no
+  /// observable to subscribe to.
+  bool get showFreePostBanner {
+    final withinAllowance = isFirstJobPost;
+    return AppLimitsCache.isLoaded && withinAllowance;
+  }
 
   /// Free posts still available — `free_limit` minus what's been used, falling
   /// back to the allowance itself when the backend reports none used.
@@ -114,15 +121,8 @@ class AddJobController extends GetxController {
     await _loadLimits();
   }
 
-  /// Skills beyond the free allowance are billed on the publish step.
-  int get extraSkillsCount => selectedSkills.length > skillLimit.freeLimit
-      ? selectedSkills.length - skillLimit.freeLimit
-      : 0;
-
-  double get extraSkillsPrice => extraSkillsCount * skillLimit.price;
-
-  double get totalToday =>
-      (isFirstJobPost ? 0 : jobLimit.price) + extraSkillsPrice;
+  /// A job post is billed on its own — skills carry no charge here.
+  double get totalToday => isFirstJobPost ? 0 : jobLimit.price;
 
   Future<void> _populateFormForEditing() async {
     if (editingJob == null) return;
@@ -365,8 +365,6 @@ class AddJobController extends GetxController {
           editLabel: strings.editDetails,
         ),
         fee: jobLimit.price,
-        extrasPrice: extraSkillsPrice,
-        extrasCount: extraSkillsCount,
         totalToday: totalToday,
         isFirst: isFirstJobPost,
         step: 2,
